@@ -10,9 +10,9 @@
         Synopsis: B
             Bitmask operators djb:and(), djb:or(), djb:xor(), djb:not()
             djb:rhymeComp() returns a sequence of three values:
-                bits (string)
-                positions (string-join of integer positions across hyphen)
-                similarity (double, varies between 0 and 1)
+                bits (string; 0 indicates agreement, 1 indicates disagreement)
+                positions of correspondence (string-join of integer positions of agreement across hyphen)
+                amount of correspondence (double, varies between 0 and 1)
         Notes:
             Input and output are strings (not number types)
             djb:lpad() is a supporting function that left pads with 0
@@ -27,15 +27,15 @@
             select="concat('0101 XOR 0011 should equal 0110: ', djb:xor('0101', '0011'), concat(' (', djb:xor('0101', '0011') eq '0110'), ')&#x0a;')"/>
         <xsl:value-of
             select="concat('NOT 1000      should equal 0111: ', djb:not('1000'), concat(' (', djb:not('1000') eq '0001'), ')&#x0a;')"/>
-        <xsl:variable name="results" as="item()+" select="djb:rhymeComp('0101', '0011')"/>
+        <xsl:variable name="results" as="item()+" select="djb:rhymeComp('010110', '001110')"/>
         <xsl:value-of
-            select='"djb:rhymeComp(&apos;0101&apos;,&apos;0011&apos;) should equal 0110, 2-3, 0.5:&#x0a;"'/>
+            select='"djb:rhymeComp(&apos;010110&apos;,&apos;001110&apos;) should equal 011000, 2-3, 0.6666666666666666:&#x0a;"'/>
         <xsl:value-of
-            select="concat('    Bits:      ', $results[1], ' (', $results[1] eq '0110', ')&#x0a;')"/>
+            select="concat('    Bits:      ', $results[1], ' (', $results[1] eq '011000', ')&#x0a;')"/>
         <xsl:value-of
-            select="concat('    Positions: ', $results[2], '  (', $results[2] eq '2-3', ')&#x0a;')"/>
+            select="concat('    Positions: ', $results[2], '  (', $results[2] eq '1-4-5-6', ')&#x0a;')"/>
         <xsl:value-of
-            select="concat('    Percent:   ', $results[3], '  (', xs:string($results[3]) eq '0.5', ')&#x0a;')"
+            select="concat('    Percent:   ', $results[3], '  (', $results[3] eq 2 div 3, ')&#x0a;')"
         />
     </xsl:template>
     <xsl:function name="djb:lpad" as="xs:string">
@@ -123,7 +123,7 @@
         <xsl:param name="input2" as="xs:string"/>
         <xsl:variable name="bits" as="xs:string" select="djb:xor($input1, $input2)"/>
         <xsl:variable name="positions" as="xs:integer*"
-            select="index-of(string-to-codepoints($bits), string-to-codepoints('1'))"/>
+            select="index-of(string-to-codepoints($bits), string-to-codepoints('0'))"/>
         <xsl:variable name="pct" as="xs:double" select="count($positions) div string-length($bits)"/>
         <xsl:sequence
             select="
