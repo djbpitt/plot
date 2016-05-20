@@ -6,7 +6,7 @@
         Title: bitmask.xsl
         Author: djb (2016-05-19)
         Repo: https://github.com/xstuff
-        Synopsis: B
+        Synopsis:
             Bitmask operators djb:and(), djb:or(), djb:xor(), djb:not()
             djb:rhymeComp() returns a sequence of three values:
                 bits (string; 0 indicates agreement, 1 indicates disagreement)
