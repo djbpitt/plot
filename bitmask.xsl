@@ -42,7 +42,7 @@
         <xsl:param name="places" as="xs:integer" required="yes"/>
         <xsl:choose>
             <xsl:when test="string-length($input) lt $places">
-                <xsl:sequence select="concat('0', $input)"/>
+                <xsl:sequence select="djb:lpad(concat('0', $input), $places)"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:sequence select="$input"/>
