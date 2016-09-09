@@ -25,7 +25,7 @@
         <xsl:value-of
             select="concat('0101 XOR 0011 should equal 0110: ', djb:xor('0101', '0011'), concat(' (', djb:xor('0101', '0011') eq '0110'), ')&#x0a;')"/>
         <xsl:value-of
-            select="concat('NOT 1000      should equal 0111: ', djb:not('1000'), concat(' (', djb:not('1000') eq '0001'), ')&#x0a;')"/>
+            select="concat('NOT 1000      should equal 0111: ', djb:not('1000'), concat(' (', djb:not('1000') eq '0111'), ')&#x0a;')"/>
         <xsl:variable name="results" as="item()+" select="djb:rhymeComp('010110', '001110')"/>
         <xsl:value-of
             select='"djb:rhymeComp(&apos;010110&apos;,&apos;001110&apos;) should equal 011000, 2-3, 0.6666666666666666:&#x0a;"'/>
