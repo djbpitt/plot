@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    eo stress count, file 1 of 5
+    
+    Filename: eo.xml
+    Structure:
+        One <stanza> with 14 <line> children (real poem has multiple stanzas)
+        <line> elements are mixed content, with plain text plus <stress> elements around stressed vowels
+    What we care about:
+        Stressed vowels are tagged as <stress> elements
+        Unstressed vowels are not tagged, but can be identified with regex (case-insensitive [аэыоуяеиёю])
+    Vocalic position = offset of a vowel (stressed or unstressed) in a line. The first vowel in the line is at
+        offset 1, the second at offset 2, etc. Counting is 1-based.
+    Immediate task: Identify stress valence (likelihood of being stressed) for each vocalic position in line
+        Note: subsequent tasks depend on first calculating the stress valence
+    
+    Procedure:
+        1) Transform eo.xml with tag-all-vowels.xsl and save output as eo_all-vowels-tagged.xml 
+        In eo_all-vowels-tagged.xml, all vowels are tagged as <vowel> with a @stress attribute that has a
+            value of "1" (stressed) or "0" (unstressed)
+            Note: This is an oversimplification. In reality there are vowels with uncetain stress that would
+                also be included in the markup; for this proof-of-concept they have been treated as unstressed.
+        2) Transform eo_all-vowels-tagged.xml with create-stress-report.xsl to stress-report.xml. See the latter
+            for documentation
+-->
+<poem>
+    <stanza>
+        <line>«Мой д<stress>я</stress>дя с<stress>а</stress>мых ч<stress>е</stress>стных
+                пр<stress>а</stress>вил,</line>
+        <line>Когд<stress>а</stress> не в ш<stress>у</stress>тку занем<stress>о</stress>г,</line>
+        <line>Он уваж<stress>а</stress>ть себя заст<stress>а</stress>вил</line>
+        <line>И л<stress>у</stress>чше в<stress>ы</stress>думать не м<stress>о</stress>г.</line>
+        <line>Его прим<stress>е</stress>р друг<stress>и</stress>м на<stress>у</stress>ка;</line>
+        <line>Но, б<stress>о</stress>же мой, как<stress>а</stress>я ск<stress>у</stress>ка</line>
+        <line>С больн<stress>ы</stress>м сид<stress>е</stress>ть и д<stress>е</stress>нь и
+                н<stress>о</stress>чь,</line>
+        <line>Не отход<stress>я</stress> ни ш<stress>а</stress>гу пр<stress>о</stress>чь!</line>
+        <line>Как<stress>о</stress>е н<stress>и</stress>зкое ков<stress>а</stress>рство</line>
+        <line>Полужив<stress>о</stress>го забавл<stress>я</stress>ть,</line>
+        <line>Ему под<stress>у</stress>шки поправл<stress>я</stress>ть,</line>
+        <line>Печ<stress>а</stress>льно поднос<stress>и</stress>ть
+            лек<stress>а</stress>рство,</line>
+        <line>Вздых<stress>а</stress>ть и д<stress>у</stress>мать про себя:</line>
+        <line>Когд<stress>а</stress> же ч<stress>ё</stress>рт возьм<stress>ё</stress>т тебя!»</line>
+    </stanza>
+</poem>
