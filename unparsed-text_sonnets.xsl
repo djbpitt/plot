@@ -3,8 +3,16 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs"
     xmlns="http://www.w3.org/1999/xhtml" version="2.0">
     <!-- 
-        No input XML; run from the command line as:
-        saxon -xsl:unparsed-text_sonnets.xsl -it:init -o:sonnets.xhtml
+        Title: unparsed-text_sonnets.xsl
+        Author: djb (2017-04-09)
+        Repo: https://github.com/xstuff
+        Synopsis:
+            Illustrates using XSLT to process plain text
+            Up-translates plain-text file of Shakespearean sonnets to HTML
+        Note:
+            No input XML; run from the command line as:
+            saxon -xsl:unparsed-text_sonnets.xsl -it:init -o:sonnets.xhtml
+        License: GNU Affero General Public License v3.0
     -->
     <xsl:output method="xml" indent="yes" doctype-system="about:legacy-compat"/>
     <!-- Read plain text document into $input -->
