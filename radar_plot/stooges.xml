@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <stooge name="curly">
+    <nyuk>11</nyuk>
+    <knucklehead>6</knucklehead>
+    <lamebrain>4</lamebrain>
+    <imbecile>5</imbecile>
+    <wiseguy>2</wiseguy>
+  </stooge>
+  <stooge name="larry">
+    <nyuk>1</nyuk>
+    <knucklehead>4</knucklehead>
+    <lamebrain>7</lamebrain>
+    <imbecile>3</imbecile>
+    <wiseguy>2</wiseguy>
+  </stooge>
+  <stooge name="moe">
+    <nyuk>5</nyuk>
+    <knucklehead>8</knucklehead>
+    <lamebrain>7</lamebrain>
+    <imbecile>0</imbecile>
+    <wiseguy>3</wiseguy>
+  </stooge>
+</root>
