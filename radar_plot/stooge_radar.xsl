@@ -16,14 +16,21 @@
   <!-- $true1 evaluates to 1 after scaling, used to keep thin lines after large scaling -->
   <xsl:variable name="true1" as="xs:double" select="1 div $scaleFactor"/>
   <xsl:variable name="xShift" as="xs:integer" select="200"/>
+  <xsl:variable name="yShift" as="xs:integer" select="10"/>
   <xsl:variable name="radius" as="xs:double" select="100"/>
   <xsl:variable name="spokeCount" as="xs:integer" select="5"/>
   <xsl:variable name="maxValue" as="xs:double" select="max(//stooge/*)"/>
   <xsl:variable name="colors" as="xs:string+" select="'red', 'green', 'blue'"/>
+  <!--                             -->
+  <!-- convert fraction to radians -->
+  <!--                             -->
   <xsl:function name="djb:fractionToRadians" as="xs:double">
     <xsl:param name="fraction"/>
     <xsl:sequence select="$fraction * 2 * math:pi()"/>
   </xsl:function>
+  <!--                                                 -->
+  <!-- plot given fraction of circumference and length -->
+  <!--                                                 -->
   <xsl:function name="djb:coordinates" as="xs:string">
     <xsl:param name="propPosition" as="xs:integer"/>
     <xsl:param name="propValue" as="xs:integer"/>
@@ -37,16 +44,30 @@
     <xsl:variable name="yPos" as="xs:double" select="$sine * $percentage"/>
     <xsl:sequence select="concat('L ', $xPos, ' ', $yPos)"/>
   </xsl:function>
+  <!--                                                 -->
+  <!-- capitalize first letter                         -->
+  <!--                                                 -->
+  <xsl:function name="djb:capitalize" as="xs:string">
+    <xsl:param name="input"/>
+    <xsl:sequence select="concat(upper-case(substring($input, 1, 1)), substring($input, 2))"/>
+  </xsl:function>
   <xsl:template match="/">
-    <svg width="{$radius * $scaleFactor + $xShift}" height="{$radius * $scaleFactor}"
-      viewBox="-{$radius} -{$radius} {2 * $radius} {2 * $radius}">
-      <g transform="translate(-{$xShift div $scaleFactor},0)">
-        <!-- perimeter -->
-        <circle r="{$radius}" cx="0" cy="0" stroke="gray" stroke-width="{1 div $scaleFactor}"
+    <svg width="{$radius * $scaleFactor + $xShift}" height="{$radius * $scaleFactor + $yShift}"
+      viewBox="-{$radius} -{$radius} {2 * $radius} {2 * $radius + $yShift}">
+      <g transform="translate(-{$xShift div $scaleFactor},{$yShift div 2})">
+        <!-- guide circles -->
+        <circle cx="0" cy="0" r="{$radius}" stroke="gray" stroke-width="{1 div $scaleFactor}"
           fill-opacity="0"/>
-        <!-- 0 values -->
-        <circle r="{$radius * 1 div ($maxValue + 1)}" cx="0" cy="0" stroke="gray"
-          stroke-width="{1 div $scaleFactor}" fill-opacity="0"/>
+        <text x="{$radius}" y="3" fill="gray" font-size="3">
+          <xsl:value-of select="$maxValue"/>
+        </text>
+        <xsl:for-each select="(0 to xs:integer($maxValue))[. mod 2 = 0]">
+          <circle r="{$radius * (current() + 1) div ($maxValue + 1)}" cx="0" cy="0" stroke="gray"
+            stroke-width="{1 div $scaleFactor}" fill-opacity="0"/>
+          <text x="{$radius * (current() + 1) div ($maxValue + 1)}" y="3" fill="gray" font-size="3">
+            <xsl:value-of select="current()"/>
+          </text>
+        </xsl:for-each>
         <!-- axes -->
         <xsl:for-each select="1 to $spokeCount">
           <xsl:variable name="fraction" as="xs:double" select=". div $spokeCount"/>
@@ -57,7 +78,7 @@
           <xsl:variable name="y2Pos" as="xs:double" select="$sine * $radius"/>
           <line x1="0" y1="0" x2="{$x2Pos}" y2="{$y2Pos}" stroke-width="{$true1}" stroke="gray"/>
           <!-- move text slightly left and down from point it labels -->
-          <text x="{$x2Pos + 1}" y="{$y2Pos + 3}" font-size="10">
+          <text x="{$x2Pos + 1}" y="{$y2Pos}" font-size="6">
             <xsl:value-of select="$root//stooge[1]/*[current()]/name()"/>
           </text>
         </xsl:for-each>
@@ -80,9 +101,9 @@
     <!-- legend entry -->
     <g class="legend" id="{concat(@name,'_rect')}"
       transform="translate({$radius},{-100 + $stoogePosition * 12})">
-      <rect x="0" y="0" width="10" height="10" fill="{$color}"/>
-      <text x="12" y="8.5" font-size="10" fill="{$color}">
-        <xsl:value-of select="@name"/>
+      <rect x="0" y="0" width="5" height="5" fill="{$color}"/>
+      <text x="7" y="4.5" font-size="6" fill="{$color}">
+        <xsl:value-of select="djb:capitalize(@name)"/>
       </text>
     </g>
   </xsl:template>

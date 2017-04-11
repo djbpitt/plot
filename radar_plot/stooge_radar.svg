@@ -1,55 +1,92 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      width="700"
-     height="500"
-     viewBox="-100 -100 200 200">
-   <g transform="translate(-40,0)">
-      <circle r="100"
-              cx="0"
+     height="510"
+     viewBox="-100 -100 200 210">
+   <g transform="translate(-40,5)">
+      <circle cx="0"
               cy="0"
+              r="100"
               stroke="gray"
               stroke-width="0.2"
               fill-opacity="0"/>
+      <text x="100" y="3" fill="gray" font-size="3">11</text>
       <circle r="8.333333333333334"
               cx="0"
               cy="0"
               stroke="gray"
               stroke-width="0.2"
               fill-opacity="0"/>
+      <text x="8.333333333333334" y="3" fill="gray" font-size="3">0</text>
+      <circle r="25"
+              cx="0"
+              cy="0"
+              stroke="gray"
+              stroke-width="0.2"
+              fill-opacity="0"/>
+      <text x="25" y="3" fill="gray" font-size="3">2</text>
+      <circle r="41.666666666666664"
+              cx="0"
+              cy="0"
+              stroke="gray"
+              stroke-width="0.2"
+              fill-opacity="0"/>
+      <text x="41.666666666666664" y="3" fill="gray" font-size="3">4</text>
+      <circle r="58.333333333333336"
+              cx="0"
+              cy="0"
+              stroke="gray"
+              stroke-width="0.2"
+              fill-opacity="0"/>
+      <text x="58.333333333333336" y="3" fill="gray" font-size="3">6</text>
+      <circle r="75"
+              cx="0"
+              cy="0"
+              stroke="gray"
+              stroke-width="0.2"
+              fill-opacity="0"/>
+      <text x="75" y="3" fill="gray" font-size="3">8</text>
+      <circle r="91.66666666666667"
+              cx="0"
+              cy="0"
+              stroke="gray"
+              stroke-width="0.2"
+              fill-opacity="0"/>
+      <text x="91.66666666666667" y="3" fill="gray" font-size="3">10</text>
       <line x1="0"
             y1="0"
             x2="30.901699437494745"
             y2="95.10565162951535"
             stroke-width="0.2"
             stroke="gray"/>
-      <text x="31.901699437494745" y="98.10565162951535" font-size="10">nyuk</text>
+      <text x="31.901699437494745" y="95.10565162951535" font-size="6">nyuk</text>
       <line x1="0"
             y1="0"
             x2="-80.90169943749473"
             y2="58.77852522924732"
             stroke-width="0.2"
             stroke="gray"/>
-      <text x="-79.90169943749473" y="61.77852522924732" font-size="10">knucklehead</text>
+      <text x="-79.90169943749473" y="58.77852522924732" font-size="6">knucklehead</text>
       <line x1="0"
             y1="0"
             x2="-80.90169943749474"
             y2="-58.7785252292473"
             stroke-width="0.2"
             stroke="gray"/>
-      <text x="-79.90169943749474" y="-55.7785252292473" font-size="10">lamebrain</text>
+      <text x="-79.90169943749474" y="-58.7785252292473" font-size="6">lamebrain</text>
       <line x1="0"
             y1="0"
             x2="30.901699437494724"
             y2="-95.10565162951536"
             stroke-width="0.2"
             stroke="gray"/>
-      <text x="31.901699437494724" y="-92.10565162951536" font-size="10">imbecile</text>
+      <text x="31.901699437494724" y="-95.10565162951536" font-size="6">imbecile</text>
       <line x1="0"
             y1="0"
             x2="100"
             y2="-2.4492935982947064E-14"
             stroke-width="0.2"
             stroke="gray"/>
-      <text x="101" y="2.9999999999999756" font-size="10">wiseguy</text>
+      <text x="101" y="-2.4492935982947064E-14" font-size="6">wiseguy</text>
       <path id="curly"
             d="M 30.901699437494745 95.10565162951535 L -47.19265800520526 34.287473050394276 L -33.70904143228948 -24.491052178853046 L 15.450849718747362 -47.55282581475768 L 25 -6.123233995736766E-15 Z"
             stroke="red"
@@ -57,8 +94,8 @@
             fill="red"
             fill-opacity=".25"/>
       <g class="legend" id="curly_rect" transform="translate(100,-88)">
-         <rect x="0" y="0" width="10" height="10" fill="red"/>
-         <text x="12" y="8.5" font-size="10" fill="red">curly</text>
+         <rect x="0" y="0" width="5" height="5" fill="red"/>
+         <text x="7" y="4.5" font-size="6" fill="red">Curly</text>
       </g>
       <path id="larry"
             d="M 5.150283239582457 15.850941938252557 L -33.709041432289474 24.491052178853053 L -53.934466291663156 -39.18568348616486 L 10.300566479164907 -31.701883876505118 L 25 -6.123233995736766E-15 Z"
@@ -67,8 +104,8 @@
             fill="green"
             fill-opacity=".25"/>
       <g class="legend" id="larry_rect" transform="translate(100,-76)">
-         <rect x="0" y="0" width="10" height="10" fill="green"/>
-         <text x="12" y="8.5" font-size="10" fill="green">larry</text>
+         <rect x="0" y="0" width="5" height="5" fill="green"/>
+         <text x="7" y="4.5" font-size="6" fill="green">Larry</text>
       </g>
       <path id="moe"
             d="M 15.450849718747373 47.552825814757675 L -60.67627457812105 44.08389392193549 L -53.934466291663156 -39.18568348616486 L 2.5751416197912267 -7.9254709691262795 L 33.33333333333333 -8.164311994315688E-15 Z"
@@ -77,8 +114,8 @@
             fill="blue"
             fill-opacity=".25"/>
       <g class="legend" id="moe_rect" transform="translate(100,-64)">
-         <rect x="0" y="0" width="10" height="10" fill="blue"/>
-         <text x="12" y="8.5" font-size="10" fill="blue">moe</text>
+         <rect x="0" y="0" width="5" height="5" fill="blue"/>
+         <text x="7" y="4.5" font-size="6" fill="blue">Moe</text>
       </g>
    </g>
 </svg>
