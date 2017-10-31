@@ -29,7 +29,7 @@ This strategy adopted here creates a normalized _shadow_ copy of each title, whi
 
 The key to this strategy is that any number that occurs in the titles, regardless of the number of digits it contains, is converted to a single Unicode character. This means that all sorting, even of numbers, can be treated as if alphabetic. White space sorts first, after which all numbers sort before all letters (as in ASCII), and punctuation sorts last. 
 
-The use of analyze-string() is based on  
+The use of `analyze-string()` is based on  
 <http://www.biglist.com/lists/lists.mulberrytech.com/xsl-list/archives/201710/msg00032.html>.
 The sample data in the [accompanying sample code](alphanumeric_sort.xquery) are from <http://repertorium.obdurodon.org>.
 
