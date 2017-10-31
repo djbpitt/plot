@@ -66,7 +66,7 @@ declare function local:shadow($in) {
                         if (. instance of element(fn:non-match)) then
                             'NON-MATCH ERROR'
                         else
-                            ()))
+                            'UNKNOWN ERROR'))
 };
 ```
 
