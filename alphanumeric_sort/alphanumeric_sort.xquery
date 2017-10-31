@@ -29,8 +29,6 @@ The use of analyze-string() is based on
 http://www.biglist.com/lists/lists.mulberrytech.com/xsl-list/archives/201710/msg00032.html.
 The included sample data are from http://repertorium.obdurodon.org.
 :)
-declare namespace xsl = "http://www.w3.org/1999/XSL/Transform";
-declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare function local:shadow($in) {
     let $norm as xs:string := lower-case(normalize-space($in))
     return
@@ -50,7 +48,7 @@ declare function local:shadow($in) {
                         if (. instance of element(fn:non-match)) then
                             'NON-MATCH ERROR'
                         else
-                            ()))
+                            'UNKNOWN ERROR'))
 };
 
 declare variable $data as element(option)+ :=
