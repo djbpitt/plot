@@ -2,7 +2,7 @@
 
 Helena Bermúdez Sabel and David J. Birnbaum (<mailto:djbpitt@gmail.com>)  
 2017-10-30  
-<https://github.com/djbpitt/xstuff/alphanumeric_sort>
+<https://github.com/djbpitt/xstuff/tree/master/alphanumeric_sort>
 
 ## Abstract
 
