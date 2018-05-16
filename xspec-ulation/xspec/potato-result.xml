@@ -6,7 +6,7 @@
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:djb="http://www.obdurodon.org"
           stylesheet="file:/Users/djb/repos/xstuff/xspec-ulation/potato.xsl"
-          date="2018-05-16T19:27:07.632-04:00"
+          date="2018-05-16T19:57:00.557-04:00"
           xspec="file:/Users/djb/repos/xstuff/xspec-ulation/potato.xspec">
    <x:scenario>
       <x:label>Test potato() with sequences</x:label>

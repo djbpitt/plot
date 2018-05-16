@@ -3,7 +3,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" xmlns:djb="http://www.obdurodon.org"
     exclude-result-prefixes="#all" version="3.0">
-    <xsl:output method="xml" indent="yes" item-separator="|"/>
+    <xsl:output method="xml" indent="yes"/>
     <xsl:function name="djb:value" as="item()*">
         <xsl:param name="stem" as="xs:string"/>
         <xsl:param name="stress_pos" as="xs:integer"/>
