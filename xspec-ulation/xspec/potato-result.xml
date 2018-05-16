@@ -5,9 +5,9 @@
           xmlns:test="http://www.jenitennison.com/xslt/unit-test"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:djb="http://www.obdurodon.org"
-          stylesheet="file:/Users/djb/repos/xspec-ulation/potato.xsl"
-          date="2018-05-16T19:12:27.347-04:00"
-          xspec="file:/Users/djb/repos/xspec-ulation/potato.xspec">
+          stylesheet="file:/Users/djb/repos/xstuff/xspec-ulation/potato.xsl"
+          date="2018-05-16T19:27:07.632-04:00"
+          xspec="file:/Users/djb/repos/xstuff/xspec-ulation/potato.xspec">
    <x:scenario>
       <x:label>Test potato() with sequences</x:label>
       <x:call function="djb:sequence">
@@ -23,7 +23,7 @@
    </x:scenario>
    <x:scenario>
       <x:label>Test potato() with variables</x:label>
-      <x:call function="djb:variable">
+      <x:call function="djb:value">
          <x:param>potato</x:param>
          <x:param>4</x:param>
          <x:param>es</x:param>

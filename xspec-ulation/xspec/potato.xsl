@@ -9,13 +9,13 @@
                 xmlns:djb="http://www.obdurodon.org"
                 version="2.0"
                 exclude-result-prefixes="pkg impl">
-   <xsl:import href="file:/Users/djb/repos/xspec-ulation/potato.xsl"/>
+   <xsl:import href="file:/Users/djb/repos/xstuff/xspec-ulation/potato.xsl"/>
    <xsl:import href="file:/Users/djb/repos/xspec/src/compiler/generate-tests-utils.xsl"/>
    <xsl:import href="file:/Users/djb/repos/xspec/src/schematron/sch-location-compare.xsl"/>
    <xsl:namespace-alias stylesheet-prefix="__x" result-prefix="xsl"/>
    <xsl:variable name="x:stylesheet-uri"
                  as="xs:string"
-                 select="'file:/Users/djb/repos/xspec-ulation/potato.xsl'"/>
+                 select="'file:/Users/djb/repos/xstuff/xspec-ulation/potato.xsl'"/>
    <xsl:output name="x:report" method="xml" indent="yes"/>
    <xsl:template name="x:main">
       <xsl:message>
@@ -28,7 +28,7 @@
          <xsl:processing-instruction name="xml-stylesheet">type="text/xsl" href="file:/Users/djb/repos/xspec/src/compiler/format-xspec-report.xsl"</xsl:processing-instruction>
          <x:report stylesheet="{$x:stylesheet-uri}"
                    date="{current-dateTime()}"
-                   xspec="file:/Users/djb/repos/xspec-ulation/potato.xspec">
+                   xspec="file:/Users/djb/repos/xstuff/xspec-ulation/potato.xspec">
             <xsl:call-template name="x:d5e2"/>
             <xsl:call-template name="x:d5e15"/>
          </x:report>
@@ -112,7 +112,7 @@
       <xsl:message>Test potato() with variables</xsl:message>
       <x:scenario>
          <x:label>Test potato() with variables</x:label>
-         <x:call function="djb:variable">
+         <x:call function="djb:value">
             <x:param>
                <xsl:text>potato</xsl:text>
             </x:param>
@@ -142,7 +142,7 @@
                </xsl:document>
             </xsl:variable>
             <xsl:variable name="d11e5" select="$d11e5-doc/node()"/>
-            <xsl:sequence select="djb:variable($d11e1, $d11e3, $d11e5)"/>
+            <xsl:sequence select="djb:value($d11e1, $d11e3, $d11e5)"/>
          </xsl:variable>
          <xsl:call-template name="test:report-value">
             <xsl:with-param name="value" select="$x:result"/>
