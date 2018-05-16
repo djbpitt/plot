@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="file:/Users/djb/repos/xspec/src/compiler/format-xspec-report.xsl"?>
+<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:djb="http://www.obdurodon.org"
+          stylesheet="file:/Users/djb/repos/xspec-ulation/potato.xsl"
+          date="2018-05-16T19:12:27.347-04:00"
+          xspec="file:/Users/djb/repos/xspec-ulation/potato.xspec">
+   <x:scenario>
+      <x:label>Test potato() with sequences</x:label>
+      <x:call function="djb:sequence">
+         <x:param>potato</x:param>
+         <x:param>4</x:param>
+         <x:param>es</x:param>
+      </x:call>
+      <x:result select="('pot', xs:untypedAtomic('a'), 'to', 'es')"/>
+      <x:test successful="false">
+         <x:label>Expect stress on the middle vowel of 'potato' using sequences for the strings</x:label>
+         <x:expect select="/node()">pot<stress>a</stress>toes</x:expect>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Test potato() with variables</x:label>
+      <x:call function="djb:variable">
+         <x:param>potato</x:param>
+         <x:param>4</x:param>
+         <x:param>es</x:param>
+      </x:call>
+      <x:result select="/node()">pot<stress>a</stress>toes</x:result>
+      <x:test successful="true">
+         <x:label>Expect stress on the middle vowel of 'potato' using variables for the strings</x:label>
+         <x:expect select="/node()">pot<stress>a</stress>toes</x:expect>
+      </x:test>
+   </x:scenario>
+</x:report>
