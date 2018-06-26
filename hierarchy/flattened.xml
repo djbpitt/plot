@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <p n="d1e3" type="start"/>This is a <word n="d1e5" type="start"/>paragraph<word n="d1e5"
+        type="end"/> that contains some stuff.<p n="d1e3" type="end"/>
+    <p n="d1e9" type="start"/>This is another paragraph <phrase n="d1e11" type="start"/><word
+        n="d1e12" type="start"/>that<word n="d1e12" type="end"/>
+    <word n="d1e15" type="start"/>contains<word n="d1e15" type="end"/>
+    <word n="d1e18" type="start"/>more<word n="d1e18" type="end"/><phrase n="d1e11" type="end"/>
+        stuff.<p n="d1e9" type="end"/>
+</root>
