@@ -27,7 +27,6 @@
         <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="*[@type eq 'start'][@n eq following-sibling::*[@type eq 'end'][1]/@n]">
-        <xsl:message select="'hit on ', name()"/>
         <!-- innermost start-tag -->
         <xsl:element name="{name()}">
             <!-- textual content of raised element-->

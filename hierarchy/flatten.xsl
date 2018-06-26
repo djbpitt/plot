@@ -4,9 +4,6 @@
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="xs math"
     version="3.0">
     <xsl:output method="xml" indent="no"/>
-    <xsl:template name="xsl:initial-template" match="/">
-        <xsl:apply-templates/>
-    </xsl:template>
     <xsl:template match="/*">
         <xsl:copy>
             <xsl:apply-templates/>
