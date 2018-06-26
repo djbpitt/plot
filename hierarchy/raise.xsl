@@ -9,7 +9,6 @@
         </xsl:copy>
     </xsl:template>
     <xsl:template match="*[@type eq 'start'][following-sibling::*[1][@n eq current()/@n]]">
-        <xsl:message select="concat('Start: ', name())"/>
         <xsl:element name="{name()}">
             <!-- textual content of raised element-->
             <xsl:copy-of
