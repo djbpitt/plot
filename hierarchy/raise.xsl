@@ -31,7 +31,7 @@
         <xsl:element name="{name()}">
             <!-- textual content of raised element-->
             <xsl:copy-of
-                select="following-sibling::node()[. &lt;&lt; following-sibling::*[@n eq current()/@n]]"
+                select="following-sibling::node()[following-sibling::*[@n eq current()/@n]]"
             />
         </xsl:element>
     </xsl:template>
