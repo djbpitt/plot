@@ -2,8 +2,11 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:djb="http://www.obdurodon.org"
     exclude-result-prefixes="#all">
     <xsl:output method="xml" indent="no"/>
-    <xsl:mode on-no-match="shallow-copy"/>
-    <xsl:mode on-no-match="shallow-copy" name="loop"/>
+    <xsl:template match="@* | node()" mode="#all">
+        <xsl:copy copy-namespaces="no">
+            <xsl:apply-templates select="@* | node()"/>
+        </xsl:copy>
+    </xsl:template>
     <xsl:function name="djb:raise">
         <xsl:param name="input" as="document-node()"/>
         <xsl:choose>
