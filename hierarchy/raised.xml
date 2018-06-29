@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><root>
+<?xml version="1.0" encoding="UTF-8"?><root xmlns:djb="http://www.obdurodon.org">
     <p>This is a <word>paragraph</word> that contains some stuff.</p>
     <p>This is another paragraph <phrase><word>that</word>
             <word>contains</word>

@@ -7,7 +7,7 @@
     <xsl:function name="djb:raise">
         <xsl:param name="input" as="document-node()"/>
         <xsl:choose>
-            <xsl:when test="exists($input//@type)">
+            <xsl:when test="exists($input//@djb:type)">
                 <xsl:variable name="result" as="document-node()">
                     <xsl:document>
                         <xsl:apply-templates select="$input" mode="loop"/>
@@ -26,19 +26,21 @@
     <xsl:template match="/" mode="loop">
         <xsl:apply-templates/>
     </xsl:template>
-    <xsl:template match="*[@type eq 'start'][@n eq following-sibling::*[@type eq 'end'][1]/@n]">
+    <xsl:template
+        match="*[@djb:type eq 'start'][@djb:n eq following-sibling::*[@djb:type eq 'end'][1]/@djb:n]">
         <!-- innermost start-tag -->
         <xsl:element name="{name()}">
             <!-- textual content of raised element-->
             <xsl:copy-of
-                select="following-sibling::node()[following-sibling::*[@n eq current()/@n]]"
+                select="following-sibling::node()[following-sibling::*[@djb:n eq current()/@djb:n]]"
             />
         </xsl:element>
     </xsl:template>
     <!-- nodes inside new wrapper -->
     <xsl:template
-        match="node()[preceding-sibling::*[@type eq 'start'][1]/@n eq following-sibling::*[@type eq 'end'][1]/@n]"/>
+        match="node()[preceding-sibling::*[@djb:type eq 'start'][1]/@djb:n eq following-sibling::*[@djb:type eq 'end'][1]/@djb:n]"/>
     <!-- end-tag for new wrapper -->
     <xsl:template
-        match="*[@type eq 'end'][preceding-sibling::*[@type eq 'start'][1]/@n eq current()/@n]"/>
+        match="*[@djb:type eq 'end'][preceding-sibling::*[@djb:type eq 'start'][1]/@djb:n eq current()/@djb:n]"
+    />
 </xsl:stylesheet>
