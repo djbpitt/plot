@@ -101,12 +101,16 @@ The result of raising looks identical to the original (`original.xml`) input, ex
 The `raise.xsl` file looks as follows:
 
 ```xslt
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:djb="http://www.obdurodon.org"
     exclude-result-prefixes="#all">
     <xsl:output method="xml" indent="no"/>
-    <xsl:mode on-no-match="shallow-copy"/>
-    <xsl:mode on-no-match="shallow-copy" name="loop"/>
+    <xsl:template match="@* | node()" mode="#all">
+        <xsl:copy copy-namespaces="no">
+            <xsl:apply-templates select="@* | node()"/>
+        </xsl:copy>
+    </xsl:template>
     <xsl:function name="djb:raise">
         <xsl:param name="input" as="document-node()"/>
         <xsl:choose>
@@ -146,17 +150,18 @@ The `raise.xsl` file looks as follows:
     <xsl:template
         match="*[@djb:type eq 'end'][preceding-sibling::*[@djb:type eq 'start'][1]/@djb:n eq current()/@djb:n]"
     />
-</xsl:stylesheet>
-```
+</xsl:stylesheet>```
 
-We turn off indentation (line 4) to avoid deforming the whitespace. Our recursive raising operation (the `djb:raise()` function, lines 7–22) operates on document nodes, and we need to process the original document node of the input file differently from the new document nodes that we create on each pass through the recursive function. For that reason, we match the original document node in no mode (`<xsl:template match="/">`, lines 23–25) and pass it into the raising function (`<xsl:sequence select="djb:raise(.)"/>`, line 24).
+We turn off indentation (line 5) to avoid deforming the whitespace. `@exclude-result-prefixes="#all"` is not enough to avoid writing the `djb` namespace onto the root element of the output, even though the namespace in question is not used the output. An unused namespace declaration is informationally harmless, but also needlessly distracting, so we suppress it by spelling out the identity template (for all modes) and specifying `@copy-namespaces="no"` on `<xsl:copy>`inside it (lines 6–10).
 
-The raising function checks for the presence of `@djb:type` attributes in the input (`<xsl:when test="exists($input//@djb:type)">`, line 10). If there aren’t any (`<xsl:otherwise>`, lines 18–20), the recursion is finished, and the function returns the result (`<xsl:sequence select="$input"/>`, line 19). If there are still `@djb:type` attributes in the text, we create a variable `$result` (lines 11–15) of type `document` and apply templates inside the newly created document node (line 13). After the application of templates is finished, we recurse and pass the result into another invocation of `djb:raise()` (`<xsl:sequence select="djb:raise($result)"/>`, line 16).
+Our recursive raising operation (the `djb:raise()` function, lines 11–26) operates on document nodes, and we need to process the original document node of the input file differently from the new document nodes that we create on each pass through the recursive function. For that reason, we match the original document node in no mode (`<xsl:template match="/">`, lines 27–29) and pass it into the raising function (`<xsl:sequence select="djb:raise(.)"/>`, line 28).
 
-The application of templates within the recursive function begins by applying templates to the (newly created) document node in `loop` mode (`<xsl:apply-templates select="$input" mode="loop"/>`, line 13). The matching template (lines 26–28) simply applies templates to its children, unlike the template that matches the original document node (in no mode, lines 23–25), which passes the document into the `djb:raise()` function (line 24). Only the final output requires a document node, and the difference in mode is needed to avoid an endless loop. All other processing is the same for both the original document and the interim documents created inside `djb:raise()`, so `<xsl:template match="/" mode="loop">` (lines 26–28) is the only modal template, and it applies templates to its children in no mode.
+The raising function checks for the presence of `@djb:type` attributes in the input (`<xsl:when test="exists($input//@djb:type)">`, line 14). If there aren’t any (`<xsl:otherwise>`, lines 22–24), the recursion is finished, and the function returns the result (`<xsl:sequence select="$input"/>`, line 23). If there are still `@djb:type` attributes in the text, we create a variable `$result` (lines 15–19) of type `document` and apply templates inside the newly created document node (line 17). After the application of templates is finished, we recurse and pass the result into another invocation of `djb:raise()` (`<xsl:sequence select="djb:raise($result)"/>`, line 20).
+
+The application of templates within the recursive function begins by applying templates to the (newly created) document node in `loop` mode (`<xsl:apply-templates select="$input" mode="loop"/>`, line 17). The matching template (lines 30–32) simply applies templates to its children, unlike the template that matches the original document node (in no mode, lines 27–29), which passes the document into the `djb:raise()` function (line 28), a difference in mode that is needed to avoid an endless loop. All other processing is the same for both the original document and the interim documents created inside `djb:raise()`, so `<xsl:template match="/" mode="loop">` (lines 30–32) is the only modal template, and it applies templates to its children in no mode.
 
 There are three templates that do the actual processing of the innermost elements to be raised on each recursion: one that processes the start-tag, one that processes the content of the newly raised element, and one that processes the corresponding end-tag:
 
-* **start-tag:** We match elements with a `@djb:type` value of `'start'` that have an `@djb:n` value equal to the `@djb:n` value of their first following sibling element that has a `@djb:type` value of `'end'` (line 30). This, then, matches only start-tags that contain nothing but `text()` nodes and elements that have already been raised (from which the `@djb:type` attributes that were present in the input have been discarded). In other words, it matches only the innermost flattened elements, those that do not contain any other empty flattened elements. We process these hits by creating a wrapper element with the same generic identifier as the start-tag and copying all following-sibling nodes that precede the end-tag that matches the start-tag we’re processing at the moment (lines 32–37). In other words, we copy the content of the newly raised element into it.
-* **nodes inside the new wrapper:** Since we have already copied the content of the newly raised element inside it, we don’t want to process those nodes again, since that would create duplicates. For that reason, we match all nodes between the start- and end-tags that we’re processing at the moment and suppress them by matching them inside an empty `<xsl:template>` element (lines 40–41).
-* **end-tag:** Since we create real start- and end-tags when we match the flattened start-tag, we have no more use for the flattened end-tag, so we suppress it by matching it, too, inside an empty `<xsl:template>` element (lines 43–44).
+* **start-tag:** We match elements with a `@djb:type` value of `'start'` that have an `@djb:n` value equal to the `@djb:n` value of their first following sibling element that has a `@djb:type` value of `'end'` (line 34). This, then, matches only start-tags that contain nothing but `text()` nodes and elements that have already been raised (from which the `@djb:type` attributes that were present in the input have been discarded). In other words, it matches only the innermost flattened elements, those that do not contain any other empty flattened elements. We process these hits by creating a wrapper element with the same generic identifier as the start-tag and copying all following-sibling nodes that precede the end-tag that matches the start-tag we’re processing at the moment (lines 36–41). In other words, we copy the content of the newly raised element into it.
+* **nodes inside the new wrapper:** Since we have already copied the content of the newly raised element inside it, we don’t want to process those nodes again, since that would create duplicates. For that reason, we match all nodes between the start- and end-tags that we’re processing at the moment and suppress them by matching them inside an empty `<xsl:template>` element (lines 44–45).
+* **end-tag:** Since we create real start- and end-tags when we match the flattened start-tag, we have no more use for the flattened end-tag, so we suppress it by matching it, too, inside an empty `<xsl:template>` element (lines 47–48).
