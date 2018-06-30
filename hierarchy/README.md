@@ -150,7 +150,8 @@ The `raise.xsl` file looks as follows:
     <xsl:template
         match="*[@djb:type eq 'end'][preceding-sibling::*[@djb:type eq 'start'][1]/@djb:n eq current()/@djb:n]"
     />
-</xsl:stylesheet>```
+</xsl:stylesheet>
+```
 
 We turn off indentation (line 5) to avoid deforming the whitespace. `@exclude-result-prefixes="#all"` is not enough to avoid writing the `djb` namespace onto the root element of the output, even though the namespace in question is not used the output. An unused namespace declaration is informationally harmless, but also needlessly distracting, so we suppress it by spelling out the identity template (for all modes) and specifying `@copy-namespaces="no"` on `<xsl:copy>`inside it (lines 6–10).
 
