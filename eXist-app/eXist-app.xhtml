@@ -588,12 +588,12 @@ declare variable $title external;
                     collection.</p>
             </section>
             <section id="controller_skeleton">
-                <h3>Create a <i>controller.xql</i> skeleton</h3>
-                <p>Start by creating skeletal <i>controller.xql</i> file in the root collection of
+                <h3>Create a skeletal <i>controller.xql</i> skeleton</h3>
+                <p>Start by creating a skeletal <i>controller.xql</i> file in the root collection of
                     your application with the following contents (copied, with minor modifications,
                     from Erik Siegel and Adam Retter’s <cite>eXist</cite>, Beijing et al.: O’Reilly,
                     2014, p. 196):</p>
-                <pre><![CDATA[xquery version "3.1" encoding "UTF-8";
+                <pre>xquery version "3.1" encoding "UTF-8";
 
 (: External variables available to the controller: 
 $exist:path
@@ -629,23 +629,118 @@ declare function local:get-extension($filename as xs:string) as xs:string {
 This is a redirect, forcing the browser to perform a redirect. So this request
 will pass through the controller again... :)
 if ($exist:resource eq "") then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <redirect url="{$home-page-url}"/>
-    </dispatch>
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        &lt;redirect url="{$home-page-url}"/>
+    &lt;/dispatch>
     
 (: Check if there is no extension. If not, assume it is an XQuery file and forward
-to this. Because we use forward here, the browser will not be informed of the
-change and the user will still see a URL without a .xql extension. :)
+to the actual XQuery file by inserting the "modules/" step to the subcollection and
+adding the ".xql" extension. Because we use forward here, the browser will not be 
+informed of the change and the user will see a URL without the "modules/" step in the
+path and with the ".xql" extension. :)
 else
     if (local:get-extension($exist:resource) eq "") then
-        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{concat($exist:controller, $exist:path, ".xql")}"/>
-        </dispatch>
+        &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+            &lt;forward url="{concat(
+                $exist:controller, 
+                substring-before($exist:path, $exist:resource), 
+                "modules/", 
+                $exist:resource, ".xql"
+            )}"/>
+        &lt;/dispatch>
         (: Anything else, pass through: :)
     else
-        <ignore xmlns="http://exist.sourceforge.net/NS/exist">
-            <cache-control cache="yes"/>
-        </ignore>]]></pre>
+        &lt;ignore xmlns="http://exist.sourceforge.net/NS/exist">
+            &lt;cache-control cache="yes"/>
+        &lt;/ignore></pre>
+                <p>If you navigate to <code>http://locahost:8080/exist/db/apps/repertorium/</code>
+                    (replace <q>repertorium</q> with the name of your app), you should see the
+                    output of executing the <i>index.xql</i> file that is in your <i>modules</i>
+                    subcollection, and the URL will change to
+                        <code>http://locahost:8080/exist/db/apps/repertorium/index</code>. But:</p>
+                <ul>
+                    <li>Your CSS and JavaScript links don’t work; you get the HTML, but not the
+                        styling or JavaScript functionality.</li>
+                    <li>You can also retrieve the main page by asking for
+                            <code>http://locahost:8080/exist/db/apps/repertorium/index</code>.</li>
+                    <li>Asking for
+                            <code>http://locahost:8080/exist/db/apps/repertorium/modules/index.xql</code>,
+                        which is where your XQuery actually resides, works, and includes the CSS and
+                        JavaScript that don’t work (yet) with the rewriting.</li>
+                    <li>Asking for
+                            <code>http://locahost:8080/exist/db/apps/repertorium/index.xql</code>
+                        (that is, omitting the <code>modules/</code> step but adding the
+                            <code>.xql</code> extension, raises an error.</li>
+                    <li>You need the trailing slash. This is the one limitation you cannot control
+                        from within your app because without the slash, the URL never reaches your
+                        controller.</li>
+                </ul>
+                <p>Except for the last point, we need to fix the controller to ensure that CSS and
+                    JavaScript are processed properly, and that behavior is consistent with
+                    reasonable user expectations. But first we need to understand how it works.</p>
+            </section>
+            <section id="controller_skeleton_discussion">
+                <h3>Rewriting a query with <i>controller.xql</i></h3>
+                <p>Understanding the part of the controller that deals with XQuery files is the key
+                    to understanding how XQuery rewriting is implemented in this app, so let’s look
+                    at it closely:</p>
+                <pre>if (local:get-extension($exist:resource) eq "") then
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        &lt;forward url="{concat(
+            $exist:controller, 
+            substring-before($exist:path, $exist:resource), 
+            "modules/", 
+            $exist:resource, 
+            ".xql"
+        )}"/>
+    &lt;/dispatch></pre>
+                <p>Our <code>local:get-extension($exist:resource)</code> function retrieves the
+                    extension from the last part of the URL. For example, if the URL ends with
+                        <code>.js</code>, the function will return the string <code>js</code>. If
+                    there is no extension, it will return the empty string. If there is no extension
+                    (e.g., if the user asks for
+                        <code>http://locahost:8080/exist/db/apps/repertorium/index</code>) the
+                    system forwards the request to a modified URL. It does this by concatenating the
+                    following values, in order:</p>
+                <ul>
+                    <li><code>$exist:controller</code> This is the location of <i>controller.xql</i>
+                        file, which is the root collection of the app, starting with a slash, e.g.,
+                            <code>/repertorium</code>). Our aggregated path is now just
+                            <code>/repertorium</code>.</li>
+                    <li><code>substring-before($exist:path, $exist:resource)</code>.
+                            <code>$exist:path</code> is the path from the location of the controller
+                        to the end of the URL (minus any query string), which in the case of
+                            <code>http://locahost:8080/exist/db/apps/repertorium/index</code>, is
+                        just <code>/index</code>. <code>$exist:resource</code> is the part after the
+                        final slash, which in this case is just <code>index</code>. This means that
+                        our <code>substring-before()</code> function returns just a slash. With the
+                        addition of the slash, our aggregated path is now
+                        <code>/repertorium/</code>.</li>
+                    <li><code>modules/</code> Since our XQuery lives in a <i>modules</i>
+                        subcollection that we don’t want the user to have to specify in the URL, we
+                        add it during query rewriting. The aggregated URL now looks like
+                            <code>/repertorium/modules/</code>.</li>
+                    <li><code>$exist:resource</code> As mentioned above, this variable is the part
+                        of the original URL after the final slash, which in this case was
+                            <code>index</code>. When we add it, our aggregated URL looks like
+                            <code>/repertorium/modules/index</code></li>
+                    <li><code>.xql</code> Since our XQuery documents have <i>.xql</i> extensions, we
+                        add that at the end of the rewritten URL, finally yielding
+                            <code>/repertorium/modules/index.xql</code>.</li>
+                </ul>
+                <p>Since that is the actual path to our main page, it is loaded into the browser.
+                    Because we used <code>&lt;forward&gt;</code> (instead of
+                        <code>&lt;dispatch&gt;</code>), the browser address bar continues to display
+                    the URL without the modifications, even though the browser uses those
+                    modifications to find and load the file.</p>
+            </section>
+            <section id="controller_home">
+                <h3>The main page</h3>
+                <p>TODO: processing the main page</p>
+            </section>
+            <section id="controller_details">
+                <h3><i>controller.xql</i> details</h3>
+                <p>TODO: You need the trailing slash when you ask for the main page</p>
             </section>
         </section>
         <section id="generate">
@@ -662,6 +757,7 @@ else
                     go to Application → Download app. An <i>.xar</i> file will be downloaded into
                     the file system on the server where eXist-db is running.</li>
             </ol>
+
         </section>
     </body>
 </html>
