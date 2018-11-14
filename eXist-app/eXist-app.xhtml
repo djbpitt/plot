@@ -129,7 +129,7 @@
                     that reason, do not use spaces or punctuation in the name of the Target
                     collection). Set the Name to a URI (it does not have to be an existing URL; it’s
                     an identifier, and not a location). Enter a Short name (which will be used as
-                    the root of the filename for the eventual <i>xar</i> archive, so don’t use any
+                    the root of the filename for the eventual <i>.xar</i> archive, so don’t use any
                     spaces or punctuation here, either) and Title (which will be displayed in the
                     dashboard). Leave the Version as <q>0.1</q> (default) and the Status as
                         <q>Alpha</q> (default). Leave the Pre-install XQuery as
@@ -245,10 +245,10 @@ declare function local:mkcol($collection, $path) {
 
 (: store the collection configuration :)
 local:mkcol("/db/system/config", $target),
-xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xconf")</pre>
-                    This instructs eXist-db to copy a <i>collection.xconf</i> (index) file from the
-                    app root collection into the appropriate location upon deployment. If you have
-                    index files in subcollections, you need to use an alternative form of the
+xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xconf")</pre>This
+                    instructs eXist-db to copy a <i>collection.xconf</i> (index) file from the app
+                    root collection into the appropriate location upon deployment. If you have index
+                    files in subcollections, you need to use an alternative form of the
                         <code>xdb:store-files-from-pattern()</code> function, one that looks into
                     subcollections, such as the following, where  <code>**/collection.xconf</code>
                     matches files in any directory below the current one, and copies them at the
@@ -256,7 +256,7 @@ xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xcon
                     <i>/db/config/system/db/</i>:<pre> xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "**/collection.xconf", "application/xml", true())</pre></li>
                 <li>Create <i>collection.xconf</i> files inside any subcollections that you wish to
                     index individually. Note that index files must have the filename extension
-                        <i>xconf</i> (we recommend using the traditional filename
+                        <i>.xconf</i> (we recommend using the traditional filename
                         <i>collection.xconf</i>) and must be created inside the regular app
                     hierarchy, even though that is not where eXist-db normally looks for them in
                     order to build indexes. If you edit index files during development, you’ll need
@@ -316,10 +316,12 @@ xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xcon
                     simulate XSLT template processing. In this tutorial, as in our actual projects,
                     we use the XSLT approach.</p>All HTML output from our projects is HTML 5.0 with
                 XML syntax. We therefore use the HTML namespace, and we set the eXist-db output
-                method to <q>xml</q>, the media-type to <q>application/xhtml+xml</q>, and indent to
-                    <q>no</q>. We include an XML declaration in HTML to be returned, but we set
-                omit-xml-declaration to <q>no</q> when we generate XML that will be included into a
-                larger context before being transformed and returned to the user.</section>
+                    <code>method</code> to <q>xml</q>, the <code>media-type</code> to
+                    <q>application/xhtml+xml</q>, and <code>indent</code> to <q>no</q>. We include
+                an XML declaration in HTML to be returned, but we set
+                    <code>omit-xml-declaration</code> to <q>yes</q> when we generate XML that will
+                be included into a larger context before being transformed and returned to the
+                user.</section>
             <section id="xquery_main">
                 <h3>Create a main page</h3>
                 <p>Create a main page, called <i>index.xql</i>, inside the <i>modules</i>
@@ -429,7 +431,8 @@ declare option output:indent "no";
                     <li>The URL that retrieves this page is
                             <code>http://localhost:8080/exist/db/apps/myapp/modules/index.xql</code>
                         (where <i>myapps</i> is replaced by the name of the app). Where the user
-                        links to the page explicitly, we would prefer less clutter.</li>
+                        links to the page explicitly, we would prefer a less cluttered and less
+                        verbose URL.</li>
                     <li>Insofar as this is intended to be our default page, we would like the user
                         to be able to load it by navigating to the root of the app, e.g., without
                         specifying the <i>index.xql</i> filename.</li>
@@ -463,7 +466,7 @@ declare option output:indent "no";
                         or <code>xmldb:exist:///db/apps/repertorium/includes/header.xql</code>. We
                         are actually going to use a third variant, but it depends on our having
                         configured <i>controller.xql</i>, so we’ll discuss it separately once we’ve
-                        done that.</li>
+                        taken care of that configuration.</li>
                     <li>The target of the <code>@href</code> attribute must be well-formed XML.</li>
                     <li>It is possible to include either an entire document or a part of one. The
                         entire document is the default; parts may be specified by adding an
@@ -493,9 +496,9 @@ declare option output:indent "no";
                                 possible for the included document to adjust its output according to
                                 where it is being included. We use this in the Repertorium project
                                 to customize the boilerplate header to include or exclude particular
-                                buttons depending on the master document. There is also an
-                                    <code>$xinclude:current-collection</code> variable that points
-                                to the collection that contains the master document.</li>
+                                buttons depending on the master document (discussed below). There is
+                                also an <code>$xinclude:current-collection</code> variable that
+                                points to the collection that contains the master document.</li>
                             <li>It is possible to pass parameters to the included document as part
                                 of a URL query string, e.g., <code>&lt;xi:include
                                     href="xmldb:exist:///db/apps/repertorium/includes/filename.xql?title=Hi"/></code>.
@@ -504,7 +507,10 @@ declare option output:indent "no";
                                 value contains spaces or puncutation, it must be encoded as if it
                                 were a URI, e.g., <code>&lt;xi:include
                                     href="xmldb:exist:///db/apps/repertorium/includes/filename.xql?title={encode-for-uri('Hi,
-                                    Mom!')}"/&gt;</code></li>
+                                    Mom!')}"/&gt;</code>. We use this in the Repertorium project to
+                                pass a customized, page-specific value for the
+                                    <code>&lt;title></code> element of what would otherwise be a
+                                boilerplate HTML <code>&lt;head></code>.</li>
                         </ul></li>
                 </ul>
             </section>
@@ -553,7 +559,9 @@ declare variable $title external;
                     parameter, where it is interpreted before rendering. We use the
                         <code>encode-for-uri()</code> function, introduced above, because titles may
                     contain spaces or punctuation, which cannot otherwise be passed from the master
-                    XQuery to the included one.</p>
+                    XQuery to the included one. Below we’ll modify the path to the included file to
+                    simplify it by removing the dependency on installation inside
+                    <i>/db/apps</i>.</p>
             </section>
         </section>
         <section id="controller">
@@ -590,7 +598,7 @@ declare variable $title external;
 (: External variables available to the controller: 
 $exist:path
     The part of the URL after the part that led to the controller. For example:
-    a/b/c.xq
+    /a/b/c.xq
 $exist:resource
     The part of the URL after the last / character, usually pointing to a 
     resource. For example: c.xq
