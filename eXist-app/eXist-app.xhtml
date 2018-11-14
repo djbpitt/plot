@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Creating an eXist-db application</title>
+        <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css" />
+        <style type="text/css">
+            q {
+                font-style: regular;
+            }
+            h1 {
+                counter-reset: h2;
+            }
+            h2.unnumbered:before {
+                /* setting display to none both suppresses output and removes the element from the count */
+                display: none;
+            }
+            h2:before {
+                counter-increment: h2;
+                content: counter(h2) '. ';
+            }
+            h2 {
+                counter-reset: h3;
+            }
+            h3:before {
+                counter-increment: h3;
+                content: counter(h2) '.' counter(h3) '. ';
+            }</style>
+        <!-- Markup based on eXist boook, p. 12
+                
+                Italic: Indicates new terms, URLs, email addresses, file- and pathnames, 
+                database collections, and file extensions. Here: <i> ... </i>
+                
+                Constant width: Used for program listings, as well as within paragraphs to 
+                refer to program elements such as variable or function names, module names, 
+                data types, environment variables, statements, and keywords. Also used for 
+                commands and command-line output, database user and group names, and permission 
+                modes. Here: <code> ... </code>
+                
+                Constant width italic: Shows text that should be replaced with user-supplied 
+                values or by values determined by context. Here: <code><i> ... </i></code>.
+                
+                Added: 
+                    Values chosen or entered by users are tagged a <q> ... </q>; this includes
+                        the names of buttons. This styling overrides other markup, e.g., if the user 
+                        is to enter a filename or a user or group name, it is quoted but not italic 
+                        or constant width.
+                    The name eXist-db is used (instead of just eXist).
+                    Names of programs (e.g., eXist, eXide) are not styled. Neither are names of
+                        dialogs (e.g., Open . document), the labels on dialog widgets (e.g., Template),
+                        or menu items (e.g., Application or New application).
+            -->
+    </head>
+    <body>
+        <h1>Creating an eXist-db application</h1>
+        <p>David J. Birnbaum, 2018-11-07, CC-BY-SA</p>
+        <section id="introduction">
+            <h2 class="unnumbered">Introduction</h2>
+            <p>This tutorial describes the process for creating an application within eXist-db. This
+                method uses eXist-db not only as an XML database, but also as a content management
+                system (CMS), which means that all application resources (for the model, controller,
+                and view) are packaged into a single <i>.xar</i> file that can be hot-deployed into
+                any running eXist-db instance. This type of app provides a self-contained
+                alternative to the familiar architecture in which an HTML/PHP front end, typically
+                running on an Apache or Nginx HTTP server, queries eXist-db only to retrieve
+                information, but otherwise manages the front end itself, including both accepting
+                user input and formatting output. The principal advantage of the eXist-db app
+                approach described here is greater ease of maintenance and deployment, since there
+                is no dependency on communication with an independent web server. The principal
+                disadvantage of the eXist-db app approach is greater dependence on eXist-db, since
+                much of the eXist-db app functionality is specific to eXist-db, and cannot be
+                transferred directly, without modification, into an alternative XML database. The
+                difference between the eXist-db app and the HTML/PHP architecture lies ultimately in
+                the extent of the dependency, which is present to some measure in any case because
+                not all aspects of interacting with an XML database are addressed in the standards
+                to which all XML databases seek to conform.</p>
+            <p>eXist-db incorporates support for two further aspects of app development that are not
+                addressed in this tutorial. One is that the eXide app wizard within eXist-db enables
+                the configuration of Bootstrap CSS support within a new eXist-db app. We prefer not
+                to use Bootstrap (in this tutorial and in our real work) because we have better
+                control over styling when we manage all CSS directly ourselves. The other is that
+                eXist-db supports an HTML templating framework, which, in MVC terminology, separates
+                the view more clearly from the controller than we do in the process described below.
+                We avoid HTML templating in order to control includes more explicitly. Users who
+                prefer to avail themselves of these features can learn more about them in the
+                following sources, which are recommended reading in any case:</p>
+            <ul>
+                <li><a href="http://exist-db.org/exist/apps/doc/development-starter"
+                        >http://exist-db.org/exist/apps/doc/development-starter</a>, which
+                    introduces eXist-db app development. This page can be consulted together with <a
+                        href="http://exist-db.org/exist/apps/doc/templating.xml"
+                        >http://exist-db.org/exist/apps/doc/templating.xml</a>, which introduces and
+                    describes HTML templating.</li>
+                <li>Chapter 9, <q>Building applications</q>, of Erik Siegel and Adam Retter’s
+                        <cite>eXist</cite>, Beijing et al.: O’Reilly, 2014, pp. 191–235.</li>
+            </ul>
+            <p>The stages in the procedure for developing an eXist-db app are described below in the
+                following order:</p>
+            <ol>
+                <li><a href="#skeleton">Create a new app skeleton</a></li>
+                <li><a href="#directories">Expand the skeleton</a></li>
+                <li><a href="#content">Add XML content and non-XML resources</a></li>
+                <li><a href="#indexing">Add support for indexing</a></li>
+                <li><a href="#xquery">Create some XQuery scripts</a></li>
+                <li><a href="#xinclude">Modularize with XInclude</a></li>
+                <li><a href="#controller">Configure <i>controller.xql</i></a></li>
+                <li><a href="#enerate">Generate your app</a></li>
+            </ol>
+            <p>The procedure described here was tested under eXist-db 4.4. This tutorial
+                concentrates only on app development, and it is intended for users who already have
+                a basic familiarity with XQuery and with the use of eXist-db as an XML database.
+                Those who lack that familiarity will need to begin with the online eXist document
+                and the <cite>eXist</cite> book mentioned above before proceeding to app
+                development.</p>
+        </section>
+        <section id="skeleton">
+            <h2>Create a new app skeleton</h2>
+            <p>Start by using the app creation wizard inside eXide to create a skeleton for your new
+                app.</p>
+            <ol>
+                <li>Inside eXide, choose Application → New application and authenticate as userid
+                        <q>admin</q> or another user who is a member of the <code>dba</code>
+                    (database administrator) group. This opens the app-creation wizard.</li>
+                <li>Set Template to <q>Empty package</q>, Type of package to <q>Application</q>, and
+                    Target collection to the bare name of your collection (that is, do not specify a
+                    path). This assumes that you want to deploy the app into the standard location,
+                    which is inside <i>/db/apps</i>; for example, a collection named
+                        <q>repertorium</q> will be deployed to <i>/db/apps/repertorium</i> (and, for
+                    that reason, do not use spaces or punctuation in the name of the Target
+                    collection). Set the Name to a URI (it does not have to be an existing URL; it’s
+                    an identifier, and not a location). Enter a Short name (which will be used as
+                    the root of the filename for the eventual <i>xar</i> archive, so don’t use any
+                    spaces or punctuation here, either) and Title (which will be displayed in the
+                    dashboard). Leave the Version as <q>0.1</q> (default) and the Status as
+                        <q>Alpha</q> (default). Leave the Pre-install XQuery as
+                        <q>pre-install.xql</q> and the Post-install XQuery as
+                        <q>post-install.xql</q> (defaults). Click <q>Next</q>.</li>
+                <li>Type your name into the Author field. You can add other authors later, if you
+                    want; adding them with the Add button initially can be awkward. Enter an
+                    optional description of the app under Description and a link to your principal
+                    web site (you, not the app) under Website (these will be displayed in the
+                    Package manager when the user clicks the button for more information). Click
+                        <q>Next</q>.</li>
+                <li>Create a userid for the Owner, create a password as the Password, and create a
+                    groupid as the Group. Although it is possible to use existing credentials, we
+                    recommend creating a unique user, group, and password just for the app, and
+                    setting the name of the group to match that of the user. It is not necessary to
+                    use an account with elevated privileges (e.g., <code>admin</code>, or any member
+                    of the <code>dba</code> group). Leave Mode as <code>rw-rw-r--</code> (default).
+                    Click <q>Done</q>.</li>
+            </ol>
+            <p>eXist-db should display an Open document dialog pointing to your collection, which
+                should contain three files: <i>build.xml</i>, <i>expath-pkg.xml</i>, and
+                    <i>repo.xml</i>. Note that the wizard does not create any controller or index
+                files for your app, or pre-install or post-install scripts, so you’ll need to
+                configure those separately, as described below.</p>
+        </section>
+        <section id="directories">
+            <h2>Expand the skeleton</h2>
+            <ol>
+                <li>Inside the root collection of your app (e.g., <i>/db/apps/repertorium</i>)
+                    create subcollections to hold different types of content. In this example we
+                    create the following subcollections: <ul>
+                        <li><i>mss</i> In the Repertorium project, these are our principal XML
+                            files, which are manuscript descriptions in TEI XML. Your app might use
+                            a more generic subcollection name, such as <i>xml</i> or
+                            <i>data</i>.</li>
+                        <li><i>aux</i> Auxiliary XML files. In the Repertorium project, these
+                            include a master bibliography and master files of article names and
+                            genres.</li>
+                        <li><i>modules</i> XQuery scripts</li>
+                        <li><i>xslt</i> XSLT stylesheets, used to transform the results of queries
+                            executed with XQuery</li>
+                        <li><i>resources</i> These are auxiliary materials that may or may not be
+                            XML. In our example this holds four subcollections:<ul>
+                                <li><i>js</i> JavaScript files</li>
+                                <li><i>css</i> CSS files (with webfonts in a <i>fonts</i>
+                                    subdirectory under <i>css</i>)</li>
+                                <li><i>includes</i> Static texts that are inserted into XQuery
+                                    output, similarly to SSIs in a traditional Apache web app. In
+                                    our example, this includes SVG</li>
+                                <li><i>images</i> Static image files (note that we’ve chosen to put
+                                    static SVG graphics under <i>includes</i>, so our <i>images</i>
+                                    collection contains just raster images)</li>
+                            </ul></li>
+                    </ul></li>
+                <li>Optionally upload a file named <i>icon.png</i> into the root collection for your
+                    app. If you include this, it will be displayed in the dashboard (at an
+                    appropriate size); otherwise a generic eXist-db icon will be used. (This feature
+                    does not appear to be documented officially.)</li>
+            </ol>
+            <p>In most cases you will want to set the user and group for all resources to the userid
+                and groupid you created when you configured the wizard, and if you create the
+                resources above while you are authenticated as <code>admin</code> or another
+                privileged user, the owner and group of the new resources will be set to values for
+                that priviledged user. You can reset the values now or defer that operation until
+                the end, after you’ve created all of your content (see <a href="#generate">Generate
+                    your app</a>, below).</p>
+        </section>
+        <section id="content">
+            <h2>Add XML content and non-XML resources</h2>
+            <ol>
+                <li>Upload or create some XML files (in this examples, in the <i>mss</i> and
+                        <i>aux</i> subcollections).</li>
+                <li>Upload or create content for the subcollections under <i>resources</i>, e.g.,
+                    JavaScript, CSS, images, and boilerplate XML snippets.</li>
+            </ol>
+        </section>
+        <section id="indexing">
+            <h2>Add support for indexing</h2>
+            <p>The skeleton does not contain either index files or the code needed to deploy those
+                into the correct location when the app is installed. We fix that by creating our own
+                    <i>pre-install.xql</i> script.</p>
+            <ol>
+                <li>Create a file called <i>pre-install.xql</i> with the following content and
+                    upload or install it into the root collection of your
+                    app:<pre>xquery version "1.0";
+
+import module namespace xdb="http://exist-db.org/xquery/xmldb";
+
+(: The following external variables are set by the repo:deploy function :)
+
+(: file path pointing to the exist installation directory :)
+declare variable $home external;
+(: path to the directory containing the unpacked .xar package :)
+declare variable $dir external;
+(: the target collection into which the app is deployed :)
+declare variable $target external;
+
+declare function local:mkcol-recursive($collection, $components) {
+    if (exists($components)) then
+        let $newColl := concat($collection, "/", $components[1])
+        return (
+            xdb:create-collection($collection, $components[1]),
+            local:mkcol-recursive($newColl, subsequence($components, 2))
+        )
+    else
+        ()
+};
+
+(: Helper function to recursively create a collection hierarchy. :)
+declare function local:mkcol($collection, $path) {
+    local:mkcol-recursive($collection, tokenize($path, "/"))
+};
+
+(: store the collection configuration :)
+local:mkcol("/db/system/config", $target),
+xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xconf")</pre>
+                    This instructs eXist-db to copy a <i>collection.xconf</i> (index) file from the
+                    app root collection into the appropriate location upon deployment. If you have
+                    index files in subcollections, you need to use an alternative form of the
+                        <code>xdb:store-files-from-pattern()</code> function, one that looks into
+                    subcollections, such as the following, where  <code>**/collection.xconf</code>
+                    matches files in any directory below the current one, and copies them at the
+                    correct corresponding level under
+                    <i>/db/config/system/db/</i>:<pre> xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "**/collection.xconf", "application/xml", true())</pre></li>
+                <li>Create <i>collection.xconf</i> files inside any subcollections that you wish to
+                    index individually. Note that index files must have the filename extension
+                        <i>xconf</i> (we recommend using the traditional filename
+                        <i>collection.xconf</i>) and must be created inside the regular app
+                    hierarchy, even though that is not where eXist-db normally looks for them in
+                    order to build indexes. If you edit index files during development, you’ll need
+                    to keep the copy inside the app hierarchy, which is needed for deployment, in
+                    sync with the one that eXist-db actually uses, under
+                        <i>/db/config/system/db/apps/</i>. You can read more about configuring
+                    indexes at <a href="http://exist-db.org/exist/apps/doc/indexing"
+                        >http://exist-db.org/exist/apps/doc/indexing</a> or in Chapter 11, <q>Basic
+                        indexing</q> and Chapter 12, <q>Text indexing and lookup</q> of Erik Siegel
+                    and Adam Retter’s <cite>eXist</cite>, Beijing et al.: O’Reilly, 2014, pp.
+                    271–302.</li>
+            </ol>
+            <p>eXist-db automatically indexes new XML files as they are uploaded into the database,
+                and eXide prompts you to reindex the collection whenever you edit an index file in
+                place. But eXist-db does not automatically run the indexing procedure when you
+                upload a new <i>collection.xconf</i> index. This means that if you upload
+                    <i>collection.xconf</i> files during development, you should reindex the
+                collection explicitly.</p>
+        </section>
+        <section id="xquery">
+            <h2>Create some XQuery scripts</h2>
+            <section id="xquery_preliminaries">
+                <h3>XQuery preliminaries in the context of eXist-db apps</h3><p>Create XQuery files
+                    inside the <i>modules</i> subcollection. We observe the recommendation in Erik
+                    Siegel and Adam Retter’s <cite>eXist</cite>, Beijing et al.: O’Reilly, 2014, p.
+                    xiv and use the filename extension <i>.xql </i>for all <dfn>main modules</dfn>,
+                    that is, XQuery scripts that are meant to be called and executed directly. Where
+                    we use XQuery library modules, which are not meant to be executed, and which
+                    contain only functions that are meant to be imported into main modules or other
+                    libraries, we use the filename extension <i>.xqm</i>. Our projects do not use
+                    any other filename extension for XQuery files.</p>
+                <p>The <i>.xql</i> files inside <i>modules</i> will be responsible for creating the
+                    content that will eventually be shown to users, some customized in response to
+                    user input (e.g., queries that act on information supplied by the user in web
+                    forms) and some in a relatively static way (that is, without customization in
+                    response to user input). Although it is possible to serve static HTML from
+                    eXist-db in this second situation, instead of using XQuery to create it, we
+                    recommend using XQuery to create all output. The reason for this recommendation
+                    is that we will use XQuery to manage the inclusion of boilerplate snippets, of
+                    the sort that might have been handled with server-side includes (SSI) or PHP
+                    includes on a traditional web site. Using XQuery to create all output is a
+                    convenient way to apply the include process to all content before returning a
+                    result to the user.</p><p>Although we use XQuery to construct all output, we
+                    treat static output differently from output created in response to user-supplied
+                    parameters, as follows:</p><ul>
+                    <li>In the case of static output, our XQuery creates HTML and serializes it
+                        directly.</li>
+                    <li>In the case of output that is constructed according to user-supplied
+                        parameters, XQuery retrieves information from source XML, often with its
+                        original non-HTML markup, and then pipes it through an XSLT transformation
+                        before returning the result to the user as HTML.</li>
+                </ul><p>While it might seem simpler to treat all XQuery identically, and to pass all
+                    XQuery output through XSLT before returning it to the user, launching an XSLT
+                    process entails overhead. For that reason, we use XSLT only where it is actually
+                    needed.</p><p class="note">Some developers avoid XSLT entirely, preferring to
+                    transform content by using the XQuery <code>typeswitch()</code> function to
+                    simulate XSLT template processing. In this tutorial, as in our actual projects,
+                    we use the XSLT approach.</p>All HTML output from our projects is HTML 5.0 with
+                XML syntax. We therefore use the HTML namespace, and we set the eXist-db output
+                method to <q>xml</q>, the media-type to <q>application/xhtml+xml</q>, and indent to
+                    <q>no</q>. We include an XML declaration in HTML to be returned, but we set
+                omit-xml-declaration to <q>no</q> when we generate XML that will be included into a
+                larger context before being transformed and returned to the user.</section>
+            <section id="xquery_main">
+                <h3>Create a main page</h3>
+                <p>Create a main page, called <i>index.xql</i>, inside the <i>modules</i>
+                    subcollection. We will learn later how to make it the default (when the user
+                    does not specify a page), how to simplify the URL (so that, for example, you
+                    don’t have to specify <i>modules</i>, or even <i>index.xql</i>, as part of the
+                    address), how to incorporate CSS and JavaScript, what links to other pages in
+                    the app should look like, and how to include boilerplate content (e.g., a
+                    consistent, page-independent header or menu). The first, simplest version of our
+                    sample main page looks as follows:</p>
+                <pre><![CDATA[xquery version "3.1";
+declare default function namespace "http://www.w3.org/2005/xpath-functions";
+declare default element namespace "http://www.w3.org/1999/xhtml";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method "xml";
+declare option output:media-type "application/xhtml+xml";
+declare option output:omit-xml-declaration "no";
+declare option output:indent "no";
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>My awesome eXist-db app</title>
+    </head>
+    <body>
+        <h1>My awesome eXist-db app</h1>
+        <p>Content will go here</p>
+    </body>
+</html>]]></pre>
+            </section>
+            <section id="xquery_css">
+                <h3>Add CSS and JavaScript to the main page</h3>
+                <p>CSS and JavaScript are incorporated into a page the same way they are with
+                    traditional HTML, using <code>&lt;link&gt;</code> for CSS and
+                        <code>&lt;script&gt;</code> for JavaScript. Links are relative to the page
+                    being processed, so if we create <i>style.css</i> in the <i>resources/css</i>
+                    collection and JavaScript in the <i>resources/js</i> collection, we can link to
+                    them by modifying <i>index.xql</i> as follows (new code added to the first
+                    example, above, is highlighted):</p>
+                <pre><![CDATA[xquery version "3.1";
+declare default function namespace "http://www.w3.org/2005/xpath-functions";
+declare default element namespace "http://www.w3.org/1999/xhtml";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method "xml";
+declare option output:media-type "application/xhtml+xml";
+declare option output:omit-xml-declaration "no";
+declare option output:indent "no";
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>My awesome eXist-db app</title>]]>
+        <span class="pre-highlight"><![CDATA[<link rel="stylesheet" type="text/css" href="../resources/css/style.css"/>
+        <script type="text/javascript" src="../resources/js/greet.js"></script>]]></span>
+<![CDATA[    </head>
+    <body>
+        <h1>My awesome eXist-db app</h1>
+        <p>Content will go here</p>
+    </body>
+</html>]]></pre>
+                <p>Because our XQuery scripts are in our <i>modules</i> subcollection, these
+                    relative paths climb up from there to the app root collection and then down to
+                    where the CSS and JavaScript files are located. Because Best Practice in
+                    eXist-db is to use absolute paths wherever possible, we’ll change the relative
+                    paths to absolute paths below, once we have created a <i>controller.xql</i>
+                    file.</p>
+            </section>
+            <section id="xquery_variables">
+                <h3>Use variables to avoid repetition</h3>
+                <p>The example above repeats the same text as the content of the
+                        <code>&lt;title&gt;</code> element inside the <code>&lt;head&gt;</code> and
+                    the <code>&lt;h1&gt;</code> at the beginning of the <code>&lt;body&gt;</code>.
+                    Consistent with <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself"
+                            ><dfn>DRY</dfn> (<q>Don’t Repeat Yourself</q>)</a>, we can avoid the
+                    repetition by abstracting the text into a variable:</p>
+                <pre>xquery version "3.1";
+declare default function namespace "http://www.w3.org/2005/xpath-functions";
+declare default element namespace "http://www.w3.org/1999/xhtml";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method "xml";
+declare option output:media-type "application/xhtml+xml";
+declare option output:omit-xml-declaration "no";
+declare option output:indent "no";
+<span class="pre-highlight">declare variable $title as xs:string := "My awesome eXist-db app";</span>
+<![CDATA[<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>]]>
+        <span class="pre-highlight"><![CDATA[<title>{$title}</title>]]></span>
+        <![CDATA[<link rel="stylesheet" type="text/css" href="../resources/css/style.css"/>
+        <script type="text/javascript" src="../resources/js/greet.js"></script>
+    </head>
+    <body>]]>
+        <span class="pre-highlight"><![CDATA[<h1>{$title}</h1>]]></span>
+        <![CDATA[<p>Content will go here</p>
+    </body>
+</html>]]></pre>
+            </section>
+            <section id="xquery_beyond">
+                <h3>Beyond static HTML</h3>
+                <p>The preceding examples use XQuery to create static HTML, and they have the
+                    following limitations, which will address when we discuss <a href="#xinclude"
+                        >XInclude</a> and <a href="#controller"><i>controller.xql</i></a> in the
+                    following sections:</p>
+                <ul>
+                    <li>The XQuery has not been designed to not respond to user input. That is,
+                        there is no way to call the same XQuery with different parameters in order
+                        to receive different, customized output.</li>
+                    <li>The page contains boilerplate that we will probably want to include in many
+                        other pages. At the moment this might involve links to site-standard CSS or
+                        JavaScript, but it could also involve HTML content snippets, such as
+                        headers, footers, and menus.</li>
+                    <li>The URL that retrieves this page is
+                            <code>http://localhost:8080/exist/db/apps/myapp/modules/index.xql</code>
+                        (where <i>myapps</i> is replaced by the name of the app). Where the user
+                        links to the page explicitly, we would prefer less clutter.</li>
+                    <li>Insofar as this is intended to be our default page, we would like the user
+                        to be able to load it by navigating to the root of the app, e.g., without
+                        specifying the <i>index.xql</i> filename.</li>
+                </ul>
+            </section>
+        </section>
+        <section id="xinclude">
+            <h2>Modularize with XInclude</h2>
+            <section id="xinclude_preliminaries">
+                <h3>XInclude preliminaries in the context of eXist-db apps</h3>
+                <p>By default eXist-db supports the inclusion of XML snippets inside another XML
+                    document with <a href="https://www.w3.org/TR/xinclude-11/">XInclude</a>.
+                    XInclude processing happens during serialization, that is, at the last stage
+                    before eXist-db returns the results of an XQuery. For more information about
+                    using XInclude inside eXist-db, see <a
+                        href="https://exist-db.org/exist/apps/doc/xinclude"
+                        >https://exist-db.org/exist/apps/doc/xinclude</a> and the <q>XInclude</q>
+                    section of Chapter 10, <q>Other XML technoloogies</q>, of Erik Siegel and Adam
+                    Retter’s <cite>eXist</cite>, Beijing et al.: O’Reilly, 2014, pp. 243–45.</p>
+                <p>The following details govern the use of XInclude within eXist-db:</p>
+                <ul>
+                    <li>Includes are expressed with an empty <code>&lt;xs:include&gt;</code>
+                        element, where the prefix <code>xi:</code> is bound to the namespace
+                            <code>http://www.w3.org/ 2001/XInclude</code>, which must be
+                        declared.</li>
+                    <li>The file to be included is specified with an <code>@href</code> attribute on
+                        the <code>&lt;xi:include></code> element. The value of the
+                            <code>@href</code> attribute must be an absolute (not relative) path,
+                        such as
+                            <code>http://localhost:8080/exist/rest/db/apps/repertorium/includes/header.xql</code>
+                        or <code>xmldb:exist:///db/apps/repertorium/includes/header.xql</code>. We
+                        are actually going to use a third variant, but it depends on our having
+                        configured <i>controller.xql</i>, so we’ll discuss it separately once we’ve
+                        done that.</li>
+                    <li>The target of the <code>@href</code> attribute must be well-formed XML.</li>
+                    <li>It is possible to include either an entire document or a part of one. The
+                        entire document is the default; parts may be specified by adding an
+                            <code>@xpointer</code> attribute to the <code>&lt;xi:include&gt;</code>
+                        element in one of two ways:<ul>
+                            <li>An <code>@xpointer</code> attribute may point to an
+                                    <code>@xml:id</code> attribute in the included file. For
+                                example, <code>&lt;xi:include
+                                    href="xmldb:exist:///db/apps/repertorium/includes/filename.xml
+                                    xpointer="stuff"/&gt;</code> will include the element inside
+                                    <i>filename.xml</i> that has an <code>@xml:id</code> value of
+                                    <q>stuff</q>.</li>
+                            <li>Alternatively the value of the <code>@xpointer</code> attribute may
+                                be an XPath expression wrapped in <code>xpointer()</code>, which is
+                                traversed within the target document. For example,
+                                    <code>&lt;xi:include
+                                    href="xmldb:exist:///db/apps/repertorium/includes/filename.xml
+                                    xpointer="xpointer(//l)"/&gt;</code> returns all of the
+                                    <code>&lt;l&gt;</code> elements in the target document.</li>
+                        </ul></li>
+                    <li>One powerful feature of XInclude within eXist-db is that if the value of the
+                            <code>@href</code> attribute is an XQuery file, the XQuery will be
+                        executed and its output will be included. Scripts specified in this way
+                        automatically have access to the following information:<ul>
+                            <li><code>$xinclude:current-doc</code>, when used inside the included
+                                file, points to the bare name of the master document. This makes it
+                                possible for the included document to adjust its output according to
+                                where it is being included. We use this in the Repertorium project
+                                to customize the boilerplate header to include or exclude particular
+                                buttons depending on the master document. There is also an
+                                    <code>$xinclude:current-collection</code> variable that points
+                                to the collection that contains the master document.</li>
+                            <li>It is possible to pass parameters to the included document as part
+                                of a URL query string, e.g., <code>&lt;xi:include
+                                    href="xmldb:exist:///db/apps/repertorium/includes/filename.xql?title=Hi"/></code>.
+                                The included file must declare the parameter, along the lines of
+                                    <code>declare variable $title external;</code>. If the parameter
+                                value contains spaces or puncutation, it must be encoded as if it
+                                were a URI, e.g., <code>&lt;xi:include
+                                    href="xmldb:exist:///db/apps/repertorium/includes/filename.xql?title={encode-for-uri('Hi,
+                                    Mom!')}"/&gt;</code></li>
+                        </ul></li>
+                </ul>
+            </section>
+            <section id="xinclude_header">
+                <h3>Managing boilerplate information with XInclude</h3>
+                <p>Since all of our app documents will use at least some of the same CSS and
+                    JavaScript, we can move the <code>&lt;head&gt;</code> element, which contains
+                    the <code>&lt;link&gt;</code> and <code>&lt;script&gt;</code> elements, into a
+                    separate included file. Since the title will vary with different master
+                    documents, we can pass it as a parameter. Our <i>index.xql</i> now looks like
+                    the following:</p>
+                <pre><![CDATA[xquery version "3.1";
+declare default function namespace "http://www.w3.org/2005/xpath-functions";
+declare default element namespace "http://www.w3.org/1999/xhtml";
+declare namespace xi="http://www.w3.org/2001/XInclude";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method "xml";
+declare option output:media-type "application/xhtml+xml";
+declare option output:omit-xml-declaration "no";
+declare option output:indent "no";
+declare variable $title as xs:string := "My awesome eXist-db app";
+<html xmlns="http://www.w3.org/1999/xhtml">]]>
+    <span class="pre-highlight"><![CDATA[<xi:include href="xmldb:exist:///db/apps/repertorium/includes/header.xql?title={encode-for-uri($title)}"/>]]></span>
+    <![CDATA[<body>
+        <h1>{$title}</h1>
+        <p>Content will go here</p>
+    </body>
+</html>]]></pre>
+                <p>and the new included file looks like:</p>
+                <pre><![CDATA[xquery version "3.1";
+declare variable $title external;
+<head xmlns="http://www.w3.org/1999/xhtml">
+    <title>{$title}</title>
+    <link rel="stylesheet" type="text/css" href="../resources/css/style.css"/>
+    <script type="text/javascript" src="../resources/js/greet.js"></script>
+</head>]]></pre>
+                <p>The content of the <code>&lt;head&gt;</code> element is the same, but it is now
+                    located inside the included <i>header.xql</i> file, instead of directly inside
+                        <i>index.xql</i>.</p>
+                <p>This point of this strategy is that we assume that all files will have
+                    essentially the same <code>&lt;head&gt;</code> element, except for the
+                        <code>&lt;title&gt;</code>. If we put the <code>&lt;head&gt;</code> into an
+                    included file, should we later need to modify it, we can modify it in just one
+                    place and the changes will be reflected in all pages that include it. We deal
+                    with the difference in titles by passing the value into the included file as a
+                    parameter, where it is interpreted before rendering. We use the
+                        <code>encode-for-uri()</code> function, introduced above, because titles may
+                    contain spaces or punctuation, which cannot otherwise be passed from the master
+                    XQuery to the included one.</p>
+            </section>
+        </section>
+        <section id="controller">
+            <h2>Configure <i>controller.xql</i></h2>
+            <section id="controller_preliminaries">
+                <h3>What to expect from <i>controller.xql</i></h3>
+                <p>If an app contains a <i>controller.xql</i> file in its root collection, eXist
+                    automatically passes all HTTP requests to the controller. The controller can
+                    rewrite the request, by, for example, routing it to a specific XQuery script, or
+                    it can pass it along unchanged to be handled normally. This tutorial does not
+                    include a beginner’s introduction to controller configuration, and <strong>new
+                        developers must pause at this point and read <a
+                            href="http://exist-db.org/exist/apps/doc/urlrewrite"
+                            >http://exist-db.org/exist/apps/doc/urlrewrite</a> and Chapter 9,
+                            <q>Building applications</q>, of Erik Siegel and Adam Retter’s
+                            <cite>eXist</cite>, Beijing et al.: O’Reilly, 2014, pp.
+                    191–235</strong>. Understanding the examples below requires a basic familiarity
+                    with query handling and the eXist-db <i>controller.xql</i> file, as provided at
+                    these links. We also recommend, as an example, Joe Wicentowski’s <cite><a
+                            href="https://github.com/joewiz/punch">Punch</a></cite>, a tutorial
+                    project that uses a clearly commented <i>controller.xql</i> to illustrate query
+                    rewriting within an eXist-db app. Our project will contain exactly one
+                        <i>controller.xql</i> document, which will be located inside the app root
+                    collection.</p>
+            </section>
+            <section id="controller_skeleton">
+                <h3>Create a <i>controller.xql</i> skeleton</h3>
+                <p>Start by creating skeletal <i>controller.xql</i> file in the root collection of
+                    your application with the following contents (copied, with minor modifications,
+                    from Erik Siegel and Adam Retter’s <cite>eXist</cite>, Beijing et al.: O’Reilly,
+                    2014, p. 196):</p>
+                <pre><![CDATA[xquery version "3.1" encoding "UTF-8";
+
+(: External variables available to the controller: 
+$exist:path
+    The part of the URL after the part that led to the controller. For example:
+    a/b/c.xq
+$exist:resource
+    The part of the URL after the last / character, usually pointing to a 
+    resource. For example: c.xq
+$exist:controller
+    The part of the URL leading from the prefix (typically /apps) to the controller 
+    script. For example, the name of the root collection of your app, for example:
+    /repertorium
+:)
+declare variable $exist:path external;
+declare variable $exist:resource external;
+declare variable $exist:controller external;
+
+(: Other variables :)
+declare variable $home-page-url := "index";
+
+(: Function to get the extension of a filename: :)
+declare function local:get-extension($filename as xs:string) as xs:string {
+    let $name := replace($filename, ".*[/\\]([^/\\]+)$", "$1")
+    return
+        if (contains($name, "."))
+        then
+            replace($name, ".*\.([^\.]+)$", "$1")
+        else
+            ""
+};
+
+(: If there is no resource specified, go to the home page.
+This is a redirect, forcing the browser to perform a redirect. So this request
+will pass through the controller again... :)
+if ($exist:resource eq "") then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <redirect url="{$home-page-url}"/>
+    </dispatch>
+    
+(: Check if there is no extension. If not, assume it is an XQuery file and forward
+to this. Because we use forward here, the browser will not be informed of the
+change and the user will still see a URL without a .xql extension. :)
+else
+    if (local:get-extension($exist:resource) eq "") then
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+            <forward url="{concat($exist:controller, $exist:path, ".xql")}"/>
+        </dispatch>
+        (: Anything else, pass through: :)
+    else
+        <ignore xmlns="http://exist.sourceforge.net/NS/exist">
+            <cache-control cache="yes"/>
+        </ignore>]]></pre>
+            </section>
+        </section>
+        <section id="generate">
+            <h2>Generate your app</h2>
+            <ol>
+                <li>Verify that the owner and group of every collection and file are the owner and
+                    group ids that you created originally in the eXide app wizard. Verify also that
+                    the resource permissions are correct: anything users should be able to read
+                    directly must be world-readable, and any XQuery that users should be able to run
+                    should be world-executable. The easiest way to set these properties for multiple
+                    resources simultaneously is to use <code>sm:chown()</code> and
+                        <code>sm:chmod()</code> inside an XQuery <code>for</code> loop.</li>
+                <li>To generate your app, open any file from within the app hierarchy in eXide. Then
+                    go to Application → Download app. An <i>.xar</i> file will be downloaded into
+                    the file system on the server where eXist-db is running.</li>
+            </ol>
+        </section>
+    </body>
+</html>
