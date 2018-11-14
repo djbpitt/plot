@@ -826,20 +826,19 @@ else
                         <code>href="xmldb:exist:///db/apps/repertorium/includes/header.xql?title={encode-for-uri($title)}</code>,
                     which will break if the app is installed into a non-standard location. Second,
                     the links to CSS and JavaScript in <i>header.xql</i> used relative paths (e.g.,
-                        <code>href="../resources/css/style.css"</code>), and those did break as soon
-                    as we rewrote our query. The reason the links broke is that the path is
-                    traversed from the original URL, without the <i>modules</i> step in the path, so
+                        <code>href="../resources/css/style.css"</code>), and those <em>did</em>
+                    break as soon as we rewrote our query. The reason the links broke is that the
+                    path is traversed from the original URL, without the <i>/modules</i> step, so
                     instead of climbing out of <i>modules</i> and then down into <i>resources</i>,
                     it climbs out of <i>repertorium</i> and then fails to find a <i>resources</i>
-                    child collection for the next path step. We could try to fix this by changing
-                    the relative path, but that would break if we then moved the XQuery to a
-                    different level.</p>
-                <p>To fix the broken links and make our code generally more robust we need to change
-                    both the <i>index.xql</i> master documenbt and the <i>header.xql</i> included
-                    document to use our <code>$exist:root</code> and <code>$exist:controller</code>
-                    variables. And we also need to change <i>controller.xql</i> to make those
-                    variables available to <i>index.xql</i> and <i>header.xql</i>.We start with
-                        <i>controller.xql</i>:</p>
+                    child collection for the next path step.</p>
+                <p>To fix the broken or fragile links and make our code generally more robust we
+                    need to change both the <i>index.xql</i> master document and the
+                        <i>header.xql</i> included document to use our <code>$exist:root</code> and
+                        <code>$exist:controller</code> variables, and to construct absolute paths.
+                    We also need to change <i>controller.xql</i> to make those variables available
+                    to <i>index.xql</i> and <i>header.xql</i>.We start with
+                    <i>controller.xql</i>:</p>
                 <pre><![CDATA[if (local:get-extension($exist:resource) eq "") then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{concat(
@@ -858,8 +857,8 @@ else
                     rule). They can be retrieved by that file with the
                         <code>request:get-parameter()</code> function. The following modifications
                     to <i>index.xql</i> retrieve the parameters, use them to construct the path to
-                        <i>header.xql</i>, and pass them into <i>header.xql</i> so that they can be
-                    used to find the CSS and JavaScript:</p>
+                        <i>header.xql</i>, and then pass them on into <i>header.xql</i> so that they
+                    can be used to construct absolute paths to the CSS and JavaScript resources:</p>
                 <pre>xquery version "3.1";
 declare default function namespace "http://www.w3.org/2005/xpath-functions";
 declare default element namespace "http://www.w3.org/1999/xhtml";
@@ -892,12 +891,12 @@ declare variable $exist:root as xs:string := request:get-parameter("exist:root",
                 <ol>
                     <li><code>$exist:root</code> At this point the path is equal to
                             <i>xmldb:exist:///db/apps</i>. If for any reason we have installed our
-                        app into a different location, that different location will be reported
-                        correctly because eXist-db is reading the actual location, instead of just
-                        assuming that it will be the standard one. And because we don’t have an HTTP
-                        path that starts with something like <i>http://localhost:8080</i>, it will
-                        not make unnecessary and possibly incorrect assumptions about the port on
-                        which eXist-db is running.</li>
+                        app into a different location, that different location will nonetheless be
+                        reported correctly because eXist-db is reading the actual location, instead
+                        of just assuming that it will be the standard one. And because we don’t have
+                        an HTTP path that starts with something like <i>http://localhost:8080</i>,
+                        eXist-db will not make unnecessary and possibly incorrect assumptions about
+                        the port on which eXist-db is running.</li>
                     <li><code>$exist:controller</code> The path is now equal to
                             <i>xmldb:exist:///db/apps/repertorium</i></li>
                     <li><code>/includes/header.xql</code> This takes us to the location of include
