@@ -780,8 +780,8 @@ else
             <section id="controller_skeleton_discussion">
                 <h3>How <i>controller.xql</i> rewrites a query URL</h3>
                 <p>Understanding the part of the controller that deals with XQuery files is the key
-                    to understanding how XQuery rewriting is implemented in this app, so let’s look
-                    at the most important part of it closely:</p>
+                    to understanding how XQuery rewriting is implemented in an app, so let’s look at
+                    the most important part of it closely:</p>
                 <pre>if (local:get-extension($exist:resource) eq "") then
     &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         &lt;forward url="{concat(
@@ -829,7 +829,7 @@ else
                         of the original URL after the final slash, which in this case was
                             <code>index</code>. When we add it, our aggregated URL looks like
                             <code>/repertorium/modules/index</code>.</li>
-                    <li><code>.xql</code> Since our XQuery documents have <i>.xql</i> extensions, we
+                    <li><code>.xql</code> Since our XQuery resources have <i>.xql</i> extensions, we
                         add that at the end of the rewritten URL, finally yielding
                             <code>/repertorium/modules/index.xql</code>.</li>
                 </ul>
@@ -839,16 +839,16 @@ else
                     browser address bar continues to display the URL without the modifications, even
                     though the browser uses those modifications to find and load the file.</p>
             </section>
-            <section id="controller_css">
-                <h3>Fixing links to includes, CSS, and JavaScript</h3>
+            <section id="controller_includes">
+                <h3>Fixing links to includes</h3>
                 <p>As a general rule of thumb, wherever possible paths in your app should be
                     absolute (not relative), should not assume that apps are always installed under
-                        <i>/db/apps</i>, and should use database URLS (beginning with
+                        <i>/db/apps</i>, and should use database URLs (beginning with
                         <i>xmldb:exist:///</i>) rather than HTTP URLs (beginning with
-                        <i>http://localhost:8080/exist/rest</i>). Absolute database URLS that do not
+                        <i>http://localhost:8080/exist/rest</i>). Absolute database URLs that do not
                     make unnecessary assumptions about paths are the most robust with respect to
-                    query rewriting and possible physical relocation of files. Up until now we
-                    haven’t followed this practice in two places. First, the link from
+                    query rewriting and the possible physical relocation of resources. Up until now
+                    we haven’t followed this practice in two places. First, the link from
                         <i>index.xql</i> read
                         <code>href="xmldb:exist:///db/apps/repertorium/includes/header.xql?title={encode-for-uri($title)}</code>,
                     which will break if the app is installed into a non-standard location. Second,
@@ -916,33 +916,47 @@ declare variable $exist:root as xs:string := request:get-parameter("exist:root",
 &lt;/html></pre>
                 <p>The link to <i>header.xql</i> is formed by concatenating, in order:</p>
                 <ol>
-                    <li><code>$exist:root</code> At this point the path is equal to
-                            <i>xmldb:exist:///db/apps</i>. If for any reason we have installed our
-                        app into a different location, that different location will nonetheless be
-                        reported correctly because eXist-db is reading the actual location, instead
-                        of just assuming that it will be the standard one. And because we don’t have
-                        an HTTP path that starts with something like <i>http://localhost:8080</i>,
-                        eXist-db will not make unnecessary and possibly incorrect assumptions about
-                        the port on which eXist-db is running.</li>
+                    <li><code>$exist:root</code> At this point the URL is equal to
+                            <code>xmldb:exist:///db/apps</code>. If for any reason we have installed
+                        our app into a different location, that different location will nonetheless
+                        be reported correctly because eXist-db is reading the actual location,
+                        instead of just assuming that it will be the standard one. And because we
+                        don’t have an HTTP path (one that starts with something like
+                            <code>http://localhost:8080</code>), eXist-db will not make unnecessary
+                        and possibly incorrect assumptions about the port on which eXist-db is
+                        running.</li>
                     <li><code>$exist:controller</code> The path is now equal to
-                            <i>xmldb:exist:///db/apps/repertorium</i></li>
+                            <code>xmldb:exist:///db/apps/repertorium</code></li>
                     <li><code>/includes/header.xql</code> This takes us to the location of include
                         files in our app. The path is now equal to
-                            <i>xmldb:exist:///db/apps/repertorium/includes/header.xql</i>.</li>
+                            <code>xmldb:exist:///db/apps/repertorium/includes/header.xql</code>.</li>
                     <li>We then add a query string to pass parameters from <i>index.xql</i> into
                             <i>header.xql</i>, leading to a final URL of
-                            <i>xmldb:exist:///db/apps/repertorium/includes/header.xql?title=X&amp;exist:controller=/repertorium&amp;exist:root=xmldb:exist///db/apps</i>,
-                        where <i>X</i> stands for the URL-encoded value of the title. We need to
-                        encode the title because it may contain characters not permitted in URLS,
+                            <code>xmldb:exist:///db/apps/repertorium/includes/header.xql?title=X&amp;exist:controller=/repertorium&amp;exist:root=xmldb:exist///db/apps</code>,
+                        where <code>X</code> stands for the URL-encoded value of the title. We need
+                        to encode the title because it may contain characters not permitted in URLs,
                         such as spaces. We are not URL-encoding the controller variables, which is
                         safe only as long as our resource names in the database do not contain those
                         same characters.</li>
                 </ol>
-                <p>TODO: Is colon okay in query parameter name, URL-encoded or bare? See eXist book,
-                    p. 92.</p>
+                <!--TODO: Is colon okay in query parameter name, URL-encoded or bare? See eXist book,
+                    p. 92.-->
                 <p>Finally, once we have passed the parameters into <i>header.xql</i>, our included
-                    document, we can use them to construct an absolute path to our CSS and
-                    JavaScript resources.</p>
+                    document, we can use them to construct an absolute path from there to our CSS
+                    and JavaScript resources.</p>
+            </section>
+            <section id="controller_css">
+                <p>One important issue when linking from the included header to CSS and JavaScript
+                    is that those links are resolved by the browser, and not by eXist-db, and the
+                    browser doesn’t understand database URLs, that is, those that begin with
+                        <i>xmldb:exist:///</i>. We could use absolute HTTP paths, or we could use
+                    relative paths, but a safer strategy is to construct absolute paths within the
+                    database. Because we have passed the values of <code>$exist:root</code> and
+                        <code>$exist:controller</code> to the header, we can use them there to
+                    construct those absolute links. Our modified <i>header.xql</i> script is:</p>
+                <pre>
+                    
+                </pre>
             </section>
             <section id="controller_home">
                 <h3>The main page</h3>
