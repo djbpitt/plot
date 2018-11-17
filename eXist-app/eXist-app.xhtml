@@ -738,13 +738,14 @@ else
                         controller. For example: <code>/a/b/index.xql</code></li>
                     <li><code>$exist:resource</code> The part of the URL after the last
                             <code>/</code> character, usually pointing to a resource. For example:
-                            <code>index.xql</code></li>
+                            <code>index.xql</code>. This value is null if the URL ends in a
+                        slash.</li>
                 </ul>
                 <p>In the URL, <code>$exist:root</code> is followed immediately by
                         <code>$exist:controller</code>, <code>$exist:controller</code> is followed
                     immediately by <code>$exist:path</code>, and <code>$exist:resource</code> is the
-                    last part of <code>$exist:path</code>. Schematically,m where top to bottom in
-                    the table corresponds to left to right in the URL:</p>
+                    last part of <code>$exist:path</code>. Schematically, where top to bottom in the
+                    table corresponds to left to right in the URL:</p>
                 <table>
                     <tr>
                         <th>Variable</th>
@@ -763,9 +764,8 @@ else
                         <td><i>/index</i></td>
                     </tr>
                 </table>
-                <p>In the preceding example, <i>index</i> is also the value of
-                        <code>$exist:resource</code>, since that value is the part of the URL after
-                    the last slash.</p>
+                <p>In the preceding example, the value of <code>$exist:resource</code> is
+                        <i>index</i>, since is the part of the URL after the last slash.</p>
                 <p>There is no standard variable that corresponds to removing
                         <code>$exist:resource</code> from the end of <code>$exist:path</code> and
                     keeping just what’s left (in our case,
