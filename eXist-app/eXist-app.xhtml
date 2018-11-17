@@ -605,7 +605,7 @@ declare variable $title external;
             <h2>Configure <i>controller.xql</i></h2>
             <section id="controller_preliminaries">
                 <h3>What to expect from <i>controller.xql</i></h3>
-                <p>If an app contains a <i>controller.xql</i> file in its root collection, eXist
+                <p>If an app contains a <i>controller.xql</i> script in its root collection, eXist
                     automatically passes all HTTP requests to the controller. The controller can
                     rewrite the request, by, for example, routing it to a specific XQuery script, or
                     it can pass it along unchanged to be handled normally. This tutorial does not
@@ -621,15 +621,15 @@ declare variable $title external;
                             href="https://github.com/joewiz/punch">Punch</a></cite>, a tutorial
                     project that uses a clearly commented <i>controller.xql</i> to illustrate query
                     rewriting within an eXist-db app. Our project will contain exactly one
-                        <i>controller.xql</i> document, which will be located inside the app root
+                        <i>controller.xql</i> resource, which will be located inside the app root
                     collection.</p>
             </section>
             <section id="controller_skeleton">
                 <h3>Create a skeletal <i>controller.xql</i> skeleton</h3>
-                <p>Start by creating a skeletal <i>controller.xql</i> file in the root collection of
-                    your application with the following contents (copied, with minor modifications,
-                    from Erik Siegel and Adam Retter’s <cite>eXist</cite>, Beijing et al.: O’Reilly,
-                    2014, p. 196):</p>
+                <p>Start by creating a skeletal <i>controller.xql</i> script in the root collection
+                    of your application with the following contents (copied, with minor
+                    modifications, from Erik Siegel and Adam Retter’s <cite>eXist</cite>, Beijing et
+                    al.: O’Reilly, 2014, p. 196):</p>
                 <pre>xquery version "3.1" encoding "UTF-8";
 
 (: External variables available to the controller: 
@@ -644,7 +644,7 @@ $exist:controller
     script. For example, the name of the root collection of your app, for example:
     /repertorium
 $exist:root
-    The path to where our app is installed, typically xmldb:exist:///db/apps.
+    The path to where the app is installed, typically xmldb:exist:///db/apps.
 :)
 declare variable $exist:path external;
 declare variable $exist:resource external;
@@ -673,11 +673,11 @@ if ($exist:resource eq "") then
         &lt;redirect url="{$home-page-url}"/>
     &lt;/dispatch>
     
-(: Check if there is no extension. If not, assume it is an XQuery file and forward
-to the actual XQuery file by inserting the "modules/" step to the subcollection and
+(: Check if there is no extension. If not, assume it is an XQuery script and forward
+to the actual XQuery script by inserting the "modules/" step to the subcollection and
 adding the ".xql" extension. Because we use forward here, the browser will not be 
 informed of the change and the user will see a URL without the "modules/" step in the
-path and with the ".xql" extension. :)
+path and without the ".xql" extension. :)
 else
     if (local:get-extension($exist:resource) eq "") then
         &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -695,7 +695,7 @@ else
         &lt;/ignore></pre>
                 <p>If you navigate to <code>http://locahost:8080/exist/db/apps/repertorium/</code>
                     (replace <q>repertorium</q> with the name of your app), you should see the
-                    output of executing the <i>index.xql</i> file that is in your <i>modules</i>
+                    output of executing the <i>index.xql</i> script that is in your <i>modules</i>
                     subcollection, and the URL will change to
                         <code>http://locahost:8080/exist/db/apps/repertorium/index</code>. But:</p>
                 <ul>
