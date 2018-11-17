@@ -721,51 +721,50 @@ else
             </section>
             <section id="controller_variables">
                 <h3>System variables and <i>controller.xql</i></h3>
-                <p>eXist-db query rewriting automatically makes certain system variables available
-                    within the <i>controller.xql</i> file. We use four of them below:</p>
+                <p>eXist-db query rewriting automatically makes the following five system variables
+                    available within <i>controller.xql</i>:</p>
                 <ul>
                     <li><code>$exist:root</code> The part of the database URL before the controller.
                         In a standard installation this can be represented by either
-                            <i>http://localhost:8080/exist/rest/db/apps</i> or
-                            <i>xmldb:exist:///db/apps</i>. (The Siegel and Retter book reports this
-                        last value incorrectly as just <i>xmldb:exist:///db</i> on p. 200, but
-                            <i>/apps</i> is also part of it.)</li>
+                            <code>http://localhost:8080/exist/rest/db/apps</code> or
+                            <code>xmldb:exist:///db/apps</code>. (The Siegel and Retter book reports
+                        this last value incorrectly as just <code>xmldb:exist:///db</code> on p.
+                        200, but <code>/apps</code> is also part of it.)</li>
+                    <li><code>$exist:prefix</code> The part of the URL that precedes the controller.
+                        The default value is <code>/apps</code>.</li>
                     <li><code>$exist:controller</code> The part of the URL leading from the prefix
                         (typically <code>/apps</code>) to the controller script, which in this case
                         (and typically) is the root collection of your app, for example:
-                            <code>/repertorium</code></li>
+                            <code>/repertorium</code>.</li>
                     <li><code>$exist:path</code> The part of the URL after the part that led to the
-                        controller. For example: <code>/a/b/index.xql</code></li>
+                        controller. For example: <code>/index</code>.</li>
                     <li><code>$exist:resource</code> The part of the URL after the last
                             <code>/</code> character, usually pointing to a resource. For example:
-                            <code>index.xql</code>. This value is null if the URL ends in a
-                        slash.</li>
+                            <code>index</code>. This value is null if the URL ends in a slash.</li>
                 </ul>
-                <p>In the URL, <code>$exist:root</code> is followed immediately by
-                        <code>$exist:controller</code>, <code>$exist:controller</code> is followed
-                    immediately by <code>$exist:path</code>, and <code>$exist:resource</code> is the
-                    last part of <code>$exist:path</code>. Schematically, where top to bottom in the
-                    table corresponds to left to right in the URL:</p>
+                <p>Thus:</p>
                 <table>
                     <tr>
-                        <th>Variable</th>
-                        <th>Sample value(s)</th>
+                        <th colspan="2"><code>$exist:root</code></th>
+                        <th rowspan="2"><code>$exist:controller</code></th>
+                        <th colspan="2"><code>$exist:path</code></th>
                     </tr>
                     <tr>
-                        <td><code>$exist:root</code></td>
-                        <td><i>xmldb:exist:///db/apps</i><br /><i>http://localhost:8080/exist/rest/db/apps</i></td>
+                        <th>[none]</th>
+                        <th><code>$exist:prefix</code></th>
+                        <th>[none]</th>
+                        <th><code>$exist:resource</code></th>
                     </tr>
                     <tr>
-                        <td><code>$exist:controller</code></td>
-                        <td><i>/repertorium</i></td>
-                    </tr>
-                    <tr>
-                        <td><code>$exist:path</code></td>
-                        <td><i>/index</i></td>
+                        <td>xmldb:exist:///db</td>
+                        <td>/apps</td>
+                        <td>/repertorium</td>
+                        <td>/</td>
+                        <td>index</td>
                     </tr>
                 </table>
-                <p>In the preceding example, the value of <code>$exist:resource</code> is
-                        <i>index</i>, since is the part of the URL after the last slash.</p>
+
+
                 <p>There is no standard variable that corresponds to removing
                         <code>$exist:resource</code> from the end of <code>$exist:path</code> and
                     keeping just what’s left (in our case,
@@ -1004,25 +1003,27 @@ declare variable $exist:root as xs:string := request:get-parameter("exist:root",
                     to other resources (e.g., an XIncluded HTML <code>&lt;head&gt;</code> that links
                     to CSS and JavaScript resources) to construct absolute paths that point to
                     locations within the database. Note that because links to CSS and JavaScript are
-                    resolved by the browser, which doesn’t know about the
-                        <code>xmldb:exist:///</code> URLs, those pointers must instead rely on URLs
-                    that concatenate the value of <code>request:get-context-path()</code> (typically
-                        <code>/exist</code>), the value of <code>$exist:prefix</code> (typically
-                        <code>/apps</code>) and the value of <code>$exist:controller</code>
-                    (typically the root collection of the app, with a leading slash, e.g.,
-                        <code>/repertorium</code>). The sample output on the right displays the
-                    available variables and their values in the context of the Repertorium project,
-                    which is located at <code>xmldb:exist:///db/apps/repertorium</code>. We find
-                    this table of controller variables a useful reference during development.</p>
+                    resolved by the browser, which doesn’t know about <code>xmldb:exist:///</code>
+                    URLs, those pointers must instead rely on URLs that concatenate the value of
+                        <code>request:get-context-path()</code> (typically <code>/exist</code>), the
+                    value of <code>$exist:prefix</code> (typically <code>/apps</code>) and the value
+                    of <code>$exist:controller</code> (typically the root collection of the app,
+                    with a leading slash, e.g., <code>/repertorium</code>). The sample output on the
+                    right displays the available variables and their values in the context of the
+                    Repertorium project, which we have installed into
+                        <code>xmldb:exist:///db/apps/repertorium</code>. We find this table of
+                    controller variables a useful reference during development.</p>
                 <p>Using the variables in question in an app requires two steps: forwarding them
                     from <i>controller.xql</i> as parameters to XQuery scripts during query
-                    rewriting, and then retrieving and using them in those scripts. The five
+                    rewriting, and then retrieving and using them in those scripts. Furthermore,
+                    that use may also entail forwarding them to the included resources so that they
+                    can be used to point to additional linked or included information. The five
                     variables that begin with <code>$exist:</code> are automatically available
                     within <i>controller.xql</i> (we declare them as <code>external</code>), and we
                     create the <code>$uri</code> and <code>$context</code> variables within the
                     controller by calling the appropriate functions in the <code>request:</code>
                     namespace (this strategy is based on <a href="https://github.com/joewiz/punch"
-                        >https://github.com/joewiz/punch</a>). The relevant parts of the
+                        >https://github.com/joewiz/punch</a>). The relevant parts of
                         <i>controller.xql</i> are:</p>
             </div>
             <pre>declare variable $exist:root external;
@@ -1057,11 +1058,15 @@ declare variable $context as xs:string := request:get-context-path();</pre>
             <add-parameter name="context" value="{$context}"/>]]></span>
         <![CDATA[</forward>
     </dispatch>]]></pre>
-            <p>The XQuery that generates the preceding tabular output is below. We use
+            <p>The XQuery that generates the table at the top of this subsection, a resource that we
+                have called <i>test.xql</i>, is below. Inside <i>test.xql</i> we use
                     <code>request:get-parameter()</code> to retrieve the variables that are passed
-                in by <i>conntroller.xql</i>, and we concatenate three of them to create a new
+                in by <i>controller.xql</i>, and we concatenate three of them to create a new
                 variable, <code>$fqcontroller</code>, which we pass to our XIncluded
-                    <i>header.xql</i> resource so that it can link to our CSS.</p>
+                    <i>header.xql</i> resource, which uses it to link to our CSS. We define
+                    <code>$title</code> in each XQuery that constructs a page and pass it along to
+                the included header, since an HTML <code>&lt;title&gt;</code> element goes inside
+                    <code>&lt;head&gt;</code>, which is what our <i>header.xql</i> creates.</p>
             <pre><![CDATA[xquery version "3.1";
 declare default function namespace "http://www.w3.org/2005/xpath-functions";
 declare default element namespace "http://www.w3.org/1999/xhtml";
@@ -1113,7 +1118,8 @@ declare variable $fqcontroller as xs:string := concat($context, $exist:prefix, $
         </table>
     </body>
 </html>]]></pre>
-            <p><i>header.xql</i>, in turn, uses <code>$fqcontroller</code> as follows:</p>
+            <p><i>header.xql</i>, in turn, uses <code>$fqcontroller</code> as follows to construct
+                links to our CSS that can be resolved by the browser:</p>
             <pre><![CDATA[xquery version "3.1";
 declare variable $title external;
 declare variable $fqcontroller external;
