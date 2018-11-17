@@ -489,8 +489,8 @@ declare option output:indent "no";
                         element, where the prefix <code>xi:</code> is bound to the namespace
                             <code>http://www.w3.org/ 2001/XInclude</code>, which must be
                         declared.</li>
-                    <li>The file to be included is specified with an <code>@href</code> attribute on
-                        the <code>&lt;xi:include></code> element. The value of the
+                    <li>The document to be included is specified with an <code>@href</code>
+                        attribute on the <code>&lt;xi:include></code> element. The value of the
                             <code>@href</code> attribute must be an absolute (not relative) path,
                         such as
                             <code>http://localhost:8080/exist/rest/db/apps/repertorium/includes/header.xql</code>
@@ -499,12 +499,12 @@ declare option output:indent "no";
                         configured <i>controller.xql</i>, so we’ll discuss it separately once we’ve
                         taken care of that configuration.</li>
                     <li>The target of the <code>@href</code> attribute must be well-formed XML.</li>
-                    <li>It is possible to include either an entire document or a part of one. The
-                        entire document is the default; parts may be specified by adding an
+                    <li>It is possible to include either an entire XML document or a part of one.
+                        The entire document is the default; parts may be specified by adding an
                             <code>@xpointer</code> attribute to the <code>&lt;xi:include&gt;</code>
                         element in one of two ways:<ul>
                             <li>An <code>@xpointer</code> attribute may point to an
-                                    <code>@xml:id</code> attribute in the included file. For
+                                    <code>@xml:id</code> attribute in the included document. For
                                 example, <code>&lt;xi:include
                                     href="xmldb:exist:///db/apps/repertorium/includes/filename.xml
                                     xpointer="stuff"/&gt;</code> will include the element inside
@@ -519,21 +519,22 @@ declare option output:indent "no";
                                     <code>&lt;l&gt;</code> elements in the target document.</li>
                         </ul></li>
                     <li>One powerful feature of XInclude within eXist-db is that if the value of the
-                            <code>@href</code> attribute is an XQuery file, the XQuery will be
+                            <code>@href</code> attribute is an XQuery script, the XQuery will be
                         executed and its output will be included. Scripts specified in this way
                         automatically have access to the following information:<ul>
                             <li><code>$xinclude:current-doc</code>, when used inside the included
-                                file, points to the bare name of the master document. This makes it
-                                possible for the included document to adjust its output according to
-                                where it is being included. We use this in the Repertorium project
-                                to customize the boilerplate header to include or exclude particular
-                                buttons depending on the master document (discussed below). There is
-                                also an <code>$xinclude:current-collection</code> variable that
-                                points to the collection that contains the master document.</li>
+                                resource, points to the bare name of the master document. This makes
+                                it possible for the included document to adjust its output according
+                                to where it is being included. We use this in the Repertorium
+                                project to customize the boilerplate header to include or exclude
+                                particular buttons depending on the master document (discussed
+                                below). There is also an <code>$xinclude:current-collection</code>
+                                variable that points to the collection that contains the master
+                                document.</li>
                             <li>It is possible to pass parameters to the included document as part
                                 of a URL query string, e.g., <code>&lt;xi:include
                                     href="xmldb:exist:///db/apps/repertorium/includes/filename.xql?title=Hi"/></code>.
-                                The included file must declare the parameter, along the lines of
+                                The included document must declare the parameter, along the lines of
                                     <code>declare variable $title external;</code>. If the parameter
                                 value contains spaces or puncutation, it must be encoded as if it
                                 were a URI, e.g., <code>&lt;xi:include
@@ -542,6 +543,11 @@ declare option output:indent "no";
                                 pass a customized, page-specific value for the
                                     <code>&lt;title></code> element of what would otherwise be a
                                 boilerplate HTML <code>&lt;head></code>.</li>
+                            <li>If the value of the <code>@href</code> attribute is an XQuery
+                                script, and not an XML document, the <code>@xpointer</code>
+                                attribute is ignored. That is, the <code>@xpointer</code> attribute
+                                is meaningful only when the the target of the <code>@href</code>
+                                attribute is an XML document, and not an XQuery script.</li>
                         </ul></li>
                 </ul>
             </section>
@@ -550,7 +556,7 @@ declare option output:indent "no";
                 <p>Since all of our app documents will use at least some of the same CSS and
                     JavaScript, we can move the <code>&lt;head&gt;</code> element, which contains
                     the <code>&lt;link&gt;</code> and <code>&lt;script&gt;</code> elements, into a
-                    separate included file. Since the title will vary with different master
+                    separate included resource. Since the title will vary with different master
                     documents, we can pass it as a parameter. Our <i>index.xql</i> now looks like
                     the following:</p>
                 <pre><![CDATA[xquery version "3.1";
@@ -570,7 +576,7 @@ declare variable $title as xs:string := "My awesome eXist-db app";
         <p>Content will go here</p>
     </body>
 </html>]]></pre>
-                <p>and the new included file looks like:</p>
+                <p>and the new included resource looks like:</p>
                 <pre><![CDATA[xquery version "3.1";
 declare variable $title external;
 <head xmlns="http://www.w3.org/1999/xhtml">
@@ -579,19 +585,19 @@ declare variable $title external;
     <script type="text/javascript" src="../resources/js/greet.js"></script>
 </head>]]></pre>
                 <p>The content of the <code>&lt;head&gt;</code> element is the same, but it is now
-                    located inside the included <i>header.xql</i> file, instead of directly inside
+                    located inside the included <i>header.xql</i> script, instead of directly inside
                         <i>index.xql</i>.</p>
                 <p>This point of this strategy is that we assume that all files will have
                     essentially the same <code>&lt;head&gt;</code> element, except for the
                         <code>&lt;title&gt;</code>. If we put the <code>&lt;head&gt;</code> into an
-                    included file, should we later need to modify it, we can modify it in just one
-                    place and the changes will be reflected in all pages that include it. We deal
-                    with the difference in titles by passing the value into the included file as a
-                    parameter, where it is interpreted before rendering. We use the
+                    included resource, should we later need to modify it, we can modify it in just
+                    one place and the changes will be reflected in all pages that include it. We
+                    deal with the difference in titles by passing the value into the included
+                    resource as a parameter, where it is interpreted before rendering. We use the
                         <code>encode-for-uri()</code> function, introduced above, because titles may
                     contain spaces or punctuation, which cannot otherwise be passed from the master
-                    XQuery to the included one. Below we’ll modify the path to the included file to
-                    simplify it by removing the dependency on installation inside
+                    XQuery to the included one. Below we’ll modify the path to the included resource
+                    to simplify it by removing the dependency on installation inside
                     <i>/db/apps</i>.</p>
             </section>
         </section>
