@@ -717,64 +717,99 @@ else
                 </ul>
                 <p>Except for the last point, we need to fix the controller to ensure that CSS and
                     JavaScript are processed properly, and that behavior is consistent with
-                    reasonable user expectations. But first we need to understand how it works.</p>
+                    reasonable user expectations. But first we need to understand how it works and
+                    that understanding starts with eXist-db controller variables and the
+                        <code>request:</code> module..</p>
             </section>
             <section id="controller_variables">
                 <h3>System variables and <i>controller.xql</i></h3>
                 <p>eXist-db query rewriting automatically makes the following five system variables
                     available within <i>controller.xql</i>:</p>
                 <ul>
-                    <li><code>$exist:root</code> The part of the database URL before the controller.
-                        In a standard installation this can be represented by either
+                    <li><code>$exist:root</code> The part of the database URL the precedes the name
+                        of the collection that contains the controller. In a standard installation
+                        this location can be represented by either
                             <code>http://localhost:8080/exist/rest/db/apps</code> or
-                            <code>xmldb:exist:///db/apps</code>. (The Siegel and Retter book reports
-                        this last value incorrectly as just <code>xmldb:exist:///db</code> on p.
-                        200, but <code>/apps</code> is also part of it.)</li>
+                            <code>xmldb:exist:///db/apps</code>.</li>
                     <li><code>$exist:prefix</code> The part of the URL that precedes the controller.
                         The default value is <code>/apps</code>.</li>
                     <li><code>$exist:controller</code> The part of the URL leading from the prefix
-                        (typically <code>/apps</code>) to the controller script, which in this case
-                        (and typically) is the root collection of your app, for example:
-                            <code>/repertorium</code>.</li>
+                        (typically <code>/apps</code>) to the collection that contains the
+                        controller script, which in this case (and typically) is the root collection
+                        of your app, for example: <code>/repertorium</code>.</li>
                     <li><code>$exist:path</code> The part of the URL after the part that led to the
                         controller. For example: <code>/index</code>.</li>
                     <li><code>$exist:resource</code> The part of the URL after the last
-                            <code>/</code> character, usually pointing to a resource. For example:
-                            <code>index</code>. This value is null if the URL ends in a slash.</li>
+                            <code>/</code> character, which typically resolves to a resource after
+                        query rewriting. For example: <code>index</code> (which in the Repertorium
+                        resolves to <code>/modules/index.xql</code>). This value is null if the URL
+                        ends in a slash, although the controller will still resolve it to a real
+                        resource.</li>
                 </ul>
-                <p>Thus:</p>
+                <p>The relationship among these variables and their relationships to URLS are
+                    illustrated in the following table. Note that some variables contain other
+                    variables within themselves:</p>
                 <table>
                     <tr>
+                        <th>Variable</th>
                         <th colspan="2"><code>$exist:root</code></th>
                         <th rowspan="2"><code>$exist:controller</code></th>
                         <th colspan="2"><code>$exist:path</code></th>
                     </tr>
                     <tr>
+                        <th>Variable</th>
                         <th>[none]</th>
                         <th><code>$exist:prefix</code></th>
                         <th>[none]</th>
                         <th><code>$exist:resource</code></th>
                     </tr>
                     <tr>
-                        <td>xmldb:exist:///db</td>
-                        <td>/apps</td>
-                        <td>/repertorium</td>
-                        <td>/</td>
-                        <td>index</td>
+                        <th>Value</th>
+                        <td><code>xmldb:exist:///db</code></td>
+                        <td><code>/apps</code></td>
+                        <td><code>/repertorium</code></td>
+                        <td><code>/</code></td>
+                        <td><code>index</code></td>
                     </tr>
                 </table>
-
-
-                <p>There is no standard variable that corresponds to removing
-                        <code>$exist:resource</code> from the end of <code>$exist:path</code> and
-                    keeping just what’s left (in our case,
-                        <i>xmldb:exist:///db/apps/repertorium/</i>, with the trailing slash), so if
-                    you need that (and we do; see below), you have to do your own string surgery.
-                        <code>$exist:controller</code> and <code>$exist:path</code> always begin
-                    with a slash; <code>$exist:resource</code> never does. None of these variables
-                    ever ends in a slash. This is important because we’re going to stitch some of
-                    them together to form a new path, and we need to understand where we have to add
+                <p><code>$exist:controller</code> and <code>$exist:path</code> always begin with a
+                    slash; <code>$exist:resource</code> never does. None of these variables ever
+                    ends in a slash. This is important because we’re going to stitch some of them
+                    together to form a new path, and we need to understand where we have to add
                     slashes and where they are already present.</p>
+            </section>
+            <section id="controller_request">
+                <h3>The <code>request:</code> module and <i>controller.xql</i></h3>
+                <p>In addition to the preceding five variables that are automatically available to
+                    the controller, the eXist-db <code>request:</code> module provides two functions
+                    that we use for query rewriting:</p>
+                <ul>
+                    <li><code>request:get-uri()</code> Return the URL before query rewriting, for
+                        example,
+                        <code>http://localhost:8080/exist/apps/repertorium/index</code>.</li>
+                    <li><code>request:get-context-path()</code> Returns the part of the URL that
+                        precedes the prefix, typically <code>/exist</code>.</li>
+                </ul>
+                <p>We can use the variables described in the preceding section plus the functions
+                    described here to construct a path to any location in our app. Specifically, a
+                    path to <i>/exist/apps/repertorium/includes/header.xql</i> could be constructed
+                    by concatenating variable and function values, as follows:</p>
+                <table>
+                    <tr>
+                        <th>Function or variable</th>
+                        <th><code>request:get-context-path()</code></th>
+                        <th><code>$exist:prefix</code></th>
+                        <th><code>$exist:controller</code></th>
+                        <th><code>[none]</code></th>
+                    </tr>
+                    <tr>
+                        <th>Value</th>
+                        <td><code>/exist</code></td>
+                        <td><code>/apps</code></td>
+                        <td><code>/repertorium</code></td>
+                        <td><code>/includes/header.xql</code></td>
+                    </tr>
+                </table>
             </section>
             <section id="controller_skeleton_discussion">
                 <h3>How <i>controller.xql</i> rewrites a query URL</h3>
