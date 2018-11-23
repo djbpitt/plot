@@ -965,14 +965,14 @@ declare variable $title external;]]>
                 <p>Understanding the part of the controller that deals with XQuery files is the key
                     to understanding how XQuery rewriting is implemented in an app, so let’s look at
                     the most important part of it closely:</p>
-                <pre>if (local:get-extension($exist:resource) eq "") then
+                <pre><span class="pre-highlight">if (local:get-extension($exist:resource) eq "")</span> then
     &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         &lt;forward url="{concat(
-            $exist:controller, 
+            <span class="pre-highlight">$exist:controller, 
             substring-before($exist:path, $exist:resource), 
             "modules/", 
             $exist:resource, 
-            ".xql"
+            ".xql"</span>
         )}"/>
     &lt;/dispatch></pre>
                 <p>Our <code>local:get-extension($exist:resource)</code> function retrieves the
@@ -988,8 +988,11 @@ declare variable $title external;]]>
                 <p>The <code>if</code> clause tests whether the original query has no extension
                     (such as when the user asks for
                         <code>http://locahost:8080/exist/db/apps/repertorium/index</code>, rather
-                    than something ending in <code>index.xql</code>), and if that’s the case, the
-                    system forwards the request to a modified URL. It builds that modified URL by
+                    than something ending in <code>index.xql</code>). We’ve decided that the
+                    convention in our app will be that resources without extensions are XQuery
+                    scripts, so we want the controller to forward the call to a modified URL, and
+                    the modifications involve 1) looking in the <i>modules</i> subcollection and 2)
+                    adding an <i>.xql</i> extension. The script builts up that modified URL by
                     concatenating the following values, in order:</p>
                 <ul>
                     <li><code>$exist:controller</code> This is the location of <i>controller.xql</i>
@@ -1031,12 +1034,15 @@ declare variable $title external;]]>
                         <i>xmldb:exist:///</i>) rather than HTTP URLs (beginning with
                         <i>http://localhost:8080/exist</i>). Absolute database URLs that do not make
                     unnecessary assumptions about paths are the most robust with respect to query
-                    rewriting and the possible physical relocation of resources. Up until now we
-                    haven’t followed this practice in two places. First, the link from
-                        <i>index.xql</i> read
+                    rewriting and the possible physical relocation of resources. When we first
+                    constructed our <i>index.xql</i> file when introducing XInclude (see <a
+                        href="#xinclude_header">Managing boilerplate information with XInclude</a>),
+                    the link from <i>index.xql</i> to <i>header.xql</i>, which contained the HTML
+                        <code>&lt;head&gt;</code> element, read
                         <code>href="xmldb:exist:///db/apps/repertorium/includes/header.xql?title={encode-for-uri($title)}</code>,
                     which will break if the app is installed into a non-standard location. Second,
-                    the links to CSS and JavaScript in <i>header.xql</i> used relative paths (e.g.,
+                    the links to CSS and JavaScript in <i>header.xql</i>, introduced in the same
+                    section of this tutorial, used relative paths (e.g.,
                         <code>href="../resources/css/style.css"</code>), and those <em>did</em>
                     break as soon as we rewrote our query. The reason the links broke is that the
                     path is traversed from the original URL, without the <i>/modules</i> step, so
@@ -1044,33 +1050,53 @@ declare variable $title external;]]>
                     it climbs out of <i>repertorium</i> and then fails to find a <i>resources</i>
                     child collection for the next path step.</p>
                 <p>To fix the broken or fragile links and make our code generally more robust we
-                    need to change both the <i>index.xql</i> master document and the
-                        <i>header.xql</i> included document to use our <code>$exist:root</code> and
-                        <code>$exist:controller</code> variables, and to construct absolute paths.
-                    We also need to change <i>controller.xql</i> to make those variables available
-                    to <i>index.xql</i> and <i>header.xql</i>.We start with
-                    <i>controller.xql</i>:</p>
+                    needed to change both the <i>index.xql</i> master document and the
+                        <i>header.xql</i> included document to use controller variables and
+                        <code>request:</code> functions to construct absolute paths. We also needed
+                    to change <i>controller.xql</i> to make those variables available to
+                        <i>index.xql</i> and <i>header.xql</i>. In the example at <a
+                        href="#controller_skeleton_discussion">How <i>controller.xql</i> rewrites a
+                        query URL</a>, we used the variables to construct the rewritten URL, and in
+                    the more complete controller example in <a href="#controller_example">Examining
+                        controller variables and <code>request:</code> function values</a>, we used
+                        <code>&lt;add-parameter&gt;</code> to forward the variables during rewriting
+                    so that they can be reused when the script for the page is processed and
+                    rendered. The forwarding instruction with the parameters looks like:</p>
                 <pre><![CDATA[if (local:get-extension($exist:resource) eq "") then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{concat(
             $exist:controller, 
             substring-before($exist:path, $exist:resource), 
             "modules/", 
-            $exist:resource, ".xql"
-        )}">]]>
-            <span class="pre-highlight"><![CDATA[<add-parameter name="exist:root" value="{$exist:root}"/>]]></span>
-            <span class="pre-highlight"><![CDATA[<add-parameter name="exist:controller" value="{$exist:controller}"/>]]></span>
-        <![CDATA[</forward>
+            $exist:resource, 
+            ".xql"
+        )}">
+            <add-parameter name="exist:root" value="{$exist:root}"/>
+            <add-parameter name="exist:prefix" value="{$exist:prefix}"/>
+            <add-parameter name="exist:controller" value="{$exist:controller}"/>
+            <add-parameter name="exist:path" value="{$exist:path}"/>
+            <add-parameter name="exist:resource" value="{$exist:resource}"/>
+            <add-parameter name="uri" value="{$uri}"/>
+            <add-parameter name="context" value="{$context}"/>
+        </forward>
     </dispatch>]]></pre>
-                <p>The preceding changes pass the values of <code>$exist:root</code> and
-                        <code>$exist:controller</code> as named parameters into <i>index.xql</i> (or
-                    any <i>.xql</i> file that is handled by this <code>&lt;dispatch&gt;</code>
-                    rule). They can be retrieved by that file with the
-                        <code>request:get-parameter()</code> function. The following modifications
-                    to <i>index.xql</i> retrieve the parameters, use them to construct the path to
-                        <i>header.xql</i>, and then pass them on into <i>header.xql</i> so that they
-                    can be used to construct absolute paths to the CSS and JavaScript resources:</p>
-                <pre>xquery version "3.1";
+                <p>If, for example, the original URL was
+                        <code>http://localhost:8080/exist/db/apps/repertorium/index</code>, the
+                    forwarding instruction rewrites the URl as
+                        <code>xmldb:exist:///db/apps/repertorium/modules/index.xql</code>, and it
+                    makes the seven parameters available from within that script.</p>
+                <p>The example in <a href="#controller_example">Examining controller variables and
+                            <code>request:</code> function values</a>, above, showed that the
+                    variables can be retrieved with the <code>request:get-parameter()</code>
+                    function. They can be used to construct a path to an XIncluded
+                    <i>header.xql</i>, and the XInclude instruction can also pass the variables into
+                    the <i>header.xql</i> script, so that they can be used there to construct
+                    absolute paths to the CSS and JavaScript resources. Since we don’t need all of
+                    the variables down the pipeline, we retrieve and forward only the ones we use,
+                    the <code>$title</code> and the <code>$fqcontroller</code> that we constructed
+                    by concatenation. The <i>index.xql</i> page might look like the following:</p>
+                <pre>
+xquery version "3.1";
 declare default function namespace "http://www.w3.org/2005/xpath-functions";
 declare default element namespace "http://www.w3.org/1999/xhtml";
 declare namespace xi="http://www.w3.org/2001/XInclude";
@@ -1079,25 +1105,26 @@ declare option output:method "xml";
 declare option output:media-type "application/xhtml+xml";
 declare option output:omit-xml-declaration "no";
 declare option output:indent "no";
-declare variable $title as xs:string := "My awesome eXist-db app";
-<span class="pre-highlight">declare variable $exist:controller as xs:string := request:get-parameter("exist:controller",());
-declare variable $exist:root as xs:string := request:get-parameter("exist:root", ());</span>
-&lt;html xmlns="http://www.w3.org/1999/xhtml">
-    <span class="pre-highlight">&lt;xi:include href="{concat(
+declare variable $title as xs:string := "Repertorium of Old Bulgarian Literature and Letters";
+declare variable $exist:root as xs:string := request:get-parameter("exist:root", ());
+declare variable $exist:prefix as xs:string := request:get-parameter("exist:prefix", ());
+declare variable $exist:controller as xs:string := request:get-parameter("exist:controller", ());
+declare variable $context as xs:string := request:get-parameter("context", ());
+declare variable $fqcontroller as xs:string := concat($context, $exist:prefix, $exist:controller, '/');
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+    &lt;xi:include href="{concat(
         $exist:root, 
         $exist:controller, 
         '/includes/header.xql?title=', 
-        encode-for-uri($title), 
-        '&amp;amp;exist:controller=', 
-        $exist:controller,
-        '&amp;amp;exist:root=',
-        $exist:root
-    )}"/></span>
-    &lt;body>
-        &lt;h1>{$title}&lt;/h1>
-        &lt;p>Content will go here&lt;/p>
-    &lt;/body>
-&lt;/html></pre>
+        encode-for-uri($title),
+        '&amp;fqcontroller=',
+        $fqcontroller
+    )}"/&gt;
+    &lt;body&gt;
+        &lt;h1&gt;{$title}&lt;/h1&gt;
+        &lt;p&gt;Content will go here&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
                 <p>The link to <i>header.xql</i> is formed by concatenating, in order:</p>
                 <ol>
                     <li><code>$exist:root</code> At this point the URL is equal to
@@ -1125,40 +1152,90 @@ declare variable $exist:root as xs:string := request:get-parameter("exist:root",
                 </ol>
                 <!--TODO: Is colon okay in query parameter name, URL-encoded or bare? See eXist book,
                     p. 92.-->
-                <p>Finally, once we have passed the parameters into <i>header.xql</i>, our included
-                    document, we can use them to construct an absolute path from there to our CSS
-                    and JavaScript resources.</p>
             </section>
             <section id="controller_css">
-                <p>One important issue when linking from the included header to CSS and JavaScript
-                    is that those links are resolved by the browser, and not by eXist-db, and the
-                    browser doesn’t understand database URLs, that is, those that begin with
-                        <i>xmldb:exist:///</i>. We could use absolute HTTP paths, or we could use
-                    relative paths, but a safer strategy is to construct absolute paths within the
-                    database. Because we have passed the values of <code>$exist:root</code> and
-                        <code>$exist:controller</code> to the header, we can use them there to
-                    construct those absolute links. Our modified <i>header.xql</i> script is:</p>
-                <pre>
-                    
-                </pre>
+                <h3>Linking to CSS and JavaScript</h3>
+                <p>Finally, once we have passed the parameters into <i>header.xql</i>, our included
+                    document, we can use them to construct an absolute path from there to our CSS
+                    and JavaScript resources. This is illustrated at the end of <a
+                        href="#controller_example">Examining controller variables and
+                            <code>request:</code> function values</a>, above, repeated here:</p>
+                <pre><![CDATA[xquery version "3.1";
+declare variable $title external;
+declare variable $fqcontroller external;
+<head xmlns="http://www.w3.org/1999/xhtml">
+    <title>{$title}</title>
+    <link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/style.css')}"/> 
+    <link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/repertorium.css')}"/>
+</head>]]></pre>
+                <p>The constructed links to the CSS in our example look like
+                        <code>href="/exist/apps/repertorium/resources/css/style.css"</code>. Links
+                    to JavaScript would be constructed similarly.</p>
             </section>
             <section id="controller_home">
                 <h3>The main page</h3>
-                <p>TODO: processing the main page</p>
+                <p>The main page in our app is <i>index.xql</i>, which can be retrieved with
+                        <code>http://localhost:8080/exist/apps/repertorium/index</code>, but we
+                    would like it to be the default when no page is specified, that is, when the
+                    user enters just <code>http://localhost:8080/exist/apps/repertorium/</code>. We
+                    handle this inside the controller by testing whether
+                        <code>$exist:resource</code> is non-null, that is, whether there is anything
+                    after the final slash in the URL. If not, the controller forwards the URL to the
+                    designated main page:</p>
+                <pre>declare variable $home-page-url as xs:string := "index";
+                    
+if ($exist:resource eq "") then
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist"&gt;
+        &lt;redirect url="{$home-page-url}"/&gt;
+    &lt;/dispatch&gt;</pre>
+                <p>Because this is a redirect, and not a forward, the controller rewrites the URL as
+                    if <code>$exist:resource</code> had been specified as <code>index</code> and
+                    then sends it through the controller again.</p>
+                <p>One limitation to configuring a default page is that the trailing slash must be
+                    present, so if the user enters
+                        <code>http://localhost:8080/exist/apps/repertorium</code>, without the final
+                    slash, the main page will not be loaded. This behavior cannot be controlled by
+                    the app controller because the app controller never sees the URL, and it gets
+                    handled at a higher level in the database hierarchy. If you have control of your
+                    entire eXist-db instance, you can set a forwarding instruction outside the app
+                    to handle this contingency.</p>
             </section>
             <section id="controller_extensions">
                 <h3>Documents with extensions</h3>
                 <section id="controller_extensions_xql">
                     <h4>The <i>.xql</i> extension</h4>
+                    <p>The controller example above assumes that URLs that end in resources without
+                        explicit extensions are XQuery scripts, and it rewrites the URLs
+                        accordingly. If the user specifies the <i>.xql</i> extension, the URL will
+                        not be rewritten (see below), so a path like
+                            <code>http://localhost:8080/exist/apps/repertorium/index.xql</code> will
+                        raise an error. If you are concerned about users entering URLs of this sort,
+                        it is possible to add an additional test condition in the controller to
+                        handle it, but we have not done that in the present example.</p>
                 </section>
                 <section id="controller_extensions_other">
                     <h4>Other extensions</h4>
+                    <p>We assume that all resources with extensions should be passed through without
+                        rewriting. This includes primarily resources in the <i>resources</i>
+                        subcollection, such as images and CSS.</p>
                 </section>
             </section>
-            <section id="controller_details">
-                <h3><i>controller.xql</i> details</h3>
-                <p>TODO: Other controller stuff</p>
+            <section id="controller_conclusion">
+                <h3>Controller summary</h3>
+                <p>The controller configuration described above handles XQuery scripts specified
+                    with a simplified path (no explicit references to the <i>modules</i>
+                    subcollection) and without an <i>.xql</i> extension. It also handles static
+                    resources, such as images and CSS, as it defaults to the specified main page
+                    when no resource is named in the URL. It uses controller variables and the
+                    functions from the <code>request:</code> module to support XIncludes with
+                    absolute paths, as well as absolute paths for linking to CSS and JavaScript. And
+                    because we use XQuery to construct our HTML output and our included header, we
+                    can customize the <code>&lt;title&gt;</code> (rendered in the browser tab) and
+                    other boilerplate details dynamically.</p>
             </section>
+        </section>
+        <section id="xslt">
+            <h2>Using XSLT to transform XQuery results to HTML</h2>
         </section>
         <section id="generate">
             <h2>Generate your app</h2>
@@ -1174,6 +1251,13 @@ declare variable $exist:root as xs:string := request:get-parameter("exist:root",
                     go to Application → Download app. An <i>.xar</i> file will be downloaded into
                     the file system on the server where eXist-db is running.</li>
             </ol>
+            <p>We also recommend using Application → Synchronize within eXide to export your app to
+                a GitHub repo on your local filesystem. Although the instruction is called
+                    <q>synchronize</q>, it only downloads from eXist-db to the file system. Since
+                changes made directly on the filesystem are not uploaded during synchronization, our
+                preferred strategy is to work entirely within the app inside eXist-db, and to run a
+                sequence of synchronize (from within eXide) and then add, commit, and push (from the
+                command line), as with a normal Git repo.</p>
         </section>
         <hr />
     </body>
