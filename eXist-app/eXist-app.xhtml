@@ -5,13 +5,17 @@
         <title>Creating an eXist-db application</title>
         <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css" />
         <style type="text/css">
+            code,
+            pre {
+                font-size: 85%;
+            }
             q {
                 font-style: regular;
             }
             h1 {
                 counter-reset: h2;
             }
-            h2.unnumbered:before {
+            .unnumbered:before {
                 /* setting display to none both suppresses output and removes the element from the count */
                 display: none;
             }
@@ -59,7 +63,7 @@
     </head>
     <body>
         <h1>Creating an eXist-db application</h1>
-        <p>David J. Birnbaum, 2018-11-07, CC-BY-SA</p>
+        <p>David J. Birnbaum, last revised 2018-11-26, CC-BY-SA</p>
         <section id="introduction">
             <h2 class="unnumbered">Introduction</h2>
             <p>This tutorial describes the process for creating an application within eXist-db. This
@@ -114,6 +118,11 @@
                 <li><a href="#controller">Configure <i>controller.xql</i></a></li>
                 <li><a href="#enerate">Generate your app</a></li>
             </ol>
+            <p>The code that produces the table of variables and function values in <a
+                    href="#controller_example">Examining controller variables and
+                        <code>request:</code> function values</a> is available in <a
+                    href="#variable_output">Appendix A: Controller variables and
+                        <code>request:</code> functions</a>.</p>
             <p>The procedure described here was tested under eXist-db 4.4. This tutorial
                 concentrates only on app development, and it is intended for users who already have
                 a basic familiarity with XQuery and with the use of eXist-db as an XML database.
@@ -321,36 +330,24 @@ xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xcon
                     content that will eventually be shown to users, some customized in response to
                     user input (e.g., queries that act on information supplied by the user in web
                     forms) and some in a relatively static way (that is, without customization in
-                    response to user input). Although it is possible to serve static HTML from
-                    eXist-db in this second situation, instead of using XQuery to create it, we
-                    recommend using XQuery to create all output. The reason for this recommendation
-                    is that we will use XQuery to manage the inclusion of boilerplate snippets, of
-                    the sort that might have been handled with server-side includes (SSI) or PHP
-                    includes on a traditional web site. Using XQuery to create all output is a
-                    convenient way to apply the include process to all content before returning a
-                    result to the user.</p><p>Although we use XQuery to construct all output, we
-                    treat static output differently from output created in response to user-supplied
-                    parameters, as follows:</p><ul>
-                    <li>In the case of static output, our XQuery creates HTML and serializes it
-                        directly.</li>
-                    <li>In the case of output that is constructed according to user-supplied
-                        parameters, XQuery retrieves information from source XML, often with its
-                        original non-HTML markup, and then pipes it through an XSLT transformation
-                        before returning the result to the user as HTML.</li>
-                </ul><p>While it might seem simpler to treat all XQuery identically, and to pass all
-                    XQuery output through XSLT before returning it to the user, launching an XSLT
-                    process entails overhead. For that reason, we use XSLT only where it is actually
-                    needed.</p><p class="note">Some developers avoid XSLT entirely, preferring to
-                    transform content by using the XQuery <code>typeswitch()</code> function to
-                    simulate XSLT template processing. In this tutorial, as in our actual projects,
-                    we use the XSLT approach.</p>All HTML output from our projects is HTML 5.0 with
-                XML syntax. We therefore use the HTML namespace, and we set the eXist-db output
-                    <code>method</code> to <q>xml</q>, the <code>media-type</code> to
-                    <q>application/xhtml+xml</q>, and <code>indent</code> to <q>no</q>. We include
-                an XML declaration in HTML to be returned, but we set
-                    <code>omit-xml-declaration</code> to <q>yes</q> when we generate XML that will
-                be included into a larger context before being transformed and returned to the
-                user.</section>
+                    response to user input). We use XQuery to retrieve content for inclusion in our
+                    output, and we then rely on XSLT to transform content into HTML before
+                    rendering. The transformation step is not strictly necessary for content that is
+                    created initially in HTML, and it would be more efficient to invoke an XSLT
+                    transformation only when it is actually required, but the overhead is slight,
+                    and it ultimately proved simpler to pass all content through an XSLT
+                    transformation before returning it, even though that transformation will be
+                    vacuous in the case of content that is already HTML.</p>
+                <p class="note">Some developers avoid XSLT entirely, preferring to transform content
+                    by using the XQuery <code>typeswitch()</code> function to simulate XSLT template
+                    processing. In this tutorial, as in our actual projects, we use the XSLT
+                    approach.</p>All HTML output from our projects is HTML 5.0 with XML syntax. We
+                therefore use the HTML namespace, and we set the eXist-db output <code>method</code>
+                to <q>xml</q>, the <code>media-type</code> to <q>application/xhtml+xml</q>, and
+                    <code>indent</code> to <q>no</q>. We include an XML declaration in HTML to be
+                returned, but we set <code>omit-xml-declaration</code> to <q>yes</q> when we
+                generate XML that will be included into a larger context before being transformed
+                and returned to the user.</section>
             <section id="xquery_main">
                 <h3>Create a main page</h3>
                 <p>Create a main page, called <i>index.xql</i>, inside the <i>modules</i>
@@ -419,9 +416,10 @@ declare option output:indent "no";
                 <p>The example above repeats the same text as the content of the
                         <code>&lt;title&gt;</code> element inside the <code>&lt;head&gt;</code> and
                     the <code>&lt;h1&gt;</code> at the beginning of the <code>&lt;body&gt;</code>.
-                    Consistent with <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself"
-                            ><dfn>DRY</dfn> (<q>Don’t Repeat Yourself</q>)</a>, we can avoid the
-                    repetition by abstracting the text into a variable:</p>
+                    Consistently with <a
+                        href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself"><dfn>DRY</dfn>
+                            (<q>Don’t Repeat Yourself</q>)</a>, we can avoid the repetition by
+                    abstracting the text into a variable:</p>
                 <pre>xquery version "3.1";
 declare default function namespace "http://www.w3.org/2005/xpath-functions";
 declare default element namespace "http://www.w3.org/1999/xhtml";
@@ -450,18 +448,17 @@ declare option output:indent "no";
                         >XInclude</a> and <a href="#controller"><i>controller.xql</i></a> in the
                     following sections:</p>
                 <ul>
-                    <li>The XQuery has not been designed to not respond to user input. That is,
-                        there is no way to call the same XQuery with different parameters in order
-                        to receive different, customized output.</li>
+                    <li>The XQuery has not been designed to respond to user input. That is, there is
+                        no way to call the same XQuery with different parameters in order to receive
+                        different, customized output.</li>
                     <li>The page contains boilerplate that we will probably want to include in many
                         other pages. At the moment this might involve links to site-standard CSS or
                         JavaScript, but it could also involve HTML content snippets, such as
                         headers, footers, and menus.</li>
                     <li>The URL that retrieves this page is
-                            <code>http://localhost:8080/exist/db/apps/myapp/modules/index.xql</code>
-                        (where <i>myapps</i> is replaced by the name of the app). Where the user
-                        links to the page explicitly, we would prefer a less cluttered and less
-                        verbose URL.</li>
+                            <code>http://localhost:8080/exist/db/apps/repertorium/modules/index.xql</code>
+                        (where <i>repertorium</i> is the name of the app). We would prefer a less
+                        cluttered and less verbose URL.</li>
                     <li>Insofar as this is intended to be our default page, we would like the user
                         to be able to load it by navigating to the root of the app, e.g., without
                         specifying the <i>index.xql</i> filename.</li>
@@ -473,10 +470,8 @@ declare option output:indent "no";
             <section id="xinclude_preliminaries">
                 <h3>XInclude preliminaries in the context of eXist-db apps</h3>
                 <p>By default eXist-db supports the inclusion of XML snippets inside another XML
-                    document with <a href="https://www.w3.org/TR/xinclude-11/">XInclude</a>.
-                    XInclude processing happens during serialization, that is, at the last stage
-                    before eXist-db returns the results of an XQuery. For more information about
-                    using XInclude inside eXist-db, see <a
+                    document with <a href="https://www.w3.org/TR/xinclude-11/">XInclude</a>. For
+                    more information about using XInclude inside eXist-db, see <a
                         href="https://exist-db.org/exist/apps/doc/xinclude"
                         >https://exist-db.org/exist/apps/doc/xinclude</a> and the <q>XInclude</q>
                     section of Chapter 10, <q>Other XML technoloogies</q>, of Erik Siegel and Adam
@@ -1259,6 +1254,173 @@ if ($exist:resource eq "") then
                 sequence of synchronize (from within eXide) and then add, commit, and push (from the
                 command line), as with a normal Git repo.</p>
         </section>
+        <section id="misc">
+            <h2>Next steps</h2>
+            <p>Simplify URL to remove <i>/exist</i>, proxy</p>
+            <p>Apply XSLT only where needed</p>
+            <p>Customize boilerplate according to including document</p>
+        </section>
         <hr />
+        <section id="variable_output">
+            <h2 class="unnumbered">Appendix A: Controller variables and <code>request:</code>
+                functions</h2>
+            <p>The following three XQuery scripts output the table of controller variables and
+                    <code>request:</code> function results illustrated in <a
+                    href="#controller_example">Examining controller variables and
+                        <code>request:</code> function values</a>, above. When the user navigates to
+                    <code>http://localhost:8080/exist/db/apps/repertorium/test</code>,
+                    <i>controller.xql</i> rewrites the query to point to a <i>test.xql</i> script
+                inside a <i>modules</i> subcollection, forwarding to it the five default controller
+                variables plus the output of two functions in the <code>request:</code> namespace.
+                The <i>test.xql</i> script creates the table, and also XIncludes <i>header.xql</i>,
+                forwarding to it the parameters it needs to create content for
+                    <code>&lt;title&gt;</code> and links to CSS.</p>
+            <section id="variable_output_controller">
+                <h3 class="unnumbered"><i>controller.xql</i></h3>
+                <p><i>controller.xql</i> is located inside <i>/db/apps/repertorium</i></p>
+                <pre><![CDATA[xquery version "3.1" encoding "UTF-8";
+
+(: External variables available to the controller:
+ : $exist:root
+ :      The path to where the app is installed, typically xmldb:exist:///db/apps
+ : $exist:prefix
+ :      The location within the database, specified in controller-config.xml on the
+ :      server, where eXist begins looking for a controller, typically /apps 
+ : $exist:controller
+ :      The part of the URL leading from the prefix (typically /apps) to the controller 
+ :      script. Often the root collection of the app, for example: /repertorium
+ : $exist:path
+ :      The part of the URL below the controller to the request resource. For example: 
+ :      /a/b/c.xq.
+ : $exist:resource
+ :      The part of the URL after the last / character, usually pointing to a 
+ :      resource. For example: c.xq
+ : :)
+declare variable $exist:root external;
+declare variable $exist:prefix external;
+declare variable $exist:controller external;
+declare variable $exist:path external;
+declare variable $exist:resource external;
+
+(: Other variables :)
+declare variable $uri as xs:anyURI := request:get-uri();
+declare variable $context as xs:string := request:get-context-path();
+declare variable $home-page-url as xs:string := "index";
+
+(: Function to get the extension of a filename: :)
+declare function local:get-extension($filename as xs:string) as xs:string {
+    let $name := replace($filename, ".*[/\\]([^/\\]+)$", "$1")
+    return
+        if (contains($name, "."))
+        then
+            replace($name, ".*\.([^\.]+)$", "$1")
+        else
+            ""
+};
+
+(: If there is no resource specified, go to the home page.
+This is a redirect, forcing the browser to perform a redirect. So this request
+will pass through the controller again... :)
+if ($exist:resource eq "") then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <redirect url="{$home-page-url}"/>
+    </dispatch>
+    
+(: Check if there is no extension. If not, assume it is an XQuery file and located
+ : in the modules subcollection. Because we use forward here, the browser will not be 
+informed of the change and the user will see a URL without the "modules/" step in the
+path and with the ".xql" extension. :)
+else
+if (local:get-extension($exist:resource) eq "") then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{concat(
+            $exist:controller, 
+            substring-before($exist:path, $exist:resource), 
+            "modules/", 
+            $exist:resource, 
+            ".xql"
+        )}">
+            <add-parameter name="exist:root" value="{$exist:root}"/>
+            <add-parameter name="exist:prefix" value="{$exist:prefix}"/>
+            <add-parameter name="exist:controller" value="{$exist:controller}"/>
+            <add-parameter name="exist:path" value="{$exist:path}"/>
+            <add-parameter name="exist:resource" value="{$exist:resource}"/>
+            <add-parameter name="uri" value="{$uri}"/>
+            <add-parameter name="context" value="{$context}"/>
+        </forward>
+    </dispatch>
+(: Anything else, pass through: :)
+    else
+        <ignore xmlns="http://exist.sourceforge.net/NS/exist">
+            <cache-control cache="yes"/>
+        </ignore>]]></pre>
+            </section>
+            <section id="controller_output_test">
+                <h3 class="unnumbered"><i>test.xql</i></h3>
+                <p><i>test.xql</i> is located inside <i>/db/apps/repertorium/modules</i></p>
+                <pre><![CDATA[xquery version "3.1";
+declare default function namespace "http://www.w3.org/2005/xpath-functions";
+declare default element namespace "http://www.w3.org/1999/xhtml";
+declare namespace xi = "http://www.w3.org/2001/XInclude";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method "xml";
+declare option output:media-type "application/xhtml+xml";
+declare option output:omit-xml-declaration "no";
+declare option output:indent "no";
+declare variable $title as xs:string := "eXist-db variables available to XQuery scripts";
+declare variable $exist:root as xs:string := request:get-parameter("exist:root", ());
+declare variable $exist:prefix as xs:string := request:get-parameter("exist:prefix", ());
+declare variable $exist:controller as xs:string := request:get-parameter("exist:controller", ());
+declare variable $exist:path as xs:string := request:get-parameter("exist:path", ());
+declare variable $exist:resource as xs:string := request:get-parameter("exist:resource", ());
+declare variable $uri as xs:string := request:get-parameter("uri", ());
+declare variable $context as xs:string := request:get-parameter("context", ());
+declare variable $fqcontroller as xs:string := concat($context, $exist:prefix, $exist:controller, '/');
+<html
+    xmlns="http://www.w3.org/1999/xhtml">
+    <xi:include
+        href="{
+                concat(
+                $exist:root,
+                $exist:controller,
+                '/includes/header.xql?title=',
+                encode-for-uri($title),
+                '&amp;fqcontroller=',
+                $fqcontroller
+                )
+            }"/>
+    <body>
+        <h1>{$title}</h1>
+        <table>
+            <tr><th>Variable</th><th>Value</th></tr>
+            <tr><td><code>$title</code></td><td>{$title}</td></tr>
+            <tr><td><code>$exist:root</code></td><td>{$exist:root}</td></tr>
+            <tr><td><code>$exist:prefix</code></td><td>{$exist:prefix}</td></tr>
+            <tr><td><code>$exist:controller</code></td><td>{$exist:controller}</td></tr>
+            <tr><td><code>$exist:path</code></td><td>{$exist:path}</td></tr>
+            <tr><td><code>$exist:resource</code></td><td>{$exist:resource}</td></tr>
+            <tr><td><code>$uri</code> (from <code>request:get-uri()</code>)</td><td>{$uri}</td></tr>
+            <tr><td><code>$context</code> (from <code>request:get-context-path()</code>)</td><td>{$context}</td></tr>
+            <tr>
+                <td><code>$fqcontroller</code><br/>(<code>concat($context, $exist:prefix, $exist:controller, '/')</code>)</td>
+                <td>{$fqcontroller}</td>
+            </tr>
+        </table>
+    </body>
+</html>]]></pre>
+            </section>
+            <section id="controller_output_header">
+                <h3 class="unnumbered"><i>header.xql</i></h3>
+                <p><i>header.xql</i> is located inside <i>/db/apps/repertorium/includes</i></p>
+                <pre><![CDATA[xquery version "3.1";
+declare variable $title external;
+declare variable $fqcontroller external;
+<head xmlns="http://www.w3.org/1999/xhtml">
+    <title>{$title}</title>
+    <link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/style.css')}"/> 
+    <link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/repertorium.css')}"/>
+</head>]]></pre>
+            </section>
+        </section>
     </body>
 </html>
