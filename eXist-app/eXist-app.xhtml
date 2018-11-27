@@ -1182,7 +1182,57 @@ if ($exist:resource eq "") then
             </section>
         </section>
         <section id="xslt">
-            <h2>Using XSLT to transform XQuery results to HTML</h2>
+            <h2>Transform your XQuery results to HTML with XSLT</h2>
+            <section id="xslt_preliminaries">
+                <h3>XSLT within the eXist-db app context</h3>
+                <p>When the eXist-db <i>controller.xql</i> script rewrites a URL to point to an
+                    XQuery script, it can also specify that the output of the script should be
+                    passed through an XSLT transformation before being rendered. This is part of an
+                        <dfn>MVC</dfn> (<dfn>model, view, controller</dfn>) architecture, where the
+                    output of the XQuery is the <dfn>model</dfn> (that is, the informational
+                    content), <i>controller.xql</i> is the <dfn>controller</dfn> (which manages the
+                    information), and an XSLT stylesheet creates the <dfn>view</dfn> by transforming
+                    the model into HTML.</p>
+                <p class="note">eXist-db support for pipelining is richer than just pushing the
+                    content through a single XSLT transformation. For more information see
+                        <q>Advanced URL control</q> in Chapter 9 of Siegel and Retter, pp. 203–05.
+                    It is also possible to execute an XSLT transformation as part of an XQuery
+                    script, rather than as a separate pipelined operation, by using the eXist-db
+                        <code>transform:transform()</code> function. (The <a
+                        href="https://www.w3.org/TR/xpath-functions-31/#func-transform">XPath 3.1
+                        core <code>transform()</code> function</a> is not currently supported by
+                    eXist-db.) For more information about <code>transform:transform()</code> see <a
+                        href="http://exist-db.org/exist/apps/doc/xsl-transform"
+                        >http://exist-db.org/exist/apps/doc/xsl-transform</a>. Within the eXist-db
+                    app context, we find it easier to manage XSLT with the controller.</p>
+            </section>
+            <section id="xslt_view">
+                <h3>The controller <code>&lt;view&gt;</code> element</h3>
+                <p>To pipe the output of an XQuery script through XSLT before returning it, add a
+                        <code>&lt;view&gt;</code> element after the <code>&lt;forward&gt;</code>
+                    element inside the controller. The following example is from Siegel and Retter,
+                    p. 203:</p>
+                <pre><![CDATA[<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+    <forward url="{concat($exist:controller, "/createmodel.xq")}"/>
+    <view>
+        <forward servlet="XSLTServlet">
+            <set-attribute name="xslt.stylesheet"
+                value="{concat($exist:root, $exist:controller, "/xslt/view1.xslt")}"/>
+        </forward>
+    </view>
+</dispatch>]]></pre>
+                <p>The <code>&lt;view&gt;</code> element contains another
+                        <code>&lt;forward&gt;</code> element, which has a
+                        <code>&lt;set-attribute&gt;</code> child that specifies the XSLT stylesheet.
+                    Other parameters may be passed (as strings) with additional
+                        <code>&lt;set-attribute&gt;</code> elements, which must have a
+                        <code>@name</code> attribute that begins with the string <code>xslt.</code>.
+                    For example, an attribute called <code>xslt.myattr</code> is available within
+                    the XSLT as an <code>$xslt.myattr</code> parameter. For more information about
+                    using the XSLT servlet in an eXist-db app context, see <a
+                        href="http://exist-db.org/exist/apps/doc/urlrewrite.xml"
+                        >http://exist-db.org/exist/apps/doc/urlrewrite.xml</a>.</p>
+            </section>
         </section>
         <section id="generate">
             <h2>Generate your app</h2>
@@ -1207,10 +1257,10 @@ if ($exist:resource eq "") then
                 command line), as with a normal Git repo.</p>
         </section>
         <section id="misc">
-            <h2>Next steps</h2>
+            <h2>Fine tuning</h2>
+            <p>Customize boilerplate according to including document</p>
             <p>Simplify URL to remove <i>/exist</i>, proxy</p>
             <p>Apply XSLT only where needed</p>
-            <p>Customize boilerplate according to including document</p>
         </section>
         <hr />
         <section id="variable_output">
