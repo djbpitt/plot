@@ -125,7 +125,7 @@
                         <code>request:</code> function values</a> is available in <a
                     href="#variable_output">Appendix A: Controller variables and
                         <code>request:</code> functions</a>.</p>
-            <p>The procedure described here was tested under eXist-db 4.4. This tutorial
+            <p>The procedure described here was tested under eXist-db 4.4 and 4.5. This tutorial
                 concentrates only on app development, and it is intended for users who already have
                 a basic familiarity with XQuery and with the use of eXist-db as an XML database.
                 Those who lack that familiarity will need to begin with the online eXist
@@ -448,6 +448,34 @@ declare option output:indent "no";
         <![CDATA[<p>Content will go here</p>
     </body>
 </html>]]></pre>
+            </section>
+            <section id="xquery_paths">
+                <h3>Construct paths within XQuery scripts</h3>
+                <p>One advantage of the eXist-db app architecture is its flexibility: all components
+                    of the app are contained in a single archive file that can be hot-installed into
+                    any running instance of eXist-db. More specifically, if the app is constructed
+                    with appropriate attention to absolute and relative paths, it is not dependent
+                    on a specific server name, server port, or location within the eXist-db
+                    database. This means, though, that paths to resources within the database must
+                    be constructed in a way that avoids unnecessary assumptions.</p>
+                <p>As an example, suppose our collection hierarchy, as described <a
+                        href="#directories">above</a>, is that <i>controller.xql</i> is in the root
+                    collection for the app (<i>repertorium</i> in our case), our XML data files are
+                    in a subcollection called <i>mss</i>, and our XQuery scripts are in a
+                    subcollection called <i>modules</i>. We describe <a href="#controller">below</a>
+                    how the controller rewrites a URL to point to a resource inside <i>modules</i>,
+                    and also how to construct paths to XIncluded content (inside an <i>includes</i>
+                    subcollection in our example, and processed by eXist-db) and to CSS and
+                    JavaScript (inside <i>css</i> and <i>js</i> subcollections of a <i>resources</i>
+                    subcollection, and processed by jetty, the web server that hosts the eXist-db
+                    application). If our script needs to refer to, say, the documents inside
+                        <i>mss</i>, we can construct a variable that points to them with
+                        <code>collection(concat($exist:root, $exist:controller, "/mss'))</code>. In
+                    a standard eXist-db installation, this is interpreted as
+                        <code>collection("xmldb:exist:///db/apps/repertorium/mss")</code>, but it
+                    will also work no matter what the name of the root collection is, and no matter
+                    where it we install our apps in our eXist-db instance, and it makes no
+                    assumptions about either the server name or the port.</p>
             </section>
             <section id="xquery_beyond">
                 <h3>Beyond static HTML</h3>
