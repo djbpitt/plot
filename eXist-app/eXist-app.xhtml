@@ -63,19 +63,19 @@
     </head>
     <body>
         <h1>Creating an eXist-db application</h1>
-        <p>David J. Birnbaum, last revised 2018-11-26, CC-BY-SA</p>
+        <p>David J. Birnbaum, last revised 2018-12-01, CC-BY-SA</p>
         <section id="introduction">
             <h2 class="unnumbered">Introduction</h2>
-            <p>This tutorial describes the process for creating an application within eXist-db. This
-                method uses eXist-db not only as an XML database, but also as a content management
-                system (CMS), which means that all application resources (for the model, controller,
-                and view) are packaged into a single <i>.xar</i> file that can be hot-deployed into
-                any running eXist-db instance. This type of app provides a self-contained
-                alternative to the familiar architecture in which an HTML/PHP front end, typically
-                running on an Apache or Nginx HTTP server, queries eXist-db only to retrieve
-                information, but otherwise manages the front end itself, including both accepting
-                user input and formatting output (for more information about this approach see <a
-                    href="http://dh.obdurodon.org/php-xquery.xhtml"
+            <p>This tutorial describes the steps involved in creating an application within
+                eXist-db. This method uses eXist-db not only as an XML database, but also as a
+                content management system (CMS), which means that all application resources (for the
+                model, controller, and view) are packaged into a single <i>.xar</i> file that can be
+                hot-deployed into any running eXist-db instance. This type of app provides a
+                self-contained alternative to the familiar architecture in which an HTML/PHP front
+                end, typically running on an Apache or Nginx HTTP server, queries eXist-db only to
+                retrieve information, but otherwise manages the front end itself, including both
+                accepting user input and formatting output (for more information about this approach
+                see <a href="http://dh.obdurodon.org/php-xquery.xhtml"
                     >http://dh.obdurodon.org/php-xquery.xhtml</a>). The principal advantage of the
                 eXist-db app architecture described here is greater ease of maintenance and
                 deployment, since there is no dependency on communication with an independent web
@@ -93,9 +93,10 @@
                 control over styling when we manage all CSS directly ourselves. The other is that
                 eXist-db supports an HTML templating framework, which, in MVC terminology, separates
                 the view more clearly from the controller than we do in the process described below.
-                We avoid HTML templating in order to control includes more explicitly. Users who
-                prefer to avail themselves of these features can learn more about them in the
-                following sources, which are recommended reading in any case:</p>
+                We avoid HTML templating in order to control includes more explicitly, at the cost
+                of having to incorporate more configuration information in our XQuery scripts. Users
+                who prefer to avail themselves of Bootstrap or templating can learn more about them
+                in the following sources, which are recommended reading in any case:</p>
             <ul>
                 <li><a href="http://exist-db.org/exist/apps/doc/development-starter"
                         >http://exist-db.org/exist/apps/doc/development-starter</a>, which
@@ -118,20 +119,22 @@
                 <li><a href="#xinclude">Modularize with XInclude</a></li>
                 <li><a href="#controller">Configure <i>controller.xql</i></a></li>
                 <li><a href="#xslt">Transform to HTML with XSLT</a></li>
-                <li><a href="#enerate">Generate your app</a></li>
+                <li><a href="#generate">Generate your app</a></li>
             </ol>
-            <p>The code that produces the table of variables and function values at the top of <a
-                    href="#controller_example">Examining controller variables and
-                        <code>request:</code> function values</a> is available in <a
+            <p>The code that produces the table of variables and function values at the top of the
+                    <a href="#controller_example">Examining controller variables and
+                        <code>request:</code> function values</a> section, below, is available in <a
                     href="#variable_output">Appendix A: Controller variables and
-                        <code>request:</code> functions</a>.</p>
+                        <code>request:</code> functions</a>. <a href="#paths">Appendix B: Path
+                    summary</a>, compares the different ways paths to resources are constructed
+                within an app.</p>
             <p>The procedure described here was tested under eXist-db 4.4 and 4.5. This tutorial
                 concentrates only on app development, and it is intended for users who already have
                 a basic familiarity with XQuery and with the use of eXist-db as an XML database.
                 Those who lack that familiarity will need to begin with the online eXist
                 documentation and Siegel and Retter before proceeding to app development. In keeping
-                with common XQuery terminology (e.g., Siegel and Retter, p. 40), we observe the
-                following terms:</p>
+                with the recommmendations in Siegel and Retter, p. 40, we observe the following
+                terminology:</p>
             <ol>
                 <li><dfn>collection</dfn>: Comparable to a <dfn>directory</dfn> in the filesystem or
                     a <dfn>folder</dfn> in a GUI. Collections are hierarchical, so a collection may
@@ -184,8 +187,10 @@
                     recommend creating a unique user, group, and password just for the app, and
                     setting the name of the group to match that of the user. It is not necessary to
                     use an account with elevated privileges (e.g., <code>admin</code>, or any member
-                    of the <code>dba</code> group). Leave Mode as <code>rw-rw-r--</code> (default).
-                    Click <q>Done</q>.</li>
+                    of the <code>dba</code> group). For the Repertorium project, we set the userid
+                    and groupid both to <code>repertorium</code> and the password to an arbitrary
+                    strong password. Leave Mode as <code>rw-rw-r--</code> (default). Click
+                        <q>Done</q>.</li>
             </ol>
             <p>eXist-db should display an Open document dialog pointing to your collection, which
                 should contain three documents: <i>build.xml</i>, <i>expath-pkg.xml</i>, and
@@ -283,10 +288,11 @@ declare function local:mkcol($collection, $path) {
 (: store the collection configuration :)
 local:mkcol("/db/system/config", $target),
 xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xconf")</pre>
-                    This instructs eXist-db to copy a <i>collection.xconf</i> (index) document from
-                    the app root collection into the appropriate location upon deployment. If you
-                    have index documents in subcollections, you need to use an alternative form of
-                    the <code>xdb:store-files-from-pattern()</code> function, one that looks into
+                    This instructs eXist-db to copy a <i>collection.xconf</i> (index) document (or
+                    any document ending in <i>.xconf</i>) from the app root collection into the
+                    appropriate location upon deployment. If you have index documents in
+                    subcollections, you need to use an alternative form of the
+                        <code>xdb:store-files-from-pattern()</code> function, one that looks into
                     subcollections, such as the following, where  <code>**/collection.xconf</code>
                     matches documents in any directory below the current one, and copies them at the
                     correct corresponding level under
@@ -349,13 +355,13 @@ xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xcon
                     by using the XQuery <code>typeswitch()</code> function to simulate XSLT template
                     processing. In this tutorial, as in our actual projects, we use the XSLT
                     approach.</p>All HTML output from our projects is HTML 5.0 with XML syntax. We
-                therefore use the HTML namespace, and we set the eXist-db output <code>method</code>
-                to <q>xml</q>, the <code>media-type</code> to <q>application/xhtml+xml</q>, and, to
-                avoid introducing unwanted whitespace artifacts, <code>indent</code> to <q>no</q>.
-                We include an XML declaration in HTML to be returned, but we set
-                    <code>omit-xml-declaration</code> to <q>yes</q> when we generate XML that will
-                be included into a larger context before being transformed and returned to the
-                user.</section>
+                therefore use the HTML namespace, we specify a DOCTYPE declaration, and we set the
+                eXist-db output <code>method</code> to <q>xml</q>, the <code>media-type</code> to
+                    <q>application/xhtml+xml</q>, and, to avoid introducing unwanted whitespace
+                artifacts, <code>indent</code> to <q>no</q>. We include an XML declaration in HTML
+                to be returned, but we set <code>omit-xml-declaration</code> to <q>yes</q> when we
+                generate XML that will be included into a larger context before being transformed
+                and returned to the user.</section>
             <section id="xquery_main">
                 <h3>Create a main page</h3>
                 <p>Create a main page, called <i>index.xql</i>, inside the <i>modules</i>
@@ -374,6 +380,7 @@ declare option output:method "xml";
 declare option output:media-type "application/xhtml+xml";
 declare option output:omit-xml-declaration "no";
 declare option output:indent "no";
+declare option output:doctype-system "about:legacy-compat";
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>My awesome eXist-db app</title>
@@ -401,6 +408,7 @@ declare option output:method "xml";
 declare option output:media-type "application/xhtml+xml";
 declare option output:omit-xml-declaration "no";
 declare option output:indent "no";
+declare option output:doctype-system "about:legacy-compat";
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>My awesome eXist-db app</title>]]>
@@ -436,6 +444,7 @@ declare option output:method "xml";
 declare option output:media-type "application/xhtml+xml";
 declare option output:omit-xml-declaration "no";
 declare option output:indent "no";
+declare option output:doctype-system "about:legacy-compat";
 <span class="pre-highlight">declare variable $title as xs:string := "My awesome eXist-db app";</span>
 <![CDATA[<html xmlns="http://www.w3.org/1999/xhtml">
     <head>]]>
@@ -460,8 +469,8 @@ declare option output:indent "no";
                     be constructed in a way that avoids unnecessary assumptions.</p>
                 <p>As an example, suppose our collection hierarchy, as described <a
                         href="#directories">above</a>, is that <i>controller.xql</i> is in the root
-                    collection for the app (<i>repertorium</i> in our case), our XML data files are
-                    in a subcollection called <i>mss</i>, and our XQuery scripts are in a
+                    collection for the app (<i>/db/apps/repertorium</i> in our case), our XML data
+                    files are in a subcollection called <i>mss</i>, and our XQuery scripts are in a
                     subcollection called <i>modules</i>. We describe <a href="#controller">below</a>
                     how the controller rewrites a URL to point to a resource inside <i>modules</i>,
                     and also how to construct paths to XIncluded content (inside an <i>includes</i>
@@ -470,12 +479,15 @@ declare option output:indent "no";
                     subcollection, and processed by jetty, the web server that hosts the eXist-db
                     application). If our script needs to refer to, say, the documents inside
                         <i>mss</i>, we can construct a variable that points to them with
-                        <code>collection(concat($exist:root, $exist:controller, "/mss'))</code>. In
-                    a standard eXist-db installation, this is interpreted as
-                        <code>collection("xmldb:exist:///db/apps/repertorium/mss")</code>, but it
-                    will also work no matter what the name of the root collection is, and no matter
-                    where it we install our apps in our eXist-db instance, and it makes no
-                    assumptions about either the server name or the port.</p>
+                        <code>collection(concat($exist:root, $exist:controller, "/mss'))</code>. The
+                    meanings of those variables are discussed below, but by way of introduction, in
+                    a standard eXist-db installation, this path is interpreted as
+                        <code>collection("xmldb:exist:///db/apps/repertorium/mss")</code>. But
+                    because we have used variables supplied by eXist-db to construct the path,
+                    instead of specifying it as a string literal, the path will also be correct no
+                    matter what the name of the root collection is, and no matter where it we
+                    install our apps in our eXist-db instance, and it makes no assumptions about
+                    either the server name or the port.</p>
             </section>
             <section id="xquery_beyond">
                 <h3>Beyond static HTML</h3>
@@ -557,10 +569,10 @@ declare option output:indent "no";
                                 it possible for the included document to adjust its output according
                                 to where it is being included. We use this in the Repertorium
                                 project to customize the boilerplate header to include or exclude
-                                particular buttons depending on the master document (discussed
-                                below). There is also an <code>$xinclude:current-collection</code>
-                                variable that points to the collection that contains the master
-                                document.</li>
+                                particular buttons depending on the master document (discussed below
+                                    <strong>TODO</strong>). There is also an
+                                    <code>$xinclude:current-collection</code> variable that points
+                                to the collection that contains the master document.</li>
                             <li>It is possible to pass parameters to the included document as part
                                 of a URL query string, e.g., <code>&lt;xi:include
                                     href="xmldb:exist:///db/apps/repertorium/includes/filename.xql?title=Hi"/></code>.
@@ -598,6 +610,7 @@ declare option output:method "xml";
 declare option output:media-type "application/xhtml+xml";
 declare option output:omit-xml-declaration "no";
 declare option output:indent "no";
+declare option output:doctype-system "about:legacy-compat";
 declare variable $title as xs:string := "My awesome eXist-db app";
 <html xmlns="http://www.w3.org/1999/xhtml">]]>
     <span class="pre-highlight"><![CDATA[<xi:include href="xmldb:exist:///db/apps/repertorium/includes/header.xql?title={encode-for-uri($title)}"/>]]></span>
@@ -628,9 +641,11 @@ declare variable $title external;
                     above, because titles may contain spaces or punctuation, which cannot otherwise
                     be passed from the master XQuery to the included one. Below we’ll modify the
                     path to the included resource to simplify it by removing the dependency on
-                    installation inside <i>/db/apps</i>. We’ll also customize the header in other
-                    ways, such as by using information about the including page to determine which
-                    interface buttons are rendered.</p>
+                    installation inside <i>/db/apps</i>. We’ll also replace the relative paths to
+                    CSS and JavaScript resources with absolute paths that adapt to the name and
+                    installation location of the app. Finally, we’ll also customize the header in
+                    other ways, such as by using information about the including page to determine
+                    which interface buttons are rendered.<strong>(TODO)</strong></p>
             </section>
         </section>
         <section id="controller">
@@ -723,22 +738,22 @@ else
         &lt;ignore xmlns="http://exist.sourceforge.net/NS/exist">
             &lt;cache-control cache="yes"/>
         &lt;/ignore></pre>
-                <p>If you navigate to <code>http://locahost:8080/exist/db/apps/repertorium/</code>
+                <p>If you navigate to <code>http://localhost:8080/exist/db/apps/repertorium/</code>
                     (replace <q>repertorium</q> with the name of your app), you should see the
                     output of executing the <i>index.xql</i> script that is in your <i>modules</i>
                     subcollection, and the URL will change to
-                        <code>http://locahost:8080/exist/db/apps/repertorium/index</code>. But:</p>
+                        <code>http://localhost:8080/exist/db/apps/repertorium/index</code>. But:</p>
                 <ul>
                     <li>Your CSS and JavaScript links don’t work; you get the HTML, but not the
                         styling or JavaScript functionality.</li>
                     <li>You can also retrieve the main page by asking for
-                            <code>http://locahost:8080/exist/db/apps/repertorium/index</code>.</li>
+                            <code>http://localhost:8080/exist/db/apps/repertorium/index</code>.</li>
                     <li>Asking for
-                            <code>http://locahost:8080/exist/db/apps/repertorium/modules/index.xql</code>,
+                            <code>http://localhost:8080/exist/db/apps/repertorium/modules/index.xql</code>,
                         which is where your XQuery actually resides, works, and includes the CSS and
                         JavaScript that don’t work (yet) with the rewriting.</li>
                     <li>Asking for
-                            <code>http://locahost:8080/exist/db/apps/repertorium/index.xql</code>
+                            <code>http://localhost:8080/exist/db/apps/repertorium/index.xql</code>
                         (that is, omitting the <code>modules/</code> step but adding the
                             <code>.xql</code> extension), raises an error.</li>
                     <li>You need the trailing slash. This is the one limitation you cannot control
@@ -749,7 +764,7 @@ else
                     JavaScript are processed properly, and that behavior is consistent with
                     reasonable user expectations. But first we need to understand how it works, and
                     that understanding starts with eXist-db controller variables and the
-                        <code>request:</code> module..</p>
+                        <code>request:</code> module.</p>
             </section>
             <section id="controller_variables">
                 <h3>System variables and <i>controller.xql</i></h3>
@@ -829,7 +844,7 @@ else
                         <th><code>request:get-context-path()</code></th>
                         <th><code>$exist:prefix</code></th>
                         <th><code>$exist:controller</code></th>
-                        <th><code>[none]</code></th>
+                        <th>[none]</th>
                     </tr>
                     <tr>
                         <th>Value</th>
@@ -858,7 +873,7 @@ else
                             <code>request:get-context-path()</code> (typically <code>/exist</code>),
                         the value of <code>$exist:prefix</code> (typically <code>/apps</code>) and
                         the value of <code>$exist:controller</code> (typically the root collection
-                        of the app, with a leading slash, e.g., <code>/repertorium</code>); se save
+                        of the app, with a leading slash, e.g., <code>/repertorium</code>); we save
                         the result of this concatenation in a constructed variable that we call
                             <code>$fqcontroller</code>. The sample output on the right displays the
                         available variables and their values in the context of the Repertorium
@@ -949,17 +964,17 @@ declare variable $context as xs:string := request:get-context-path();</pre>
                     leading dot (for example, <code>xql</code>).</p>
                 <p>The <code>if</code> clause tests whether the original query has no extension
                     (such as when the user asks for
-                        <code>http://locahost:8080/exist/db/apps/repertorium/index</code>, rather
+                        <code>http://localhost:8080/exist/db/apps/repertorium/index</code>, rather
                     than something ending in <code>index.xql</code>). We’ve decided that the
                     convention in our app will be that resources without extensions are XQuery
                     scripts, so we want the controller to forward the call to a modified URL, and
                     the modifications involve 1) looking in the <i>modules</i> subcollection and 2)
                     adding an <i>.xql</i> extension. The modified URL will be an absolute path,
                     which is resolved starting from the prefix, which in our case (and as a default)
-                    is after <i>/exist/apps</i>. In the case of the Repertorium project, we want the
-                    path to begin at <i>/repertorium</i>, that is, in the root collection of the
-                    app. The script builts up that modified URL by concatenating the following
-                    values, in order:</p>
+                    means starting after <i>/exist/apps</i>. In the case of the Repertorium project,
+                    we want the path to begin at <i>/repertorium</i>, that is, in the root
+                    collection of the app. The script builts up that modified URL by concatenating
+                    the following values, in order:</p>
                 <ul>
                     <li><code>$exist:controller</code> This is the location of <i>controller.xql</i>
                         file, which is the root collection of the app, starting with a slash, e.g.,
@@ -968,7 +983,7 @@ declare variable $context as xs:string := request:get-context-path();</pre>
                     <li><code>substring-before($exist:path, $exist:resource)</code>.
                             <code>$exist:path</code> is the path from the location of the controller
                         to the end of the URL (minus any query string), which in the case of
-                            <code>http://locahost:8080/exist/db/apps/repertorium/index</code>, is
+                            <code>http://localhost:8080/exist/db/apps/repertorium/index</code>, is
                         just <code>/index</code>. <code>$exist:resource</code> is the part after the
                         final slash, which in this case is just <code>index</code>. This means that
                         our <code>substring-before()</code> function returns just a slash. When we
@@ -1069,6 +1084,7 @@ declare option output:method "xml";
 declare option output:media-type "application/xhtml+xml";
 declare option output:omit-xml-declaration "no";
 declare option output:indent "no";
+declare option output:doctype-system "about:legacy-compat";
 <span class="pre-highlight">declare variable $title as xs:string := "Repertorium of Old Bulgarian Literature and Letters";
 declare variable $exist:root as xs:string := request:get-parameter("exist:root", ());
 declare variable $exist:prefix as xs:string := request:get-parameter("exist:prefix", ());
@@ -1107,12 +1123,11 @@ declare variable $fqcontroller as xs:string := concat($context, $exist:prefix, $
                             <code>xmldb:exist:///db/apps/repertorium/includes/header.xql</code>.</li>
                     <li>We then add a query string to pass parameters from <i>index.xql</i> into
                             <i>header.xql</i>, leading to a final URL of
-                            <code>xmldb:exist:///db/apps/repertorium/includes/header.xql?title=X&amp;exist:controller=/repertorium&amp;exist:root=xmldb:exist///db/apps</code>,
-                        where <code>X</code> stands for the URL-encoded value of the title. We need
-                        to encode the title because it may contain characters not permitted in URLs,
-                        such as spaces. We are not URL-encoding the controller variables, which is
-                        safe only as long as our resource names in the database do not contain those
-                        same prohibited characters.</li>
+                            <code>xmldb:exist:///db/apps/repertorium/includes/header.xql?title=encode-for-uri($title)&amp;exist:controller=/repertorium&amp;exist:root=xmldb:exist///db/apps</code>,.
+                        We need to encode the title because it may contain characters not permitted
+                        in URLs, such as spaces. We are not URL-encoding the controller variables,
+                        which is safe only as long as our resource names in the database do not
+                        contain those same prohibited characters.</li>
                 </ol>
                 <!--TODO: Is colon okay in query parameter name, URL-encoded or bare? See eXist book,
                     p. 92.-->
@@ -1171,10 +1186,12 @@ if ($exist:resource eq "") then
                         accordingly. If the user specifies the <i>.xql</i> extension, the URL will
                         not be rewritten (see below), so a path like
                             <code>http://localhost:8080/exist/apps/repertorium/index.xql</code> will
-                        raise an error (although
+                        raise an error. Furthermore,
                             <code>http://localhost:8080/exist/apps/repertorium/modules/index.xql</code>,
-                        which specifies the <i>modules</i> subcollection explicitly, would not). If
-                        you are concerned about users entering URLs with explicit <i>.xql</i>
+                        which specifies the <i>modules</i> subcollection and the <i>.xql</i>
+                        extension explicitly, will now also raise an error because it has been
+                        revised to expect to receive the controller variables from the controller.
+                        If you are concerned about users entering URLs with explicit <i>.xql</i>
                         extensions, it is possible to add an additional test condition in the
                         controller to handle it, but we have not done that in the present
                         example.</p>
@@ -1198,15 +1215,6 @@ if ($exist:resource eq "") then
                     <li>If there is no resource name, the controller supplies the resource name of
                         the main page as a default.</li>
                 </ul>
-                <p>XQuery scripts specified with a simplified path (no explicit references to the
-                        <i>modules</i> subcollection) and without an <i>.xql</i> extension. It also
-                    handles static resources, such as images and CSS, as it defaults to the
-                    specified main page when no resource is named in the URL. It uses controller
-                    variables and the functions from the <code>request:</code> module to support
-                    XIncludes with absolute paths, as well as absolute paths for linking to CSS and
-                    JavaScript. And because we use XQuery to construct our HTML output and our
-                    included header, we can customize the <code>&lt;title&gt;</code> (rendered in
-                    the browser tab) and other boilerplate details dynamically.</p>
             </section>
         </section>
         <section id="xslt">
@@ -1219,8 +1227,8 @@ if ($exist:resource eq "") then
                         <dfn>MVC</dfn> (<dfn>model, view, controller</dfn>) architecture, where the
                     output of the XQuery is the <dfn>model</dfn> (that is, the informational
                     content), <i>controller.xql</i> is the <dfn>controller</dfn> (which manages the
-                    information), and an XSLT stylesheet creates the <dfn>view</dfn> by transforming
-                    the model into HTML.</p>
+                    information), and the controller uses an XSLT stylesheet to create the
+                        <dfn>view</dfn> by transforming the model into HTML.</p>
                 <p class="note">eXist-db support for pipelining is richer than just pushing the
                     content through a single XSLT transformation. For more information see
                         <q>Advanced URL control</q> in Chapter 9 of Siegel and Retter, pp. 203–05.
@@ -1241,14 +1249,14 @@ if ($exist:resource eq "") then
                     element inside the controller. The following example is from Siegel and Retter,
                     p. 203:</p>
                 <pre><![CDATA[<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-    <forward url="{concat($exist:controller, "/createmodel.xq")}"/>
-    <view>
+    <forward url="{concat($exist:controller, "/createmodel.xq")}"/>]]>
+    <span class="pre-highlight"><![CDATA[<view>
         <forward servlet="XSLTServlet">
             <set-attribute name="xslt.stylesheet"
                 value="{concat($exist:root, $exist:controller, "/xslt/view1.xslt")}"/>
         </forward>
-    </view>
-</dispatch>]]></pre>
+    </view>]]></span>
+<![CDATA[</dispatch>]]></pre>
                 <p>The <code>&lt;view&gt;</code> element contains another
                         <code>&lt;forward&gt;</code> element, which has a
                         <code>&lt;set-attribute&gt;</code> child that specifies the XSLT stylesheet.
@@ -1269,9 +1277,11 @@ if ($exist:resource eq "") then
                     group ids that you created originally in the eXide app wizard. Verify also that
                     the resource permissions are correct: anything users should be able to read
                     directly must be world-readable, and any XQuery that users should be able to run
-                    should be world-executable. The easiest way to set these properties for multiple
-                    resources simultaneously is to use <code>sm:chown()</code> and
-                        <code>sm:chmod()</code> inside an XQuery <code>for</code> loop.</li>
+                    should be world-executable. Directories where users need to access resources
+                    must also be world-readable and world-executable. The easiest way to set these
+                    properties for multiple resources simultaneously is to use
+                        <code>sm:chown()</code> and <code>sm:chmod()</code> inside an XQuery
+                        <code>for</code> loop.</li>
                 <li>To generate your app, open any file from within the app hierarchy in eXide. Then
                     go to Application → Download app. An <i>.xar</i> file will be downloaded into
                     the file system on the server where eXist-db is running.</li>
@@ -1286,9 +1296,10 @@ if ($exist:resource eq "") then
         </section>
         <section id="misc">
             <h2>Fine tuning</h2>
-            <p>Customize boilerplate according to including document</p>
-            <p>Simplify URL to remove <i>/exist</i>, proxy</p>
-            <p>Apply XSLT only where needed</p>
+            <p><strong>TODO: Customize boilerplate according to including document</strong></p>
+            <p><strong>TODO: Simplify URL to remove <i>/exist</i></strong></p>
+            <p><strong>TODO: Proxy to remove port number</strong></p>
+            <p><strong>TODO: Apply XSLT only where needed</strong></p>
         </section>
         <hr />
         <section id="variable_output">
@@ -1397,6 +1408,7 @@ declare option output:method "xml";
 declare option output:media-type "application/xhtml+xml";
 declare option output:omit-xml-declaration "no";
 declare option output:indent "no";
+declare option output:doctype-system "about:legacy-compat";
 declare variable $title as xs:string := "eXist-db variables available to XQuery scripts";
 declare variable $exist:root as xs:string := request:get-parameter("exist:root", ());
 declare variable $exist:prefix as xs:string := request:get-parameter("exist:prefix", ());
@@ -1452,5 +1464,42 @@ declare variable $fqcontroller external;
 </head>]]></pre>
             </section>
         </section>
-    </body>
+        <section id="paths">
+            <h2 class="unnumbered">Appendix B: Path summary</h2>
+            <p>From within <i>controller.xql</i>, a forwarding URL should begin with
+                    <code>$exist:controller</code>, e.g.:</p>
+            <pre><![CDATA[<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+    <forward url="{]]><span class="pre-highlight"><![CDATA[concat(
+        $exist:controller, 
+        substring-before($exist:path, $exist:resource), 
+        "modules/", 
+        $exist:resource, ".xql"
+    )]]></span><![CDATA[}"/>
+</dispatch>]]></pre>
+            <p>From within an XQuery script, a path to a system resource that will be used by the
+                script, e.g., an XML document called with <code>doc()</code> or a collection called
+                with <code>collection()</code>, should begin with <code>$exist:root</code>,
+                e.g.:</p>
+            <pre><![CDATA[<xi:include href="{concat(
+    $exist:root, 
+    $exist:controller, 
+    '/includes/header.xql?title=', 
+    encode-for-uri($title),
+    '&fqcontroller=',
+    $fqcontroller
+)}"/>]]></pre>
+            <p>The same type of path is used for XSLT stylesheets, e.g.:</p>
+            <pre><![CDATA[<view>
+    <forward servlet="XSLTServlet">
+        <set-attribute name="xslt.stylesheet"
+            value="{concat($exist:root, $exist:controller, "/xslt/view1.xslt")}"/>
+    </forward>
+</view>]]></pre>
+            <p>From within an XQuery script, a path to a system resource that will be processed by
+                the jetty server, e.g., to CSS or JavaScript, should begin with the context
+                (typically <i>/exist</i>), which can be retrieved with
+                    <code>request:get-context-path()</code>, e.g.:</p>
+            <pre><![CDATA[<link rel="stylesheet" type="text/css" 
+    href="{concat(request:get-context-uri(), $exist:prefix, $exist:controller, '/resources/css/style.css')}"/>]]></pre>
+        </section></body>
 </html>
