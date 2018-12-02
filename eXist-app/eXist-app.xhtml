@@ -613,7 +613,8 @@ declare option output:indent "no";
 declare option output:doctype-system "about:legacy-compat";
 declare variable $title as xs:string := "My awesome eXist-db app";
 <html xmlns="http://www.w3.org/1999/xhtml">]]>
-    <span class="pre-highlight"><![CDATA[<xi:include href="xmldb:exist:///db/apps/repertorium/includes/header.xql?title={encode-for-uri($title)}"/>]]></span>
+    <span class="pre-highlight"><![CDATA[<xi:include 
+        href="xmldb:exist:///db/apps/repertorium/includes/header.xql?title={encode-for-uri($title)}"/>]]></span>
     <![CDATA[<body>
         <h1>{$title}</h1>
         <p>Content will go here</p>
@@ -829,7 +830,7 @@ else
                     the controller, the eXist-db <code>request:</code> module provides two functions
                     that we use for query rewriting:</p>
                 <ul>
-                    <li><code>request:get-uri()</code> Return the URL before query rewriting, for
+                    <li><code>request:get-uri()</code> Returns the URL before query rewriting, for
                         example, <code>/exist/apps/repertorium/index</code>.</li>
                     <li><code>request:get-context-path()</code> Returns the part of the URL that
                         precedes the prefix, typically <code>/exist</code>.</li>
