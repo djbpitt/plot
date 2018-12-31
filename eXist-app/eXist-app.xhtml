@@ -686,6 +686,21 @@ declare variable $title external;
                     rewriting within an eXist-db app. Our project will contain exactly one
                         <i>controller.xql</i> resource, which will be located inside the app root
                     collection.</p>
+                <p><strong>TODO:</strong> Add early section about API planning. Repertorium puts ms
+                    identifier in URL only programmatically; alternative might be http://blah/msname
+                    with additional information about what to do with it. See <a
+                        href="
+                        https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/60975/designing-URI-sets-uk-public-sector.pdf"
+                        >https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/60975/designing-URI-sets-uk-public-sector.pdf</a>.
+                    Syriaca uses XML configuration file; see <a
+                        href="https://github.com/srophe/srophe/blob/master/repo-config.xml"
+                        >https://github.com/srophe/srophe/blob/master/repo-config.xml</a>.</p>
+                <p><strong>TODO:</strong> Also introduce RESTXQ? See Seigel and Retter, p. 192,
+                    215–27. For BaseX see MaX (<a
+                        href="http://www.unicaen.fr/recherche/mrsh/document_numerique/outils/max"
+                        >http://www.unicaen.fr/recherche/mrsh/document_numerique/outils/max</a>;
+                    designed for TEI, may be difficult to install, especially with respect to Java,
+                    and somewhat skimpy documentation).</p>
             </section>
             <section id="controller_skeleton">
                 <h3>Create a skeletal <i>controller.xql</i> skeleton</h3>
@@ -797,7 +812,10 @@ else
                 <ul>
                     <li><code>$exist:root</code> The part of the database URL the precedes the name
                         of the collection that contains the controller. In a standard installation
-                        this location is <code>xmldb:exist:///db/apps</code>.</li>
+                        this location is <code>xmldb:exist:///db/apps</code>. (Siegel and Retter, p.
+                        200 describes <code>$exist:root</code> as only
+                            <code>xmldb:exist:///db</code>, but, at least in eXist-db 4.5, it also
+                        includes the <code>/app</code> step.)</li>
                     <li><code>$exist:prefix</code> The part of the URL that precedes the controller.
                         The default value is <code>/apps</code>.</li>
                     <li><code>$exist:controller</code> The part of the URL leading from the prefix
@@ -936,13 +954,14 @@ declare variable $exist:resource external;
 
 declare variable $uri as xs:anyURI := request:get-uri();
 declare variable $context as xs:string := request:get-context-path();</pre>
-                <p>We then forward those seven variables during rewriting with the following rewrite
-                    rule inside <i>controller.xql</i> (which is based on a script at <a
+                <p>We then forward those seven variables during rewriting with the following rule
+                    inside <i>controller.xql</i> (which is based on a script at <a
                         href="https://github.com/eXist-book/book-code"
                         >https://github.com/eXist-book/book-code</a>). Our forwarding rule uses the
                         <code>&lt;add-parameter&gt;</code> element to forward all of our controller
                     variables to any receiving script (we discuss the forwarding process, including
-                    construction of the forwarding <code>@url</code> value, below):</p>
+                    construction of the forwarding <code>@url</code> value,
+                    below):<!-- Should this go earlier? --></p>
                 <pre><![CDATA[if (local:get-extension($exist:resource) eq "") then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{concat(
@@ -1027,9 +1046,11 @@ declare variable $context as xs:string := request:get-context-path();</pre>
                 </ul>
                 <p>Since that final result is the actual path to our main page, the XQuery is
                     processed and the output is loaded into the browser. Because we used
-                        <code>&lt;forward&gt;</code> (instead of <code>&lt;redirect&gt;</code>), the
-                    browser address bar continues to display the URL without the modifications, even
-                    though the browser uses those modifications to find and load the file.</p>
+                        <code>&lt;forward&gt;</code> (instead of <code>&lt;redirect&gt;</code>; see
+                    the comment inside the code at <a href="#controller_skeleton">Create a skeletal
+                            <i>controller.xql</i> skeleton</a>), the browser address bar continues
+                    to display the URL without the modifications, even though the browser uses those
+                    modifications to find and load the file.</p>
             </section>
             <section id="controller_includes">
                 <h3>Fixing links to includes</h3>
@@ -1037,13 +1058,13 @@ declare variable $context as xs:string := request:get-context-path();</pre>
                     (not relative), should not assume that apps are always installed under
                         <i>/db/apps</i>, and should use database URLs (beginning with
                         <i>xmldb:exist:///</i>) rather than HTTP URLs (beginning with
-                        <i>http://localhost:8080/exist</i>). Absolute database URLs that do not make
-                    unnecessary assumptions about paths are the most robust with respect to query
-                    rewriting and the possible physical relocation of resources. When we first
-                    constructed our <i>index.xql</i> file when introducing XInclude (see <a
-                        href="#xinclude_header">Managing boilerplate information with XInclude</a>),
-                    the link from <i>index.xql</i> to <i>header.xql</i>, which contained the HTML
-                        <code>&lt;head&gt;</code> element, read
+                        <i>http://localhost:8080/exist</i>; see Siegel and Retter, p. 92). Absolute
+                    database URLs that do not make unnecessary assumptions about paths are the most
+                    robust with respect to query rewriting and the possible physical relocation of
+                    resources. When we first constructed our <i>index.xql</i> file when introducing
+                    XInclude (see <a href="#xinclude_header">Managing boilerplate information with
+                        XInclude</a>), the link from <i>index.xql</i> to <i>header.xql</i>, which
+                    contained the HTML <code>&lt;head&gt;</code> element, read
                         <code>href="xmldb:exist:///db/apps/repertorium/includes/header.xql?title={encode-for-uri($title)}</code>,
                     which will break if the app is installed into a non-standard location.
                     Additionally, the links to CSS and JavaScript in <i>header.xql</i>, introduced
@@ -1086,7 +1107,7 @@ declare variable $context as xs:string := request:get-context-path();</pre>
 <![CDATA[        </forward>
     </dispatch>]]></pre>
                 <p>If, for example, the original URL was
-                        <code>http://localhost:8080/exist/db/apps/repertorium/index</code>, the
+                        <code>http://localhost:8080/exist/apps/repertorium/index</code>, the
                     forwarding instruction rewrites the URl as
                         <code>xmldb:exist:///db/apps/repertorium/modules/index.xql</code>, and it
                     makes the seven parameters available from within that script.</p>
@@ -1121,7 +1142,7 @@ declare variable $fqcontroller as xs:string := concat($context, $exist:prefix, $
         $exist:controller, 
         '/includes/header.xql?title=', 
         encode-for-uri($title),
-        '&amp;fqcontroller=',
+        '&amp;amp;fqcontroller=',
         $fqcontroller
     )}"/&gt;</span>
     &lt;body&gt;
@@ -1153,8 +1174,7 @@ declare variable $fqcontroller as xs:string := concat($context, $exist:prefix, $
                         which is safe only as long as our resource names in the database do not
                         contain those same prohibited characters.</li>
                 </ol>
-                <!--TODO: Is colon okay in query parameter name, URL-encoded or bare? See eXist book,
-                    p. 92.-->
+                <!--TODO: Is colon okay in query parameter name, URL-encoded or bare? See eXist book, p. 92.-->
             </section>
             <section id="controller_css">
                 <h3>Linking to CSS and JavaScript</h3>
@@ -1171,7 +1191,8 @@ declare variable $fqcontroller external;]]></span>
 <![CDATA[</head>]]></pre>
                 <p>The constructed links to the CSS in our example look like
                         <code>href="/exist/apps/repertorium/resources/css/style.css"</code>. Links
-                    to JavaScript would be constructed similarly.</p>
+                    to JavaScript would be constructed similarly, e.g.,
+                        <code>href="/exist/apps/repertorium/resources/js/script.js"</code>.</p>
             </section>
             <section id="controller_home">
                 <h3>The main page</h3>
@@ -1198,8 +1219,8 @@ if ($exist:resource eq "") then
                     slash, the main page will not be loaded. This behavior cannot be controlled by
                     the app controller because the app controller never sees the URL, and it gets
                     handled at a higher level in the database hierarchy. If you have control of your
-                    entire eXist-db instance, you can set a forwarding instruction outside the app
-                    to handle this contingency.</p>
+                    entire eXist-db instance, you can set a forwarding instruction in a controller
+                    at a level above the app to handle this contingency.</p>
             </section>
             <section id="controller_extensions">
                 <h3>Documents with extensions</h3>
@@ -1219,6 +1240,8 @@ if ($exist:resource eq "") then
                         extensions, it is possible to add an additional test condition in the
                         controller to handle it, but we have not done that in the present
                         example.</p>
+                    <p><strong>TODO:</strong> Add as an exercise, with the answer in an
+                        appendix?</p>
                 </section>
                 <section id="controller_extensions_other">
                     <h4>Other extensions</h4>
@@ -1237,7 +1260,7 @@ if ($exist:resource eq "") then
                         XQuery script, and the URL is rewritten to specify the <i>modules</i>
                         subcollection and the <i>.xql</i> extension.</li>
                     <li>If there is no resource name, the controller supplies the resource name of
-                        the main page as a default.</li>
+                        the main page (<i>index.xql</i>, in our case) as a default.</li>
                 </ul>
             </section>
         </section>
@@ -1264,7 +1287,10 @@ if ($exist:resource eq "") then
                     eXist-db.) For more information about <code>transform:transform()</code> see <a
                         href="http://exist-db.org/exist/apps/doc/xsl-transform"
                         >http://exist-db.org/exist/apps/doc/xsl-transform</a>. Within the eXist-db
-                    app context, we find it easier to manage XSLT with the controller.</p>
+                    app context, we find it easier to manage XSLT with the controller because it is
+                    most straightforward to comment out that part of the pipeline for
+                    troubleshooting during development than to comment out a
+                        <code>transform:transform()</code> wrapper function.</p>
             </section>
             <section id="xslt_view">
                 <h3>The controller <code>&lt;view&gt;</code> element</h3>
@@ -1291,7 +1317,7 @@ if ($exist:resource eq "") then
                     the XSLT as an <code>$xslt.myattr</code> parameter. For more information about
                     using the XSLT servlet in an eXist-db app context, see <a
                         href="http://exist-db.org/exist/apps/doc/urlrewrite.xml"
-                        >http://exist-db.org/exist/apps/doc/urlrewrite.xml</a>.</p>
+                        >http://exist-db.org/exist/apps/doc/urlrewrite.xml</a><!--This link on the eXist-db site carries a warning about being out of date. Should we say anything about that?--></p>
             </section>
         </section>
         <section id="generate">
@@ -1305,7 +1331,8 @@ if ($exist:resource eq "") then
                     must also be world-readable and world-executable. The easiest way to set these
                     properties for multiple resources simultaneously is to use
                         <code>sm:chown()</code> and <code>sm:chmod()</code> inside an XQuery
-                        <code>for</code> loop.</li>
+                        <code>for</code> loop. (<strong>TODO:</strong> Add the code to do
+                    this.)</li>
                 <li>To generate your app, open any file from within the app hierarchy in eXide. Then
                     go to Application → Download app. An <i>.xar</i> file will be downloaded into
                     the file system on the server where eXist-db is running.</li>
@@ -1314,9 +1341,9 @@ if ($exist:resource eq "") then
                 a GitHub repo on your local filesystem. Although the instruction is called
                     <q>synchronize</q>, it only downloads from eXist-db to the file system. Since
                 changes made directly on the filesystem are not uploaded during synchronization, our
-                preferred strategy is to work entirely within the app inside eXist-db, and to run a
-                sequence of synchronize (from within eXide) and then add, commit, and push (from the
-                command line), as with a normal Git repo.</p>
+                preferred strategy is to work entirely within the app inside eXist-db, and to run
+                synchronize (from within eXide) and then add, commit, and push (from the command
+                line), as with any other Git repo.</p>
         </section>
         <section id="misc">
             <h2>Fine tuning</h2>
