@@ -66,7 +66,6 @@
         <p>David J. Birnbaum, last revised 2018-12-30, CC-BY-SA</p>
         <section id="introduction">
             <h2 class="unnumbered">Introduction</h2>
-            <p><b>TODO:</b> change CDATA sections to regular HTML with escapes</p>
             <p>This tutorial describes the steps involved in creating an application within
                 eXist-db. This method uses eXist-db not only as an XML database, but also as a
                 content management system (CMS), which means that all application resources are
@@ -309,7 +308,7 @@ xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xcon
                     subcollections, such as the following, where  <code>**/collection.xconf</code>
                     matches documents in any directory below the current one, and copies them at the
                     correct corresponding level under
-                    <i>/db/config/system/db/</i>:<pre> xdb:store-files-from-pattern(
+                    <i>/db/config/system/db/</i>:<pre>xdb:store-files-from-pattern(
     concat(
         "/db/system/config", 
         $target
@@ -385,7 +384,7 @@ xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xcon
                     the app should look like, and how to include boilerplate content (e.g., a
                     consistent, page-independent header or menu). The first, simplest version of our
                     sample main page looks as follows:</p>
-                <pre><![CDATA[xquery version "3.1";
+                <pre>xquery version "3.1";
 declare default function namespace "http://www.w3.org/2005/xpath-functions";
 declare default element namespace "http://www.w3.org/1999/xhtml";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -394,15 +393,15 @@ declare option output:media-type "application/xhtml+xml";
 declare option output:omit-xml-declaration "no";
 declare option output:indent "no";
 declare option output:doctype-system "about:legacy-compat";
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>My awesome eXist-db app</title>
-    </head>
-    <body>
-        <h1>My awesome eXist-db app</h1>
-        <p>Content will go here</p>
-    </body>
-</html>]]></pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml">
+    &lt;head>
+        &lt;title>My awesome eXist-db app&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;h1>My awesome eXist-db app&lt;/h1>
+        &lt;p>Content will go here&lt;/p>
+    &lt;/body>
+&lt;/html></pre>
             </section>
             <section id="xquery_css">
                 <h3>Add CSS and JavaScript to the main page</h3>
@@ -413,7 +412,7 @@ declare option output:doctype-system "about:legacy-compat";
                     collection and JavaScript in the <i>resources/js</i> collection, we can link to
                     them by modifying <i>index.xql</i> as follows (new code added to the first
                     example, above, is highlighted):</p>
-                <pre><![CDATA[xquery version "3.1";
+                <pre>xquery version "3.1";
 declare default function namespace "http://www.w3.org/2005/xpath-functions";
 declare default element namespace "http://www.w3.org/1999/xhtml";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -422,17 +421,17 @@ declare option output:media-type "application/xhtml+xml";
 declare option output:omit-xml-declaration "no";
 declare option output:indent "no";
 declare option output:doctype-system "about:legacy-compat";
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>My awesome eXist-db app</title>]]>
-        <span class="pre-highlight"><![CDATA[<link rel="stylesheet" type="text/css" href="../resources/css/style.css"/>
-        <script type="text/javascript" src="../resources/js/greet.js"></script>]]></span>
-<![CDATA[    </head>
-    <body>
-        <h1>My awesome eXist-db app</h1>
-        <p>Content will go here</p>
-    </body>
-</html>]]></pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml">
+    &lt;head>
+        &lt;title>My awesome eXist-db app&lt;/title>
+        <span class="pre-highlight">&lt;link rel="stylesheet" type="text/css" href="../resources/css/style.css"/>
+        &lt;script type="text/javascript" src="../resources/js/greet.js">&lt;/script></span>
+    &lt;/head>
+    &lt;body>
+        &lt;h1>My awesome eXist-db app&lt;/h1>
+        &lt;p>Content will go here&lt;/p>
+    &lt;/body>
+&lt;/html></pre>
                 <p>Because our XQuery scripts are in our <i>modules</i> subcollection, these
                     relative paths climb up from there to the app root collection and then down to
                     where the CSS and JavaScript files are located. Because Best Practice in
@@ -459,17 +458,17 @@ declare option output:omit-xml-declaration "no";
 declare option output:indent "no";
 declare option output:doctype-system "about:legacy-compat";
 <span class="pre-highlight">declare variable $title as xs:string := "My awesome eXist-db app";</span>
-<![CDATA[<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>]]>
-        <span class="pre-highlight"><![CDATA[<title>{$title}</title>]]></span>
-        <![CDATA[<link rel="stylesheet" type="text/css" href="../resources/css/style.css"/>
-        <script type="text/javascript" src="../resources/js/greet.js"></script>
-    </head>
-    <body>]]>
-        <span class="pre-highlight"><![CDATA[<h1>{$title}</h1>]]></span>
-        <![CDATA[<p>Content will go here</p>
-    </body>
-</html>]]></pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml">
+    &lt;head>
+        <span class="pre-highlight">&lt;title>{$title}&lt;/title></span>
+        &lt;link rel="stylesheet" type="text/css" href="../resources/css/style.css"/>
+        &lt;script type="text/javascript" src="../resources/js/greet.js">&lt;/script>
+    &lt;/head>
+    &lt;body>
+        <span class="pre-highlight">&lt;h1>{$title}&lt;/h1></span>
+        &lt;p>Content will go here&lt;/p>
+    &lt;/body>
+&lt;/html></pre>
             </section>
             <section id="xquery_paths">
                 <h3>Construct paths within XQuery scripts</h3>
@@ -615,7 +614,7 @@ declare option output:doctype-system "about:legacy-compat";
                     separate included resource. Since the title will vary with different master
                     documents, we can pass it as a parameter. Our <i>index.xql</i> now looks like
                     the following:</p>
-                <pre><![CDATA[xquery version "3.1";
+                <pre>xquery version "3.1";
 declare default function namespace "http://www.w3.org/2005/xpath-functions";
 declare default element namespace "http://www.w3.org/1999/xhtml";
 declare namespace xi="http://www.w3.org/2001/XInclude";
@@ -626,22 +625,22 @@ declare option output:omit-xml-declaration "no";
 declare option output:indent "no";
 declare option output:doctype-system "about:legacy-compat";
 declare variable $title as xs:string := "My awesome eXist-db app";
-<html xmlns="http://www.w3.org/1999/xhtml">]]>
-    <span class="pre-highlight"><![CDATA[<xi:include 
-        href="xmldb:exist:///db/apps/repertorium/includes/header.xql?title={encode-for-uri($title)}"/>]]></span>
-    <![CDATA[<body>
-        <h1>{$title}</h1>
-        <p>Content will go here</p>
-    </body>
-</html>]]></pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml">
+    <span class="pre-highlight">&lt;xi:include 
+        href="xmldb:exist:///db/apps/repertorium/includes/header.xql?title={encode-for-uri($title)}"/></span>
+    &lt;body>
+        &lt;h1>{$title}&lt;/h1>
+        &lt;p>Content will go here&lt;/p>
+    &lt;/body>
+&lt;/html></pre>
                 <p>and the new included resource looks like:</p>
-                <pre><![CDATA[xquery version "3.1";
+                <pre>xquery version "3.1";
 declare variable $title external;
-<head xmlns="http://www.w3.org/1999/xhtml">
-    <title>{$title}</title>
-    <link rel="stylesheet" type="text/css" href="../resources/css/style.css"/>
-    <script type="text/javascript" src="../resources/js/greet.js"></script>
-</head>]]></pre>
+&lt;head xmlns="http://www.w3.org/1999/xhtml">
+    &lt;title>{$title}&lt;/title>
+    &lt;link rel="stylesheet" type="text/css" href="../resources/css/style.css"/>
+    &lt;script type="text/javascript" src="../resources/js/greet.js">&lt;/script>
+&lt;/head></pre>
                 <p>The content of the <code>&lt;head&gt;</code> element is the same, but it is now
                     located inside the included <i>header.xql</i> script, instead of directly inside
                         <i>index.xql</i>.</p>
@@ -962,24 +961,24 @@ declare variable $context as xs:string := request:get-context-path();</pre>
                     variables to any receiving script (we discuss the forwarding process, including
                     construction of the forwarding <code>@url</code> value,
                     below):<!-- Should this go earlier? --></p>
-                <pre><![CDATA[if (local:get-extension($exist:resource) eq "") then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{concat(
+                <pre>if (local:get-extension($exist:resource) eq "") then
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        &lt;forward url="{concat(
             $exist:controller, 
             substring-before($exist:path, $exist:resource), 
             "modules/", 
             $exist:resource, 
             ".xql"
-        )}">]]>
-            <span class="pre-highlight"><![CDATA[<add-parameter name="exist:root" value="{$exist:root}"/>
-            <add-parameter name="exist:prefix" value="{$exist:prefix}"/>
-            <add-parameter name="exist:controller" value="{$exist:controller}"/>
-            <add-parameter name="exist:path" value="{$exist:path}"/>
-            <add-parameter name="exist:resource" value="{$exist:resource}"/>
-            <add-parameter name="uri" value="{$uri}"/>
-            <add-parameter name="context" value="{$context}"/>]]></span>
-        <![CDATA[</forward>
-    </dispatch>]]></pre>
+        )}">
+            <span class="pre-highlight">&lt;add-parameter name="exist:root" value="{$exist:root}"/>
+            &lt;add-parameter name="exist:prefix" value="{$exist:prefix}"/>
+            &lt;add-parameter name="exist:controller" value="{$exist:controller}"/>
+            &lt;add-parameter name="exist:path" value="{$exist:path}"/>
+            &lt;add-parameter name="exist:resource" value="{$exist:resource}"/>
+            &lt;add-parameter name="uri" value="{$uri}"/>
+            &lt;add-parameter name="context" value="{$context}"/></span>
+        &lt;/forward>
+    &lt;/dispatch></pre>
             </section>
             <section id="controller_skeleton_discussion">
                 <h3>How <i>controller.xql</i> rewrites a query URL</h3>
@@ -1088,24 +1087,24 @@ declare variable $context as xs:string := request:get-context-path();</pre>
                         <code>&lt;add-parameter&gt;</code> to forward the variables during rewriting
                     so that they can be reused when the script for the page is processed and
                     rendered. The forwarding instruction with the parameters looks like:</p>
-                <pre><![CDATA[if (local:get-extension($exist:resource) eq "") then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{concat(
+                <pre>if (local:get-extension($exist:resource) eq "") then
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        &lt;forward url="{concat(
             $exist:controller, 
             substring-before($exist:path, $exist:resource), 
             "modules/", 
             $exist:resource, 
             ".xql"
-        )}">]]>
-<span class="pre-highlight"><![CDATA[            <add-parameter name="exist:root" value="{$exist:root}"/>
-            <add-parameter name="exist:prefix" value="{$exist:prefix}"/>
-            <add-parameter name="exist:controller" value="{$exist:controller}"/>
-            <add-parameter name="exist:path" value="{$exist:path}"/>
-            <add-parameter name="exist:resource" value="{$exist:resource}"/>
-            <add-parameter name="uri" value="{$uri}"/>
-            <add-parameter name="context" value="{$context}"/>]]></span>
-<![CDATA[        </forward>
-    </dispatch>]]></pre>
+        )}">
+<span class="pre-highlight">            &lt;add-parameter name="exist:root" value="{$exist:root}"/>
+            &lt;add-parameter name="exist:prefix" value="{$exist:prefix}"/>
+            &lt;add-parameter name="exist:controller" value="{$exist:controller}"/>
+            &lt;add-parameter name="exist:path" value="{$exist:path}"/>
+            &lt;add-parameter name="exist:resource" value="{$exist:resource}"/>
+            &lt;add-parameter name="uri" value="{$uri}"/>
+            &lt;add-parameter name="context" value="{$context}"/></span>
+        &lt;/forward>
+    &lt;/dispatch></pre>
                 <p>If, for example, the original URL was
                         <code>http://localhost:8080/exist/apps/repertorium/index</code>, the
                     forwarding instruction rewrites the URl as
@@ -1119,8 +1118,7 @@ declare variable $context as xs:string := request:get-context-path();</pre>
                     absolute paths to the CSS and JavaScript resources. Since we don’t need all of
                     the variables down the pipeline, we retrieve and forward only the ones we
                     actually use. The <i>index.xql</i> page might look like the following:</p>
-                <pre>
-xquery version "3.1";
+                <pre>xquery version "3.1";
 declare default function namespace "http://www.w3.org/2005/xpath-functions";
 declare default element namespace "http://www.w3.org/1999/xhtml";
 declare namespace xi="http://www.w3.org/2001/XInclude";
@@ -1181,14 +1179,14 @@ declare variable $fqcontroller as xs:string := concat($context, $exist:prefix, $
                 <p>Finally, once we have passed the parameters into <i>header.xql</i>, our included
                     document, we can use them to construct an absolute path from there to our CSS
                     and JavaScript resources. Our <i>header.xql</i> file looks as follows:</p>
-                <pre><![CDATA[xquery version "3.1";]]>
-<span class="pre-highlight"><![CDATA[declare variable $title external;
-declare variable $fqcontroller external;]]></span>
-<![CDATA[<head xmlns="http://www.w3.org/1999/xhtml">]]>
-    <span class="pre-highlight"><![CDATA[<title>{$title}</title>
-    <link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/style.css')}"/> 
-    <link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/repertorium.css')}"/>]]></span>
-<![CDATA[</head>]]></pre>
+                <pre>xquery version "3.1";
+<span class="pre-highlight">declare variable $title external;
+declare variable $fqcontroller external;</span>
+&lt;head xmlns="http://www.w3.org/1999/xhtml">
+    <span class="pre-highlight">&lt;title>{$title}&lt;/title>
+    &lt;link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/style.css')}"/> 
+    &lt;link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/repertorium.css')}"/></span>
+&lt;/head></pre>
                 <p>The constructed links to the CSS in our example look like
                         <code>href="/exist/apps/repertorium/resources/css/style.css"</code>. Links
                     to JavaScript would be constructed similarly, e.g.,
@@ -1298,15 +1296,15 @@ if ($exist:resource eq "") then
                         <code>&lt;view&gt;</code> element after the <code>&lt;forward&gt;</code>
                     element inside the controller. The following example is from Siegel and Retter,
                     p. 203:</p>
-                <pre><![CDATA[<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-    <forward url="{concat($exist:controller, "/createmodel.xq")}"/>]]>
-    <span class="pre-highlight"><![CDATA[<view>
-        <forward servlet="XSLTServlet">
-            <set-attribute name="xslt.stylesheet"
+                <pre>&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+    &lt;forward url="{concat($exist:controller, "/createmodel.xq")}"/>
+    <span class="pre-highlight">&lt;view>
+        &lt;forward servlet="XSLTServlet">
+            &lt;set-attribute name="xslt.stylesheet"
                 value="{concat($exist:root, $exist:controller, "/xslt/view1.xslt")}"/>
-        </forward>
-    </view>]]></span>
-<![CDATA[</dispatch>]]></pre>
+        &lt;/forward>
+    &lt;/view></span>
+&lt;/dispatch></pre>
                 <p>The <code>&lt;view&gt;</code> element contains another
                         <code>&lt;forward&gt;</code> element, which has a
                         <code>&lt;set-attribute&gt;</code> child that specifies the XSLT stylesheet.
@@ -1370,7 +1368,7 @@ if ($exist:resource eq "") then
             <section id="variable_output_controller">
                 <h3 class="unnumbered"><i>controller.xql</i></h3>
                 <p><i>controller.xql</i> is located inside <i>/db/apps/repertorium</i></p>
-                <pre><![CDATA[xquery version "3.1" encoding "UTF-8";
+                <pre>xquery version "3.1" encoding "UTF-8";
 
 (: External variables available to the controller:
  : $exist:root
@@ -1414,9 +1412,9 @@ declare function local:get-extension($filename as xs:string) as xs:string {
 This is a redirect, forcing the browser to perform a redirect. So this request
 will pass through the controller again... :)
 if ($exist:resource eq "") then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <redirect url="{$home-page-url}"/>
-    </dispatch>
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        &lt;redirect url="{$home-page-url}"/>
+    &lt;/dispatch>
     
 (: Check if there is no extension. If not, assume it is an XQuery file and located
  : in the modules subcollection. Because we use forward here, the browser will not be 
@@ -1424,33 +1422,33 @@ informed of the change and the user will see a URL without the "modules/" step i
 path and with the ".xql" extension. :)
 else
 if (local:get-extension($exist:resource) eq "") then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{concat(
+    &lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        &lt;forward url="{concat(
             $exist:controller, 
             substring-before($exist:path, $exist:resource), 
             "modules/", 
             $exist:resource, 
             ".xql"
         )}">
-            <add-parameter name="exist:root" value="{$exist:root}"/>
-            <add-parameter name="exist:prefix" value="{$exist:prefix}"/>
-            <add-parameter name="exist:controller" value="{$exist:controller}"/>
-            <add-parameter name="exist:path" value="{$exist:path}"/>
-            <add-parameter name="exist:resource" value="{$exist:resource}"/>
-            <add-parameter name="uri" value="{$uri}"/>
-            <add-parameter name="context" value="{$context}"/>
-        </forward>
-    </dispatch>
+            &lt;add-parameter name="exist:root" value="{$exist:root}"/>
+            &lt;add-parameter name="exist:prefix" value="{$exist:prefix}"/>
+            &lt;add-parameter name="exist:controller" value="{$exist:controller}"/>
+            &lt;add-parameter name="exist:path" value="{$exist:path}"/>
+            &lt;add-parameter name="exist:resource" value="{$exist:resource}"/>
+            &lt;add-parameter name="uri" value="{$uri}"/>
+            &lt;add-parameter name="context" value="{$context}"/>
+        &lt;/forward>
+    &lt;/dispatch>
 (: Anything else, pass through: :)
     else
-        <ignore xmlns="http://exist.sourceforge.net/NS/exist">
-            <cache-control cache="yes"/>
-        </ignore>]]></pre>
+        &lt;ignore xmlns="http://exist.sourceforge.net/NS/exist">
+            &lt;cache-control cache="yes"/>
+        &lt;/ignore></pre>
             </section>
             <section id="controller_output_test">
                 <h3 class="unnumbered"><i>test.xql</i></h3>
                 <p><i>test.xql</i> is located inside <i>/db/apps/repertorium/modules</i></p>
-                <pre><![CDATA[xquery version "3.1";
+                <pre>xquery version "3.1";
 declare default function namespace "http://www.w3.org/2005/xpath-functions";
 declare default element namespace "http://www.w3.org/1999/xhtml";
 declare namespace xi = "http://www.w3.org/2001/XInclude";
@@ -1469,9 +1467,9 @@ declare variable $exist:resource as xs:string := request:get-parameter("exist:re
 declare variable $uri as xs:string := request:get-parameter("uri", ());
 declare variable $context as xs:string := request:get-parameter("context", ());
 declare variable $fqcontroller as xs:string := concat($context, $exist:prefix, $exist:controller, '/');
-<html
+&lt;html
     xmlns="http://www.w3.org/1999/xhtml">
-    <xi:include
+    &lt;xi:include
         href="{
                 concat(
                 $exist:root,
@@ -1482,75 +1480,75 @@ declare variable $fqcontroller as xs:string := concat($context, $exist:prefix, $
                 $fqcontroller
                 )
             }"/>
-    <body>
-        <h1>{$title}</h1>
-        <table>
-            <tr><th>Variable</th><th>Value</th></tr>
-            <tr><td><code>$title</code></td><td>{$title}</td></tr>
-            <tr><td><code>$exist:root</code></td><td>{$exist:root}</td></tr>
-            <tr><td><code>$exist:prefix</code></td><td>{$exist:prefix}</td></tr>
-            <tr><td><code>$exist:controller</code></td><td>{$exist:controller}</td></tr>
-            <tr><td><code>$exist:path</code></td><td>{$exist:path}</td></tr>
-            <tr><td><code>$exist:resource</code></td><td>{$exist:resource}</td></tr>
-            <tr><td><code>$uri</code> (from <code>request:get-uri()</code>)</td><td>{$uri}</td></tr>
-            <tr><td><code>$context</code> (from <code>request:get-context-path()</code>)</td><td>{$context}</td></tr>
-            <tr>
-                <td><code>$fqcontroller</code><br/>(<code>concat($context, $exist:prefix, $exist:controller, '/')</code>)</td>
-                <td>{$fqcontroller}</td>
-            </tr>
-        </table>
-    </body>
-</html>]]></pre>
+    &lt;body>
+        &lt;h1>{$title}&lt;/h1>
+        &lt;table>
+            &lt;tr>&lt;th>Variable&lt;/th>&lt;th>Value&lt;/th>&lt;/tr>
+            &lt;tr>&lt;td>&lt;code>$title&lt;/code>&lt;/td>&lt;td>{$title}&lt;/td>&lt;/tr>
+            &lt;tr>&lt;td>&lt;code>$exist:root&lt;/code>&lt;/td>&lt;td>{$exist:root}&lt;/td>&lt;/tr>
+            &lt;tr>&lt;td>&lt;code>$exist:prefix&lt;/code>&lt;/td>&lt;td>{$exist:prefix}&lt;/td>&lt;/tr>
+            &lt;tr>&lt;td>&lt;code>$exist:controller&lt;/code>&lt;/td>&lt;td>{$exist:controller}&lt;/td>&lt;/tr>
+            &lt;tr>&lt;td>&lt;code>$exist:path&lt;/code>&lt;/td>&lt;td>{$exist:path}&lt;/td>&lt;/tr>
+            &lt;tr>&lt;td>&lt;code>$exist:resource&lt;/code>&lt;/td>&lt;td>{$exist:resource}&lt;/td>&lt;/tr>
+            &lt;tr>&lt;td>&lt;code>$uri&lt;/code> (from &lt;code>request:get-uri()&lt;/code>)&lt;/td>&lt;td>{$uri}&lt;/td>&lt;/tr>
+            &lt;tr>&lt;td>&lt;code>$context&lt;/code> (from &lt;code>request:get-context-path()&lt;/code>)&lt;/td>&lt;td>{$context}&lt;/td>&lt;/tr>
+            &lt;tr>
+                &lt;td>&lt;code>$fqcontroller&lt;/code>&lt;br/>(&lt;code>concat($context, $exist:prefix, $exist:controller, '/')&lt;/code>)&lt;/td>
+                &lt;td>{$fqcontroller}&lt;/td>
+            &lt;/tr>
+        &lt;/table>
+    &lt;/body>
+&lt;/html></pre>
             </section>
             <section id="controller_output_header">
                 <h3 class="unnumbered"><i>header.xql</i></h3>
                 <p><i>header.xql</i> is located inside <i>/db/apps/repertorium/includes</i></p>
-                <pre><![CDATA[xquery version "3.1";
+                <pre>xquery version "3.1";
 declare variable $title external;
 declare variable $fqcontroller external;
-<head xmlns="http://www.w3.org/1999/xhtml">
-    <title>{$title}</title>
-    <link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/style.css')}"/> 
-    <link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/repertorium.css')}"/>
-</head>]]></pre>
+&lt;head xmlns="http://www.w3.org/1999/xhtml">
+    &lt;title>{$title}&lt;/title>
+    &lt;link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/style.css')}"/> 
+    &lt;link rel="stylesheet" type="text/css" href="{concat($fqcontroller, 'resources/css/repertorium.css')}"/>
+&lt;/head></pre>
             </section>
         </section>
         <section id="paths">
             <h2 class="unnumbered">Appendix B: Path summary</h2>
             <p>From within <i>controller.xql</i>, a forwarding URL should begin with
                     <code>$exist:controller</code>, e.g.:</p>
-            <pre><![CDATA[<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-    <forward url="{]]><span class="pre-highlight"><![CDATA[concat(
+            <pre>&lt;dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+    &lt;forward url="{<span class="pre-highlight">concat(
         $exist:controller, 
         substring-before($exist:path, $exist:resource), 
         "modules/", 
         $exist:resource, ".xql"
-    )]]></span><![CDATA[}"/>
-</dispatch>]]></pre>
+    )</span>}"/>
+&lt;/dispatch></pre>
             <p>From within an XQuery script, a path to a system resource that will be used by the
                 script, e.g., an XML document called with <code>doc()</code> or a collection called
                 with <code>collection()</code>, should begin with <code>$exist:root</code>,
                 e.g.:</p>
-            <pre><![CDATA[<xi:include href="{concat(
+            <pre>&lt;xi:include href="{concat(
     $exist:root, 
     $exist:controller, 
     '/includes/header.xql?title=', 
     encode-for-uri($title),
-    '&fqcontroller=',
+    '&amp;amp;fqcontroller=',
     $fqcontroller
-)}"/>]]></pre>
+)}"/></pre>
             <p>The same type of path is used for XSLT stylesheets, e.g.:</p>
-            <pre><![CDATA[<view>
-    <forward servlet="XSLTServlet">
-        <set-attribute name="xslt.stylesheet"
+            <pre>&lt;view>
+    &lt;forward servlet="XSLTServlet">
+        &lt;set-attribute name="xslt.stylesheet"
             value="{concat($exist:root, $exist:controller, "/xslt/view1.xslt")}"/>
-    </forward>
-</view>]]></pre>
+    &lt;/forward>
+&lt;/view></pre>
             <p>From within an XQuery script, a path to a system resource that will be processed by
                 the jetty server, e.g., to CSS or JavaScript, should begin with the context
                 (typically <i>/exist</i>), which can be retrieved with
                     <code>request:get-context-path()</code>, e.g.:</p>
-            <pre><![CDATA[<link rel="stylesheet" type="text/css" 
-    href="{concat(request:get-context-uri(), $exist:prefix, $exist:controller, '/resources/css/style.css')}"/>]]></pre>
+            <pre>&lt;link rel="stylesheet" type="text/css" 
+    href="{concat(request:get-context-uri(), $exist:prefix, $exist:controller, '/resources/css/style.css')}"/></pre>
         </section></body>
 </html>
