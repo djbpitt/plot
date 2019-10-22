@@ -57,13 +57,13 @@
                         or constant width.
                     The name eXist-db is used (instead of just eXist).
                     Names of programs (e.g., eXist, eXide) are not styled. Neither are names of
-                        dialogs (e.g., Open . document), the labels on dialog widgets (e.g., Template),
+                        dialogs (e.g., Open document), the labels on dialog widgets (e.g., Template),
                         or menu items (e.g., Application or New application).
             -->
     </head>
     <body>
         <h1>Creating an eXist-db application</h1>
-        <p>David J. Birnbaum, last revised 2018-12-30, CC-BY-SA</p>
+        <p>David J. Birnbaum, last revised 2019-10-22, CC-BY-SA</p>
         <section id="introduction">
             <h2 class="unnumbered">Introduction</h2>
             <p>This tutorial describes the steps involved in creating an application within
@@ -113,6 +113,16 @@
                         <cite>eXist</cite>, Beijing et al.: O’Reilly, 2014, pp. 191–235. This book
                     is referred to below as <q>Siegel and Retter</q>.</li>
             </ul>
+            <p class="note">For a comparison of different methods of using eXist-db as a publishing
+                platform see: Birnbaum, David J., Hugh Cayless, Emmanuelle Morlock, Leif-Jöran
+                Olsson and Joseph Wicentowski, <q>The integration of XML databases and content
+                    management systems in digital editions: Understanding eXist-db through Reese’s
+                    Peanut Butter Cups</q>, presented at Balisage: The Markup Conference 2019,
+                Washington, DC, July 30–August 2, 2019. In <cite>Proceedings of Balisage: The Markup
+                    Conference 2019.</cite> Balisage Series on Markup Technologies, vol. 23 (2019).
+                https://doi.org/10.4242/BalisageVol23.Birnbaum01. <a
+                    href="https://www.balisage.net/Proceedings/vol23/html/Birnbaum01/BalisageVol23-Birnbaum01.html"
+                    >https://www.balisage.net/Proceedings/vol23/html/Birnbaum01/BalisageVol23-Birnbaum01.html</a>.</p>
             <p>The stages in the procedure for developing an eXist-db app are described below in the
                 following order:</p>
             <ol>
@@ -133,10 +143,10 @@
                         <code>request:</code> functions</a>. <a href="#paths">Appendix B: Path
                     summary</a>, compares the different ways paths to resources are constructed
                 within an app.</p>
-            <p>The procedure described here was tested under eXist-db 4.4 and 4.5. This tutorial
-                concentrates only on app development, and it is intended for users who already have
-                a basic familiarity with XQuery and with the use of eXist-db as an XML database.
-                Those who lack that familiarity will need to begin with the online eXist
+            <p>The procedure described here was tested under eXist-db 4.4, 4.5 and 5.0. This
+                tutorial concentrates only on app development, and it is intended for users who
+                already have a basic familiarity with XQuery and with the use of eXist-db as an XML
+                database. Those who lack that familiarity will need to begin with the online eXist
                 documentation and Siegel and Retter before proceeding to app development. In keeping
                 with the recommmendations in Siegel and Retter, p. 40, we observe the following
                 terminology:</p>
@@ -236,7 +246,9 @@
                     </ul></li>
                 <li>Optionally upload a file named <i>icon.png</i> into the root collection of your
                     app. If you include this, it will be displayed in the dashboard (at an
-                    appropriate size); otherwise a generic eXist-db icon will be used.</li>
+                    appropriate size); otherwise a generic eXist-db icon will be used. <b>[TODO:
+                        This doesn’t work when the app is created from eXide. Does it require
+                        deployment from an <i>xar</i>?]</b></li>
             </ol>
             <p>In most cases you will want to set the user and group for all resources to the userid
                 and groupid you created when you configured the wizard, and if you create the
@@ -364,7 +376,7 @@ xdb:store-files-from-pattern(concat("/db/system/config", $target), $dir, "*.xcon
                     content through an XSLT transformation before returning it, even though that
                     transformation will be vacuous in the case of content that is already HTML.</p>
                 <p class="note">Some developers avoid XSLT entirely, preferring to transform content
-                    by using the XQuery <code>typeswitch()</code> function to simulate XSLT template
+                    by using the XQuery <code>typeswitch</code> expression to simulate XSLT template
                     processing. In this tutorial, as in our actual projects, we use the XSLT
                     approach.</p>All HTML output from our projects is HTML 5.0 with XML syntax. We
                 therefore use the HTML namespace, we specify a DOCTYPE declaration, and we set the
@@ -1166,7 +1178,7 @@ declare variable $fqcontroller as xs:string := concat($context, $exist:prefix, $
                             <code>xmldb:exist:///db/apps/repertorium/includes/header.xql</code>.</li>
                     <li>We then add a query string to pass parameters from <i>index.xql</i> into
                             <i>header.xql</i>, leading to a final URL of
-                            <code>xmldb:exist:///db/apps/repertorium/includes/header.xql?title=encode-for-uri($title)&amp;exist:controller=/repertorium&amp;exist:root=xmldb:exist///db/apps</code>,.
+                            <code>xmldb:exist:///db/apps/repertorium/includes/header.xql?title=encode-for-uri($title)&amp;fqcontroller=$fqcontroller</code>.
                         We need to encode the title because it may contain characters not permitted
                         in URLs, such as spaces. We are not URL-encoding the controller variables,
                         which is safe only as long as our resource names in the database do not
@@ -1190,7 +1202,13 @@ declare variable $fqcontroller external;</span>
                 <p>The constructed links to the CSS in our example look like
                         <code>href="/exist/apps/repertorium/resources/css/style.css"</code>. Links
                     to JavaScript would be constructed similarly, e.g.,
-                        <code>href="/exist/apps/repertorium/resources/js/script.js"</code>.</p>
+                        <code>href="/exist/apps/repertorium/resources/js/script.js"</code>. Note
+                    that we cannot use database URIs (beginning with
+                        <code>xmldb:exist:///db/apps</code>) here because links from
+                        <code>&lt;link></code> (<code>@href</code> attribute) and
+                        <code>&lt;script></code> (<code>@src</code> attribute) elements are
+                    processed by jetty, and not by eXist-db, which means that they are web server
+                    links, rather than database links.</p>
             </section>
             <section id="controller_home">
                 <h3>The main page</h3>
@@ -1325,9 +1343,9 @@ if ($exist:resource eq "") then
                     group ids that you created originally in the eXide app wizard. Verify also that
                     the resource permissions are correct: anything users should be able to read
                     directly must be world-readable, and any XQuery that users should be able to run
-                    should be world-executable. Directories where users need to access resources
-                    must also be world-readable and world-executable. The easiest way to set these
-                    properties for multiple resources simultaneously is to use
+                    must be world-executable. Collections (directories) where users need to access
+                    resources must also be world-readable and world-executable. The easiest way to
+                    set these properties for multiple resources simultaneously is to use
                         <code>sm:chown()</code> and <code>sm:chmod()</code> inside an XQuery
                         <code>for</code> loop. (<strong>TODO:</strong> Add the code to do
                     this.)</li>
