@@ -53,7 +53,6 @@
                 <xsl:on-completion>
                     <xsl:sequence select="$rows"/>
                 </xsl:on-completion>
-                <xsl:message select="count($rows) + 1"/>
                 <xsl:variable name="new_rows" as="element(row)*">
                     <xsl:sequence select="$rows"/>
                     <row>
@@ -76,7 +75,9 @@
                                     select="
                                         $s1_e[current()] || ' | ' || $s2_e[$column_offset]"/>
                                 <br/>
-                                <xsl:value-of select="'hi'"/>
+                                <xsl:value-of select="'top = ' || $rows[2]"/>
+                                <br/>
+                                <xsl:value-of select="'current column =' || current()"/>
                             </cell>
                         </xsl:iterate>
                     </row>
