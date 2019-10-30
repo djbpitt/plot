@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>Needleman Wunsch test</title>
+      <link rel="stylesheet"
+            type="text/css"
+            href="http://www.obdurodon.org/css/style.css"/>
+   </head>
+   <body>
+      <h1>Needleman Wunsch test</h1>
+      <h2>F table</h2>
+      <table>
+         <tr>
+            <td style=""> </td>
+            <td style=""> </td>
+            <td style="">c</td>
+            <td style="">a</td>
+            <td style="">l</td>
+            <td style="">i</td>
+            <td style="">f</td>
+         </tr>
+         <tr>
+            <td style=""> </td>
+            <td style="">0</td>
+            <td style="">-2</td>
+            <td style="">-4</td>
+            <td style="">-6</td>
+            <td style="">-8</td>
+            <td style="">-10</td>
+         </tr>
+         <tr>
+            <td style="">b</td>
+            <td style="">-2</td>
+            <td style="background-color:pink">c | b</td>
+            <td style="background-color:pink">a | b</td>
+            <td style="background-color:pink">l | b</td>
+            <td style="background-color:pink">i | b</td>
+            <td style="background-color:pink">f | b</td>
+         </tr>
+         <tr>
+            <td style="">a</td>
+            <td style="">-4</td>
+            <td style="background-color:pink">c | a</td>
+            <td style="background-color:palegreen">a | a</td>
+            <td style="background-color:pink">l | a</td>
+            <td style="background-color:pink">i | a</td>
+            <td style="background-color:pink">f | a</td>
+         </tr>
+         <tr>
+            <td style="">i</td>
+            <td style="">-6</td>
+            <td style="background-color:pink">c | i</td>
+            <td style="background-color:pink">a | i</td>
+            <td style="background-color:pink">l | i</td>
+            <td style="background-color:palegreen">i | i</td>
+            <td style="background-color:pink">f | i</td>
+         </tr>
+         <tr>
+            <td style="">l</td>
+            <td style="">-8</td>
+            <td style="background-color:pink">c | l</td>
+            <td style="background-color:pink">a | l</td>
+            <td style="background-color:palegreen">l | l</td>
+            <td style="background-color:pink">i | l</td>
+            <td style="background-color:pink">f | l</td>
+         </tr>
+         <tr>
+            <td style="">i</td>
+            <td style="">-10</td>
+            <td style="background-color:pink">c | i</td>
+            <td style="background-color:pink">a | i</td>
+            <td style="background-color:pink">l | i</td>
+            <td style="background-color:palegreen">i | i</td>
+            <td style="background-color:pink">f | i</td>
+         </tr>
+         <tr>
+            <td style="">f</td>
+            <td style="">-12</td>
+            <td style="background-color:pink">c | f</td>
+            <td style="background-color:pink">a | f</td>
+            <td style="background-color:pink">l | f</td>
+            <td style="background-color:pink">i | f</td>
+            <td style="background-color:palegreen">f | f</td>
+         </tr>
+         <tr>
+            <td style="">f</td>
+            <td style="">-14</td>
+            <td style="background-color:pink">c | f</td>
+            <td style="background-color:pink">a | f</td>
+            <td style="background-color:pink">l | f</td>
+            <td style="background-color:pink">i | f</td>
+            <td style="background-color:palegreen">f | f</td>
+         </tr>
+      </table>
+   </body>
+</html>

@@ -47,7 +47,7 @@
                 </xsl:for-each>
             </row>
             <xsl:iterate select="1 to count($s2_e)">
-                <xsl:param name="rows" as="element(row)*"/>                
+                <xsl:param name="rows" as="element(row)*"/>
                 <xsl:param name="column_offset" as="xs:integer" select="1"/>
                 <xsl:on-completion>
                     <xsl:sequence select="$rows"/>
@@ -64,12 +64,16 @@
                         </cell>
                         <xsl:iterate select="1 to count($s1_e)">
                             <cell>
+                                <xsl:attribute name="style"
+                                    select="
+                                        concat('background-color:',
+                                        if ($s1_e[current()] eq $s2_e[$column_offset]) then
+                                            'palegreen'
+                                        else
+                                            'pink')"/>
                                 <xsl:value-of
                                     select="
-                                        if ($s1_e[current()] eq $s2_e[$column_offset]) then
-                                            'same'
-                                        else
-                                            'different'"
+                                        $s1_e[current()] || ' | ' || $s2_e[$column_offset]"
                                 />
                             </cell>
                         </xsl:iterate>
@@ -113,7 +117,7 @@
         </tr>
     </xsl:template>
     <xsl:template match="cell" mode="html" xmlns="http://www.w3.org/1999/xhtml">
-        <td>
+        <td style="{@style}">
             <xsl:apply-templates/>
         </td>
     </xsl:template>
