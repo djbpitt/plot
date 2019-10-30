@@ -16,7 +16,6 @@
                     codepoints-to-string($c)"
         />
     </xsl:function>
-
     <xsl:function name="djb:nw">
         <!-- input is two strings, s1 and s2 -->
         <xsl:param name="s1" as="xs:string"/>
@@ -28,7 +27,6 @@
         <xsl:variable name="match" as="xs:integer" select="1"/>
         <xsl:variable name="mismatch" as="xs:integer" select="-1"/>
         <xsl:variable name="gap" as="xs:integer" select="-2"/>
-
         <table>
             <row>
                 <cell>&#xa0;</cell>
@@ -66,7 +64,12 @@
                         <xsl:iterate select="1 to count($s1_e)">
                             <cell>
                                 <xsl:value-of
-                                    select="$s1_e[current()] || '|' || $s2_e[$column_offset]"/>
+                                    select="
+                                        if ($s1_e[current()] eq $s2_e[$column_offset]) then
+                                            'same'
+                                        else
+                                            'different'"
+                                />
                             </cell>
                         </xsl:iterate>
                     </row>
@@ -77,55 +80,15 @@
                 </xsl:next-iteration>
             </xsl:iterate>
         </table>
-
-        <!--           <xsl:iterate select="1 to count($s2_e)">
-                <xsl:param name="rows" as="element(row)*">
-                <xsl:variable name="s1_pos" select="current()"/>
-                <xsl:variable name="s1_v" select="$s1_e[$s1_pos]"/>
-                <xsl:variable name="new_cells" as="element(row)+">
-                    <xsl:sequence select="$cells"/>
-                    <row>
-                        <cell>
-                            <xsl:value-of select="$s2_e[current()]"/>
-                        </cell>
-                        <cell>
-                            <xsl:value-of select="$gap * position()"/>
-                        </cell>
-                        <xsl:iterate select="1 to count($s1_e)">
-                            <xsl:param name="inner"/>
-                            <xsl:on-completion>
-                                <xsl:sequence select="$inner"/>
-                            </xsl:on-completion>
-                            <xsl:variable name="s2_pos" select="current()"/>
-                            <xsl:variable name="new_inner">
-                                <xsl:sequence select="$inner"/>
-                                <cell>
-                                    <xsl:value-of select="$s1_e[$s1_pos] || '|' || $s2_e[$s2_pos]"/>
-                                </cell>
-                            </xsl:variable>
-                            <xsl:next-iteration>
-                                <xsl:with-param name="inner" select="$new_inner"/>
-                            </xsl:next-iteration>
-                        </xsl:iterate>
-                    </row>
-                </xsl:variable>
-                <xsl:next-iteration>
-                    <xsl:with-param name="cells" select="$new_cells"/>
-                </xsl:next-iteration>
-            </xsl:iterate>
-        </table>
--->
     </xsl:function>
-
     <!-- main -->
     <xsl:template name="xsl:initial-template">
         <xsl:variable name="s1" as="xs:string" select="'calif'"/>
         <xsl:variable name="s2" as="xs:string" select="'bailiff'"/>
         <xsl:variable name="table" select="djb:nw($s1, $s2)"/>
-        <xsl:sequence select="$table"/>
+        <!--<xsl:sequence select="$table"/>-->
         <xsl:apply-templates select="$table" mode="html"/>
     </xsl:template>
-
     <!-- html table output -->
     <xsl:template match="table" mode="html" xmlns="http://www.w3.org/1999/xhtml">
         <html>
@@ -152,5 +115,8 @@
         <td>
             <xsl:apply-templates/>
         </td>
+    </xsl:template>
+    <xsl:template match="br" mode="html" xmlns="http://www.w3.org/1999/xhtml">
+        <br/>
     </xsl:template>
 </xsl:stylesheet>
