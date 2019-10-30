@@ -75,7 +75,9 @@
                                     select="
                                         $s1_e[current()] || ' | ' || $s2_e[$column_offset]"/>
                                 <br/>
-                                <xsl:value-of select="'top = ' || $rows[2]"/>
+                                <xsl:value-of select="'row count = ' || count($rows)"/>
+                                <br/>
+                                <xsl:value-of select="'top = ' || $rows[2]/cell[2 + current()]"/>
                                 <br/>
                                 <xsl:value-of select="'current column =' || current()"/>
                             </cell>
