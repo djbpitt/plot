@@ -75,6 +75,8 @@
                                     select="
                                         $s1_e[current()] || ' | ' || $s2_e[$column_offset]"
                                 />
+                                <br/>
+                                <xsl:value-of select="'hi'"/>
                             </cell>
                         </xsl:iterate>
                     </row>
@@ -118,7 +120,7 @@
     </xsl:template>
     <xsl:template match="cell" mode="html" xmlns="http://www.w3.org/1999/xhtml">
         <td style="{@style}">
-            <xsl:apply-templates/>
+            <xsl:apply-templates mode="html"/>
         </td>
     </xsl:template>
     <xsl:template match="br" mode="html" xmlns="http://www.w3.org/1999/xhtml">
