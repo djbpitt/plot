@@ -3,7 +3,7 @@
 Miscellaneous XML experimentation
 
 Project | Description
-==== | ====
+---- | ----
 alphanumeric_sort | Sort compound alphanumeric strings like “Proverbs 24” correctly
 eXist-app | Learning how to create an eXist db app
 eo | Experimenting with Book 1 of *Eugene Onegin*
