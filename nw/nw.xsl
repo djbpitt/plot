@@ -47,12 +47,13 @@
                 </xsl:for-each>
             </row>
             <xsl:iterate select="1 to count($s2_e)">
-                <xsl:param name="rows"/>
+                <xsl:param name="rows" as="element(row)*"/>                
                 <xsl:param name="column_offset" as="xs:integer" select="1"/>
                 <xsl:on-completion>
                     <xsl:sequence select="$rows"/>
                 </xsl:on-completion>
-                <xsl:variable name="new_rows">
+                <xsl:message select="count($rows) + 1"/>
+                <xsl:variable name="new_rows" as="element(row)*">
                     <xsl:sequence select="$rows"/>
                     <row>
                         <cell>
