@@ -29,43 +29,92 @@
         <xsl:variable name="mismatch" as="xs:integer" select="-1"/>
         <xsl:variable name="gap" as="xs:integer" select="-2"/>
 
-        <xsl:iterate select="1 to count($s1_e)">
-            <xsl:param name="cells" as="element(row)*">
-                <!-- initialize top row -->
-                <row>
-                    <cell/>
-                    <xsl:for-each select="$s1_e">
+        <table>
+            <row>
+                <cell>&#xa0;</cell>
+                <cell>&#xa0;</cell>
+                <xsl:for-each select="$s1_e">
+                    <cell>
+                        <xsl:value-of select="."/>
+                    </cell>
+                </xsl:for-each>
+            </row>
+            <row>
+                <cell>&#xa0;</cell>
+                <cell>0</cell>
+                <xsl:for-each select="$s1_e">
+                    <cell s1="{.}" s2="''">
+                        <xsl:value-of select="$gap * position()"/>
+                    </cell>
+                </xsl:for-each>
+            </row>
+            <xsl:iterate select="1 to count($s2_e)">
+                <xsl:param name="rows"/>
+                <xsl:param name="column_offset" as="xs:integer" select="1"/>
+                <xsl:on-completion>
+                    <xsl:sequence select="$rows"/>
+                </xsl:on-completion>
+                <xsl:variable name="new_rows">
+                    <xsl:sequence select="$rows"/>
+                    <row>
                         <cell>
-                            <xsl:value-of select="."/>
+                            <xsl:value-of select="$s2_e[current()]"/>
                         </cell>
-                    </xsl:for-each>
-                </row>
-                <row>
-                    <cell s1="''" s2="''">0</cell>
-                    <xsl:for-each select="$s1_e">
-                        <cell s1="{.}" s2="''">
+                        <cell>
                             <xsl:value-of select="$gap * position()"/>
                         </cell>
-                    </xsl:for-each>
-                </row>
-            </xsl:param>
-            <xsl:on-completion>
-                <table>
+                        <xsl:iterate select="1 to count($s1_e)">
+                            <cell>
+                                <xsl:value-of
+                                    select="$s1_e[current()] || '|' || $s2_e[$column_offset]"/>
+                            </cell>
+                        </xsl:iterate>
+                    </row>
+                </xsl:variable>
+                <xsl:next-iteration>
+                    <xsl:with-param name="rows" select="$new_rows"/>
+                    <xsl:with-param name="column_offset" select="$column_offset + 1"/>
+                </xsl:next-iteration>
+            </xsl:iterate>
+        </table>
+
+        <!--           <xsl:iterate select="1 to count($s2_e)">
+                <xsl:param name="rows" as="element(row)*">
+                <xsl:variable name="s1_pos" select="current()"/>
+                <xsl:variable name="s1_v" select="$s1_e[$s1_pos]"/>
+                <xsl:variable name="new_cells" as="element(row)+">
                     <xsl:sequence select="$cells"/>
-                </table>
-            </xsl:on-completion>
-            <xsl:variable name="new_cells" as="element(row)+">
-                <xsl:sequence select="$cells"/>
-                <row>
-                    <cell>
-                        <xsl:value-of select="$s1_e[current()]"/>
-                    </cell>
-                </row>
-            </xsl:variable>
-            <xsl:next-iteration>
-                <xsl:with-param name="cells" select="$new_cells"/>
-            </xsl:next-iteration>
-        </xsl:iterate>
+                    <row>
+                        <cell>
+                            <xsl:value-of select="$s2_e[current()]"/>
+                        </cell>
+                        <cell>
+                            <xsl:value-of select="$gap * position()"/>
+                        </cell>
+                        <xsl:iterate select="1 to count($s1_e)">
+                            <xsl:param name="inner"/>
+                            <xsl:on-completion>
+                                <xsl:sequence select="$inner"/>
+                            </xsl:on-completion>
+                            <xsl:variable name="s2_pos" select="current()"/>
+                            <xsl:variable name="new_inner">
+                                <xsl:sequence select="$inner"/>
+                                <cell>
+                                    <xsl:value-of select="$s1_e[$s1_pos] || '|' || $s2_e[$s2_pos]"/>
+                                </cell>
+                            </xsl:variable>
+                            <xsl:next-iteration>
+                                <xsl:with-param name="inner" select="$new_inner"/>
+                            </xsl:next-iteration>
+                        </xsl:iterate>
+                    </row>
+                </xsl:variable>
+                <xsl:next-iteration>
+                    <xsl:with-param name="cells" select="$new_cells"/>
+                </xsl:next-iteration>
+            </xsl:iterate>
+        </table>
+-->
     </xsl:function>
 
     <!-- main -->
@@ -74,7 +123,7 @@
         <xsl:variable name="s2" as="xs:string" select="'bailiff'"/>
         <xsl:variable name="table" select="djb:nw($s1, $s2)"/>
         <xsl:sequence select="$table"/>
-        <!--<xsl:apply-templates select="$table" mode="html"/>-->
+        <xsl:apply-templates select="$table" mode="html"/>
     </xsl:template>
 
     <!-- html table output -->
