@@ -28,26 +28,27 @@
         <xsl:variable name="mismatch" as="xs:integer" select="-1"/>
         <xsl:variable name="gap" as="xs:integer" select="-2"/>
         <table>
-            <row>
-                <cell>&#xa0;</cell>
-                <cell>&#xa0;</cell>
-                <xsl:for-each select="$s1_e">
-                    <cell>
-                        <xsl:value-of select="."/>
-                    </cell>
-                </xsl:for-each>
-            </row>
-            <row>
-                <cell>&#xa0;</cell>
-                <cell>0</cell>
-                <xsl:for-each select="$s1_e">
-                    <cell s1="{.}" s2="''">
-                        <xsl:value-of select="$gap * position()"/>
-                    </cell>
-                </xsl:for-each>
-            </row>
             <xsl:iterate select="1 to count($s2_e)">
-                <xsl:param name="rows" as="element(row)*"/>
+                <xsl:param name="rows" as="element(row)+">
+                    <row>
+                        <cell>&#xa0;</cell>
+                        <cell>&#xa0;</cell>
+                        <xsl:for-each select="$s1_e">
+                            <cell>
+                                <xsl:value-of select="."/>
+                            </cell>
+                        </xsl:for-each>
+                    </row>
+                    <row>
+                        <cell>&#xa0;</cell>
+                        <cell>0</cell>
+                        <xsl:for-each select="$s1_e">
+                            <cell s1="{.}" s2="''">
+                                <xsl:value-of select="$gap * position()"/>
+                            </cell>
+                        </xsl:for-each>
+                    </row>
+                </xsl:param>
                 <xsl:param name="column_offset" as="xs:integer" select="1"/>
                 <xsl:on-completion>
                     <xsl:sequence select="$rows"/>
@@ -73,8 +74,7 @@
                                             'pink')"/>
                                 <xsl:value-of
                                     select="
-                                        $s1_e[current()] || ' | ' || $s2_e[$column_offset]"
-                                />
+                                        $s1_e[current()] || ' | ' || $s2_e[$column_offset]"/>
                                 <br/>
                                 <xsl:value-of select="'hi'"/>
                             </cell>
