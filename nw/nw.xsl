@@ -199,7 +199,7 @@
                 <title>Needleman Wunsch test</title>
                 <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
                 <style type="text/css">
-                    th {
+                    th, td {
                         text-align: right;
                     }
                     th:first-of-type {
