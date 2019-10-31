@@ -6,7 +6,15 @@
     version="3.0">
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- https://www.cs.sjsu.edu/~aid/cs152/NeedlemanWunsch.pdf     -->
+    <!-- David J. Birnbaum (djbpitt@gmail.com)                      -->
+    <!-- djbpitt@gmail.com, http://www.obdurodon.org                -->
+    <!-- https://github.com/djbpitt/xstuff/nw .                     -->
+    <!--                                                            -->
+    <!-- Needleman Wunsch alignment in XSLT 3.0                     -->
+    <!-- See:                                                       -->
+    <!--   https://www.cs.sjsu.edu/~aid/cs152/NeedlemanWunsch.pdf   -->
+    <!--                                                            -->
+    <!-- In case of ties, arbitrarily favor diagonal, then left     -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
 
     <xsl:output method="xml" indent="yes"/>
@@ -36,9 +44,9 @@
     <!-- returns a <table> element in no namespace with <row> and   -->
     <!--   <cell> content, where <cell> has attributes              -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <xsl:function name="djb:nw">
+    <xsl:function name="djb:nw" as="element(table)">
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <!-- input is two strings, s1 and s2 -->
+        <!-- input is two strings, $s1 and $s2                      -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:param name="s1" as="xs:string"/>
         <xsl:param name="s2" as="xs:string"/>
@@ -46,11 +54,11 @@
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- explode strings into sequences of single characters .  -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <xsl:variable name="s1_e" select="djb:explode($s1)"/>
-        <xsl:variable name="s2_e" select="djb:explode($s2)"/>
+        <xsl:variable name="s1_e" as="xs:string+" select="djb:explode($s1)"/>
+        <xsl:variable name="s2_e" as="xs:string+" select="djb:explode($s2)"/>
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <!-- scoring:                                               -->
+        <!-- scoring (may be altered):                              -->
         <!--   match    =  1                                        -->
         <!--   mismatch = -1                                        -->
         <!--   gap      = -2                                        -->
@@ -92,7 +100,7 @@
                     <xsl:sequence select="$rows"/>
                 </xsl:on-completion>
                 <xsl:variable name="current_row_number" as="xs:integer" select="current()"/>
-                <xsl:variable name="new_rows" as="element(row)*">
+                <xsl:variable name="new_rows" as="element(row)+">
                     <xsl:sequence select="$rows"/>
                     <row>
                         <cell>
@@ -104,7 +112,7 @@
                         <xsl:iterate select="1 to count($s1_e)">
                             <xsl:param name="last_cell" as="element(cell)?" select="()"/>
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-                            <!-- character match text               -->
+                            <!-- character match test               -->
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <xsl:variable name="top_string" as="xs:string" select="$s1_e[current()]"/>
                             <xsl:variable name="left_string" as="xs:string"
@@ -121,9 +129,9 @@
                             <xsl:variable name="row_above" as="element(row)"
                                 select="$rows[count($rows)]"/>
                             <xsl:variable name="current_column" as="xs:integer" select="current()"/>
-                            <xsl:variable name="cell_up" as="item()"
+                            <xsl:variable name="cell_up" as="element(cell)"
                                 select="$row_above/cell[$current_column + 2]"/>
-                            <xsl:variable name="cell_diag" as="item()"
+                            <xsl:variable name="cell_diag" as="element(cell)"
                                 select="$row_above/cell[$current_column + 1]"/>
                             <xsl:variable name="cell_left" as="item()?"
                                 select="
@@ -131,7 +139,7 @@
                                         $last_cell
                                     else
                                         $gap * $current_row_number"/>
-                            <xsl:variable name="cell_value" as="item()"
+                            <xsl:variable name="cell_value" as="xs:double"
                                 select="
                                     max(($cell_up + $gap,
                                     $cell_left + $gap,
@@ -159,8 +167,9 @@
                     </row>
                 </xsl:variable>
                 <xsl:next-iteration>
-                    <xsl:with-param name="rows" select="$new_rows"/>
-                    <xsl:with-param name="column_offset" select="$column_offset + 1"/>
+                    <xsl:with-param name="rows" as="element(row)+" select="$new_rows"/>
+                    <xsl:with-param name="column_offset" as="xs:integer" select="$column_offset + 1"
+                    />
                 </xsl:next-iteration>
             </xsl:iterate>
         </table>
@@ -173,6 +182,7 @@
         <xsl:variable name="s1" as="xs:string" select="'califs'"/>
         <xsl:variable name="s2" as="xs:string" select="'biali'"/>
         <xsl:variable name="table" select="djb:nw($s1, $s2)"/>
+        <!-- Uncomment one or the other to output raw XML or HTML   -->
         <!--<xsl:sequence select="$table"/>-->
         <xsl:apply-templates select="$table" mode="html"/>
     </xsl:template>
@@ -204,6 +214,9 @@
             </head>
             <body>
                 <h1>Needleman Wunsch test</h1>
+                <p>
+                    <xsl:value-of select="current-dateTime()"/>
+                </p>
                 <table>
                     <xsl:apply-templates mode="html"/>
                 </table>
@@ -223,8 +236,5 @@
             </xsl:for-each>
             <xsl:apply-templates mode="html"/>
         </xsl:element>
-    </xsl:template>
-    <xsl:template match="br" mode="html" xmlns="http://www.w3.org/1999/xhtml">
-        <br/>
     </xsl:template>
 </xsl:stylesheet>
