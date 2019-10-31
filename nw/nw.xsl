@@ -5,7 +5,7 @@
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     version="3.0">
     <xsl:output method="xml" indent="yes"/>
-    
+
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- functions                                                  -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -58,7 +58,7 @@
                         <cell>&#xa0;</cell>
                         <cell>0</cell>
                         <xsl:for-each select="$s1_e">
-                            <cell s1="{.}" s2="''">
+                            <cell>
                                 <xsl:value-of select="$gap * position()"/>
                             </cell>
                         </xsl:for-each>
@@ -78,14 +78,23 @@
                             <xsl:value-of select="$gap * position()"/>
                         </cell>
                         <xsl:iterate select="1 to count($s1_e)">
-                            <cell>
-                                <xsl:attribute name="style"
-                                    select="
-                                        concat('background-color:',
-                                        if ($s1_e[current()] eq $s2_e[$column_offset]) then
-                                            'palegreen'
-                                        else
-                                            'pink')"/>
+                            <!-- character match -->
+                            <xsl:variable name="top_string" as="xs:string" select="$s1_e[current()]"/>
+                            <xsl:variable name="left_string" as="xs:string"
+                                select="$s2_e[$column_offset]"/>
+                            <xsl:variable name="string_match" as="xs:boolean"
+                                select="$top_string eq $left_string"/>
+                            <!-- neighboring values to check -->
+                            <xsl:variable name="row_above" as="element(row)" select="$rows[last()]"/>
+                            <xsl:variable name="current_column" as="xs:integer" select="current()"/>
+                            <xsl:variable name="cell_up" as="element(cell)"
+                                select="$row_above/cell[$current_column]"/>
+                            <cell 
+                                top_string="{$top_string}" 
+                                left-string="{$left_string}"
+                                match="{$string_match}" 
+                                current_column="{$current_column}"
+                                cell_up="{$cell_up}">
                                 <xsl:value-of
                                     select="
                                         $s1_e[current()] || ' | ' || $s2_e[$column_offset]"/>
@@ -93,8 +102,6 @@
                                 <xsl:value-of select="'row count = ' || count($rows)"/>
                                 <br/>
                                 <xsl:value-of select="'top = ' || $rows[2]/cell[2 + current()]"/>
-                                <br/>
-                                <xsl:value-of select="'current column =' || current()"/>
                             </cell>
                         </xsl:iterate>
                     </row>
@@ -106,7 +113,7 @@
             </xsl:iterate>
         </table>
     </xsl:function>
-    
+
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- main                                                       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -114,8 +121,8 @@
         <xsl:variable name="s1" as="xs:string" select="'calif'"/>
         <xsl:variable name="s2" as="xs:string" select="'bailiff'"/>
         <xsl:variable name="table" select="djb:nw($s1, $s2)"/>
-        <!--<xsl:sequence select="$table"/>-->
-        <xsl:apply-templates select="$table" mode="html"/>
+        <xsl:sequence select="$table"/>
+        <!--<xsl:apply-templates select="$table" mode="html"/>-->
     </xsl:template>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->

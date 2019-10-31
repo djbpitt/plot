@@ -1,96 +1,224 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml">
-   <head>
-      <title>Needleman Wunsch test</title>
-      <link rel="stylesheet"
-            type="text/css"
-            href="http://www.obdurodon.org/css/style.css"/>
-   </head>
-   <body>
-      <h1>Needleman Wunsch test</h1>
-      <h2>F table</h2>
-      <table>
-         <tr>
-            <td style=""> </td>
-            <td style=""> </td>
-            <td style="">c</td>
-            <td style="">a</td>
-            <td style="">l</td>
-            <td style="">i</td>
-            <td style="">f</td>
-         </tr>
-         <tr>
-            <td style=""> </td>
-            <td style="">0</td>
-            <td style="">-2</td>
-            <td style="">-4</td>
-            <td style="">-6</td>
-            <td style="">-8</td>
-            <td style="">-10</td>
-         </tr>
-         <tr>
-            <td style="">b</td>
-            <td style="">-2</td>
-            <td style="background-color:pink">c | b<br/>row count = 2<br/>top = -2<br/>current column =1</td>
-            <td style="background-color:pink">a | b<br/>row count = 2<br/>top = -4<br/>current column =2</td>
-            <td style="background-color:pink">l | b<br/>row count = 2<br/>top = -6<br/>current column =3</td>
-            <td style="background-color:pink">i | b<br/>row count = 2<br/>top = -8<br/>current column =4</td>
-            <td style="background-color:pink">f | b<br/>row count = 2<br/>top = -10<br/>current column =5</td>
-         </tr>
-         <tr>
-            <td style="">a</td>
-            <td style="">-4</td>
-            <td style="background-color:pink">c | a<br/>row count = 3<br/>top = -2<br/>current column =1</td>
-            <td style="background-color:palegreen">a | a<br/>row count = 3<br/>top = -4<br/>current column =2</td>
-            <td style="background-color:pink">l | a<br/>row count = 3<br/>top = -6<br/>current column =3</td>
-            <td style="background-color:pink">i | a<br/>row count = 3<br/>top = -8<br/>current column =4</td>
-            <td style="background-color:pink">f | a<br/>row count = 3<br/>top = -10<br/>current column =5</td>
-         </tr>
-         <tr>
-            <td style="">i</td>
-            <td style="">-6</td>
-            <td style="background-color:pink">c | i<br/>row count = 4<br/>top = -2<br/>current column =1</td>
-            <td style="background-color:pink">a | i<br/>row count = 4<br/>top = -4<br/>current column =2</td>
-            <td style="background-color:pink">l | i<br/>row count = 4<br/>top = -6<br/>current column =3</td>
-            <td style="background-color:palegreen">i | i<br/>row count = 4<br/>top = -8<br/>current column =4</td>
-            <td style="background-color:pink">f | i<br/>row count = 4<br/>top = -10<br/>current column =5</td>
-         </tr>
-         <tr>
-            <td style="">l</td>
-            <td style="">-8</td>
-            <td style="background-color:pink">c | l<br/>row count = 5<br/>top = -2<br/>current column =1</td>
-            <td style="background-color:pink">a | l<br/>row count = 5<br/>top = -4<br/>current column =2</td>
-            <td style="background-color:palegreen">l | l<br/>row count = 5<br/>top = -6<br/>current column =3</td>
-            <td style="background-color:pink">i | l<br/>row count = 5<br/>top = -8<br/>current column =4</td>
-            <td style="background-color:pink">f | l<br/>row count = 5<br/>top = -10<br/>current column =5</td>
-         </tr>
-         <tr>
-            <td style="">i</td>
-            <td style="">-10</td>
-            <td style="background-color:pink">c | i<br/>row count = 6<br/>top = -2<br/>current column =1</td>
-            <td style="background-color:pink">a | i<br/>row count = 6<br/>top = -4<br/>current column =2</td>
-            <td style="background-color:pink">l | i<br/>row count = 6<br/>top = -6<br/>current column =3</td>
-            <td style="background-color:palegreen">i | i<br/>row count = 6<br/>top = -8<br/>current column =4</td>
-            <td style="background-color:pink">f | i<br/>row count = 6<br/>top = -10<br/>current column =5</td>
-         </tr>
-         <tr>
-            <td style="">f</td>
-            <td style="">-12</td>
-            <td style="background-color:pink">c | f<br/>row count = 7<br/>top = -2<br/>current column =1</td>
-            <td style="background-color:pink">a | f<br/>row count = 7<br/>top = -4<br/>current column =2</td>
-            <td style="background-color:pink">l | f<br/>row count = 7<br/>top = -6<br/>current column =3</td>
-            <td style="background-color:pink">i | f<br/>row count = 7<br/>top = -8<br/>current column =4</td>
-            <td style="background-color:palegreen">f | f<br/>row count = 7<br/>top = -10<br/>current column =5</td>
-         </tr>
-         <tr>
-            <td style="">f</td>
-            <td style="">-14</td>
-            <td style="background-color:pink">c | f<br/>row count = 8<br/>top = -2<br/>current column =1</td>
-            <td style="background-color:pink">a | f<br/>row count = 8<br/>top = -4<br/>current column =2</td>
-            <td style="background-color:pink">l | f<br/>row count = 8<br/>top = -6<br/>current column =3</td>
-            <td style="background-color:pink">i | f<br/>row count = 8<br/>top = -8<br/>current column =4</td>
-            <td style="background-color:palegreen">f | f<br/>row count = 8<br/>top = -10<br/>current column =5</td>
-         </tr>
-      </table>
-   </body>
-</html>
+<table>
+   <row>
+      <cell> </cell>
+      <cell> </cell>
+      <cell>c</cell>
+      <cell>a</cell>
+      <cell>l</cell>
+      <cell>i</cell>
+      <cell>f</cell>
+   </row>
+   <row>
+      <cell> </cell>
+      <cell>0</cell>
+      <cell>-2</cell>
+      <cell>-4</cell>
+      <cell>-6</cell>
+      <cell>-8</cell>
+      <cell>-10</cell>
+   </row>
+   <row>
+      <cell>b</cell>
+      <cell>-2</cell>
+      <cell top_string="c"
+            left-string="b"
+            match="false"
+            current_column="1"
+            cell_up=" ">c | b<br/>row count = 2<br/>top = -2</cell>
+      <cell top_string="a"
+            left-string="b"
+            match="false"
+            current_column="2"
+            cell_up="0">a | b<br/>row count = 2<br/>top = -4</cell>
+      <cell top_string="l"
+            left-string="b"
+            match="false"
+            current_column="3"
+            cell_up="-2">l | b<br/>row count = 2<br/>top = -6</cell>
+      <cell top_string="i"
+            left-string="b"
+            match="false"
+            current_column="4"
+            cell_up="-4">i | b<br/>row count = 2<br/>top = -8</cell>
+      <cell top_string="f"
+            left-string="b"
+            match="false"
+            current_column="5"
+            cell_up="-6">f | b<br/>row count = 2<br/>top = -10</cell>
+   </row>
+   <row>
+      <cell>a</cell>
+      <cell>-4</cell>
+      <cell top_string="c"
+            left-string="a"
+            match="false"
+            current_column="1"
+            cell_up="b">c | a<br/>row count = 3<br/>top = -2</cell>
+      <cell top_string="a"
+            left-string="a"
+            match="true"
+            current_column="2"
+            cell_up="-2">a | a<br/>row count = 3<br/>top = -4</cell>
+      <cell top_string="l"
+            left-string="a"
+            match="false"
+            current_column="3"
+            cell_up="c | brow count = 2top = -2">l | a<br/>row count = 3<br/>top = -6</cell>
+      <cell top_string="i"
+            left-string="a"
+            match="false"
+            current_column="4"
+            cell_up="a | brow count = 2top = -4">i | a<br/>row count = 3<br/>top = -8</cell>
+      <cell top_string="f"
+            left-string="a"
+            match="false"
+            current_column="5"
+            cell_up="l | brow count = 2top = -6">f | a<br/>row count = 3<br/>top = -10</cell>
+   </row>
+   <row>
+      <cell>i</cell>
+      <cell>-6</cell>
+      <cell top_string="c"
+            left-string="i"
+            match="false"
+            current_column="1"
+            cell_up="a">c | i<br/>row count = 4<br/>top = -2</cell>
+      <cell top_string="a"
+            left-string="i"
+            match="false"
+            current_column="2"
+            cell_up="-4">a | i<br/>row count = 4<br/>top = -4</cell>
+      <cell top_string="l"
+            left-string="i"
+            match="false"
+            current_column="3"
+            cell_up="c | arow count = 3top = -2">l | i<br/>row count = 4<br/>top = -6</cell>
+      <cell top_string="i"
+            left-string="i"
+            match="true"
+            current_column="4"
+            cell_up="a | arow count = 3top = -4">i | i<br/>row count = 4<br/>top = -8</cell>
+      <cell top_string="f"
+            left-string="i"
+            match="false"
+            current_column="5"
+            cell_up="l | arow count = 3top = -6">f | i<br/>row count = 4<br/>top = -10</cell>
+   </row>
+   <row>
+      <cell>l</cell>
+      <cell>-8</cell>
+      <cell top_string="c"
+            left-string="l"
+            match="false"
+            current_column="1"
+            cell_up="i">c | l<br/>row count = 5<br/>top = -2</cell>
+      <cell top_string="a"
+            left-string="l"
+            match="false"
+            current_column="2"
+            cell_up="-6">a | l<br/>row count = 5<br/>top = -4</cell>
+      <cell top_string="l"
+            left-string="l"
+            match="true"
+            current_column="3"
+            cell_up="c | irow count = 4top = -2">l | l<br/>row count = 5<br/>top = -6</cell>
+      <cell top_string="i"
+            left-string="l"
+            match="false"
+            current_column="4"
+            cell_up="a | irow count = 4top = -4">i | l<br/>row count = 5<br/>top = -8</cell>
+      <cell top_string="f"
+            left-string="l"
+            match="false"
+            current_column="5"
+            cell_up="l | irow count = 4top = -6">f | l<br/>row count = 5<br/>top = -10</cell>
+   </row>
+   <row>
+      <cell>i</cell>
+      <cell>-10</cell>
+      <cell top_string="c"
+            left-string="i"
+            match="false"
+            current_column="1"
+            cell_up="l">c | i<br/>row count = 6<br/>top = -2</cell>
+      <cell top_string="a"
+            left-string="i"
+            match="false"
+            current_column="2"
+            cell_up="-8">a | i<br/>row count = 6<br/>top = -4</cell>
+      <cell top_string="l"
+            left-string="i"
+            match="false"
+            current_column="3"
+            cell_up="c | lrow count = 5top = -2">l | i<br/>row count = 6<br/>top = -6</cell>
+      <cell top_string="i"
+            left-string="i"
+            match="true"
+            current_column="4"
+            cell_up="a | lrow count = 5top = -4">i | i<br/>row count = 6<br/>top = -8</cell>
+      <cell top_string="f"
+            left-string="i"
+            match="false"
+            current_column="5"
+            cell_up="l | lrow count = 5top = -6">f | i<br/>row count = 6<br/>top = -10</cell>
+   </row>
+   <row>
+      <cell>f</cell>
+      <cell>-12</cell>
+      <cell top_string="c"
+            left-string="f"
+            match="false"
+            current_column="1"
+            cell_up="i">c | f<br/>row count = 7<br/>top = -2</cell>
+      <cell top_string="a"
+            left-string="f"
+            match="false"
+            current_column="2"
+            cell_up="-10">a | f<br/>row count = 7<br/>top = -4</cell>
+      <cell top_string="l"
+            left-string="f"
+            match="false"
+            current_column="3"
+            cell_up="c | irow count = 6top = -2">l | f<br/>row count = 7<br/>top = -6</cell>
+      <cell top_string="i"
+            left-string="f"
+            match="false"
+            current_column="4"
+            cell_up="a | irow count = 6top = -4">i | f<br/>row count = 7<br/>top = -8</cell>
+      <cell top_string="f"
+            left-string="f"
+            match="true"
+            current_column="5"
+            cell_up="l | irow count = 6top = -6">f | f<br/>row count = 7<br/>top = -10</cell>
+   </row>
+   <row>
+      <cell>f</cell>
+      <cell>-14</cell>
+      <cell top_string="c"
+            left-string="f"
+            match="false"
+            current_column="1"
+            cell_up="f">c | f<br/>row count = 8<br/>top = -2</cell>
+      <cell top_string="a"
+            left-string="f"
+            match="false"
+            current_column="2"
+            cell_up="-12">a | f<br/>row count = 8<br/>top = -4</cell>
+      <cell top_string="l"
+            left-string="f"
+            match="false"
+            current_column="3"
+            cell_up="c | frow count = 7top = -2">l | f<br/>row count = 8<br/>top = -6</cell>
+      <cell top_string="i"
+            left-string="f"
+            match="false"
+            current_column="4"
+            cell_up="a | frow count = 7top = -4">i | f<br/>row count = 8<br/>top = -8</cell>
+      <cell top_string="f"
+            left-string="f"
+            match="true"
+            current_column="5"
+            cell_up="l | frow count = 7top = -6">f | f<br/>row count = 8<br/>top = -10</cell>
+   </row>
+</table>
