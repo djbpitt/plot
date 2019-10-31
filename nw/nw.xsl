@@ -37,7 +37,7 @@
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:param name="s1" as="xs:string"/>
         <xsl:param name="s2" as="xs:string"/>
- 
+
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- explode strings into sequences of single characters .  -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -53,7 +53,7 @@
         <xsl:variable name="match" as="xs:integer" select="1"/>
         <xsl:variable name="mismatch" as="xs:integer" select="-1"/>
         <xsl:variable name="gap" as="xs:integer" select="-2"/>
-        
+
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- create table                                           -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -62,7 +62,7 @@
                 <xsl:param name="rows" as="element(row)+">
                     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                     <!-- top two rows are characters and gap values -->
-                    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->                    
+                    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                     <row>
                         <cell>&#xa0;</cell>
                         <cell>&#xa0;</cell>
@@ -104,8 +104,12 @@
                             <xsl:variable name="top_string" as="xs:string" select="$s1_e[current()]"/>
                             <xsl:variable name="left_string" as="xs:string"
                                 select="$s2_e[$column_offset]"/>
-                            <xsl:variable name="string_match" as="xs:boolean"
-                                select="$top_string eq $left_string"/>
+                            <xsl:variable name="string_match" as="xs:integer"
+                                select="
+                                    if ($top_string eq $left_string) then
+                                        $match
+                                    else
+                                        $mismatch"/>
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <!-- neighboring val                    -->
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -123,22 +127,22 @@
                                     else
                                         $gap * $current_row_number"/>
                             <xsl:variable name="cell_value" as="item()"
-                                select="max(($cell_up, $last_cell, $cell_diag)) + xs:integer($string_match)"/>
+                                select="max(($cell_up, $cell_left, $cell_diag)) + xs:integer($string_match)"/>
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <!-- create the cell                    -->
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <xsl:variable name="new_cell" as="element(cell)">
                                 <cell top_string="{$top_string}" left-string="{$left_string}"
-                                    match="{$string_match}" current_column="{$current_column}"
-                                    cell_up="{$cell_up}" cell_left="{$cell_left}">
+                                    match="{$string_match}" cell_up="{$cell_up}"
+                                    cell_left="{$cell_left}" cell_diag="{$cell_diag}">
                                     <xsl:value-of select="$cell_value"/>
                                 </cell>
                             </xsl:variable>
                             <xsl:sequence select="$new_cell"/>
                             <xsl:next-iteration>
                                 <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-                                <!-- cells need tolook left         -->
-                                <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->                                
+                                <!-- cells need to look left        -->
+                                <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                                 <xsl:with-param name="last_cell" as="element(cell)"
                                     select="$new_cell"/>
                             </xsl:next-iteration>
@@ -157,8 +161,8 @@
     <!-- main                                                       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template name="xsl:initial-template">
-        <xsl:variable name="s1" as="xs:string" select="'calif'"/>
-        <xsl:variable name="s2" as="xs:string" select="'bailiff'"/>
+        <xsl:variable name="s1" as="xs:string" select="'califs'"/>
+        <xsl:variable name="s2" as="xs:string" select="'biali'"/>
         <xsl:variable name="table" select="djb:nw($s1, $s2)"/>
         <!--<xsl:sequence select="$table"/>-->
         <xsl:apply-templates select="$table" mode="html"/>
@@ -171,8 +175,23 @@
         <html>
             <head>
                 <title>Needleman Wunsch test</title>
-                <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"
-                />
+                <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
+                <style type="text/css">
+                    th {
+                        text-align: right;
+                    }
+                    th:first-of-type {
+                        text-align: left;
+                    }
+                    tr:first-of-type > th {
+                        text-align: center;
+                    }
+                    [data-match = "1"] {
+                        background-color: palegreen;
+                    }
+                    [data-match = "-1"] {
+                        background-color: pink;
+                    }</style>
             </head>
             <body>
                 <h1>Needleman Wunsch test</h1>
@@ -188,12 +207,13 @@
         </tr>
     </xsl:template>
     <xsl:template match="cell" mode="html" xmlns="http://www.w3.org/1999/xhtml">
-        <td>
+        <xsl:element
+            name="{if (count(preceding::row) lt 2 or count(preceding-sibling::cell) lt 2) then 'th' else 'td'}">
             <xsl:for-each select="@*">
                 <xsl:attribute name="{concat('data-', name())}" select="."/>
             </xsl:for-each>
             <xsl:apply-templates mode="html"/>
-        </td>
+        </xsl:element>
     </xsl:template>
     <xsl:template match="br" mode="html" xmlns="http://www.w3.org/1999/xhtml">
         <br/>

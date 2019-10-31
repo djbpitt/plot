@@ -5,265 +5,245 @@
       <link rel="stylesheet"
             type="text/css"
             href="http://www.obdurodon.org/css/style.css"/>
+      <style type="text/css">
+                    th {
+                        text-align: right;
+                    }
+                    th:first-of-type {
+                        text-align: left;
+                    }
+                    tr:first-of-type &gt; th {
+                        text-align: center;
+                    }
+                    [data-match = "1"] {
+                        background-color: palegreen;
+                    }
+                    [data-match = "-1"] {
+                        background-color: pink;
+                    }</style>
    </head>
    <body>
       <h1>Needleman Wunsch test</h1>
       <table>
          <tr>
-            <td> </td>
-            <td> </td>
-            <td>c</td>
-            <td>a</td>
-            <td>l</td>
-            <td>i</td>
-            <td>f</td>
+            <th> </th>
+            <th> </th>
+            <th>c</th>
+            <th>a</th>
+            <th>l</th>
+            <th>i</th>
+            <th>f</th>
+            <th>s</th>
          </tr>
          <tr>
-            <td> </td>
-            <td>0</td>
-            <td>-2</td>
-            <td>-4</td>
-            <td>-6</td>
-            <td>-8</td>
-            <td>-10</td>
+            <th> </th>
+            <th>0</th>
+            <th>-2</th>
+            <th>-4</th>
+            <th>-6</th>
+            <th>-8</th>
+            <th>-10</th>
+            <th>-12</th>
          </tr>
          <tr>
-            <td>b</td>
-            <td>-2</td>
+            <th>b</th>
+            <th>-2</th>
             <td data-top_string="c"
                 data-left-string="b"
-                data-match="false"
-                data-current_column="1"
+                data-match="-1"
                 data-cell_up="-2"
-                data-cell_left="-2">0</td>
+                data-cell_left="-2"
+                data-cell_diag="0">-1</td>
             <td data-top_string="a"
                 data-left-string="b"
-                data-match="false"
-                data-current_column="2"
+                data-match="-1"
                 data-cell_up="-4"
-                data-cell_left="0">0</td>
+                data-cell_left="-1"
+                data-cell_diag="-2">-2</td>
             <td data-top_string="l"
                 data-left-string="b"
-                data-match="false"
-                data-current_column="3"
+                data-match="-1"
                 data-cell_up="-6"
-                data-cell_left="0">0</td>
+                data-cell_left="-2"
+                data-cell_diag="-4">-3</td>
             <td data-top_string="i"
                 data-left-string="b"
-                data-match="false"
-                data-current_column="4"
+                data-match="-1"
                 data-cell_up="-8"
-                data-cell_left="0">0</td>
+                data-cell_left="-3"
+                data-cell_diag="-6">-4</td>
             <td data-top_string="f"
                 data-left-string="b"
-                data-match="false"
-                data-current_column="5"
+                data-match="-1"
                 data-cell_up="-10"
-                data-cell_left="0">0</td>
+                data-cell_left="-4"
+                data-cell_diag="-8">-5</td>
+            <td data-top_string="s"
+                data-left-string="b"
+                data-match="-1"
+                data-cell_up="-12"
+                data-cell_left="-5"
+                data-cell_diag="-10">-6</td>
          </tr>
          <tr>
-            <td>a</td>
-            <td>-4</td>
+            <th>i</th>
+            <th>-4</th>
+            <td data-top_string="c"
+                data-left-string="i"
+                data-match="-1"
+                data-cell_up="-1"
+                data-cell_left="-4"
+                data-cell_diag="-2">-2</td>
+            <td data-top_string="a"
+                data-left-string="i"
+                data-match="-1"
+                data-cell_up="-2"
+                data-cell_left="-2"
+                data-cell_diag="-1">-2</td>
+            <td data-top_string="l"
+                data-left-string="i"
+                data-match="-1"
+                data-cell_up="-3"
+                data-cell_left="-2"
+                data-cell_diag="-2">-3</td>
+            <td data-top_string="i"
+                data-left-string="i"
+                data-match="1"
+                data-cell_up="-4"
+                data-cell_left="-3"
+                data-cell_diag="-3">-2</td>
+            <td data-top_string="f"
+                data-left-string="i"
+                data-match="-1"
+                data-cell_up="-5"
+                data-cell_left="-2"
+                data-cell_diag="-4">-3</td>
+            <td data-top_string="s"
+                data-left-string="i"
+                data-match="-1"
+                data-cell_up="-6"
+                data-cell_left="-3"
+                data-cell_diag="-5">-4</td>
+         </tr>
+         <tr>
+            <th>a</th>
+            <th>-6</th>
             <td data-top_string="c"
                 data-left-string="a"
-                data-match="false"
-                data-current_column="1"
-                data-cell_up="0"
-                data-cell_left="-4">0</td>
+                data-match="-1"
+                data-cell_up="-2"
+                data-cell_left="-6"
+                data-cell_diag="-4">-3</td>
             <td data-top_string="a"
                 data-left-string="a"
-                data-match="true"
-                data-current_column="2"
-                data-cell_up="0"
-                data-cell_left="0">1</td>
+                data-match="1"
+                data-cell_up="-2"
+                data-cell_left="-3"
+                data-cell_diag="-2">-1</td>
             <td data-top_string="l"
                 data-left-string="a"
-                data-match="false"
-                data-current_column="3"
-                data-cell_up="0"
-                data-cell_left="1">1</td>
+                data-match="-1"
+                data-cell_up="-3"
+                data-cell_left="-1"
+                data-cell_diag="-2">-2</td>
             <td data-top_string="i"
                 data-left-string="a"
-                data-match="false"
-                data-current_column="4"
-                data-cell_up="0"
-                data-cell_left="1">1</td>
+                data-match="-1"
+                data-cell_up="-2"
+                data-cell_left="-2"
+                data-cell_diag="-3">-3</td>
             <td data-top_string="f"
                 data-left-string="a"
-                data-match="false"
-                data-current_column="5"
-                data-cell_up="0"
-                data-cell_left="1">1</td>
+                data-match="-1"
+                data-cell_up="-3"
+                data-cell_left="-3"
+                data-cell_diag="-2">-3</td>
+            <td data-top_string="s"
+                data-left-string="a"
+                data-match="-1"
+                data-cell_up="-4"
+                data-cell_left="-3"
+                data-cell_diag="-3">-4</td>
          </tr>
          <tr>
-            <td>i</td>
-            <td>-6</td>
+            <th>l</th>
+            <th>-8</th>
             <td data-top_string="c"
-                data-left-string="i"
-                data-match="false"
-                data-current_column="1"
-                data-cell_up="0"
-                data-cell_left="-6">0</td>
+                data-left-string="l"
+                data-match="-1"
+                data-cell_up="-3"
+                data-cell_left="-8"
+                data-cell_diag="-6">-4</td>
             <td data-top_string="a"
-                data-left-string="i"
-                data-match="false"
-                data-current_column="2"
-                data-cell_up="1"
-                data-cell_left="0">1</td>
+                data-left-string="l"
+                data-match="-1"
+                data-cell_up="-1"
+                data-cell_left="-4"
+                data-cell_diag="-3">-2</td>
             <td data-top_string="l"
-                data-left-string="i"
-                data-match="false"
-                data-current_column="3"
-                data-cell_up="1"
-                data-cell_left="1">1</td>
+                data-left-string="l"
+                data-match="1"
+                data-cell_up="-2"
+                data-cell_left="-2"
+                data-cell_diag="-1">0</td>
             <td data-top_string="i"
-                data-left-string="i"
-                data-match="true"
-                data-current_column="4"
-                data-cell_up="1"
-                data-cell_left="1">2</td>
+                data-left-string="l"
+                data-match="-1"
+                data-cell_up="-3"
+                data-cell_left="0"
+                data-cell_diag="-2">-1</td>
             <td data-top_string="f"
-                data-left-string="i"
-                data-match="false"
-                data-current_column="5"
-                data-cell_up="1"
-                data-cell_left="2">2</td>
+                data-left-string="l"
+                data-match="-1"
+                data-cell_up="-3"
+                data-cell_left="-1"
+                data-cell_diag="-3">-2</td>
+            <td data-top_string="s"
+                data-left-string="l"
+                data-match="-1"
+                data-cell_up="-4"
+                data-cell_left="-2"
+                data-cell_diag="-3">-3</td>
          </tr>
          <tr>
-            <td>l</td>
-            <td>-8</td>
-            <td data-top_string="c"
-                data-left-string="l"
-                data-match="false"
-                data-current_column="1"
-                data-cell_up="0"
-                data-cell_left="-8">0</td>
-            <td data-top_string="a"
-                data-left-string="l"
-                data-match="false"
-                data-current_column="2"
-                data-cell_up="1"
-                data-cell_left="0">1</td>
-            <td data-top_string="l"
-                data-left-string="l"
-                data-match="true"
-                data-current_column="3"
-                data-cell_up="1"
-                data-cell_left="1">2</td>
-            <td data-top_string="i"
-                data-left-string="l"
-                data-match="false"
-                data-current_column="4"
-                data-cell_up="2"
-                data-cell_left="2">2</td>
-            <td data-top_string="f"
-                data-left-string="l"
-                data-match="false"
-                data-current_column="5"
-                data-cell_up="2"
-                data-cell_left="2">2</td>
-         </tr>
-         <tr>
-            <td>i</td>
-            <td>-10</td>
+            <th>i</th>
+            <th>-10</th>
             <td data-top_string="c"
                 data-left-string="i"
-                data-match="false"
-                data-current_column="1"
-                data-cell_up="0"
-                data-cell_left="-10">0</td>
+                data-match="-1"
+                data-cell_up="-4"
+                data-cell_left="-10"
+                data-cell_diag="-8">-5</td>
             <td data-top_string="a"
                 data-left-string="i"
-                data-match="false"
-                data-current_column="2"
-                data-cell_up="1"
-                data-cell_left="0">1</td>
+                data-match="-1"
+                data-cell_up="-2"
+                data-cell_left="-5"
+                data-cell_diag="-4">-3</td>
             <td data-top_string="l"
                 data-left-string="i"
-                data-match="false"
-                data-current_column="3"
-                data-cell_up="2"
-                data-cell_left="1">2</td>
-            <td data-top_string="i"
-                data-left-string="i"
-                data-match="true"
-                data-current_column="4"
-                data-cell_up="2"
-                data-cell_left="2">3</td>
-            <td data-top_string="f"
-                data-left-string="i"
-                data-match="false"
-                data-current_column="5"
-                data-cell_up="2"
-                data-cell_left="3">3</td>
-         </tr>
-         <tr>
-            <td>f</td>
-            <td>-12</td>
-            <td data-top_string="c"
-                data-left-string="f"
-                data-match="false"
-                data-current_column="1"
+                data-match="-1"
                 data-cell_up="0"
-                data-cell_left="-12">0</td>
-            <td data-top_string="a"
-                data-left-string="f"
-                data-match="false"
-                data-current_column="2"
-                data-cell_up="1"
-                data-cell_left="0">1</td>
-            <td data-top_string="l"
-                data-left-string="f"
-                data-match="false"
-                data-current_column="3"
-                data-cell_up="2"
-                data-cell_left="1">2</td>
+                data-cell_left="-3"
+                data-cell_diag="-2">-1</td>
             <td data-top_string="i"
-                data-left-string="f"
-                data-match="false"
-                data-current_column="4"
-                data-cell_up="3"
-                data-cell_left="2">3</td>
+                data-left-string="i"
+                data-match="1"
+                data-cell_up="-1"
+                data-cell_left="-1"
+                data-cell_diag="0">1</td>
             <td data-top_string="f"
-                data-left-string="f"
-                data-match="true"
-                data-current_column="5"
-                data-cell_up="3"
-                data-cell_left="3">4</td>
-         </tr>
-         <tr>
-            <td>f</td>
-            <td>-14</td>
-            <td data-top_string="c"
-                data-left-string="f"
-                data-match="false"
-                data-current_column="1"
-                data-cell_up="0"
-                data-cell_left="-14">0</td>
-            <td data-top_string="a"
-                data-left-string="f"
-                data-match="false"
-                data-current_column="2"
-                data-cell_up="1"
-                data-cell_left="0">1</td>
-            <td data-top_string="l"
-                data-left-string="f"
-                data-match="false"
-                data-current_column="3"
-                data-cell_up="2"
-                data-cell_left="1">2</td>
-            <td data-top_string="i"
-                data-left-string="f"
-                data-match="false"
-                data-current_column="4"
-                data-cell_up="3"
-                data-cell_left="2">3</td>
-            <td data-top_string="f"
-                data-left-string="f"
-                data-match="true"
-                data-current_column="5"
-                data-cell_up="4"
-                data-cell_left="3">5</td>
+                data-left-string="i"
+                data-match="-1"
+                data-cell_up="-2"
+                data-cell_left="1"
+                data-cell_diag="-1">0</td>
+            <td data-top_string="s"
+                data-left-string="i"
+                data-match="-1"
+                data-cell_up="-3"
+                data-cell_left="0"
+                data-cell_diag="-2">-1</td>
          </tr>
       </table>
    </body>
