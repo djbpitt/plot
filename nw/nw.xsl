@@ -4,6 +4,11 @@
     xmlns:html="http://www.w3.org/1999/xhtml"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     version="3.0">
+
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- https://www.cs.sjsu.edu/~aid/cs152/NeedlemanWunsch.pdf     -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+
     <xsl:output method="xml" indent="yes"/>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -111,7 +116,7 @@
                                     else
                                         $mismatch"/>
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-                            <!-- neighboring val                    -->
+                            <!-- neighboring values                 -->
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <xsl:variable name="row_above" as="element(row)"
                                 select="$rows[count($rows)]"/>
@@ -127,7 +132,11 @@
                                     else
                                         $gap * $current_row_number"/>
                             <xsl:variable name="cell_value" as="item()"
-                                select="max(($cell_up, $cell_left, $cell_diag)) + xs:integer($string_match)"/>
+                                select="
+                                    max(($cell_up + $gap,
+                                    $cell_left + $gap,
+                                    $cell_diag + xs:integer($string_match)
+                                    ))"/>
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <!-- create the cell                    -->
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
