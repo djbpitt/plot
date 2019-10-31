@@ -5,7 +5,14 @@
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     version="3.0">
     <xsl:output method="xml" indent="yes"/>
-    <!-- functions -->
+    
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- functions                                                  -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- djb:explode                                                -->
+    <!--                                                            -->
+    <!-- split string into sequence of one-character strings        -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:explode" as="xs:string+">
         <!-- explode string into sequence of single characters -->
         <xsl:param name="in" as="xs:string"/>
@@ -16,6 +23,14 @@
                     codepoints-to-string($c)"
         />
     </xsl:function>
+
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- djb:nw                                                     -->
+    <!--                                                            -->
+    <!-- align two strings using Needleman Wunsch algorithm         -->
+    <!-- returns a <table> element in no namespace with <row> and   -->
+    <!--   <cell> content, where <cell> has attributes              -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:nw">
         <!-- input is two strings, s1 and s2 -->
         <xsl:param name="s1" as="xs:string"/>
@@ -91,7 +106,10 @@
             </xsl:iterate>
         </table>
     </xsl:function>
-    <!-- main -->
+    
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- main                                                       -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template name="xsl:initial-template">
         <xsl:variable name="s1" as="xs:string" select="'calif'"/>
         <xsl:variable name="s2" as="xs:string" select="'bailiff'"/>
@@ -99,7 +117,10 @@
         <!--<xsl:sequence select="$table"/>-->
         <xsl:apply-templates select="$table" mode="html"/>
     </xsl:template>
-    <!-- html table output -->
+
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- templates for HTML output                                  -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template match="table" mode="html" xmlns="http://www.w3.org/1999/xhtml">
         <html>
             <head>
