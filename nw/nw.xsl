@@ -78,6 +78,7 @@
                             <xsl:value-of select="$gap * position()"/>
                         </cell>
                         <xsl:iterate select="1 to count($s1_e)">
+                            <xsl:param name="last_cell" as="element(cell)?" select="()"/>
                             <!-- character match -->
                             <xsl:variable name="top_string" as="xs:string" select="$s1_e[current()]"/>
                             <xsl:variable name="left_string" as="xs:string"
@@ -85,24 +86,32 @@
                             <xsl:variable name="string_match" as="xs:boolean"
                                 select="$top_string eq $left_string"/>
                             <!-- neighboring values to check -->
-                            <xsl:variable name="row_above" as="element(row)" select="$rows[last()]"/>
+                            <xsl:variable name="row_above" as="element(row)"
+                                select="$rows[count($rows)]"/>
                             <xsl:variable name="current_column" as="xs:integer" select="current()"/>
-                            <xsl:variable name="cell_up" as="element(cell)"
-                                select="$row_above/cell[$current_column]"/>
-                            <cell 
-                                top_string="{$top_string}" 
-                                left-string="{$left_string}"
-                                match="{$string_match}" 
-                                current_column="{$current_column}"
-                                cell_up="{$cell_up}">
-                                <xsl:value-of
-                                    select="
-                                        $s1_e[current()] || ' | ' || $s2_e[$column_offset]"/>
-                                <br/>
-                                <xsl:value-of select="'row count = ' || count($rows)"/>
-                                <br/>
-                                <xsl:value-of select="'top = ' || $rows[2]/cell[2 + current()]"/>
-                            </cell>
+                            <xsl:variable name="cell_up" as="item()"
+                                select="$row_above/cell[$current_column + 2]"/>
+                            <xsl:variable name="cell_left" as="item()?"
+                                select="
+                                    if ($last_cell) then
+                                        $last_cell
+                                    else
+                                        $s1_e[current() - 1]"/>
+                            <xsl:variable name="cell_value" as="item()"
+                                select="max(($cell_up, $last_cell)) + xs:integer($string_match)"/>
+                            <!-- create the cell -->
+                            <xsl:variable name="new_cell" as="element(cell)">
+                                <cell top_string="{$top_string}" left-string="{$left_string}"
+                                    match="{$string_match}" current_column="{$current_column}"
+                                    cell_up="{$cell_up}" cell_left="{$cell_left}">
+                                    <xsl:value-of select="$cell_value"/>
+                                </cell>
+                            </xsl:variable>
+                            <xsl:sequence select="$new_cell"/>
+                            <xsl:next-iteration>
+                                <xsl:with-param name="last_cell" as="element(cell)"
+                                    select="$new_cell"/>
+                            </xsl:next-iteration>
                         </xsl:iterate>
                     </row>
                 </xsl:variable>
@@ -121,8 +130,8 @@
         <xsl:variable name="s1" as="xs:string" select="'calif'"/>
         <xsl:variable name="s2" as="xs:string" select="'bailiff'"/>
         <xsl:variable name="table" select="djb:nw($s1, $s2)"/>
-        <xsl:sequence select="$table"/>
-        <!--<xsl:apply-templates select="$table" mode="html"/>-->
+        <!--<xsl:sequence select="$table"/>-->
+        <xsl:apply-templates select="$table" mode="html"/>
     </xsl:template>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -137,7 +146,6 @@
             </head>
             <body>
                 <h1>Needleman Wunsch test</h1>
-                <h2>F table</h2>
                 <table>
                     <xsl:apply-templates mode="html"/>
                 </table>
@@ -150,7 +158,10 @@
         </tr>
     </xsl:template>
     <xsl:template match="cell" mode="html" xmlns="http://www.w3.org/1999/xhtml">
-        <td style="{@style}">
+        <td>
+            <xsl:for-each select="@*">
+                <xsl:attribute name="{concat('data-', name())}" select="."/>
+            </xsl:for-each>
             <xsl:apply-templates mode="html"/>
         </td>
     </xsl:template>
