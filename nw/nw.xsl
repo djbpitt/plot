@@ -139,12 +139,15 @@
                                         $last_cell
                                     else
                                         $gap * $current_row_number"/>
+                            <xsl:variable name="cell_up_score" as="xs:double"
+                                select="$cell_up + $gap"/>
+                            <xsl:variable name="cell_left_score" as="xs:double"
+                                select="$cell_left + $gap"/>
+                            <xsl:variable name="cell_diag_score" as="xs:double"
+                                select="$cell_diag + xs:integer($string_match)"/>
                             <xsl:variable name="cell_value" as="xs:double"
-                                select="
-                                    max(($cell_up + $gap,
-                                    $cell_left + $gap,
-                                    $cell_diag + xs:integer($string_match)
-                                    ))"/>
+                                select="max(($cell_diag_score, $cell_left_score, $cell_up_score))"/>
+
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <!-- create the cell                    -->
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
