@@ -32,19 +32,37 @@
     <!--   <cell> content, where <cell> has attributes              -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:nw">
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- input is two strings, s1 and s2 -->
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:param name="s1" as="xs:string"/>
         <xsl:param name="s2" as="xs:string"/>
-        <!-- explode strings them into sequences of single characters -->
+ 
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- explode strings into sequences of single characters .  -->
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:variable name="s1_e" select="djb:explode($s1)"/>
         <xsl:variable name="s2_e" select="djb:explode($s2)"/>
-        <!-- scoring: match = 1, mismatch = -1, gap = -2 -->
+
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- scoring:                                               -->
+        <!--   match    =  1                                        -->
+        <!--   mismatch = -1                                        -->
+        <!--   gap      = -2                                        -->
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:variable name="match" as="xs:integer" select="1"/>
         <xsl:variable name="mismatch" as="xs:integer" select="-1"/>
         <xsl:variable name="gap" as="xs:integer" select="-2"/>
+        
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- create table                                           -->
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <table>
             <xsl:iterate select="1 to count($s2_e)">
                 <xsl:param name="rows" as="element(row)+">
+                    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+                    <!-- top two rows are characters and gap values -->
+                    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->                    
                     <row>
                         <cell>&#xa0;</cell>
                         <cell>&#xa0;</cell>
@@ -68,6 +86,7 @@
                 <xsl:on-completion>
                     <xsl:sequence select="$rows"/>
                 </xsl:on-completion>
+                <xsl:variable name="current_row_number" as="xs:integer" select="current()"/>
                 <xsl:variable name="new_rows" as="element(row)*">
                     <xsl:sequence select="$rows"/>
                     <row>
@@ -79,27 +98,35 @@
                         </cell>
                         <xsl:iterate select="1 to count($s1_e)">
                             <xsl:param name="last_cell" as="element(cell)?" select="()"/>
-                            <!-- character match -->
+                            <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+                            <!-- character match text               -->
+                            <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <xsl:variable name="top_string" as="xs:string" select="$s1_e[current()]"/>
                             <xsl:variable name="left_string" as="xs:string"
                                 select="$s2_e[$column_offset]"/>
                             <xsl:variable name="string_match" as="xs:boolean"
                                 select="$top_string eq $left_string"/>
-                            <!-- neighboring values to check -->
+                            <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+                            <!-- neighboring val                    -->
+                            <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <xsl:variable name="row_above" as="element(row)"
                                 select="$rows[count($rows)]"/>
                             <xsl:variable name="current_column" as="xs:integer" select="current()"/>
                             <xsl:variable name="cell_up" as="item()"
                                 select="$row_above/cell[$current_column + 2]"/>
+                            <xsl:variable name="cell_diag" as="item()"
+                                select="$row_above/cell[$current_column + 1]"/>
                             <xsl:variable name="cell_left" as="item()?"
                                 select="
                                     if ($last_cell) then
                                         $last_cell
                                     else
-                                        $s1_e[current() - 1]"/>
+                                        $gap * $current_row_number"/>
                             <xsl:variable name="cell_value" as="item()"
-                                select="max(($cell_up, $last_cell)) + xs:integer($string_match)"/>
-                            <!-- create the cell -->
+                                select="max(($cell_up, $last_cell, $cell_diag)) + xs:integer($string_match)"/>
+                            <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+                            <!-- create the cell                    -->
+                            <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <xsl:variable name="new_cell" as="element(cell)">
                                 <cell top_string="{$top_string}" left-string="{$left_string}"
                                     match="{$string_match}" current_column="{$current_column}"
@@ -109,6 +136,9 @@
                             </xsl:variable>
                             <xsl:sequence select="$new_cell"/>
                             <xsl:next-iteration>
+                                <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+                                <!-- cells need tolook left         -->
+                                <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->                                
                                 <xsl:with-param name="last_cell" as="element(cell)"
                                     select="$new_cell"/>
                             </xsl:next-iteration>
