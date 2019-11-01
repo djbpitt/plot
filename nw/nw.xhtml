@@ -6,7 +6,8 @@
             type="text/css"
             href="http://www.obdurodon.org/css/style.css"/>
       <style type="text/css">
-                    th, td {
+                    th,
+                    td {
                         text-align: right;
                     }
                     th:first-of-type {
@@ -14,6 +15,10 @@
                     }
                     tr:first-of-type &gt; th {
                         text-align: center;
+                    }
+                    td:before {
+                        content: attr(data-cell_arrow) " ";
+                        font-size: small;
                     }
                     [data-match = "1"] {
                         background-color: palegreen;
@@ -24,7 +29,7 @@
    </head>
    <body>
       <h1>Needleman Wunsch test</h1>
-      <p>2019-10-31T18:27:36.963+02:00</p>
+      <p>Generated 2019-11-01T16:47:02.936+02:00</p>
       <table>
          <tr>
             <th> </th>
@@ -54,37 +59,43 @@
                 data-match="-1"
                 data-cell_up="-2"
                 data-cell_left="-2"
-                data-cell_diag="0">-1</td>
+                data-cell_diag="0"
+                data-cell_arrow="↘">-1</td>
             <td data-top_string="a"
                 data-left-string="b"
                 data-match="-1"
                 data-cell_up="-4"
                 data-cell_left="-1"
-                data-cell_diag="-2">-3</td>
+                data-cell_diag="-2"
+                data-cell_arrow="↘">-3</td>
             <td data-top_string="l"
                 data-left-string="b"
                 data-match="-1"
                 data-cell_up="-6"
                 data-cell_left="-3"
-                data-cell_diag="-4">-5</td>
+                data-cell_diag="-4"
+                data-cell_arrow="↘">-5</td>
             <td data-top_string="i"
                 data-left-string="b"
                 data-match="-1"
                 data-cell_up="-8"
                 data-cell_left="-5"
-                data-cell_diag="-6">-7</td>
+                data-cell_diag="-6"
+                data-cell_arrow="↘">-7</td>
             <td data-top_string="f"
                 data-left-string="b"
                 data-match="-1"
                 data-cell_up="-10"
                 data-cell_left="-7"
-                data-cell_diag="-8">-9</td>
+                data-cell_diag="-8"
+                data-cell_arrow="↘">-9</td>
             <td data-top_string="s"
                 data-left-string="b"
                 data-match="-1"
                 data-cell_up="-12"
                 data-cell_left="-9"
-                data-cell_diag="-10">-11</td>
+                data-cell_diag="-10"
+                data-cell_arrow="↘">-11</td>
          </tr>
          <tr>
             <th>i</th>
@@ -94,37 +105,43 @@
                 data-match="-1"
                 data-cell_up="-1"
                 data-cell_left="-4"
-                data-cell_diag="-2">-3</td>
+                data-cell_diag="-2"
+                data-cell_arrow="↘">-3</td>
             <td data-top_string="a"
                 data-left-string="i"
                 data-match="-1"
                 data-cell_up="-3"
                 data-cell_left="-3"
-                data-cell_diag="-1">-2</td>
+                data-cell_diag="-1"
+                data-cell_arrow="↘">-2</td>
             <td data-top_string="l"
                 data-left-string="i"
                 data-match="-1"
                 data-cell_up="-5"
                 data-cell_left="-2"
-                data-cell_diag="-3">-4</td>
+                data-cell_diag="-3"
+                data-cell_arrow="↘">-4</td>
             <td data-top_string="i"
                 data-left-string="i"
                 data-match="1"
                 data-cell_up="-7"
                 data-cell_left="-4"
-                data-cell_diag="-5">-4</td>
+                data-cell_diag="-5"
+                data-cell_arrow="↘">-4</td>
             <td data-top_string="f"
                 data-left-string="i"
                 data-match="-1"
                 data-cell_up="-9"
                 data-cell_left="-4"
-                data-cell_diag="-7">-6</td>
+                data-cell_diag="-7"
+                data-cell_arrow="→">-6</td>
             <td data-top_string="s"
                 data-left-string="i"
                 data-match="-1"
                 data-cell_up="-11"
                 data-cell_left="-6"
-                data-cell_diag="-9">-8</td>
+                data-cell_diag="-9"
+                data-cell_arrow="→">-8</td>
          </tr>
          <tr>
             <th>a</th>
@@ -134,37 +151,43 @@
                 data-match="-1"
                 data-cell_up="-3"
                 data-cell_left="-6"
-                data-cell_diag="-4">-5</td>
+                data-cell_diag="-4"
+                data-cell_arrow="↘">-5</td>
             <td data-top_string="a"
                 data-left-string="a"
                 data-match="1"
                 data-cell_up="-2"
                 data-cell_left="-5"
-                data-cell_diag="-3">-2</td>
+                data-cell_diag="-3"
+                data-cell_arrow="↘">-2</td>
             <td data-top_string="l"
                 data-left-string="a"
                 data-match="-1"
                 data-cell_up="-4"
                 data-cell_left="-2"
-                data-cell_diag="-2">-3</td>
+                data-cell_diag="-2"
+                data-cell_arrow="↘">-3</td>
             <td data-top_string="i"
                 data-left-string="a"
                 data-match="-1"
                 data-cell_up="-4"
                 data-cell_left="-3"
-                data-cell_diag="-4">-5</td>
+                data-cell_diag="-4"
+                data-cell_arrow="↘">-5</td>
             <td data-top_string="f"
                 data-left-string="a"
                 data-match="-1"
                 data-cell_up="-6"
                 data-cell_left="-5"
-                data-cell_diag="-4">-5</td>
+                data-cell_diag="-4"
+                data-cell_arrow="↘">-5</td>
             <td data-top_string="s"
                 data-left-string="a"
                 data-match="-1"
                 data-cell_up="-8"
                 data-cell_left="-5"
-                data-cell_diag="-6">-7</td>
+                data-cell_diag="-6"
+                data-cell_arrow="↘">-7</td>
          </tr>
          <tr>
             <th>l</th>
@@ -174,37 +197,43 @@
                 data-match="-1"
                 data-cell_up="-5"
                 data-cell_left="-8"
-                data-cell_diag="-6">-7</td>
+                data-cell_diag="-6"
+                data-cell_arrow="↘">-7</td>
             <td data-top_string="a"
                 data-left-string="l"
                 data-match="-1"
                 data-cell_up="-2"
                 data-cell_left="-7"
-                data-cell_diag="-5">-4</td>
+                data-cell_diag="-5"
+                data-cell_arrow="↓">-4</td>
             <td data-top_string="l"
                 data-left-string="l"
                 data-match="1"
                 data-cell_up="-3"
                 data-cell_left="-4"
-                data-cell_diag="-2">-1</td>
+                data-cell_diag="-2"
+                data-cell_arrow="↘">-1</td>
             <td data-top_string="i"
                 data-left-string="l"
                 data-match="-1"
                 data-cell_up="-5"
                 data-cell_left="-1"
-                data-cell_diag="-3">-3</td>
+                data-cell_diag="-3"
+                data-cell_arrow="→">-3</td>
             <td data-top_string="f"
                 data-left-string="l"
                 data-match="-1"
                 data-cell_up="-5"
                 data-cell_left="-3"
-                data-cell_diag="-5">-5</td>
+                data-cell_diag="-5"
+                data-cell_arrow="→">-5</td>
             <td data-top_string="s"
                 data-left-string="l"
                 data-match="-1"
                 data-cell_up="-7"
                 data-cell_left="-5"
-                data-cell_diag="-5">-6</td>
+                data-cell_diag="-5"
+                data-cell_arrow="↘">-6</td>
          </tr>
          <tr>
             <th>i</th>
@@ -214,37 +243,43 @@
                 data-match="-1"
                 data-cell_up="-7"
                 data-cell_left="-10"
-                data-cell_diag="-8">-9</td>
+                data-cell_diag="-8"
+                data-cell_arrow="↘">-9</td>
             <td data-top_string="a"
                 data-left-string="i"
                 data-match="-1"
                 data-cell_up="-4"
                 data-cell_left="-9"
-                data-cell_diag="-7">-6</td>
+                data-cell_diag="-7"
+                data-cell_arrow="↓">-6</td>
             <td data-top_string="l"
                 data-left-string="i"
                 data-match="-1"
                 data-cell_up="-1"
                 data-cell_left="-6"
-                data-cell_diag="-4">-3</td>
+                data-cell_diag="-4"
+                data-cell_arrow="↓">-3</td>
             <td data-top_string="i"
                 data-left-string="i"
                 data-match="1"
                 data-cell_up="-3"
                 data-cell_left="-3"
-                data-cell_diag="-1">0</td>
+                data-cell_diag="-1"
+                data-cell_arrow="↘">0</td>
             <td data-top_string="f"
                 data-left-string="i"
                 data-match="-1"
                 data-cell_up="-5"
                 data-cell_left="0"
-                data-cell_diag="-3">-2</td>
+                data-cell_diag="-3"
+                data-cell_arrow="→">-2</td>
             <td data-top_string="s"
                 data-left-string="i"
                 data-match="-1"
                 data-cell_up="-6"
                 data-cell_left="-2"
-                data-cell_diag="-5">-4</td>
+                data-cell_diag="-5"
+                data-cell_arrow="→">-4</td>
          </tr>
       </table>
    </body>

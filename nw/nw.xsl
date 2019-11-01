@@ -20,6 +20,22 @@
     <xsl:output method="xml" indent="yes"/>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- stylesheet variables                                       -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- arrow_map .                                                -->
+    <!--                                                            -->
+    <!-- retrieve arrow for source of top cell score                -->
+    <!-- d, u, l = diagonal, from up, from left                     -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <xsl:variable name="arrow_map" as="map(xs:string, xs:string)"
+        select='
+            map {
+                "d": "↘",
+                "u": "↓",
+                "l": "→"
+            }'/>
+
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- functions                                                  -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- djb:explode                                                -->
@@ -139,14 +155,24 @@
                                         $last_cell
                                     else
                                         $gap * $current_row_number"/>
-                            <xsl:variable name="cell_up_score" as="xs:double"
-                                select="$cell_up + $gap"/>
-                            <xsl:variable name="cell_left_score" as="xs:double"
-                                select="$cell_left + $gap"/>
-                            <xsl:variable name="cell_diag_score" as="xs:double"
-                                select="$cell_diag + xs:integer($string_match)"/>
+                            <xsl:variable name="scores" as="element(score)+">
+                                <score source="u" value="{$cell_up + $gap}"/>
+                                <score source="l" value="{$cell_left + $gap}"/>
+                                <score source="d" value="{$cell_diag + xs:integer($string_match)}"/>
+                            </xsl:variable>
+                            <xsl:variable name="best_scores" as="element(score)+">
+                                <xsl:for-each select="$scores[@value = max($scores/@value)]">
+                                    <!-- Select by value, then sort by @xml:id 
+                                        (conveniently, preference corresponds to alphabetical)
+                                    -->
+                                    <xsl:sort select="@source"/>
+                                    <xsl:sequence select="."/>
+                                </xsl:for-each>
+                            </xsl:variable>
                             <xsl:variable name="cell_value" as="xs:double"
-                                select="max(($cell_diag_score, $cell_left_score, $cell_up_score))"/>
+                                select="$best_scores[1]/@value"/>
+                            <xsl:variable name="cell_arrow" as="xs:string"
+                                select="$arrow_map($best_scores[1]/@source)"/>
 
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <!-- create the cell                    -->
@@ -154,7 +180,8 @@
                             <xsl:variable name="new_cell" as="element(cell)">
                                 <cell top_string="{$top_string}" left-string="{$left_string}"
                                     match="{$string_match}" cell_up="{$cell_up}"
-                                    cell_left="{$cell_left}" cell_diag="{$cell_diag}">
+                                    cell_left="{$cell_left}" cell_diag="{$cell_diag}"
+                                    cell_arrow="{$cell_arrow}">
                                     <xsl:value-of select="$cell_value"/>
                                 </cell>
                             </xsl:variable>
@@ -199,7 +226,8 @@
                 <title>Needleman Wunsch test</title>
                 <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
                 <style type="text/css">
-                    th, td {
+                    th,
+                    td {
                         text-align: right;
                     }
                     th:first-of-type {
@@ -207,6 +235,10 @@
                     }
                     tr:first-of-type > th {
                         text-align: center;
+                    }
+                    td:before {
+                        content: attr(data-cell_arrow) " ";
+                        font-size: small;
                     }
                     [data-match = "1"] {
                         background-color: palegreen;
@@ -217,8 +249,7 @@
             </head>
             <body>
                 <h1>Needleman Wunsch test</h1>
-                <p>
-                    <xsl:value-of select="current-dateTime()"/>
+                <p>Generated <xsl:value-of select="current-dateTime()"/>
                 </p>
                 <table>
                     <xsl:apply-templates mode="html"/>
