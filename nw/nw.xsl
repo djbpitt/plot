@@ -22,9 +22,9 @@
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- stylesheet variables                                       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- arrow_map .                                                -->
+    <!-- arrow_map                                                  -->
     <!--                                                            -->
-    <!-- retrieve arrow for source of top cell score                -->
+    <!-- retrieve arrow for source of best cell score               -->
     <!-- d, u, l = diagonal, from up, from left                     -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:variable name="arrow_map" as="map(xs:string, xs:string)"
@@ -34,6 +34,16 @@
                 "u": "↓",
                 "l": "→"
             }'/>
+
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- scoring (may be altered):                              -->
+    <!--   match    =  1                                        -->
+    <!--   mismatch = -1                                        -->
+    <!--   gap      = -2                                        -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <xsl:variable name="match" as="xs:integer" select="1"/>
+    <xsl:variable name="mismatch" as="xs:integer" select="-1"/>
+    <xsl:variable name="gap" as="xs:integer" select="-2"/>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- functions                                                  -->
@@ -72,16 +82,6 @@
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:variable name="s1_e" as="xs:string+" select="djb:explode($s1)"/>
         <xsl:variable name="s2_e" as="xs:string+" select="djb:explode($s2)"/>
-
-        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <!-- scoring (may be altered):                              -->
-        <!--   match    =  1                                        -->
-        <!--   mismatch = -1                                        -->
-        <!--   gap      = -2                                        -->
-        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <xsl:variable name="match" as="xs:integer" select="1"/>
-        <xsl:variable name="mismatch" as="xs:integer" select="-1"/>
-        <xsl:variable name="gap" as="xs:integer" select="-2"/>
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- create table                                           -->
@@ -171,8 +171,10 @@
                             </xsl:variable>
                             <xsl:variable name="cell_value" as="xs:double"
                                 select="$best_scores[1]/@value"/>
+                            <xsl:variable name="cell_from" as="xs:string"
+                                select="$best_scores[1]/@source"/>
                             <xsl:variable name="cell_arrow" as="xs:string"
-                                select="$arrow_map($best_scores[1]/@source)"/>
+                                select="$arrow_map($cell_from)"/>
 
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <!-- create the cell                    -->
@@ -181,7 +183,7 @@
                                 <cell top_string="{$top_string}" left-string="{$left_string}"
                                     match="{$string_match}" cell_up="{$cell_up}"
                                     cell_left="{$cell_left}" cell_diag="{$cell_diag}"
-                                    cell_arrow="{$cell_arrow}">
+                                    cell_from="{$cell_from}" cell_arrow="{$cell_arrow}">
                                     <xsl:value-of select="$cell_value"/>
                                 </cell>
                             </xsl:variable>
@@ -206,56 +208,123 @@
     </xsl:function>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- djb:align                                                  -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <xsl:function name="djb:align" as="element(table)">
+        <xsl:param name="in" as="element(table)"/>
+        <xsl:param name="s1" as="xs:string"/>
+        <xsl:param name="s2" as="xs:string"/>
+        <xsl:param name="current_row" as="xs:integer"/>
+        <xsl:param name="current_column" as="xs:integer"/>
+        <xsl:param name="pairs" as="element(pair)*"/>
+        <xsl:variable name="s1_e" as="xs:string+" select="reverse(djb:explode($s1))"/>
+        <xsl:variable name="s2_e" as="xs:string+" select="reverse(djb:explode($s2))"/>
+        <xsl:variable name="current_cell" as="element(cell)"
+            select="$in/row[$current_row]/cell[$current_column]"/>
+        <xsl:variable name="new_pair" as="element(pair)?">
+            <pair>
+                <top>
+                    <xsl:choose>
+                        <xsl:when test="1"></xsl:when>
+                        <xsl:otherwise></xsl:otherwise>
+                    </xsl:choose>
+                </top>
+                <left>
+                    <xsl:choose>
+                        <xsl:when test="1"></xsl:when>
+                        <xsl:otherwise></xsl:otherwise>
+                    </xsl:choose>
+                </left>
+            </pair>
+        </xsl:variable>
+        <xsl:variable name="result" as="element(table)">
+            <table type="alignment">
+                <row>
+                    <cell>
+                        <xsl:sequence select="$current_cell"/>
+                    </cell>
+                </row>
+            </table>
+        </xsl:variable>
+        <xsl:sequence select="$result"/>
+    </xsl:function>
+
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- main                                                       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template name="xsl:initial-template">
         <xsl:variable name="s1" as="xs:string" select="'califs'"/>
         <xsl:variable name="s2" as="xs:string" select="'biali'"/>
         <xsl:variable name="table" select="djb:nw($s1, $s2)"/>
-        <!-- Uncomment one or the other to output raw XML or HTML   -->
+        <xsl:variable name="alignment" as="element(table)?"
+            select="
+                djb:align(
+                $table,
+                $s1,
+                $s2,
+                $table/row[last()]/position(),
+                $table/row[1]/cell[last()]/position(),
+                ()
+                )"/>
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- For HTML output                                        -->
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!--        <html xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+                <title>Needleman Wunsch test</title>
+                <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
+                <style type="text/css">
+                    #grid th,
+                    #grid td {
+                        text-align: right;
+                    }
+                    #grid th:first-of-type {
+                        text-align: left;
+                    }
+                    #grid tr:first-of-type > th {
+                        text-align: center;
+                    }
+                    #grid td:before {
+                        content: attr(data-cell_arrow) " ";
+                        font-size: small;
+                    }
+                    #grid [data-match = "1"] {
+                        background-color: palegreen;
+                    }
+                    #grid [data-match = "-1"] {
+                        background-color: pink;
+                    }</style>
+            </head>
+            <body>
+                <h1>Needleman Wunsch test</h1>
+                <p>Generated <xsl:value-of select="current-dateTime()"/></p>
+                <h2>Grid</h2>
+                <xsl:apply-templates select="$table" mode="html"/>
+                <h2>Alignment</h2>
+                <xsl:apply-templates select="$alignment" mode="html"/>
+                <p>
+                    <xsl:text>Match = </xsl:text>
+                    <xsl:value-of select="$match"/>
+                    <xsl:text>, mismatch = </xsl:text>
+                    <xsl:value-of select="$mismatch"/>
+                    <xsl:text>, gap = </xsl:text>
+                    <xsl:value-of select="$gap"/>
+                    <xsl:text>. In case of tie scores, favor diagonal, then left, then up.</xsl:text>
+                </p>
+            </body>
+        </html>-->
         <!--<xsl:sequence select="$table"/>-->
-        <xsl:apply-templates select="$table" mode="html"/>
+        <xsl:sequence
+            select="djb:align($table, $s1, $s2, $table/count(row), $table/row[1]/count(cell), ())"/>
     </xsl:template>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- templates for HTML output                                  -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template match="table" mode="html" xmlns="http://www.w3.org/1999/xhtml">
-        <html>
-            <head>
-                <title>Needleman Wunsch test</title>
-                <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
-                <style type="text/css">
-                    th,
-                    td {
-                        text-align: right;
-                    }
-                    th:first-of-type {
-                        text-align: left;
-                    }
-                    tr:first-of-type > th {
-                        text-align: center;
-                    }
-                    td:before {
-                        content: attr(data-cell_arrow) " ";
-                        font-size: small;
-                    }
-                    [data-match = "1"] {
-                        background-color: palegreen;
-                    }
-                    [data-match = "-1"] {
-                        background-color: pink;
-                    }</style>
-            </head>
-            <body>
-                <h1>Needleman Wunsch test</h1>
-                <p>Generated <xsl:value-of select="current-dateTime()"/>
-                </p>
-                <table>
-                    <xsl:apply-templates mode="html"/>
-                </table>
-            </body>
-        </html>
+        <table id="grid">
+            <xsl:apply-templates mode="html"/>
+        </table>
     </xsl:template>
     <xsl:template match="row" mode="html" xmlns="http://www.w3.org/1999/xhtml">
         <tr>
@@ -270,5 +339,22 @@
             </xsl:for-each>
             <xsl:apply-templates mode="html"/>
         </xsl:element>
+    </xsl:template>
+    <xsl:template match="table[@type eq 'alignment']" mode="html"
+        xmlns="http://www.w3.org/1999/xhtml">
+        <table id="alignment">
+            <xsl:apply-templates select="row" mode="html"/>
+        </table>
+    </xsl:template>
+    <xsl:template match="table[@type eq 'alignment']/row" mode="html"
+        xmlns="http://www.w3.org/1999/xhtml">
+        <tr>
+            <xsl:apply-templates mode="html"/>
+        </tr>
+    </xsl:template>
+    <xsl:template match="table[@type eq 'alignment']/row/cell" xmlns="http://www.w3.org/1999/xhtml">
+        <td>
+            <xsl:apply-templates mode="html"/>
+        </td>
     </xsl:template>
 </xsl:stylesheet>
