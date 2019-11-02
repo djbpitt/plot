@@ -217,7 +217,6 @@
         <xsl:param name="current_row" as="xs:integer"/>
         <xsl:param name="current_column" as="xs:integer"/>
         <xsl:param name="pairs" as="element(pair)*"/>
-        <xsl:message select="$in/count(row), $current_row, $current_column, $pairs"/>
         <xsl:variable name="s1_e" as="xs:string+" select="reverse(djb:explode($s1))"/>
         <xsl:variable name="s2_e" as="xs:string+" select="reverse(djb:explode($s2))"/>
         <xsl:variable name="current_cell" as="element(cell)?"
@@ -229,19 +228,31 @@
                 </table>
             </xsl:when>
             <xsl:otherwise>
+                <xsl:variable name="cell_from" as="xs:string?" select="$current_cell/@cell_from"/>
                 <xsl:variable name="new_pairs" as="element(pair)+">
                     <xsl:sequence select="$pairs"/>
                     <pair>
                         <top>
                             <xsl:choose>
-                                <xsl:when test="1"/>
-                                <xsl:otherwise/>
+                                <xsl:when test="1">
+                                    <xsl:text>top</xsl:text>
+                                    <xsl:sequence select="$current_cell"/>
+                                    <xsl:sequence select="'$cell_from = ' || $cell_from"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:sequence select="$current_cell"/>
+                                </xsl:otherwise>
                             </xsl:choose>
                         </top>
                         <left>
                             <xsl:choose>
-                                <xsl:when test="1"/>
-                                <xsl:otherwise/>
+                                <xsl:when test="$cell_from = ('d', 'l')">
+                                    <!--<xsl:sequence select="$current_cell"/>-->
+                                    <xsl:text>left</xsl:text>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:text>skip</xsl:text>
+                                </xsl:otherwise>
                             </xsl:choose>
                         </left>
                     </pair>
@@ -260,7 +271,6 @@
         <xsl:variable name="s1" as="xs:string" select="'califs'"/>
         <xsl:variable name="s2" as="xs:string" select="'biali'"/>
         <xsl:variable name="table" select="djb:nw($s1, $s2)"/>
-        <xsl:message select="'In caller: ', $table/count(row)"/>
         <xsl:variable name="alignment" as="element(table)?"
             select="
                 djb:align(
@@ -275,7 +285,7 @@
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- For HTML output                                        -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <!--        <html xmlns="http://www.w3.org/1999/xhtml">
+                <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <title>Needleman Wunsch test</title>
                 <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
@@ -307,7 +317,7 @@
                 <h2>Grid</h2>
                 <xsl:apply-templates select="$table" mode="html"/>
                 <h2>Alignment</h2>
-                <xsl:apply-templates select="$alignment" mode="html"/>
+                <!--<p><xsl:apply-templates select="$alignment" mode="html"/></p>-->
                 <p>
                     <xsl:text>Match = </xsl:text>
                     <xsl:value-of select="$match"/>
@@ -318,7 +328,7 @@
                     <xsl:text>. In case of tie scores, favor diagonal, then left, then up.</xsl:text>
                 </p>
             </body>
-        </html>-->
+        </html>
         <!--<xsl:sequence select="$table"/>-->
         <!--<xsl:sequence
             select="djb:align($table, $s1, $s2, $table/count(row), $table/row[1]/count(cell), ())"/>-->
