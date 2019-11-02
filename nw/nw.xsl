@@ -281,7 +281,7 @@
                 $table/row[1]/count(cell),
                 ()
                 )"/>
-        <xsl:sequence select="$alignment"/>
+        <!--<xsl:sequence select="$alignment"/>-->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- For HTML output                                        -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
