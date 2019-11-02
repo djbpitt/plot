@@ -217,36 +217,40 @@
         <xsl:param name="current_row" as="xs:integer"/>
         <xsl:param name="current_column" as="xs:integer"/>
         <xsl:param name="pairs" as="element(pair)*"/>
+        <xsl:message select="$in/count(row), $current_row, $current_column, $pairs"/>
         <xsl:variable name="s1_e" as="xs:string+" select="reverse(djb:explode($s1))"/>
         <xsl:variable name="s2_e" as="xs:string+" select="reverse(djb:explode($s2))"/>
-        <xsl:variable name="current_cell" as="element(cell)"
+        <xsl:variable name="current_cell" as="element(cell)?"
             select="$in/row[$current_row]/cell[$current_column]"/>
-        <xsl:variable name="new_pair" as="element(pair)?">
-            <pair>
-                <top>
-                    <xsl:choose>
-                        <xsl:when test="1"></xsl:when>
-                        <xsl:otherwise></xsl:otherwise>
-                    </xsl:choose>
-                </top>
-                <left>
-                    <xsl:choose>
-                        <xsl:when test="1"></xsl:when>
-                        <xsl:otherwise></xsl:otherwise>
-                    </xsl:choose>
-                </left>
-            </pair>
-        </xsl:variable>
-        <xsl:variable name="result" as="element(table)">
-            <table type="alignment">
-                <row>
-                    <cell>
-                        <xsl:sequence select="$current_cell"/>
-                    </cell>
-                </row>
-            </table>
-        </xsl:variable>
-        <xsl:sequence select="$result"/>
+        <xsl:choose>
+            <xsl:when test="$current_row lt 0 or $current_column lt 0">
+                <table xml:id="alignment">
+                    <xsl:sequence select="$pairs"/>
+                </table>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:variable name="new_pairs" as="element(pair)+">
+                    <xsl:sequence select="$pairs"/>
+                    <pair>
+                        <top>
+                            <xsl:choose>
+                                <xsl:when test="1"/>
+                                <xsl:otherwise/>
+                            </xsl:choose>
+                        </top>
+                        <left>
+                            <xsl:choose>
+                                <xsl:when test="1"/>
+                                <xsl:otherwise/>
+                            </xsl:choose>
+                        </left>
+                    </pair>
+                </xsl:variable>
+                <xsl:sequence
+                    select="djb:align($in, $s1, $s2, $current_row - 1, $current_column - 1, $new_pairs)"
+                />
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:function>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -256,16 +260,18 @@
         <xsl:variable name="s1" as="xs:string" select="'califs'"/>
         <xsl:variable name="s2" as="xs:string" select="'biali'"/>
         <xsl:variable name="table" select="djb:nw($s1, $s2)"/>
+        <xsl:message select="'In caller: ', $table/count(row)"/>
         <xsl:variable name="alignment" as="element(table)?"
             select="
                 djb:align(
                 $table,
                 $s1,
                 $s2,
-                $table/row[last()]/position(),
-                $table/row[1]/cell[last()]/position(),
+                $table/count(row),
+                $table/row[1]/count(cell),
                 ()
                 )"/>
+        <xsl:sequence select="$alignment"/>
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- For HTML output                                        -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -314,8 +320,8 @@
             </body>
         </html>-->
         <!--<xsl:sequence select="$table"/>-->
-        <xsl:sequence
-            select="djb:align($table, $s1, $s2, $table/count(row), $table/row[1]/count(cell), ())"/>
+        <!--<xsl:sequence
+            select="djb:align($table, $s1, $s2, $table/count(row), $table/row[1]/count(cell), ())"/>-->
     </xsl:template>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
