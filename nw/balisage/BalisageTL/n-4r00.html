@@ -1,0 +1,89 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <!--Tag library software copyright Mulberry Technologies, Inc., 2002-2008-->
+      <link rel="stylesheet" href="taglibBalisage.css" type="text/css">
+      <title>Element: Code</title>
+   </head>
+   <body class="main">
+      <div class="pageheader">
+         <h2 class="headname">Tag Library for Balisage Conference Paper  Vocabulary Version 1.3</h2>
+         <h4 class="sponsor">Balisage: The Markup Conference</h4>
+      </div>
+      <div class="header">
+         <h1 class="elementtag">&lt;code&gt;</h1>
+         <h1 class="elementname">Code</h1>
+      </div>
+      <div class="definition">
+         <p class="para">Inline code including markup fragments.</p>
+      </div>
+      <div class="contentmodel">
+         <h2 class="header first">Expanded Content Model</h2>
+         <p class="contentdesc">(#PCDATA | superscript | subscript)*</p>
+      </div>
+      <div class="modeldesc">
+         <h2 class="header">Description</h2>
+         <p class="para">Any combination of:
+            <ul class="bullist">
+               <li>Text, numbers, or special characters</li>
+               <li>
+                  <a href="n-w920.html" target="main" title="Superscript"><span class="elementtag">&lt;superscript&gt;</span></a> <a href="n-w920.html" target="main" title="<superscript&gt;"><span class="elementname">Superscript</span></a>
+                  
+               </li>
+               <li>
+                  <a href="n-dp20.html" target="main" title="Subscript"><span class="elementtag">&lt;subscript&gt;</span></a> <a href="n-dp20.html" target="main" title="<subscript&gt;"><span class="elementname">Subscript</span></a>
+                  
+               </li>
+            </ul>
+            
+         </p>
+      </div>
+      <div class="elementcontext">
+         <h3 class="header">This element may be contained in:</h3>
+         <p class="para"><a href="n-rj00.html" target="main" title="Emphasis"><span class="elementtag">&lt;emphasis&gt;</span></a>, <a href="n-pu20.html" target="main" title="Link"><span class="elementtag">&lt;link&gt;</span></a>, <a href="n-tg20.html" target="main" title="Paragraph"><span class="elementtag">&lt;para&gt;</span></a>, <a href="n-mh20.html" target="main" title="Inline Quote"><span class="elementtag">&lt;quote&gt;</span></a>, <a href="n-rq20.html" target="main" title="Subtitle"><span class="elementtag">&lt;subtitle&gt;</span></a>, <a href="n-a2c0.html" target="main" title="Table Entry Cell"><span class="elementtag">&lt;td&gt;</span></a>, <a href="n-75c0.html" target="main" title="Term"><span class="elementtag">&lt;term&gt;</span></a>, <a href="n-zac0.html" target="main" title="Table Head Cell"><span class="elementtag">&lt;th&gt;</span></a>, <a href="n-6vc0.html" target="main" title="Title"><span class="elementtag">&lt;title&gt;</span></a></p>
+      </div>
+      <div class="examp.group">
+         <h3 class="header">Example</h3>
+         <div class="taggedexamp"><pre class="taggedtext">
+...
+&lt;para&gt;Information processing, especially text markup, was primitive in the colony.
+For example, most text stores were in XML! Documents may have looked like this:
+&lt;programlisting&gt;
+   &amp;lt;teiHeader&amp;gt;
+      &amp;lt;fileDesc&amp;gt;
+         &amp;lt;titleStmt&amp;gt;
+            &amp;lt;title&amp;gt;Farming in the New World&amp;lt;/title&amp;gt;
+      ...
+        &amp;lt;/titleStmt&amp;gt;
+      &amp;lt;/fileDesc&amp;gt;
+  &amp;lt;/teiHeader&amp;gt;
+&lt;/programlisting&gt;
+Notice the paired Tags: <strong><span class="focus">&lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt;</span></strong> and <strong><span class="focus">&lt;code&gt;&amp;lt;/title&amp;gt;&lt;/code&gt;</span></strong>
+and the primitive use of indenting. Unusual features of the colonists data
+processing practices included:
+&lt;variablelist&gt;
+&lt;varlistentry&gt;
+&lt;term&gt;Tags&lt;/term&gt;
+&lt;listitem&gt;&lt;para&gt;Meaningful descriptions of the information enclosed by the
+markers&lt;/para&gt;&lt;/listitem&gt;
+&lt;/varlistentry&gt;
+&lt;varlistentry&gt;
+&lt;term&gt;Balance&lt;/term&gt;
+&lt;listitem&gt;&lt;para&gt;All markup is both opened and closed (or explicitely
+empty)&lt;/para&gt;&lt;/listitem&gt;
+&lt;/varlistentry&gt;
+&lt;/variablelist&gt;
+&lt;/para&gt;
+...
+</pre></div>
+      </div>
+      <div class="moduledefined">
+         <h2 class="header">Module</h2>
+         <p class="moduledefined">balisage-1-3.dtd</p>
+      </div>
+      <div class="pagefooter">
+         <h2 class="headname">Tag Library for Balisage Conference Paper  Vocabulary Version 1.3</h2>
+         <h4 class="pubdate">Version of October 2010</h4>
+      </div>
+   </body>
+</html>

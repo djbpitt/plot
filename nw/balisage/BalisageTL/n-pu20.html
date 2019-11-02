@@ -1,0 +1,134 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <!--Tag library software copyright Mulberry Technologies, Inc., 2002-2008-->
+      <link rel="stylesheet" href="taglibBalisage.css" type="text/css">
+      <title>Element: Link</title>
+   </head>
+   <body class="main">
+      <div class="pageheader">
+         <h2 class="headname">Tag Library for Balisage Conference Paper  Vocabulary Version 1.3</h2>
+         <h4 class="sponsor">Balisage: The Markup Conference</h4>
+      </div>
+      <div class="header">
+         <h1 class="elementtag">&lt;link&gt;</h1>
+         <h1 class="elementname">Link</h1>
+      </div>
+      <div class="definition">
+         <p class="para">A hypertext link. Either <a href="n-c230.html" target="main" title="Linkend"><span class="attrtag">@linkend</span></a> is used for an
+            internal link, or <a href="n-8f30.html" target="main" title="Href (Linking Mechanism)"><span class="attrtag">@xlink:href</span></a> is used for an external
+            link. Expect an error if both are used.
+         </p>
+      </div>
+      <div class="remarks">
+         <h2 class="header">Remarks</h2>
+         <p class="para">With <a href="n-c230.html" target="main" title="Linkend"><span class="attrtag">@linkend</span></a>, this element is an alternative to
+            <a href="n-8fc0.html" target="main" title="<xref&gt;"><span class="elementname">Cross-Reference</span></a> for internal cross-references, when the
+            linking text (anchor) is not to be generated or acquired from the target element of
+            the reference, but instead taken from the element contents (like an HTML-style
+            anchor).
+         </p>
+         <p class="para">If neither <a href="n-c230.html" target="main" title="Linkend"><span class="attrtag">@linkend</span></a> nor <a href="n-8f30.html" target="main" title="Href (Linking Mechanism)"><span class="attrtag">@xlink:href</span></a> is used, the text content of the element itself is
+            promoted to serve as the link target.
+         </p>
+         <p class="para">XLink attributes on this element are hard-coded to specify a simple link to an
+            external resource.
+         </p>
+      </div>
+      <div class="attrlist">
+         <h2 class="header">Attributes</h2>
+         <h5 class="header"><a href="n-c230.html" target="main"><span class="attrtag">linkend</span></a> <a href="n-c230.html" target="main"><span class="attrname">Linkend</span></a></h5>
+         <h5 class="header"><a href="n-te30.html" target="main"><span class="attrtag">xlink:actuate</span></a> <a href="n-te30.html" target="main"><span class="attrname">Actuating a Link</span></a></h5>
+         <h5 class="header"><a href="n-8f30.html" target="main"><span class="attrtag">xlink:href</span></a> <a href="n-8f30.html" target="main"><span class="attrname">Href (Linking Mechanism)</span></a></h5>
+         <h5 class="header"><a href="n-qf30.html" target="main"><span class="attrtag">xlink:show</span></a> <a href="n-qf30.html" target="main"><span class="attrname">Showing a Link</span></a></h5>
+         <h5 class="header"><a href="n-6g30.html" target="main"><span class="attrtag">xlink:title</span></a> <a href="n-6g30.html" target="main"><span class="attrname">Title of a Link</span></a></h5>
+         <h5 class="header"><a href="n-vn30.html" target="main"><span class="attrtag">xlink:type</span></a> <a href="n-vn30.html" target="main"><span class="attrname">Type of Link</span></a></h5>
+      </div>
+      <div class="contentmodel">
+         <h2 class="header first">Expanded Content Model</h2>
+         <p class="contentdesc">(#PCDATA | emphasis | trademark | code | superscript | subscript | quote)*</p>
+      </div>
+      <div class="modeldesc">
+         <h2 class="header">Description</h2>
+         <p class="para">Any combination of:
+            <ul class="bullist">
+               <li>Text, numbers, or special characters</li>
+               <li>
+                  <a href="n-rj00.html" target="main" title="Emphasis"><span class="elementtag">&lt;emphasis&gt;</span></a> <a href="n-rj00.html" target="main" title="<emphasis&gt;"><span class="elementname">Emphasis</span></a>
+                  
+               </li>
+               <li>
+                  <a href="n-htc0.html" target="main" title="Trademark"><span class="elementtag">&lt;trademark&gt;</span></a> <a href="n-htc0.html" target="main" title="<trademark&gt;"><span class="elementname">Trademark</span></a>
+                  
+               </li>
+               <li>
+                  <a href="n-4r00.html" target="main" title="Code"><span class="elementtag">&lt;code&gt;</span></a> <a href="n-4r00.html" target="main" title="<code&gt;"><span class="elementname">Code</span></a>
+                  
+               </li>
+               <li>
+                  <a href="n-w920.html" target="main" title="Superscript"><span class="elementtag">&lt;superscript&gt;</span></a> <a href="n-w920.html" target="main" title="<superscript&gt;"><span class="elementname">Superscript</span></a>
+                  
+               </li>
+               <li>
+                  <a href="n-dp20.html" target="main" title="Subscript"><span class="elementtag">&lt;subscript&gt;</span></a> <a href="n-dp20.html" target="main" title="<subscript&gt;"><span class="elementname">Subscript</span></a>
+                  
+               </li>
+               <li>
+                  <a href="n-mh20.html" target="main" title="Inline Quote"><span class="elementtag">&lt;quote&gt;</span></a> <a href="n-mh20.html" target="main" title="<quote&gt;"><span class="elementname">Inline Quote</span></a>
+                  
+               </li>
+            </ul>
+            
+         </p>
+      </div>
+      <div class="elementcontext">
+         <h3 class="header">This element may be contained in:</h3>
+         <p class="para"><a href="n-x400.html" target="main" title="Attribution"><span class="elementtag">&lt;attribution&gt;</span></a>, <a href="n-ts00.html" target="main" title="Author"><span class="elementtag">&lt;author&gt;</span></a>, <a href="n-5e00.html" target="main" title="Bibliographic Entry"><span class="elementtag">&lt;bibliomixed&gt;</span></a>, <a href="n-rj00.html" target="main" title="Emphasis"><span class="elementtag">&lt;emphasis&gt;</span></a>, <a href="n-p520.html" target="main" title="Job Title"><span class="elementtag">&lt;jobtitle&gt;</span></a>, <a href="n-n420.html" target="main" title="Math Phrase"><span class="elementtag">&lt;mathphrase&gt;</span></a>, <a href="n-3f20.html" target="main" title="Organization Name"><span class="elementtag">&lt;orgname&gt;</span></a>, <a href="n-tg20.html" target="main" title="Paragraph"><span class="elementtag">&lt;para&gt;</span></a>, <a href="n-mh20.html" target="main" title="Inline Quote"><span class="elementtag">&lt;quote&gt;</span></a>, <a href="n-dp20.html" target="main" title="Subscript"><span class="elementtag">&lt;subscript&gt;</span></a>, <a href="n-rq20.html" target="main" title="Subtitle"><span class="elementtag">&lt;subtitle&gt;</span></a>, <a href="n-w920.html" target="main" title="Superscript"><span class="elementtag">&lt;superscript&gt;</span></a>, <a href="n-a2c0.html" target="main" title="Table Entry Cell"><span class="elementtag">&lt;td&gt;</span></a>, <a href="n-75c0.html" target="main" title="Term"><span class="elementtag">&lt;term&gt;</span></a>, <a href="n-zac0.html" target="main" title="Table Head Cell"><span class="elementtag">&lt;th&gt;</span></a>, <a href="n-6vc0.html" target="main" title="Title"><span class="elementtag">&lt;title&gt;</span></a>, <a href="n-htc0.html" target="main" title="Trademark"><span class="elementtag">&lt;trademark&gt;</span></a></p>
+      </div>
+      <div class="examp.group">
+         <h3 class="header">Example</h3>
+         <p class="para">Ordinarily, a link carries an <a href="n-8f30.html" target="main" title="Href (Linking Mechanism)"><span class="attrtag">@xlink:href</span></a> to
+            indicate the resource to be linked:
+         </p>
+         <div class="taggedexamp"><pre class="taggedtext">&lt;para&gt;The <strong><span class="focus">&lt;link xlink:href="http://www.balisage.net"&gt;Balisage&lt;/link&gt;</span></strong> conference has
+  been held since 2008...&lt;/para&gt;</pre></div>
+         <p class="para">Sometimes it may be convenient to omit the <a href="n-8f30.html" target="main" title="Href (Linking Mechanism)"><span class="attrtag">@xlink:href</span></a> and allow the contents of the element to be promoted
+            to serve as the destination of the link:
+         </p>
+         <div class="taggedexamp"><pre class="taggedtext">
+&lt;article xmlns="http://docbook.org/ns/docbook" version="5.0-subset Balisage-1.3"
+  xml:id="HR-23632987-8973"&gt;
+  &lt;title&gt;Raleigh's Discoveries in the New World&lt;/title&gt;
+  ...
+  &lt;appendix xml:id="mul88"&gt;
+    ...
+  &lt;/appendix&gt;
+  &lt;bibliography&gt;
+    &lt;title&gt;Bibliography&lt;/title&gt;
+    ...
+
+    &lt;bibliomixed xml:id="mul98" xreflabel="Prindle 1996b"&gt;Prindle, Tara. “Native American History of
+      Corn”. [online]. Native American Technology and Art. © 1996 [cited 14 Apr 1998].
+        <strong><span class="focus">&lt;link&gt;http://www.lib.uconn.edu/NativeTech/cornhusk/cornhusk.html&lt;/link&gt;</span></strong>.&lt;/bibliomixed&gt;
+
+    &lt;bibliomixed xml:id="mul99" xreflabel="Dickerson 1997"&gt;Dickerson, George. “Beyond Turkey: Corn
+      Shaped History, Cuisines”. [online]. Ed. D’Lyn Ford. New Mexico State University College of
+      Agriculture &amp;amp; Home Economics, 11 Nov 1997 [cited 14 Apr 1998].
+        <strong><span class="focus">&lt;link&gt;http://elroy.nmsu.edu/CAHE/press/corn_history1997.html&lt;/link&gt;</span></strong>.&lt;/bibliomixed&gt;
+
+    ...
+  &lt;/bibliography&gt;
+&lt;/article&gt;
+
+</pre></div>
+      </div>
+      <div class="moduledefined">
+         <h2 class="header">Module</h2>
+         <p class="moduledefined">balisage-1-3.dtd</p>
+      </div>
+      <div class="pagefooter">
+         <h2 class="headname">Tag Library for Balisage Conference Paper  Vocabulary Version 1.3</h2>
+         <h4 class="pubdate">Version of October 2010</h4>
+      </div>
+   </body>
+</html>

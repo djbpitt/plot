@@ -1,0 +1,56 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <!--Tag library software copyright Mulberry Technologies, Inc., 2002-2008-->
+      <link rel="stylesheet" href="taglibBalisage.css" type="text/css">
+      <title>Attribute: Cross-Reference Label</title>
+   </head>
+   <body class="main">
+      <div class="pageheader">
+         <h2 class="headname">Tag Library for Balisage Conference Paper  Vocabulary Version 1.3</h2>
+         <h4 class="sponsor">Balisage: The Markup Conference</h4>
+      </div>
+      <div class="header">
+         <h1 class="attrtag">xreflabel</h1>
+         <h1 class="attrname">Cross-Reference Label</h1>
+      </div>
+      <div class="definition">
+         <p class="para">Any element with an <a href="n-dd30.html" target="main" title="@xml:id"><span class="attrname">XML Unique Identifier</span></a> may be
+            cross-referenced using a <a href="n-8fc0.html" target="main" title="<xref&gt;"><span class="elementname">Cross-Reference</span></a> element; generally,
+            this is all that is necessary to generate a cross-reference, since several of these
+            elements (including <a href="n-yb00.html" target="main" title="<figure&gt;"><span class="elementname">Figure</span></a>, <a href="n-6q00.html" target="main" title="<equation&gt;"><span class="elementname">Equation</span></a> and <a href="n-qm20.html" target="main" title="<table&gt;"><span class="elementname">Table</span></a>) receive
+            labels automatically, and when they do not, there may be a <a href="n-6vc0.html" target="main" title="<title&gt;"><span class="elementname">Title</span></a> that can be used.
+         </p>
+         <p class="para">On occasion, however, it may be useful or necessary to provide text for a
+            cross-reference label explicitly; for these cases, use this attribute.
+         </p>
+         <p class="para">In particular, any <a href="n-5e00.html" target="main" title="<bibliomixed&gt;"><span class="elementname">Bibliographic Entry</span></a> element that is
+            referenced from the text using a <a href="n-8fc0.html" target="main" title="<xref&gt;"><span class="elementname">Cross-Reference</span></a> should be
+            provided with a <a href="n-xh30.html" target="main" title="@xreflabel"><span class="attrname">Cross-Reference Label</span></a>.
+         </p>
+      </div>
+      <div class="attrvalueinfo">
+         <h2 class="header">Attribute Values</h2>
+         <div class="attrvalues">
+            <h4 class="header"><span class="headerlabel">In Elements</span></h4><a href="n-na00.html" target="main" title="Appendix"><span class="elementtag">&lt;appendix&gt;</span></a>, <a href="n-5e00.html" target="main" title="Bibliographic Entry"><span class="elementtag">&lt;bibliomixed&gt;</span></a>, <a href="n-6q00.html" target="main" title="Equation"><span class="elementtag">&lt;equation&gt;</span></a>, <a href="n-yb00.html" target="main" title="Figure"><span class="elementtag">&lt;figure&gt;</span></a>, <a href="n-vz00.html" target="main" title="Footnote"><span class="elementtag">&lt;footnote&gt;</span></a>, <a href="n-6t20.html" target="main" title="Note"><span class="elementtag">&lt;note&gt;</span></a>, <a href="n-ey20.html" target="main" title="Section"><span class="elementtag">&lt;section&gt;</span></a>, <a href="n-qm20.html" target="main" title="Table"><span class="elementtag">&lt;table&gt;</span></a><table class="attrtable">
+               <tr>
+                  <th class="attrvalue">Value</th>
+                  <th class="attrmeaning">Meaning</th>
+               </tr>
+               <tr class="attrrow">
+                  <td class="attrvalue">Text, numbers, or special characters</td>
+                  <td class="attrmeaning">The text that is to be generated for a cross-reference</td>
+               </tr>
+               <tr>
+                  <td class="attrrestrict" colspan="2"><strong>Restriction: </strong>This attribute may be specified if the element is used.
+                  </td>
+               </tr>
+            </table>
+         </div>
+      </div>
+      <div class="pagefooter">
+         <h2 class="headname">Tag Library for Balisage Conference Paper  Vocabulary Version 1.3</h2>
+         <h4 class="pubdate">Version of October 2010</h4>
+      </div>
+   </body>
+</html>

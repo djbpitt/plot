@@ -1,0 +1,104 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <!--Tag library software copyright Mulberry Technologies, Inc., 2002-2008-->
+      <link rel="stylesheet" href="taglibBalisage.css" type="text/css">
+      <title>Element: Bibliographic Entry</title>
+   </head>
+   <body class="main">
+      <div class="pageheader">
+         <h2 class="headname">Tag Library for Balisage Conference Paper  Vocabulary Version 1.3</h2>
+         <h4 class="sponsor">Balisage: The Markup Conference</h4>
+      </div>
+      <div class="header">
+         <h1 class="elementtag">&lt;bibliomixed&gt;</h1>
+         <h1 class="elementname">Bibliographic Entry</h1>
+      </div>
+      <div class="definition">
+         <p class="para">An item in a bibliography.</p>
+      </div>
+      <div class="remarks">
+         <h2 class="header">Remarks</h2>
+         <p class="para">Add an <a href="n-dd30.html" target="main" title="@xml:id"><span class="attrname">XML Unique Identifier</span></a> (<a href="n-dd30.html" target="main" title="XML Unique Identifier"><span class="attrtag">@xml:id</span></a>) to any <span class="elementtag">&lt;bibliomixed&gt;</span> element that is to be cited in the body of the paper, to be
+            referenced by a <a href="n-8fc0.html" target="main" title="<xref&gt;"><span class="elementname">Cross-Reference</span></a>. Add <a href="n-xh30.html" target="main" title="@xreflabel"><span class="attrname">Cross-Reference Label</span></a> (<a href="n-xh30.html" target="main" title="Cross-Reference Label"><span class="attrtag">@xreflabel</span></a>) to provide
+            a referencing string. See <a href="n-8fc0.html" target="main" title="<xref&gt;"><span class="elementname">Cross-Reference</span></a> for more details on
+            cross-referencing in general.
+         </p>
+      </div>
+      <div class="attrlist">
+         <h2 class="header">Attributes</h2>
+         <h5 class="header"><a href="n-dd30.html" target="main"><span class="attrtag">xml:id</span></a> <a href="n-dd30.html" target="main"><span class="attrname">XML Unique Identifier</span></a></h5>
+         <h5 class="header"><a href="n-xh30.html" target="main"><span class="attrtag">xreflabel</span></a> <a href="n-xh30.html" target="main"><span class="attrname">Cross-Reference Label</span></a></h5>
+      </div>
+      <div class="contentmodel">
+         <h2 class="header first">Expanded Content Model</h2>
+         <p class="contentdesc">(#PCDATA | emphasis | link | quote | biblioid)*</p>
+      </div>
+      <div class="modeldesc">
+         <h2 class="header">Description</h2>
+         <p class="para">Any combination of:
+            <ul class="bullist">
+               <li>Text, numbers, or special characters</li>
+               <li>
+                  <a href="n-rj00.html" target="main" title="Emphasis"><span class="elementtag">&lt;emphasis&gt;</span></a> <a href="n-rj00.html" target="main" title="<emphasis&gt;"><span class="elementname">Emphasis</span></a>
+                  
+               </li>
+               <li>
+                  <a href="n-pu20.html" target="main" title="Link"><span class="elementtag">&lt;link&gt;</span></a> <a href="n-pu20.html" target="main" title="<link&gt;"><span class="elementname">Link</span></a>
+                  
+               </li>
+               <li>
+                  <a href="n-mh20.html" target="main" title="Inline Quote"><span class="elementtag">&lt;quote&gt;</span></a> <a href="n-mh20.html" target="main" title="<quote&gt;"><span class="elementname">Inline Quote</span></a>
+                  
+               </li>
+               <li>
+                  <a href="n-d700.html" target="main" title="Biblio ID"><span class="elementtag">&lt;biblioid&gt;</span></a> <a href="n-d700.html" target="main" title="<biblioid&gt;"><span class="elementname">Biblio ID</span></a>
+                  
+               </li>
+            </ul>
+            
+         </p>
+      </div>
+      <div class="elementcontext">
+         <h3 class="header">This element may be contained in:</h3>
+         <p class="para"><a href="n-6t00.html" target="main" title="Bibliography"><span class="elementtag">&lt;bibliography&gt;</span></a></p>
+      </div>
+      <div class="examp.group">
+         <h3 class="header">Example</h3>
+         <div class="taggedexamp"><pre class="taggedtext">
+&lt;article xmlns="http://docbook.org/ns/docbook" version="5.0-subset Balisage-1.3"
+  xml:id="HR-23632987-8973"&gt;
+  &lt;title&gt;Raleigh's Discoveries in the New World&lt;/title&gt;
+  ...
+  &lt;appendix xml:id="mul88"&gt;
+    ...
+  &lt;/appendix&gt;
+  &lt;bibliography&gt;
+    &lt;title&gt;Bibliography&lt;/title&gt;
+    ...
+
+    <strong><span class="focus">&lt;bibliomixed xml:id="mul98" xreflabel="Prindle 1996b"&gt;Prindle, Tara. “Native American History of
+      Corn”. [online]. Native American Technology and Art. © 1996 [cited 14 Apr 1998].
+        &lt;link&gt;http://www.lib.uconn.edu/NativeTech/cornhusk/cornhusk.html&lt;/link&gt;.&lt;/bibliomixed&gt;</span></strong>
+
+    <strong><span class="focus">&lt;bibliomixed xml:id="mul99" xreflabel="Dickerson 1997"&gt;Dickerson, George. “Beyond Turkey: Corn
+      Shaped History, Cuisines”. [online]. Ed. D’Lyn Ford. New Mexico State University College of
+      Agriculture &amp;amp; Home Economics, 11 Nov 1997 [cited 14 Apr 1998].
+        &lt;link&gt;http://elroy.nmsu.edu/CAHE/press/corn_history1997.html&lt;/link&gt;.&lt;/bibliomixed&gt;</span></strong>
+
+    ...
+  &lt;/bibliography&gt;
+&lt;/article&gt;
+
+</pre></div>
+      </div>
+      <div class="moduledefined">
+         <h2 class="header">Module</h2>
+         <p class="moduledefined">balisage-1-3.dtd</p>
+      </div>
+      <div class="pagefooter">
+         <h2 class="headname">Tag Library for Balisage Conference Paper  Vocabulary Version 1.3</h2>
+         <h4 class="pubdate">Version of October 2010</h4>
+      </div>
+   </body>
+</html>

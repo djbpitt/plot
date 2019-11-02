@@ -1,0 +1,1052 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="balisage-proceedings-html.xsl"?>
+<!--<!DOCTYPE article SYSTEM "../../DTD/balisage-1-2.dtd">-->
+<?xml-stylesheet type="text/css" href="balisage-author.css" title="Authoring" alternate="no"?>
+<article xmlns="http://docbook.org/ns/docbook" version="5.0-subset Balisage-1.2"
+  xml:id="HR-23632987-8973">
+  <title>Raleigh's Discoveries in the New World</title>
+  <subtitle>The lure of vegetable culture</subtitle>
+  <info>
+    <abstract>
+      <para>In 1584, Queen Elizabeth I charged Sir Walter Raleigh to discover and colonize lands in
+        the New World on behalf of England. This article discusses the efforts and expeditions
+        organized under Raleigh's patronage to found a colony in the current-day North Carolina.
+        Going beyond the chronological history of the doomed Roanoke colony, the author provides
+        insights into relations between the colonists and their native counterparts, discusses the
+        botanical riches of the region, and argues that Raleigh's efforts did not end in failure, as
+        commonly might be thought.</para>
+    </abstract>
+    <author>
+      <personname>
+        <firstname>Tonia</firstname>
+        <othername>Renae</othername>
+        <surname>Gaillard</surname>
+      </personname>
+      <personblurb>
+        <para>A native of Eleajora, Dr. Gaillard completed her post-graduate studies in Colonial
+          American History in 2033. Following these studies, she became an Associate Professor at
+          DeBare State University before joining Quetrane University’s faculty. She has chaired the
+          university’s Department of History since 2048.</para>
+        <para>Dr. Gaillard’s extensive writings include <quote>The Politics Underlying the Salem
+            Witch Trials</quote>, <quote>Williamsburg’s Role in the Revolution</quote>,<emphasis
+            role="ital">Benjamin Franklin: Scientist, Inventor, and Politician</emphasis>, and
+            <emphasis role="ital">Native American Culture and the "True Faith."</emphasis> She is
+          currently working on a biography of Simon Kenton, whose role in pioneering Kentucky has
+          been overshadowed by fellow backwoodsman Daniel Boone.</para>
+      </personblurb>
+      <affiliation>
+        <jobtitle>Department Chair</jobtitle>
+        <orgname>Quetrane University</orgname>
+      </affiliation>
+      <email>tgaillard@quetrane.hist.edu</email>
+    </author>
+    <keywordset role="author">
+      <keyword>New World discoveries</keyword>
+      <keyword>American colonial history</keyword>
+      <keyword>English 16th century history</keyword>
+    </keywordset>
+  </info>
+  <section>
+    <title>Introduction</title>
+    <para>On March 25, 1584, Queen Elizabeth I of England charged Sir Walter Raleigh to<blockquote>
+        <para>discover, search, find out, and view such remote, heathen and barbarous lands,
+          countries, and territories, not actually possessed of any Christian Prince, nor inhabited
+          by Christian People</para>
+      <attribution><xref linkend="thorpe97"/></attribution>
+      </blockquote> That same year Raleigh sent two captains, Philip Amades and Arthur Barlowe, from
+      England to Hispaniola and the Canary Islands; from there, the captains were instructed to
+      scout the lands northeast of those already claimed by Spain, to wit, Florida. This land — now
+      encompassing the Carolinas and Virginia — was claimed on behalf of England and named
+        <quote>Virginia,</quote> in honor of the <quote>Virgin Queen.</quote></para>
+    <para>Information processing, especially text markup, was primitive in the colony. For example,
+      most text stores were in XML! Documents may have looked like this:
+      <programlisting>&lt;teiHeader&gt;
+  &lt;fileDesc&gt;
+    &lt;titleStmt&gt;
+      &lt;title&gt;Farming in the New World&lt;/title&gt;
+      ...
+    &lt;/titleStmt&gt;
+  &lt;/fileDesc&gt;
+&lt;/teiHeader&gt;</programlisting>
+      Notice the paired Tags: <code>&lt;title&gt;</code> and <code>&lt;/title&gt;</code> and the
+      primitive use of indenting. Unusual features of the colonists data processing practices included:<variablelist>
+        <varlistentry>
+          <term>Tags</term>
+          <listitem>
+            <para>Meaningful descriptions of the information enclosed by the markers</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Balance</term>
+          <listitem>
+            <para>All markup is both opened and closed (or explicitly empty)</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </para>
+  </section>
+  <section>
+    <title>Securing a Permanent Colony in the Claimed Lands</title>
+    <para>With land claimed in the New World, an expedition was mounted to establish a settlement.
+      The first expedition failed. Led by Sir Richard Grenville in April 1585, it encompassed 600
+      men of which 105 remained in the colony while Grenville returned to England for additional
+      provisions. (<emphasis role="ital">See</emphasis>
+      <xref linkend="mul83"/>.) However, when almost a year passed without Grenville’s return, the
+      remainder of the expeditionary force took advantage of Sir Francis Drake’s arrival to seek
+      return passage to England. <footnote xml:id="mul74">
+        <para>It has been argued that the first expedition was not a failure. Richard Grenville did
+          return to the colony with additional provisions not long after Drake’s departure, and he
+          ordered 15 men, supposedly supplied for two years, to remain in the colony while he
+          returned for new settlers. However, it is unknown whether these men were present to greet
+          the subsequent expedition.</para>
+      </footnote>
+    </para>
+    <para>The second expedition, organized by John White in 1587, fared better. It sailed with seven
+      ships filled with Devon families intent upon establishing a colony in that part of Virginia
+      called Roanoke, a word deriving from the speech of native peoples. [<xref linkend="mul88"/>]
+      Two years after founding the <quote>Cittie of Raleigh,</quote> houses had been built for
+      almost all families residing in the colony, and the colony had celebrated the birth of its
+      first children born in the New World. The first child, grandchild of John White and child of
+      Ananias and Eleanor Dare, was been named Virginia in honor of the sovereign.</para>
+    <section>
+      <title>Native Plants and Wildlife</title>
+      <para>The European settlers found the New World abundant with commodities <quote>known to
+          yield victual and sustenance of man’s life</quote>. The first expeditionary force noted
+        that a great variety of berries grew wildly, including raspberries, blueberries, and
+        strawberries. Along with maize, native grain, which could be made into bread, grew in the
+        area. Two other plants — more properly called roots — which could be saved for winter
+        consumption were <quote>cassida</quote> and <quote>chyna.</quote> The settlers discovered
+        that while some roots could be eaten much in appearance as they were dug, others had to be
+        boiled before use as a foodstuff. As more fully described below, other plants included
+        beans, and several crops previously unknown to the Europeans: <itemizedlist>
+          <listitem>
+            <para><quote>macocqwer</quote> (gourds),</para>
+          </listitem>
+          <listitem>
+            <para><quote>melden</quote> (an herb),</para>
+          </listitem>
+          <listitem>
+            <para><quote>planta solis</quote> (sunflower — used in a type of bread, as well as for
+              broth),</para>
+          </listitem>
+          <listitem>
+            <para>peas (powdered in a mortar), and</para>
+          </listitem>
+          <listitem>
+            <para>potatoes.</para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <section>
+        <title>Gourds</title>
+        <para>The native people grew a variety of large broad-leafed, ground-covering vines which
+          produced what they called <quote>macocqwer</quote> or gourds. (<emphasis role="ital"
+            >See</emphasis>
+          <xref linkend="gourds"/>.) Varying in color among shades of green, yellow, and orange,
+          these gourds served a number of functions, not chief of which was as a food source. There
+          were two distinct types, soft-shelled and hard-shelled. Of particular interest to the
+          settlers were pumpkins; grown throughout the summer, this gourd remained in the fields
+          until late autumn’s frost. Following harvest, the gourd could be stored throughout the
+          winter and its flesh made into stews.</para>
+        <figure xml:id="gourds">
+          <title>Gourds</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata format="jpg" fileref="19450212-2.jpg" width="50%"/>
+            </imageobject>
+          </mediaobject>
+          <caption>
+            <para>While gourds, pumpkins and squashes were new to the English, they were soon
+              discovered to be very useful for warding off starvation.</para>
+          </caption>
+        </figure>
+        <para>However, far more important was the hard-skinned gourd. The value of this gourd lay
+          not in its potential as a food source, but rather as a container and serving vessel. Once
+          dried, these gourds were cut and hollowed for use as storage containers, as well as for
+          bowls, ladles, cups, and other types of serving utensils. Indeed, since gourds grew in a
+          variety of shapes and sizes, particular gourds could be selected for their resemblance to
+          the items sought. For the adventurous, the durable objects could be carved and decorated
+          with plant dyes.</para>
+      </section>
+      <section>
+        <title>Tomatoes</title>
+        <para>Also new to the colonists was the tomato. (<emphasis role="ital">See</emphasis>
+          <xref linkend="Tomatoes"/>.) Tomatoes were described as thin-skinned succulent fruits with
+          pulpy interiors. Almost <quote>Bristol red</quote> in color, the fruit was somewhat round
+          in form and the size of a chicken’s egg — not anything approaching the size of modern,
+          cultivated varieties. Of particular importance was the plant’s fecundity. The flowering,
+          bush-like plant bore fruit over a period of months. Thus, a plant could produce as many as
+          15 tomatoes at a given time.</para>
+        <figure xml:id="Tomatoes">
+          <title>Tomatoes</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata format="jpg" fileref="19450212-1.jpg" width="50%"/>
+            </imageobject>
+          </mediaobject>
+          <caption>
+            <para>Tomatoes were among the new fruits discovered in the New World.</para>
+          </caption>
+        </figure>
+      </section>
+      <section>
+        <title>Potatoes</title>
+        <para>Another root that proved beneficial was the potato. Similarly, to the
+            <quote>cassida</quote> mentioned earlier, potatoes were considered roots rather than
+          plants, as the edible portion of the plant lay underground. Given the curious nature of
+          this legume, several examples were brought back from the New World. In fact, Raleigh
+          attempted to cultivate the potato at his estate, Youghall, in Ireland.</para>
+      </section>
+      <section>
+        <title>Fruits and Nuts</title>
+        <para>The colony abounded with a wealth of fruits and nuts, some not previously known to the
+          Europeans. In addition to mulberries, strawberries, and blueberries already mentioned, one
+          of the more curious fruits found was called <quote>medlar</quote> by the natives. Medlar
+          was a fruit not unlike cherries in size and color, but with a much sweeter taste. An
+          equally unusual fruit was <quote>metaqvesvnnaqvk</quote>; notwithstanding its red fruit,
+          that plant’s more important feature lay in the cochinile insects which fed upon its
+          prickly thick leaves <footnote xml:id="mul90">
+            <para>In the 16th century, such insects were prized in the making of a vibrant red
+              dye.</para>
+          </footnote>.</para>
+        <para>Equally abundant in variety and size were nuts. In addition to chestnuts and walnuts,
+          the natives <quote>harvested</quote> no less than five types of <quote>acorns</quote>.
+          These somewhat small nuts were either dried in a manner similar to that used in England
+          for malt, or were boiled for broth.</para>
+        <table>
+          <caption>
+            <para>North American Native Plants</para>
+          </caption>
+          <col align="right" valign="top"/>
+          <col valign="top"/>
+          <col align="center" valign="top"/>
+          <thead>
+            <tr valign="top">
+              <th>Use</th>
+              <th>Plant Part</th>
+              <th>Examples</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr valign="top">
+              <td rowspan="8"><emphasis role="bold">Vegetables</emphasis></td>
+            </tr>
+            <tr valign="top">
+              <td rowspan="2">Seeds</td>
+              <td>Corn</td>
+            </tr>
+            <tr valign="top">
+              <td>Beans</td>
+            </tr>
+            <tr valign="top">
+              <td rowspan="3">Fruits</td>
+              <td>Squash</td>
+            </tr>
+            <tr valign="top">
+              <td>Peppers</td>
+            </tr>
+            <tr valign="top">
+              <td>Tomatoes</td>
+            </tr>
+            <tr valign="top">
+              <td rowspan="2">Roots</td>
+              <td>Potatoes</td>
+            </tr>
+            <tr valign="top">
+              <td>Sweet Potatoes</td>
+            </tr>
+            <tr valign="top">
+              <td rowspan="4"><emphasis role="bold">Teas</emphasis></td>
+            </tr>
+            <tr valign="top">
+              <td rowspan="2">Leaves</td>
+              <td>Mountain Mint (Namewuskons)</td>
+            </tr>
+            <tr valign="top">
+              <td>Dawn Mint (Wabinowusk)</td>
+            </tr>
+            <tr valign="top">
+              <td>Berries</td>
+              <td>Wintergreen</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
+  </section>
+  <appendix xml:id="mul83">
+    <title>The First Expeditionary Force’s Colony, 1585-1586 <footnote xml:id="mul5">
+        <para>This Appendix contains an actual list of the individuals who sailed to the Roanoke
+          Colony in 1585. (<emphasis role="ital">See</emphasis>
+          <citation>Durant, David N., <quote>Raleigh’s Lost Colony</quote>, Appendix I, Atheneum,
+            NY: 1981.</citation>)</para>
+      </footnote>
+    </title>
+    <itemizedlist>
+      <listitem>
+        <para>Master Philip Amades, Admirall of the countrie</para>
+      </listitem>
+      <listitem>
+        <para>Master Hariot</para>
+      </listitem>
+      <listitem>
+        <para>Master Acton</para>
+      </listitem>
+      <listitem>
+        <para>Master Edward Stafford</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Luddington</para>
+      </listitem>
+      <listitem>
+        <para>Master Marvyn</para>
+      </listitem>
+      <listitem>
+        <para>Master Gardyner</para>
+      </listitem>
+      <listitem>
+        <para>Captaine Vaughan</para>
+      </listitem>
+      <listitem>
+        <para>Master Kendall</para>
+      </listitem>
+      <listitem>
+        <para>Master Prideox</para>
+      </listitem>
+      <listitem>
+        <para>Robert Holecroft</para>
+      </listitem>
+      <listitem>
+        <para>Rise Courtney</para>
+      </listitem>
+      <listitem>
+        <para>Master Hugh Rogers</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Foxe</para>
+      </listitem>
+      <listitem>
+        <para>Edward Nugent</para>
+      </listitem>
+      <listitem>
+        <para>Darby Glande</para>
+      </listitem>
+      <listitem>
+        <para>Edward Kelle</para>
+      </listitem>
+      <listitem>
+        <para>John Gostigo</para>
+      </listitem>
+      <listitem>
+        <para>Erasmus Clefs</para>
+      </listitem>
+      <listitem>
+        <para>Edward Ketcheman</para>
+      </listitem>
+      <listitem>
+        <para>John Linsey</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Rottenbury</para>
+      </listitem>
+      <listitem>
+        <para>Roger Deane</para>
+      </listitem>
+      <listitem>
+        <para>John Harris</para>
+      </listitem>
+      <listitem>
+        <para>Frauncis Norris</para>
+      </listitem>
+      <listitem>
+        <para>Matthewe Lyne</para>
+      </listitem>
+      <listitem>
+        <para>Edward Kettell</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Wisse</para>
+      </listitem>
+      <listitem>
+        <para>Master Thomas Harvie</para>
+      </listitem>
+      <listitem>
+        <para>Master Snelling</para>
+      </listitem>
+      <listitem>
+        <para>Master Anthony Russe</para>
+      </listitem>
+      <listitem>
+        <para>Master Allyne</para>
+      </listitem>
+      <listitem>
+        <para>Master Michel Polyson</para>
+      </listitem>
+      <listitem>
+        <para>John Cage</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Parre</para>
+      </listitem>
+      <listitem>
+        <para>William Randes</para>
+      </listitem>
+      <listitem>
+        <para>Geffrey Churchman</para>
+      </listitem>
+      <listitem>
+        <para>William Farthowe</para>
+      </listitem>
+      <listitem>
+        <para>John Taylor</para>
+      </listitem>
+      <listitem>
+        <para>Philppe Robyns</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Phillipes</para>
+      </listitem>
+      <listitem>
+        <para>Valentine Beale</para>
+      </listitem>
+      <listitem>
+        <para>James Skinner</para>
+      </listitem>
+      <listitem>
+        <para>George Eseven</para>
+      </listitem>
+      <listitem>
+        <para>John Chaundeler</para>
+      </listitem>
+      <listitem>
+        <para>Philip Blunt</para>
+      </listitem>
+      <listitem>
+        <para>Richard Poore</para>
+      </listitem>
+      <listitem>
+        <para>Robert Yong</para>
+      </listitem>
+      <listitem>
+        <para>Marmaduke Constable</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Hesket</para>
+      </listitem>
+      <listitem>
+        <para>William Wasse</para>
+      </listitem>
+      <listitem>
+        <para>John Fever</para>
+      </listitem>
+      <listitem>
+        <para>Daniel</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Taylor</para>
+      </listitem>
+      <listitem>
+        <para>Richard Humfrey</para>
+      </listitem>
+      <listitem>
+        <para>John Wright</para>
+      </listitem>
+      <listitem>
+        <para>Gabriell North</para>
+      </listitem>
+      <listitem>
+        <para>Robert Biscombe</para>
+      </listitem>
+      <listitem>
+        <para>William Backhouse</para>
+      </listitem>
+      <listitem>
+        <para>William White</para>
+      </listitem>
+      <listitem>
+        <para>Henry Potkin</para>
+      </listitem>
+      <listitem>
+        <para>Dennis Barnes</para>
+      </listitem>
+      <listitem>
+        <para>Joseph Borges</para>
+      </listitem>
+      <listitem>
+        <para>Doughan Gannes</para>
+      </listitem>
+      <listitem>
+        <para>William Tenche</para>
+      </listitem>
+      <listitem>
+        <para>Randall Latham</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Hulme</para>
+      </listitem>
+      <listitem>
+        <para>Walter Myll</para>
+      </listitem>
+      <listitem>
+        <para>Richard Gilbert</para>
+      </listitem>
+      <listitem>
+        <para>Steven Pomarie</para>
+      </listitem>
+      <listitem>
+        <para>John Brocke</para>
+      </listitem>
+      <listitem>
+        <para>Bennet Harrye</para>
+      </listitem>
+      <listitem>
+        <para>James Stevenson</para>
+      </listitem>
+      <listitem>
+        <para>Charles Stevenson</para>
+      </listitem>
+      <listitem>
+        <para>Christopher Lowde</para>
+      </listitem>
+      <listitem>
+        <para>Jeremie Man</para>
+      </listitem>
+      <listitem>
+        <para>James Mason</para>
+      </listitem>
+      <listitem>
+        <para>David Salter</para>
+      </listitem>
+      <listitem>
+        <para>Richard Ireland</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Bookener</para>
+      </listitem>
+      <listitem>
+        <para>William Philippes</para>
+      </listitem>
+      <listitem>
+        <para>Randall Mayne</para>
+      </listitem>
+      <listitem>
+        <para>Bennet Chappell</para>
+      </listitem>
+      <listitem>
+        <para>Richard Sare</para>
+      </listitem>
+      <listitem>
+        <para>James Lasie</para>
+      </listitem>
+      <listitem>
+        <para>Smolkin</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Smart</para>
+      </listitem>
+      <listitem>
+        <para>Robert</para>
+      </listitem>
+      <listitem>
+        <para>John Evans</para>
+      </listitem>
+      <listitem>
+        <para>Roger Large</para>
+      </listitem>
+      <listitem>
+        <para>Humfrey Garden</para>
+      </listitem>
+      <listitem>
+        <para>Frauncis Whitton</para>
+      </listitem>
+      <listitem>
+        <para>Rowland Griffyn</para>
+      </listitem>
+      <listitem>
+        <para>William Millard</para>
+      </listitem>
+      <listitem>
+        <para>John Twyt</para>
+      </listitem>
+      <listitem>
+        <para>Edwarde Seklemore</para>
+      </listitem>
+      <listitem>
+        <para>John Anwike</para>
+      </listitem>
+      <listitem>
+        <para>Christopher Marshall</para>
+      </listitem>
+      <listitem>
+        <para>David Williams</para>
+      </listitem>
+      <listitem>
+        <para>Nicholas Swabber</para>
+      </listitem>
+      <listitem>
+        <para>Edward Chipping</para>
+      </listitem>
+      <listitem>
+        <para>Sylvester Beching</para>
+      </listitem>
+      <listitem>
+        <para>Vincent Cheyne</para>
+      </listitem>
+      <listitem>
+        <para>Haunce Walters</para>
+      </listitem>
+      <listitem>
+        <para>Edward Barecombe</para>
+      </listitem>
+      <listitem>
+        <para>Thomas Skevelabs</para>
+      </listitem>
+      <listitem>
+        <para>William Walters</para>
+      </listitem>
+    </itemizedlist>
+  </appendix>
+  <appendix xml:id="mul88">
+    <title>The Roanoke Colony, 1587 <footnote xml:id="mul4">
+        <para>This Appendix contains an actual list of the individuals who sailed to the Roanoke
+          Colony in 1587, as well as the names of children born at the colony. (<emphasis
+            role="ital">See</emphasis>
+          <citation>Durant, David N., <quote>Raleigh’s Lost Colony</quote>, Appendix I, Atheneum,
+            NY: 1981.</citation>)</para>
+      </footnote>
+    </title>
+    <itemizedlist>
+      <listitem>
+        <para>Men</para>
+        <itemizedlist>
+          <listitem>
+            <para>John White [Governor]</para>
+          </listitem>
+          <listitem>
+            <para>Roger Bailie [Assistant]</para>
+          </listitem>
+          <listitem>
+            <para>Ananias Dare [Assistant]</para>
+          </listitem>
+          <listitem>
+            <para>Christopher Cooper [Assistant]</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Stevens [Assistant]</para>
+          </listitem>
+          <listitem>
+            <para>John Sampson [Assistant]</para>
+          </listitem>
+          <listitem>
+            <para>Dyonis Harvie [Assistant]</para>
+          </listitem>
+          <listitem>
+            <para>Roger Prat [Assistant]</para>
+          </listitem>
+          <listitem>
+            <para>George Howe [Assistant]</para>
+          </listitem>
+          <listitem>
+            <para>Simon Fernando [Assistant]</para>
+          </listitem>
+          <listitem>
+            <para>William Willes</para>
+          </listitem>
+          <listitem>
+            <para>John Brooke</para>
+          </listitem>
+          <listitem>
+            <para>Cutbert White</para>
+          </listitem>
+          <listitem>
+            <para>John Bright</para>
+          </listitem>
+          <listitem>
+            <para>Clement Tayler</para>
+          </listitem>
+          <listitem>
+            <para>William Sole</para>
+          </listitem>
+          <listitem>
+            <para>John Cotsmur</para>
+          </listitem>
+          <listitem>
+            <para>Humfrey Newton</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Colman</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Gramme</para>
+          </listitem>
+          <listitem>
+            <para>Nicholas Johnson</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Warner</para>
+          </listitem>
+          <listitem>
+            <para>Anthony Cage</para>
+          </listitem>
+          <listitem>
+            <para>John Jones</para>
+          </listitem>
+          <listitem>
+            <para>John Tydway</para>
+          </listitem>
+          <listitem>
+            <para>Ambrose Viccars</para>
+          </listitem>
+          <listitem>
+            <para>Edmond English</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Topan</para>
+          </listitem>
+          <listitem>
+            <para>Henry Berrye</para>
+          </listitem>
+          <listitem>
+            <para>Richard Berrye</para>
+          </listitem>
+          <listitem>
+            <para>John Spendlove</para>
+          </listitem>
+          <listitem>
+            <para>John Hemmington</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Butler</para>
+          </listitem>
+          <listitem>
+            <para>Edward Powell</para>
+          </listitem>
+          <listitem>
+            <para>John Burden</para>
+          </listitem>
+          <listitem>
+            <para>James Hynde</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Ellis</para>
+          </listitem>
+          <listitem>
+            <para>William Browne</para>
+          </listitem>
+          <listitem>
+            <para>Michael Myllet</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Smith</para>
+          </listitem>
+          <listitem>
+            <para>Richard Kemme</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Harris</para>
+          </listitem>
+          <listitem>
+            <para>Richard Taverner</para>
+          </listitem>
+          <listitem>
+            <para>John Earnest</para>
+          </listitem>
+          <listitem>
+            <para>Henry Johnson</para>
+          </listitem>
+          <listitem>
+            <para>John Starte</para>
+          </listitem>
+          <listitem>
+            <para>Richard Darige</para>
+          </listitem>
+          <listitem>
+            <para>William Lucas</para>
+          </listitem>
+          <listitem>
+            <para>Arnold Archard</para>
+          </listitem>
+          <listitem>
+            <para>John Wright</para>
+          </listitem>
+          <listitem>
+            <para>William Dutton</para>
+          </listitem>
+          <listitem>
+            <para>Morris Allen</para>
+          </listitem>
+          <listitem>
+            <para>William Waters</para>
+          </listitem>
+          <listitem>
+            <para>Richard Arthur</para>
+          </listitem>
+          <listitem>
+            <para>John Chapman</para>
+          </listitem>
+          <listitem>
+            <para>William Clement</para>
+          </listitem>
+          <listitem>
+            <para>Robert Little</para>
+          </listitem>
+          <listitem>
+            <para>Hugh Tayler</para>
+          </listitem>
+          <listitem>
+            <para>Richard Wildye</para>
+          </listitem>
+          <listitem>
+            <para>Lewes Wotton</para>
+          </listitem>
+          <listitem>
+            <para>Michael Bishop</para>
+          </listitem>
+          <listitem>
+            <para>Henry Browne</para>
+          </listitem>
+          <listitem>
+            <para>Marke Bennet</para>
+          </listitem>
+          <listitem>
+            <para>John Gibbes</para>
+          </listitem>
+          <listitem>
+            <para>John Stilman</para>
+          </listitem>
+          <listitem>
+            <para>Robert Wilkinson</para>
+          </listitem>
+          <listitem>
+            <para>Peter Little</para>
+          </listitem>
+          <listitem>
+            <para>John Wyles</para>
+          </listitem>
+          <listitem>
+            <para>Brian Wyles</para>
+          </listitem>
+          <listitem>
+            <para>George Martyn</para>
+          </listitem>
+          <listitem>
+            <para>Hugh Pattenson</para>
+          </listitem>
+          <listitem>
+            <para>Martyn Sutton</para>
+          </listitem>
+          <listitem>
+            <para>John Farre</para>
+          </listitem>
+          <listitem>
+            <para>John Bridger</para>
+          </listitem>
+          <listitem>
+            <para>Griffen Jones</para>
+          </listitem>
+          <listitem>
+            <para>Richard Shaberdge</para>
+          </listitem>
+          <listitem>
+            <para>James Lasie</para>
+          </listitem>
+          <listitem>
+            <para>John Cheven</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Hewet</para>
+          </listitem>
+          <listitem>
+            <para>William Berde</para>
+          </listitem>
+          <listitem>
+            <para>Henry Rufoote</para>
+          </listitem>
+          <listitem>
+            <para>Richard Tomkins</para>
+          </listitem>
+          <listitem>
+            <para>Henry Dorrell</para>
+          </listitem>
+          <listitem>
+            <para>Charles Florrie</para>
+          </listitem>
+          <listitem>
+            <para>Henry Mylton</para>
+          </listitem>
+          <listitem>
+            <para>Henry Payne</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Harris</para>
+          </listitem>
+          <listitem>
+            <para>William Nicholes</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Phevens</para>
+          </listitem>
+          <listitem>
+            <para>John Borden</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Scot</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+      <listitem>
+        <para>Women</para>
+        <itemizedlist>
+          <listitem>
+            <para>Elyoner Dare</para>
+          </listitem>
+          <listitem>
+            <para>Margery Harvie</para>
+          </listitem>
+          <listitem>
+            <para>Agnes Wood</para>
+          </listitem>
+          <listitem>
+            <para>Wenefrid Powell</para>
+          </listitem>
+          <listitem>
+            <para>Joyce Archard</para>
+          </listitem>
+          <listitem>
+            <para>Jane Jones</para>
+          </listitem>
+          <listitem>
+            <para>Elizabeth Glane</para>
+          </listitem>
+          <listitem>
+            <para>Jane Pierce</para>
+          </listitem>
+          <listitem>
+            <para>Audry Tappan</para>
+          </listitem>
+          <listitem>
+            <para>Alis Chapman</para>
+          </listitem>
+          <listitem>
+            <para>Emme Merrimoth</para>
+          </listitem>
+          <listitem>
+            <para>Colman</para>
+          </listitem>
+          <listitem>
+            <para>Margaret Lawrence</para>
+          </listitem>
+          <listitem>
+            <para>Joan Warren</para>
+          </listitem>
+          <listitem>
+            <para>Jane Mannering</para>
+          </listitem>
+          <listitem>
+            <para>Rose Payne</para>
+          </listitem>
+          <listitem>
+            <para>Elizabeth Viccars</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+      <listitem>
+        <para>Children</para>
+        <itemizedlist>
+          <listitem>
+            <para>John Sampson</para>
+          </listitem>
+          <listitem>
+            <para>Robert Ellis</para>
+          </listitem>
+          <listitem>
+            <para>Ambrose Viccars</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Archard</para>
+          </listitem>
+          <listitem>
+            <para>Thomas Humfrey</para>
+          </listitem>
+          <listitem>
+            <para>Tomas Smart</para>
+          </listitem>
+          <listitem>
+            <para>George Howe</para>
+          </listitem>
+          <listitem>
+            <para>John Prat</para>
+          </listitem>
+          <listitem>
+            <para>William Wythers</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+      <listitem>
+        <para>Children Born at the Colony</para>
+        <itemizedlist>
+          <listitem>
+            <para>Virginia Dare</para>
+          </listitem>
+          <listitem>
+            <para>Harvye</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+      <listitem>
+        <para>Native Peoples (who having been in England returned to the colony)</para>
+        <itemizedlist>
+          <listitem>
+            <para>Manteo</para>
+          </listitem>
+          <listitem>
+            <para>Towaye</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+  </appendix>
+  <bibliography>
+    <title>Bibliography</title>
+    <bibliomixed xml:id="thorpe97" xreflabel="Thorpe 1997">Thorpe, Francis Newton, ed.<emphasis
+        role="ital">Charter to Sir Walter Raleigh: 1584,</emphasis> in <quote>The Federal and States
+        Constitutions, Colonial Charters, and Other Organic Laws of the States, Territories, and
+        Colonies Now or Heretofore Forming the United States of America</quote> (compiled under Act
+      of Congress of June 30, 1906). [online]. Washington, D.C.: Government Printing Office, 1909.
+      The Avalon Project. Co-Dir. William C. Fray &amp; Lisa A. Span. © 1997 [cited 8 Apr
+        1998].<link>http://www.yale.edu/lawweb/avalon/raleigh.htm</link>.</bibliomixed>
+    <bibliomixed xml:id="mul94" xreflabel="DeFord 1997">DeFord, Susan. <emphasis role="ital"
+        >Tobacco: The Noxious Weed That Built a Nation,</emphasis> Special to <quote>The Washington
+        Post</quote> (May 14, 1997) at H01. [online]. © 1997 [cited 29 May 1998].
+        <link>http://www.washingtonpost.com/wp~srv/intereact/longterm/horizon/051497/tobacco.htm</link>.</bibliomixed>
+    <bibliomixed xml:id="mul95" xreflabel="Tobacco"><emphasis role="ital">Part 2. The Story of the
+        Arrival and First Uses of Tobacco in Europe,</emphasis> in <quote>The History of
+        Tobacco</quote>. [online]. [cited 14 Apr
+        1998].<link>http://www.tobacco.co.uk/library/history.html#part2</link>.</bibliomixed>
+    <bibliomixed xml:id="mul96" xreflabel="Lane">Lane, Ralph. <quote>The Colony at Roanoake —
+        1586</quote>. [online]. [cited 13 Apr
+        1998].<link>http://www.nationalcenter.inter.net/ColonyofRoanoke.html</link>.</bibliomixed>
+    <bibliomixed xml:id="mul97" xreflabel="Prindle 1996a">Prindle, Tara.<emphasis role="ital">Indian
+        Corn,</emphasis> excerpted from <quote>Teaching about Thanksgiving</quote>. [online]. Fourth
+      World Documentation Project. Native American Technology and Art. © 1996 [cited 14 Apr
+        1998].<link>http://www.lib.uconn.edu/NativeTech/cornhusk/cornfwdp.html</link>.</bibliomixed>
+    <bibliomixed xml:id="mul98" xreflabel="Prindle 1996b">Prindle, Tara. <quote>Native American
+        History of Corn</quote>. [online]. Native American Technology and Art. © 1996 [cited 14 Apr
+        1998].<link>http://www.lib.uconn.edu/NativeTech/cornhusk/cornhusk.html</link>.</bibliomixed>
+    <bibliomixed xml:id="mul99" xreflabel="Dickerson 1997">Dickerson, George. <quote>Beyond Turkey:
+        Corn Shaped History, Cuisines</quote>. [online]. Ed. D’Lyn Ford. New Mexico State University
+      College of Agriculture &amp; Home Economics, 11 Nov 1997 [cited 14 Apr
+        1998].<link>http://elroy.nmsu.edu/CAHE/press/corn_history1997.html</link>.</bibliomixed>
+    <bibliomixed xml:id="mul100" xreflabel="Borio 1954">Borio, Gene.<emphasis role="ital">Smoking in
+        England — Elizabethan,</emphasis> excerpted from Alfred H. Dunhill’s <quote>The Gentle Art
+        of Smoking</quote>. [online]. Library of Congress catalog card #54-10495 (1954). The Tobacco
+      BBS [cited 20 May
+      1998].<link>http://www.tobacco.org/History/Elizabethan_smoking.html</link>.</bibliomixed>
+    <bibliomixed xml:id="mul101" xreflabel="Sellement"><quote>First English Settlement in the New
+        World</quote>. [online]. [cited 13 Apr
+        1998].<link>http://hal.dcr.state.nc.us/nc/ncsites/English1.htm#First</link>.</bibliomixed>
+    <bibliomixed xml:id="mul-102" xreflabel="ICW-Net 1998"><emphasis role="ital">Virginia
+        Dare,</emphasis> in <quote>Tales from the Coast!</quote> [online]. ICW-NET © 1998 [cited 13
+      Apr 1998].<link>http://www.outerbanks-nc.com/manteo/history/vadare.htm</link>.</bibliomixed>
+  </bibliography>
+</article>
