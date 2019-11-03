@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="balisage-proceedings-html.xsl"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0"
+    xml:lang="en">
+    <title>Sequence alignment in XSLT 3.0</title>
+    <info>
+        <author>
+            <personname>
+                <firstname>David</firstname>
+                <othername>J.</othername>
+                <surname>Birnbaum</surname>
+            </personname>
+            <personblurb>
+                <para>David J. Birnbaum is Professor of Slavic Languages and Literatures at the
+                    University of Pittsburgh. He has been involved in the study of electronic text
+                    technology since the mid-1980s, has delivered presentations at a variety of
+                    electronic text technology conferences, and has served on the board of the
+                    Association for Computers and the Humanities, the editorial board of
+                        <citetitle>Markup languages: theory and practice</citetitle>, the advisory
+                    board of <emphasis>Balisage: the markup conference</emphasis>, and the Text
+                    Encoding Initiative Technical Council. Much of his electronic text work
+                    intersects with his research in medieval Slavic manuscript studies, but he also
+                    often writes about issues in the philosophy of markup.</para>
+            </personblurb>
+            <affiliation>
+                <jobtitle>Professor</jobtitle>
+                <orgname>Department of Slavic Languages and Literatures, University of Pittsburgh
+                    (US)</orgname>
+            </affiliation>
+            <email>djbpitt@gmail.com</email>
+            <uri>http://www.obdurodon.org</uri>
+        </author>
+        <keywordset>
+            <keyword>sequence alignment</keyword>
+            <keyword>xslt</keyword>
+        </keywordset>
+        <abstract>
+            <para>The Needleman Wunsch algorithm, which this year enjoys its quinquagenary
+                anniversary, has been proven to produce an optimal global pairwise sequence
+                alignment. Because this dynamic programming algorithm requires the updating of
+                variables, it has posed challenges for functional programming paradigms like the one
+                underlying XSLT. The present report explores these challenges and provides an
+                implementation of the Needleman Wunsch algorithm in XSLT 3.0.</para>
+        </abstract>
+    </info>
+    <section>
+        <title>Introduction</title>
+        <section>
+            <title>Why sequence aligment matters</title>
+            <para>Sequence alignment is a way of identifying and modeling similarities and
+                differences in sequences of items, and has proven insightful and productive in both
+                the natural sciences (especially in biology and medicine, where it is applied to
+                genetic sequences) and the humanities (especially in text-critical scholarship,
+                where it is applied to sequences of words in variant versions of a text). In textual
+                scholarship, which is the domain in which the present report was developed, sequence
+                alignment assists the philologist in identifying locations where the witnesses agree
+                and where they disagree.<note>
+                    <para><emphasis>Witness</emphasis>, sometimes expanded as <emphasis>manuscript
+                            witness</emphasis>, is a technical term in text-critical scholarship for
+                        a manuscript that provides evidence of the history of a text.</para>
+                </note> These moments of agreement and disagreement, in turn, provide evidence about
+                probable (or, at least, candidate) moments of shared transmission between textual
+                witnesses, and thus serve as evidence to construct and support a philological
+                argument about the history of a text.<note>
+                    <para>For an introduction to, among other things, the evaluation of shared
+                        readings as a component of textual criticism see <xref
+                            linkend="trovato_2014"/>.</para>
+                </note></para>
+        </section>
+        <section>
+            <title>Biological and textual alignment</title>
+            <para>Insofar as biomedical research enjoys a larger scientific community and richer
+                funding resources than textual humanities scholarship, it is not surprising that the
+                literature, and the science reported in that literature, is quantitatively greater
+                in the natural sciences than in the humanities. Furthermore, insofar as all sequence
+                alignment is similar in certain ways, it is both necessary and appropriate for
+                textual scholars to seek opportunities to adapt biomedical methods for their own
+                purposes. For those reasons, the present report focuses ona a method first proposed
+                in a biological context and later also applied in philology.</para>
+            <para>Although this report does not take account of differences in the size and scale of
+                biological and philological data, it is nonetheless the case that alignment problems
+                in biomedical contexts, on the one hand, and in textual contexts, on the other,
+                typically differ at least in the following ways: <itemizedlist>
+                    <listitem>
+                        <para>Genetic alignment may operate at sequence lengths involving entire
+                            chromosomes or entire genomes, which is orders of magnitude larger than
+                            the largest real-world textual alignment task.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Genetic alignment operates with a vocabulary of four words (nucleotide
+                            bases), while textual alignment often involves a vocabulary of hundreds
+                            or thousands of different words.</para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>The preceding systematic differences in size and scale invite questions about
+                whether the different shape of the source data in the two domains might invite
+                different methods. Especially in the case of heuristic approaches that are not
+                guaranteed to produce an optimal solution, is it possible that compromises required
+                to make data at large scale computationally tractable might profitably be avoided in
+                domains involving data ot a substantially smaller scale? Although the present rather
+                specific report does not seek to engage with this question, it remains part of the
+                context within which solutions to alignment tasks in different disciplines
+                ultimately should be assessed.</para>
+        </section>
+        <section>
+            <title>Global pairwise alignment</title>
+            <para>The following two distinctions—not between biological and textual alignment, but
+                within both domains—are also relevant:<itemizedlist>
+                    <listitem>
+                        <para>Both genetic and textual alignment tasks can be divided into
+                                <emphasis>global</emphasis> and <emphasis>local</emphasis>
+                            alignment. The goal of global alignment is to find the best alignment of
+                            all items in the entire sequences. In textual scholarship this is often
+                            called <emphasis>collation</emphasis> (cf. e.g., <xref
+                                linkend="fv_reader"/>). The goal of local alignment is to find
+                            moment where subsequences correspond, without attempting to optimize the
+                            alignment of the entire sequences. A common textual use for local
+                            alignment is <emphasis>text reuse</emphasis>, e.g., finding moments
+                            where Dante quotes or paraphrases Ovid (cf. <xref
+                                linkend="peteghhem_2015"/>, <xref linkend="intertextual_dante"
+                            />).</para>
+                    </listitem>
+                    <listitem>
+                        <para>Both genetic and textual alignment tasks may involve
+                                <emphasis>pairwise alignment</emphasis> or <emphasis>multiple
+                                alignment</emphasis>. Pairwise alignment refers to the alignment of
+                            two sequences; multiple alignment refers to the alignment of more than
+                            two sequences. In textual scholarship multiple alignment is often called
+                                <emphasis>multiple-witness alignment</emphasis>.</para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>The Needleman Wunsch algorithm described and implemented below has been proven to
+                identify all optimal global, pairwise alignments of two sequences, and it is
+                especially well suited to alignment tasks where the two texts are of comparable size
+                and are substantially similar to each other. The present report does not address
+                either local alignment or multiple (witness) alignment.</para>
+        </section>
+        <section>
+            <title>Overview</title>
+            <para>This report begins by introducing the use of dynamic programming methods within
+                the Needleman Wunsch algorithm to identify all optimal global alignments of two
+                manuscript witnesses. It then identifies challenges to implementing this algorithm
+                in XSLT and discusses those challenges in the context of developing such an
+                implementation. All original code discussed here in this report is available at
+                    <link xl:href="https://github.com/djbpitt/xstuff/tree/master/nw"/>.</para>
+            <para>It should be noted that the goal of this report, and the code it contains, is to
+                explore global pairwise sequence alignment in an XSLT environment. For that reason,
+                it is not intended that this code function as a stand-alone end-user textual
+                collation tool. There are two reasons for specifying the goals and non-goals of the
+                present report in this way: <itemizedlist>
+                    <listitem>
+                        <para>Textual collation as a philological method involves more than just
+                            alignment. For example, the Gothenburg model of textual collation, which
+                            has been implemented in the CollateX [<xref linkend="collatex"/>] and
+                            Juxta [<xref linkend="juxta"/>] tools, expresses the collation process
+                            as a five-step pipeline, within which alignment serves as the third step.<note>
+                                <para>For further information about the Gothenburg model see <xref
+                                        linkend="gothenburg"/>.</para>
+                            </note></para>
+                    </listitem>
+                    <listitem>
+                        <para>Real-world textual alignment tasks often involve more than two
+                            witnesses, that is, they involve multiple-witness, rather than pairwise,
+                            alignment. While some approaches to multiple-witness alignment are
+                            implemented as a progressive or iterative application of pairwise
+                            alignment, these methods are subject to arder effects. Ultimataly,
+                            multiple-witness alignment is an NP hard problem with which the present
+                            report does not seek to engage.<note>
+                                <para><xref linkend="msa"/> provides an overview of multiple
+                                    sequence alignment, the term in bioinformatics for what
+                                    philologists refer to as multiple-witness alignment.</para>
+                            </note></para>
+                    </listitem>
+                </itemizedlist></para>
+        </section>
+    </section>
+    <section>
+        <title>About sequence alignment</title>
+        <section>
+            <title>Alignments and scoring</title>
+            <para>An optimal alignment can be defined as an alignment that yields the best
+                    <emphasis>score</emphasis>, where the researcher is responsible for identifying
+                an appropriate scoring method. Alignments are of three possible types:<itemizedlist>
+                    <listitem>
+                        <para>The items from both sequences are aligned and are the same. This is
+                            called a <emphasis>match</emphasis>. If the sequences are identical, all
+                            item-level alignments are matches.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The items from both sequences are aligned are are different. This is
+                            called a <emphasis>mismatch</emphasis>. Mismatches may arise in
+                            situations where they are sandwiched between matches. For example, in
+                            the sequences <quote>The brown koala</quote> and <quote>The gray
+                                koala</quote>, after aligning the words <quote>The</quote> and
+                                <quote>koala</quote> in the two sequences (both alignments are
+                            matches), the color words sandwiched between them form an aligned
+                            mismatch.</para>
+                    </listitem>
+                    <listitem>
+                        <para>An item in one sequence has no corresponding item in the other
+                            sequence. This is called a <emphasis>gap</emphasis> or an
+                                <emphasis>indel</emphasis> (a correspondence of an item to no item
+                            that can be interpreted as either an insertion in one sequence or a
+                            deletion from the other). Gaps are inevitable where the sequences are of
+                            different lengths, so that, for example. given <quote>The gray
+                                koala</quote> and <quote>The koala</quote>, the item
+                                <quote>gray</quote> in the first sequence corresponds to a gap in
+                            the second. Gaps may also occur with sequences of the same length; for
+                            example, if we align <quote>The gray koala lives in Australia</quote>
+                            with <quote>The koala lives in South Australia</quote>, both sequences
+                            contain six words, but one possible gappy alignment is: <table>
+                                <title>Alignment example with gaps</title>
+                                <tgroup cols="7">
+                                    <tbody>
+                                        <row>
+                                            <entry>The</entry>
+                                            <entry>gray</entry>
+                                            <entry>koala</entry>
+                                            <entry>lives</entry>
+                                            <entry>in</entry>
+                                            <entry> </entry>
+                                            <entry>Australia</entry>
+                                        </row>
+                                        <row>
+                                            <entry>The</entry>
+                                            <entry> </entry>
+                                            <entry>koala</entry>
+                                            <entry>lives</entry>
+                                            <entry>in</entry>
+                                            <entry>South</entry>
+                                            <entry>Australia</entry>
+                                        </row>
+                                    </tbody>
+                                </tgroup>
+                            </table>
+                        </para>
+                    </listitem>
+                </itemizedlist></para>
+            <para>A common scoring method is to assign a value of <quote>1</quote> to matches,
+                    <quote>-1</quote> to mismatches, and <quote>-1</quote> to gaps. These values
+                prefer alignments with as many matches as possible, and with as few mismatches and
+                gaps as possible. But other scoring methods might, for example, assign a greater
+                penalty to gaps than to mismatches, or might assign greater penalties to new gaps
+                than to continuations of existing gaps (this is called an
+                    <emphasis>affine</emphasis> gap penalty).</para>
+            <para>The scoring method determines what will be identified as an optimal alignment for
+                a circular reason: optimal in this context is defined as the alignment with the best score.<note>
+                    <para>As an extreme example of the role of scoring in determining what will be
+                        considered an optimal alignment, if the gap penalty is low and the mismatch
+                        penalty is extremely high, the system could prefer not to align any items,
+                        and to regard the length of the alignment as the sum of the length of the
+                        two sequences, with each item aligned with an indel, so that one sequence
+                        begins where the other ends. This is obviously not a realistic real-world
+                        scoring system, but it illustrates how the identification of an optimal
+                        alignment is a function of the scoring system, and not an inherent property
+                        of the data independently of scoring decisions.</para>
+                </note> This means that selection of an appropriate scoring method in philological
+                alignment should reflect the researcher’s theory of the types of correspondences and
+                non-correspondences that are meaningful for identifying textual moments to be
+                compared. In the examples below we have assigned a score of <quote>1</quote> for
+                matches, <quote>-1</quote> for mistmatches, and <quote>-2</quote> for gaps. This
+                scoring system prefers mismatches to gaps, and scores gaps in a linear (not affine)
+                way.</para>
+        </section>
+        <section>
+            <title>Sequence alignment algorithms</title>
+            <para>A naïve, brute-force approach to sequence alignment would construct all possible
+                alignments, score them, and select the ones with the best scores. This method has
+                exponential complexity, and therefore is not realistic even for relatively small
+                real-world alignment tasks. Alternatives must therefore reduce the computational
+                complexity, ideally by reducing the search space to exclude from consideration in
+                advance all alignments that <emphasis>cannot</emphasis> be optimal. Where this is
+                not possible, a <emphasis>heuristic</emphasis> method excludes from consideration in
+                advance all alignments that <emphasis>are unlikely to be</emphasis> optimal. Such
+                heuristic methods entail a risk of inadvertently excluding an optimal alignment, but
+                in the case of some computationally complex processes, the only known
+                simplifications are heuristic.</para>
+            <para>In the case of global pairwise alignment the Needleman Wunsch algorithm, described
+                below, has been proven always to produce an optimal alignment, according to the
+                definition of optimal represented by the scoring method applied. Needleman Wunsch is
+                an implementation of <emphasis>dynamic programming</emphasis>, and in the following
+                two sections we first describe dynamic programming as a paradigm and then explain
+                how it is employed in the Needleman Wunsch algorithm. These explanations are
+                preparatory to describing the complications dynamic programming poses for XSLT and
+                how those can be resolved.</para>
+        </section>
+    </section>
+    <section>
+        <title>Dynamic programming and the Needleman Wunsch algorithm</title>
+        <section>
+            <title>Dynamic programming</title>
+            <para>Dynamic programming, a paradigm developed by Richard Bellman at the Rand
+                Corporation in the early 1950s, makes it possible to express complex coding tasks as
+                a combination of smaller, more tractable, overlapping ones. A commonly cited example
+                of a task that is amenable to dynamic programming is a computation of a Fibonacci
+                number. Insofar as every Fibonacci number beyond the first two can be expressed as a
+                function of the two immediately preceding Fibonacci numbers, a naïve top-down
+                approach would compute the two preceding values (which requires commputing all of
+                their preceding values), and then their preceding values (again), etc. A dynamic
+                bottom-up computation, on the other hand, would calculate each smaller number only
+                once and then use those values to move up to larger numbers.<note>
+                    <para>A top-down dynamic approach would perform all of the recursive computation
+                        at the beginning, but <emphasis>memoize</emphasis> (that is, store and
+                        index) the result, so that it could be reused, without having to be
+                        recomputed, when it was needed at the next level down.</para>
+                </note></para>
+            <para>Sequence alignment meets both requirements of a problem that is amenable to
+                dynamic programming. First, it can be expressed recursively, that is, if the optimal
+                alignment of two long sequences can be identified, the optimal alignment of their
+                corresponding subsequences can be extracted as a subset of the longer alignment.
+                Second, this recursion is overlapping, that is, the solution to a sub-alignment is a
+                component of the solution to a longer alignment. </para>
+        </section>
+        <section>
+            <title>The Needleman Wumsch algorithm</title>
+            <para>Dynamic programming and Needleman Wunsch. See <xref linkend="snip"/> for a walk-through.<note>
+                    <blockquote>
+                        <para>We will begin with the scoring system most commonly used when
+                            introducing the Needleman-Wunsch algorithm: substitution scores for
+                            matched residues and linear gap penalties. Although Needleman and Wunsch
+                            already discussed this scoring system in their 1970 article [NW70], the
+                            form in which it is now most commonly presented is due to Gotoh [Got82]
+                            (who is also responsible for the affine gap penalties version of the
+                            algorithm). An alignment algorithm very similar to Needleman-Wunsch, but
+                            developed for speech recognition, was also independently described by
+                            Vintsyuk in 1968 [Vin68]. Another early author interested in the subject
+                            is Sellers [Sel74], who described in 1974 an alignment algorithm
+                            minimizing sequence distance rather than maximizing sequence similarity;
+                            however Smith and Waterman (two authors famous for the algorithm bearing
+                            their name) proved in 1981 that both procedures are equivalent [SWF81].
+                            Therefore it is clear that there are many classic papers, often a bit
+                            old, describing Needleman-Wunsch and its variants using different
+                            mathematical notations. [<xref linkend="boes_2014"/>, 14; pointers are
+                            to <xref linkend="needleman_1970"/>, <xref linkend="gotoh_1982"/>, <xref
+                                linkend="vintsyuk_1968"/>, <xref linkend="sellers_1974"/>, and <xref
+                                linkend="smith_1981"/>]</para>
+                    </blockquote>
+                </note></para>
+            <para>Needleman Wunsch <quote>is an <emphasis>optimal</emphasis> algorithm, which means
+                    that it produces the best possible solution with respect to the chosen scoring
+                    system. There exists also non-optimal alignment algorithms, most notably the
+                    heuristic methods …</quote> [<xref linkend="boes_2014"/>, 13]</para>
+        </section>
+    </section>
+    <section>
+        <title>The challenges of dynamic programming and XSLT</title>
+        <para>Why XSLT plays poorly with dynamic programming</para>
+        <para>Why for-each doesn’t work</para>
+        <para>Why recursion breaks</para>
+        <para>Iteration to the rescue</para>
+        <para>Thinking in XSLT. Simplifyiing assumption: only one best path, even if there are more
+            than one.</para>
+    </section>
+    <section>
+        <title>Inching toward XSLT-idiomatic sequence alignment</title>
+        <section>
+            <title>A naive approach</title>
+            <para>Build the whole grid using iterate, then walk backwards using recursion</para>
+        </section>
+        <section>
+            <title>Save yourself a trip</title>
+            <para>Record the full path in each cell to avoid having to walk back</para>
+        </section>
+        <section>
+            <title>Using the diagonal</title>
+            <para>Jeni (<xref linkend="tennison_2007"/>) uses it to reduce recursion; for-each over
+                each diagonal, so recur only for new diagonal</para>
+            <para>for-each allows parallel processing (<xref linkend="wong_2002"/>, <xref
+                    linkend="naveed_2005"/>), although we can’t guarantee it because XSLT doesn’t
+                give the programmer explicit control over parallelization (cf. Python). Saxon EE
+                supports parallel processing of <tag>xsl:for-each</tag> with the optional <tag
+                    class="attribute">@saxon:threads</tag> attribute. [<xref
+                    linkend="saxon_for-each"/>]<note>
+                    <para><blockquote>
+                            <para>Processing using multiple threads can take advantage of multi-core
+                                CPUs. However, there is an overhead, in that the results of
+                                processing each item in the input need to be buffered. The overhead
+                                of coordinating multiple threads is proportionally higher if the
+                                per-item processing cost is low, while the overhead of buffering is
+                                proportionally higher if the amount of data produced when each item
+                                is processed is high. Multi-threading therefore works best when the
+                                body of the xsl:for-each instruction performs a large amount of
+                                computation but produces a small amount of output.</para>
+                        </blockquote> [<xref linkend="saxon_threads"/>]</para>
+                </note></para>
+        </section>
+        <section>
+            <title>Conclusions</title>
+            <para>Tennison concludes that:</para>
+            <para><blockquote>
+                    <para>I guess the take-home messages are: (a) try to iterate rather than recurse
+                        whenever you can and (b) don’t blindly adapt algorithms designed for
+                        procedural programming languages to XSLT. [<xref linkend="tennison_2007"
+                        />]</para>
+                </blockquote></para>
+            <para>The XSLT 3.0 <tag>xsl:iterate</tag> element provides a method to iterate reliably
+                that was not available to Tennison in 2007. Beyond that, the implementation above
+                extends Tennison’s XSLT-idiomatic implementation of a Levenshtein distance algorithm
+                to the closely related domain of Needleman Wunsch sequence alignment, and also
+                explores explicitly where XSLT provides functional alternatives to
+                    <tag>xsl:iterate</tag> that enable opportunities for parallel execution.</para>
+        </section>
+    </section>
+    <bibliography xml:id="references">
+        <title>Works cited</title>
+        <bibliomixed xml:id="bellman_1952" xreflabel="Bellman 1952">Bellman, Richard E. 1952.
+                <quote>On the theory of dynamic programming.</quote>
+            <citetitle>Proceedings of the National Academy of Sciences</citetitle> 38(8):716–19.
+                <link xl:href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/"
+            /></bibliomixed>
+        <bibliomixed xml:id="bellman_1954" xreflabel="Bellman 1954">Bellman, Richard E. <quote>The
+                theory of dynamic programming.</quote> Technical report P-550. Santa Monica: Rand
+            Corporation. <link xl:href="http://smo.sogang.ac.kr/doc/bellman.pdf"/></bibliomixed>
+        <bibliomixed xml:id="boes_2014" xreflabel="Boes 2014">Boes, Olivier. 2014. <quote>Improving
+                the Needleman-Wunsch algorithm with the DynaMine predictor.</quote> Master in
+            Bioinformatics thesis, Université lire de Bruxelles.</bibliomixed>
+        <bibliomixed xml:id="collatex" xreflabel="CollateX">CollateX—software for collating textual
+            sources. <link xl:href="https://collatex.net/"/></bibliomixed>
+        <bibliomixed xml:id="snip" xreflabel="Snipacademy Global alignment"><quote>Global alignment.
+                Needleman-Wunsch.</quote> Chapter 9 of Pairwise alignment, Bioinformatics Lessons at
+            your convenience, Snipacademy. <link
+                xl:href="https://binf.snipcademy.com/lessons/pairwise-alignment/global-needleman-wunsch"
+            /></bibliomixed>
+        <bibliomixed xml:id="gothenburg" xreflabel="Gothenburg model"><quote>The Gothenburg
+                model.</quote> Section 1 of the documentation for <xref linkend="collatex"/>. <link
+                xl:href="https://collatex.net/doc/#gothenburg-model"/></bibliomixed>
+        <bibliomixed xml:id="gotoh_1982" xreflabel="Gotoh 1982">Gotoh, Osamu. 1982. <quote>An
+                improved algorithm for matching biological sequences.</quote>
+            <citetitle>Journal of molecular biology</citetitle> 162(3):705–08.</bibliomixed>
+        <bibliomixed xml:id="intertextual_dante" xreflabel="Intertextual Dante">
+            <quote>Intertextual Dante.</quote>
+            <link xl:href="https://digitaldante.columbia.edu/intertexual-dante-vanpeteghem/"/>
+        </bibliomixed>
+        <bibliomixed xml:id="juxta" xreflabel="Juxta">Juxta. <link
+                xl:href="https://www.juxtasoftware.org/"/></bibliomixed>
+        <bibliomixed xml:id="fv_reader" xreflabel="Frankenstein variorum reader"><quote>Mary
+                Shelley’s Frankenstein. A digital variorum edition.</quote>
+            <link xl:href="http://frankensteinvariorum.library.cmu.edu/viewer/"/>. See also the
+            project GitHub repo at <link xl:href="https://github.com/FrankensteinVariorum/"
+            />.</bibliomixed>
+        <bibliomixed xml:id="msa" xreflabel="Multiple sequence alignment (Wikipedia)">Multiple
+            sequence alignment (Wikipedia). Accessed 2019-11-03. <link
+                xl:href="https://en.wikipedia.org/wiki/Multiple_sequence_alignment"/></bibliomixed>
+        <bibliomixed xml:id="needleman_1970" xreflabel="Needleman and Wunsch 1970">Needleman, Saul
+            B. and Christian D. Wunsch. 1970. <quote>A general method applicable to the search for
+                similarities in the amino acid sequence of two proteins.</quote>
+            <citetitle>Journal of molecular biology</citetitle> 48 (3): 443–53.
+            doi:10.1016/0022-2836(70)90057-4.</bibliomixed>
+        <bibliomixed xml:id="naveed_2005" xreflabel="Naveed et al, 2005">Naveed, Tahir,Imitaz Saeed
+            Siddiqui, Shaftab Ahmed. 2005. <quote>Parallel Needleman-Wunsch algorithm for
+                grid.</quote> Proceedings of the PAK-US International Symposium on High Capacity
+            Optical Networks and Enabling Technologies (HONET 2005), Islamabad, Pakistan, Dec 19–21,
+            2005. <link
+                xl:href="https://upload.wikimedia.org/wikipedia/en/c/c4/ParallelNeedlemanAlgorithm.pdf"
+            /></bibliomixed>
+        <bibliomixed xml:id="sankoff_1972" xreflabel="Sankoff 1972">Sankoff David. 1972.
+                <quote>Matching sequences under deletion/insertion constraints.</quote>
+            <citetitle>Proceedings of the National Academy of Sciences of the USA</citetitle> 69
+            (1): 4–6. doi:10.1073/pnas.69.1.4. <link
+                xl:href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC427531/pdf/pnas00127-0010.pdf"
+            /></bibliomixed>
+        <bibliomixed xml:id="saxon_for-each" xreflabel="Saxon xsl:for-each">Saxon documentation of
+                <emphasis>xsl:for-each</emphasis>. <link
+                xl:href="https://www.saxonica.com/html/documentation/xsl-elements/for-each.html"
+            /></bibliomixed>
+        <bibliomixed xml:id="saxon_threads" xreflabel="Saxon saxon:threads">Saxon documentation of
+                <emphasis>saxon:threads</emphasis>. <link
+                xl:href="https://www.saxonica.com/html/documentation/extensions/attributes/threads.html"
+            /></bibliomixed>
+        <bibliomixed xml:id="sellers_1974" xreflabel="Sellers 1974">Sellers, Peter H. 1974.
+                <quote>On the theory and computation of evolutionary distances.</quote>
+            <citetitle>SIAM journal on applied mathematics</citetitle> 26(4):787–93.</bibliomixed>
+        <bibliomixed xml:id="smith_1981" xreflabel="Smith et al. 1981">Smith, Temple F., Michael S.
+            Waterman, and Walter M. Fitch. 1981. <quote>Comparative biosequence metrics.</quote>
+            <citetitle>Journal of molecular evolution</citetitle>, 18(1):38–46.</bibliomixed>
+        <bibliomixed xml:id="tennison_2007" xreflabel="Tennison 2007">Tennison, Jeni. 2007.
+                <quote>Levenshtein distance on the diagonal</quote> Posted to <citetitle>Jeni’s
+                musings</citetitle>, 2007-05-06. <link
+                xl:href="https://www.jenitennison.com/2007/05/06/levenshtein-distance-on-the-diagonal.html"
+            /></bibliomixed>
+        <bibliomixed xml:id="trovato_2014" xreflabel="Trovato 2014">Trovato, Paolo.
+                <citetitle>Everything you always wanted to know about Lachmann’s method. A
+                non-standard handbook of genealogical textual criticism in the age of
+                post-structuralism, cladistics, and copy-text.</citetitle> Padova:
+            libreriauniversitaria.it , 2014</bibliomixed>
+        <bibliomixed xml:id="peteghhem_2015" xreflabel="Van Peteghem 2015">Van Peteghem, Julie.
+            2015. <quote>Digital readers of allusive texts: Ovidian intertextuality in the Commedia
+                and the Digital concordance on intertextual Dante.</quote>
+            <citetitle>Humanist studies &amp; the digital age</citetitle>, 4.1, 39–59. DOI:
+            10.5399/uo/hsda.4.1.3584. <link
+                xl:href="http://journals.oregondigital.org/index.php/hsda/article/view/3584"
+            /></bibliomixed>
+        <bibliomixed xml:id="vintsyuk_1968" xreflabel="Vintsyuk 1968">Vintsyuk, T[aras] K[lymovych].
+            1968. <quote>Speech discrimination by dynamic programming.</quote>
+            <citetitle>Cybernetics</citetitle> 4(1):52–57.</bibliomixed>
+        <bibliomixed xml:id="wong_2002" xreflabel="Wong 2002">Wang, Bin. 2002. <quote>Implementation
+                of a dynamic programming algorithm for DNA sequence alignment on the cell matrix
+                architecture. MA thesis, Utah State University.</quote>
+            <link xl:href="https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf"
+            /></bibliomixed>
+    </bibliography>
+</article>
