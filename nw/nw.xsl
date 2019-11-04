@@ -52,9 +52,9 @@
     <!--                                                            -->
     <!-- split string into sequence of one-character strings        -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <xsl:function name="djb:explode" as="xs:string+">
+    <xsl:function name="djb:explode" as="xs:string*">
         <!-- explode string into sequence of single characters -->
-        <xsl:param name="in" as="xs:string"/>
+        <xsl:param name="in" as="xs:string?"/>
         <xsl:sequence
             select="
                 for $c in string-to-codepoints($in)
@@ -72,22 +72,16 @@
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:nw" as="element(table)">
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <!-- input is two strings, $s1 and $s2                      -->
+        <!-- input is two sequences of strings, $s1 and $s2         -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <xsl:param name="s1" as="xs:string"/>
-        <xsl:param name="s2" as="xs:string"/>
-
-        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <!-- explode strings into sequences of single characters .  -->
-        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <xsl:variable name="s1_e" as="xs:string+" select="djb:explode($s1)"/>
-        <xsl:variable name="s2_e" as="xs:string+" select="djb:explode($s2)"/>
+        <xsl:param name="s1" as="xs:string+"/>
+        <xsl:param name="s2" as="xs:string+"/>
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- create table                                           -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <table>
-            <xsl:iterate select="1 to count($s2_e)">
+            <xsl:iterate select="1 to count($s2)">
                 <xsl:param name="rows" as="element(row)+">
                     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                     <!-- top two rows are characters and gap values -->
@@ -95,7 +89,7 @@
                     <row>
                         <cell>&#xa0;</cell>
                         <cell>&#xa0;</cell>
-                        <xsl:for-each select="$s1_e">
+                        <xsl:for-each select="$s1">
                             <cell>
                                 <xsl:value-of select="."/>
                             </cell>
@@ -104,7 +98,7 @@
                     <row>
                         <cell>&#xa0;</cell>
                         <cell>0</cell>
-                        <xsl:for-each select="$s1_e">
+                        <xsl:for-each select="$s1">
                             <cell>
                                 <xsl:value-of select="$gap * position()"/>
                             </cell>
@@ -120,19 +114,19 @@
                     <xsl:sequence select="$rows"/>
                     <row>
                         <cell>
-                            <xsl:value-of select="$s2_e[current()]"/>
+                            <xsl:value-of select="$s2[current()]"/>
                         </cell>
                         <cell>
                             <xsl:value-of select="$gap * position()"/>
                         </cell>
-                        <xsl:iterate select="1 to count($s1_e)">
+                        <xsl:iterate select="1 to count($s1)">
                             <xsl:param name="last_cell" as="element(cell)?" select="()"/>
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
                             <!-- character match test               -->
                             <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-                            <xsl:variable name="top_string" as="xs:string" select="$s1_e[current()]"/>
+                            <xsl:variable name="top_string" as="xs:string" select="$s1[current()]"/>
                             <xsl:variable name="left_string" as="xs:string"
-                                select="$s2_e[$column_offset]"/>
+                                select="$s2[$column_offset]"/>
                             <xsl:variable name="string_match" as="xs:integer"
                                 select="
                                     if ($top_string eq $left_string) then
@@ -217,49 +211,50 @@
         <xsl:param name="current_row" as="xs:integer"/>
         <xsl:param name="current_column" as="xs:integer"/>
         <xsl:param name="pairs" as="element(pair)*"/>
-        <xsl:variable name="s1_e" as="xs:string+" select="reverse(djb:explode($s1))"/>
-        <xsl:variable name="s2_e" as="xs:string+" select="reverse(djb:explode($s2))"/>
+        <xsl:variable name="s1_e" as="xs:string*" select="reverse(djb:explode($s1))"/>
+        <xsl:variable name="s2_e" as="xs:string*" select="reverse(djb:explode($s2))"/>
         <xsl:variable name="current_cell" as="element(cell)?"
             select="$in/row[$current_row]/cell[$current_column]"/>
         <xsl:choose>
-            <xsl:when test="$current_row lt 0 or $current_column lt 0">
-                <table xml:id="alignment">
+            <xsl:when test="string-length($s1) lt 1 or string-length($s2) lt 1">
+                <table>
                     <xsl:sequence select="$pairs"/>
                 </table>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:variable name="cell_from" as="xs:string?" select="$current_cell/@cell_from"/>
                 <xsl:variable name="new_pairs" as="element(pair)+">
                     <xsl:sequence select="$pairs"/>
                     <pair>
-                        <top>
-                            <xsl:choose>
-                                <xsl:when test="1">
-                                    <xsl:text>top</xsl:text>
-                                    <xsl:sequence select="$current_cell"/>
-                                    <xsl:sequence select="'$cell_from = ' || $cell_from"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:sequence select="$current_cell"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </top>
-                        <left>
-                            <xsl:choose>
-                                <xsl:when test="$cell_from = ('d', 'l')">
-                                    <!--<xsl:sequence select="$current_cell"/>-->
-                                    <xsl:text>left</xsl:text>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:text>skip</xsl:text>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </left>
+                        <xsl:value-of select="concat('[', $current_row, ',', $current_column, ']')"
+                        />
                     </pair>
                 </xsl:variable>
+                <xsl:variable name="new_row" as="xs:integer"
+                    select="
+                        if ($current_cell/@cell_from = ('d', 'u')) then
+                            $current_row - 1
+                        else
+                            $current_row"/>
+                <xsl:variable name="new_column" as="xs:integer"
+                    select="
+                        if ($current_cell/@cell_from = ('d', 'l')) then
+                            $current_column - 1
+                        else
+                            $current_column"/>
+                <xsl:variable name="new_s1" as="xs:string?"
+                    select="
+                        if ($current_cell/@cell_from = ('d', 'l')) then
+                            substring($s1, 1, string-length($s1) - 1)
+                        else
+                            $s1"/>
+                <xsl:variable name="new_s2" as="xs:string?"
+                    select="
+                        if ($current_cell/@cell_from = ('d', 'u')) then
+                            substring($s2, 1, string-length($s2) - 1)
+                        else
+                            $s2"/>
                 <xsl:sequence
-                    select="djb:align($in, $s1, $s2, $current_row - 1, $current_column - 1, $new_pairs)"
-                />
+                    select="djb:align($in, $new_s1, $new_s2, $new_row, $new_column, $new_pairs)"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
@@ -268,9 +263,18 @@
     <!-- main                                                       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template name="xsl:initial-template">
-        <xsl:variable name="s1" as="xs:string" select="'califs'"/>
-        <xsl:variable name="s2" as="xs:string" select="'biali'"/>
-        <xsl:variable name="table" select="djb:nw($s1, $s2)"/>
+        <xsl:variable name="s1" as="xs:string" select="'koala'"/>
+        <xsl:variable name="s2" as="xs:string" select="'cola'"/>
+        <xsl:variable name="table"
+            select="
+                djb:nw(if (count($s1) eq 1 and count($s2) eq 1) then
+                    djb:explode($s1)
+                else
+                    $s1,
+                if (count($s1) eq 1 and count($s2) eq 1) then
+                    djb:explode($s2)
+                else
+                    $s2)"/>
         <xsl:variable name="alignment" as="element(table)?"
             select="
                 djb:align(
@@ -285,7 +289,7 @@
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- For HTML output                                        -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-                <html xmlns="http://www.w3.org/1999/xhtml">
+        <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <title>Needleman Wunsch test</title>
                 <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
@@ -317,8 +321,10 @@
                 <h2>Grid</h2>
                 <xsl:apply-templates select="$table" mode="html"/>
                 <h2>Alignment</h2>
-                <!--<p><xsl:apply-templates select="$alignment" mode="html"/></p>-->
-                <p>
+                <xsl:variable name="alignment"
+                    select="djb:align($table, $s1, $s2, $table/count(row), $table/row[1]/count(cell), ())"/>
+                <xsl:sequence select="$alignment"/>
+                <!--<p>
                     <xsl:text>Match = </xsl:text>
                     <xsl:value-of select="$match"/>
                     <xsl:text>, mismatch = </xsl:text>
@@ -326,12 +332,10 @@
                     <xsl:text>, gap = </xsl:text>
                     <xsl:value-of select="$gap"/>
                     <xsl:text>. In case of tie scores, favor diagonal, then left, then up.</xsl:text>
-                </p>
+                </p>-->
             </body>
         </html>
         <!--<xsl:sequence select="$table"/>-->
-        <!--<xsl:sequence
-            select="djb:align($table, $s1, $s2, $table/count(row), $table/row[1]/count(cell), ())"/>-->
     </xsl:template>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
