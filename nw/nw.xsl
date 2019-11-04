@@ -206,17 +206,16 @@
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:align" as="element(table)">
         <xsl:param name="in" as="element(table)"/>
-        <xsl:param name="s1" as="xs:string"/>
-        <xsl:param name="s2" as="xs:string"/>
+        <xsl:param name="s1" as="xs:string*"/>
+        <xsl:param name="s2" as="xs:string*"/>
         <xsl:param name="current_row" as="xs:integer"/>
         <xsl:param name="current_column" as="xs:integer"/>
         <xsl:param name="pairs" as="element(pair)*"/>
-        <xsl:variable name="s1_e" as="xs:string*" select="reverse(djb:explode($s1))"/>
-        <xsl:variable name="s2_e" as="xs:string*" select="reverse(djb:explode($s2))"/>
         <xsl:variable name="current_cell" as="element(cell)?"
             select="$in/row[$current_row]/cell[$current_column]"/>
         <xsl:choose>
-            <xsl:when test="string-length($s1) lt 1 or string-length($s2) lt 1">
+            <xsl:when test="empty($s1) and empty($s2)">
+                <!-- First two rows and columns are strings and gap values-->
                 <table>
                     <xsl:sequence select="$pairs"/>
                 </table>
@@ -241,20 +240,22 @@
                             $current_column - 1
                         else
                             $current_column"/>
-                <xsl:variable name="new_s1" as="xs:string?"
+                <xsl:variable name="new_s1" as="xs:string*"
                     select="
                         if ($current_cell/@cell_from = ('d', 'l')) then
-                            substring($s1, 1, string-length($s1) - 1)
+                            subsequence($s1, 1, count($s1) - 1)
                         else
                             $s1"/>
-                <xsl:variable name="new_s2" as="xs:string?"
+                <xsl:variable name="new_s2" as="xs:string*"
                     select="
                         if ($current_cell/@cell_from = ('d', 'u')) then
-                            substring($s2, 1, string-length($s2) - 1)
+                            subsequence($s2, 1, count($s2) - 1)
                         else
                             $s2"/>
+                <xsl:message select="string-join(($new_row, $new_column), '; ')"/>
                 <xsl:sequence
-                    select="djb:align($in, $new_s1, $new_s2, $new_row, $new_column, $new_pairs)"/>
+                    select="djb:align($in, $new_s1, $new_s2, max(($new_row, 3)), max(($new_column, 3)), $new_pairs)"
+                />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
@@ -264,7 +265,7 @@
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template name="xsl:initial-template">
         <xsl:variable name="s1" as="xs:string" select="'koala'"/>
-        <xsl:variable name="s2" as="xs:string" select="'cola'"/>
+        <xsl:variable name="s2" as="xs:string" select="'precoalesce'"/>
         <xsl:variable name="table"
             select="
                 djb:nw(if (count($s1) eq 1 and count($s2) eq 1) then
@@ -279,8 +280,14 @@
             select="
                 djb:align(
                 $table,
-                $s1,
-                $s2,
+                if (count($s1) eq 1 and count($s2) eq 1) then
+                    djb:explode($s1)
+                else
+                    $s1,
+                if (count($s1) eq 1 and count($s2) eq 1) then
+                    djb:explode($s2)
+                else
+                    $s2,
                 $table/count(row),
                 $table/row[1]/count(cell),
                 ()
@@ -319,6 +326,7 @@
                 <h1>Needleman Wunsch test</h1>
                 <p>Generated <xsl:value-of select="current-dateTime()"/></p>
                 <h2>Grid</h2>
+                <xsl:sequence select="$table"/>
                 <xsl:apply-templates select="$table" mode="html"/>
                 <h2>Alignment</h2>
                 <xsl:variable name="alignment"
@@ -335,7 +343,6 @@
                 </p>-->
             </body>
         </html>
-        <!--<xsl:sequence select="$table"/>-->
     </xsl:template>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
