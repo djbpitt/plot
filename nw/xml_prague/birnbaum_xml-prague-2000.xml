@@ -35,7 +35,7 @@
             <keyword>xslt</keyword>
         </keywordset>
         <abstract>
-            <para>The Needleman Wunsch algorithm, which this year enjoys its quinquagenary
+            <para>The Needleman Wunsch algorithm, which this year celebrates its quinquagenary
                 anniversary, has been proven to produce an optimal global pairwise sequence
                 alignment. Because this dynamic programming algorithm requires the updating of
                 variables, it has posed challenges for functional programming paradigms like the one
@@ -766,7 +766,12 @@
             Bioinformatics thesis, Université lire de Bruxelles.</bibliomixed>
         <bibliomixed xml:id="collatex" xreflabel="CollateX">CollateX—software for collating textual
             sources. <link xl:href="https://collatex.net/"/></bibliomixed>
-        <bibliomixed xml:id="snip" xreflabel="Snipacademy Global alignment"><quote>Global alignment.
+        <bibliomixed xml:id="fv_reader" xreflabel="Frankenstein variorum reader"><quote>Mary
+                Shelley’s Frankenstein. A digital variorum edition.</quote>
+            <link xl:href="http://frankensteinvariorum.library.cmu.edu/viewer/"/>. See also the
+            project GitHub repo at <link xl:href="https://github.com/FrankensteinVariorum/"
+            />.</bibliomixed>
+        <bibliomixed xml:id="snip" xreflabel="Global alignment"><quote>Global alignment.
                 Needleman-Wunsch.</quote> Chapter 9 of Pairwise alignment, Bioinformatics Lessons at
             your convenience, Snipacademy. <link
                 xl:href="https://binf.snipcademy.com/lessons/pairwise-alignment/global-needleman-wunsch"
@@ -783,19 +788,9 @@
         </bibliomixed>
         <bibliomixed xml:id="juxta" xreflabel="Juxta">Juxta. <link
                 xl:href="https://www.juxtasoftware.org/"/></bibliomixed>
-        <bibliomixed xml:id="fv_reader" xreflabel="Frankenstein variorum reader"><quote>Mary
-                Shelley’s Frankenstein. A digital variorum edition.</quote>
-            <link xl:href="http://frankensteinvariorum.library.cmu.edu/viewer/"/>. See also the
-            project GitHub repo at <link xl:href="https://github.com/FrankensteinVariorum/"
-            />.</bibliomixed>
         <bibliomixed xml:id="msa" xreflabel="Multiple sequence alignment (Wikipedia)">Multiple
             sequence alignment (Wikipedia). Accessed 2019-11-03. <link
                 xl:href="https://en.wikipedia.org/wiki/Multiple_sequence_alignment"/></bibliomixed>
-        <bibliomixed xml:id="needleman_1970" xreflabel="Needleman and Wunsch 1970">Needleman, Saul
-            B. and Christian D. Wunsch. 1970. <quote>A general method applicable to the search for
-                similarities in the amino acid sequence of two proteins.</quote>
-            <citetitle>Journal of molecular biology</citetitle> 48 (3): 443–53.
-            doi:10.1016/0022-2836(70)90057-4.</bibliomixed>
         <bibliomixed xml:id="naveed_2005" xreflabel="Naveed et al, 2005">Naveed, Tahir,Imitaz Saeed
             Siddiqui, Shaftab Ahmed. 2005. <quote>Parallel Needleman-Wunsch algorithm for
                 grid.</quote> Proceedings of the PAK-US International Symposium on High Capacity
@@ -803,6 +798,11 @@
             2005. <link
                 xl:href="https://upload.wikimedia.org/wikipedia/en/c/c4/ParallelNeedlemanAlgorithm.pdf"
             /></bibliomixed>
+        <bibliomixed xml:id="needleman_1970" xreflabel="Needleman and Wunsch 1970">Needleman, Saul
+            B. and Christian D. Wunsch. 1970. <quote>A general method applicable to the search for
+                similarities in the amino acid sequence of two proteins.</quote>
+            <citetitle>Journal of molecular biology</citetitle> 48 (3): 443–53.
+            doi:10.1016/0022-2836(70)90057-4.</bibliomixed>
         <!--<bibliomixed xml:id="sankoff_1972" xreflabel="Sankoff 1972">Sankoff David. 1972.
                 <quote>Matching sequences under deletion/insertion constraints.</quote>
             <citetitle>Proceedings of the National Academy of Sciences of the USA</citetitle> 69
@@ -813,13 +813,13 @@
                 <emphasis>xsl:for-each</emphasis>. <link
                 xl:href="https://www.saxonica.com/html/documentation/xsl-elements/for-each.html"
             /></bibliomixed>-->
-        <bibliomixed xml:id="saxon_iterate" xreflabel="Saxon xsl:iterate">Saxon documentation of
-                <emphasis>xsl:iterate</emphasis>. <link
-                xl:href="http://www.saxonica.com/documentation/index.html#!xsl-elements/iterate"
-            /></bibliomixed>
         <bibliomixed xml:id="saxon_threads" xreflabel="Saxon saxon:threads">Saxon documentation of
                 <emphasis>saxon:threads</emphasis>. <link
                 xl:href="https://www.saxonica.com/html/documentation/extensions/attributes/threads.html"
+            /></bibliomixed>
+        <bibliomixed xml:id="saxon_iterate" xreflabel="Saxon xsl:iterate">Saxon documentation of
+                <emphasis>xsl:iterate</emphasis>. <link
+                xl:href="http://www.saxonica.com/documentation/index.html#!xsl-elements/iterate"
             /></bibliomixed>
         <bibliomixed xml:id="sellers_1974" xreflabel="Sellers 1974">Sellers, Peter H. 1974.
                 <quote>On the theory and computation of evolutionary distances.</quote>
