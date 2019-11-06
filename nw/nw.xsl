@@ -379,7 +379,24 @@
             </head>
             <body>
                 <h1>Needleman Wunsch test</h1>
-                <p>Generated <xsl:value-of select="current-dateTime()"/></p>
+                <p>
+                    <strong>Alignment scale: </strong>
+                    <xsl:value-of
+                        select="
+                            if (count($s1) eq 1 and count($s2) eq 1) then
+                                'character'
+                            else
+                                'word'"/>
+                    <br/>
+                    <strong>Top input: </strong>
+                    <xsl:value-of select="normalize-space($s1)"/>
+                    <br/>
+                    <strong>Bottom input: </strong>
+                    <xsl:value-of select="normalize-space($s2)"/>
+                    <br/>
+                    <strong>Generated: </strong>
+                    <xsl:value-of select="current-dateTime()"/>
+                </p>
                 <h2>Grid</h2>
                 <!-- uncomment for diagnostics -->
                 <!--<xsl:sequence select="$table"/>-->
