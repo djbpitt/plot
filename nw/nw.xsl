@@ -245,74 +245,90 @@
         <xsl:param name="current_row" as="xs:integer"/>
         <xsl:param name="current_column" as="xs:integer"/>
         <xsl:param name="pairs" as="element(pair)*"/>
-        <xsl:variable name="current_cell" as="element(cell)?"
-            select="$in/row[$current_row]/cell[$current_column]"/>
-        <xsl:choose>
-            <xsl:when test="$current_row eq 2 and $current_column eq 2">
-                <table>
-                    <xsl:sequence select="$pairs"/>
-                </table>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:variable name="new_pairs" as="element(pair)+">
-                    <xsl:sequence select="$pairs"/>
-                    <pair>
-                        <top>
-                            <xsl:choose>
-                                <xsl:when test="$current_cell/@cell_from = ('d', 'l')">
-                                    <xsl:value-of select="$current_cell/@top_string"/>
-                                </xsl:when>
-                                <xsl:otherwise> </xsl:otherwise>
-                            </xsl:choose>
-                        </top>
-                        <bottom>
-                            <xsl:choose>
-                                <xsl:when test="$current_cell/@cell_from = ('d', 'u')">
-                                    <xsl:value-of select="$current_cell/@left_string"/>
-                                </xsl:when>
-                                <xsl:otherwise> </xsl:otherwise>
-                            </xsl:choose>
-                        </bottom>
-                    </pair>
-                </xsl:variable>
-                <xsl:variable name="new_row" as="xs:integer"
-                    select="
-                        if ($current_cell/@cell_from = ('d', 'u')) then
-                            $current_row - 1
-                        else
-                            $current_row"/>
-                <xsl:variable name="new_column" as="xs:integer"
-                    select="
-                        if ($current_cell/@cell_from = ('d', 'l')) then
-                            $current_column - 1
-                        else
-                            $current_column"/>
-                <xsl:variable name="new_s1" as="xs:string*"
-                    select="
-                        if ($current_cell/@cell_from = ('d', 'l')) then
-                            subsequence($s1, 1, count($s1) - 1)
-                        else
-                            $s1"/>
-                <xsl:variable name="new_s2" as="xs:string*"
-                    select="
-                        if ($current_cell/@cell_from = ('d', 'u')) then
-                            subsequence($s2, 1, count($s2) - 1)
-                        else
-                            $s2"/>
-                <xsl:sequence
-                    select="djb:align($in, $new_s1, $new_s2, $new_row, $new_column, $new_pairs)"/>
-            </xsl:otherwise>
-        </xsl:choose>
+        <xsl:iterate select="1 to 100000">
+            <xsl:param name="in" as="element(table)" select="$in"/>
+            <xsl:param name="s1" as="xs:string*" select="$s1"/>
+            <xsl:param name="s2" as="xs:string*" select="$s2"/>
+            <xsl:param name="current_row" as="xs:integer" select="$current_row"/>
+            <xsl:param name="current_column" as="xs:integer" select="$current_column"/>
+            <xsl:param name="pairs" as="element(pair)*" select="$pairs"/>
+            <xsl:variable name="current_cell" as="element(cell)?"
+                select="$in/row[$current_row]/cell[$current_column]"/>
+            <xsl:choose>
+                <xsl:when test="$current_row eq 2 and $current_column eq 2">
+                    <xsl:break>
+                        <table>
+                            <xsl:sequence select="$pairs"/>
+                        </table>
+                    </xsl:break>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:variable name="new_pairs" as="element(pair)+">
+                        <xsl:sequence select="$pairs"/>
+                        <pair>
+                            <top>
+                                <xsl:choose>
+                                    <xsl:when test="$current_cell/@cell_from = ('d', 'l')">
+                                        <xsl:value-of select="$current_cell/@top_string"/>
+                                    </xsl:when>
+                                    <xsl:otherwise> </xsl:otherwise>
+                                </xsl:choose>
+                            </top>
+                            <bottom>
+                                <xsl:choose>
+                                    <xsl:when test="$current_cell/@cell_from = ('d', 'u')">
+                                        <xsl:value-of select="$current_cell/@left_string"/>
+                                    </xsl:when>
+                                    <xsl:otherwise> </xsl:otherwise>
+                                </xsl:choose>
+                            </bottom>
+                        </pair>
+                    </xsl:variable>
+                    <xsl:variable name="new_row" as="xs:integer"
+                        select="
+                            if ($current_cell/@cell_from = ('d', 'u')) then
+                                $current_row - 1
+                            else
+                                $current_row"/>
+                    <xsl:variable name="new_column" as="xs:integer"
+                        select="
+                            if ($current_cell/@cell_from = ('d', 'l')) then
+                                $current_column - 1
+                            else
+                                $current_column"/>
+                    <xsl:variable name="new_s1" as="xs:string*"
+                        select="
+                            if ($current_cell/@cell_from = ('d', 'l')) then
+                                subsequence($s1, 1, count($s1) - 1)
+                            else
+                                $s1"/>
+                    <xsl:variable name="new_s2" as="xs:string*"
+                        select="
+                            if ($current_cell/@cell_from = ('d', 'u')) then
+                                subsequence($s2, 1, count($s2) - 1)
+                            else
+                                $s2"/>
+                    <xsl:next-iteration>
+                        <!-- $table doesn't change, so don't send it recursively -->
+                        <xsl:with-param name="s1" as="xs:string*" select="$new_s1"/>
+                        <xsl:with-param name="s2" as="xs:string*" select="$new_s2"/>
+                        <xsl:with-param name="current_row" as="xs:integer" select="$new_row"/>
+                        <xsl:with-param name="current_column" as="xs:integer" select="$new_column"/>
+                        <xsl:with-param name="pairs" as="element(pair)+" select="$new_pairs"/>
+                    </xsl:next-iteration>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:iterate>
     </xsl:function>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- main                                                       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template name="xsl:initial-template">
-        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859, '\s+')"/>
-        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872, '\s+')"/>-->
-        <xsl:variable name="s1" as="xs:string+" select="'koala'"/>
-        <xsl:variable name="s2" as="xs:string+" select="'wombat'"/>
+        <xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859, '\s+')"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872, '\s+')"/>
+        <!--<xsl:variable name="s1" as="xs:string+" select="'koala'"/>
+        <xsl:variable name="s2" as="xs:string+" select="'wombat'"/>-->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- if both inputs are single words, align by character    -->
         <!--   otherwise align by word                              -->
@@ -381,18 +397,33 @@
                 <h1>Needleman Wunsch test</h1>
                 <p>
                     <strong>Alignment scale: </strong>
-                    <xsl:value-of
+                    <xsl:variable name="scale" as="xs:string"
                         select="
                             if (count($s1) eq 1 and count($s2) eq 1) then
                                 'character'
                             else
                                 'word'"/>
+                    <xsl:value-of select="$scale"/>
                     <br/>
                     <strong>Top input: </strong>
-                    <xsl:value-of select="normalize-space($s1)"/>
+                    <xsl:value-of select="string-join($s1, ' ') || ' ('"/>
+                    <xsl:value-of
+                        select="
+                            if ($scale eq 'character') then
+                                string-length($s1)
+                            else
+                                count($s1)"/>
+                    <xsl:value-of select="')'"/>
                     <br/>
                     <strong>Bottom input: </strong>
-                    <xsl:value-of select="normalize-space($s2)"/>
+                    <xsl:value-of select="string-join($s2, ' ') || ' ('"/>
+                    <xsl:value-of
+                        select="
+                            if ($scale eq 'character') then
+                                string-length($s2)
+                            else
+                                count($s2)"/>
+                    <xsl:value-of select="')'"/>
                     <br/>
                     <strong>Generated: </strong>
                     <xsl:value-of select="current-dateTime()"/>
@@ -463,13 +494,27 @@
         <table id="alignment">
             <tr>
                 <th>
-                    <xsl:value-of select="$s1"/>
+                    <xsl:value-of select="substring(string-join($s1, ' '), 1, 12)"/>
+                    <xsl:value-of
+                        select="
+                            if (string-length(string-join($s1, ' ')) gt 12) then
+                                '…'
+                            else
+                                ()"
+                    />
                 </th>
                 <xsl:apply-templates select="reverse(pair/top)" mode="alignment"/>
             </tr>
             <tr>
                 <th>
-                    <xsl:value-of select="$s2"/>
+                    <xsl:value-of select="substring(string-join($s2, ' '), 1, 12)"/>
+                    <xsl:value-of
+                        select="
+                            if (string-length(string-join($s1)) gt 12) then
+                                '…'
+                            else
+                                ()"
+                    />
                 </th>
                 <xsl:apply-templates select="reverse(pair/bottom)" mode="alignment"/>
             </tr>
