@@ -33,121 +33,311 @@
    </head>
    <body>
       <h1>Needleman Wunsch test</h1>
-      <p>Generated 2019-11-06T15:56:40.831+02:00</p>
+      <p>Generated 2019-11-06T16:47:22.933+02:00</p>
       <h2>Grid</h2>
       <table id="grid">
          <tr>
             <th> </th>
             <th> </th>
-            <th>the</th>
-            <th>gray</th>
-            <th>koala</th>
+            <th>k</th>
+            <th>o</th>
+            <th>a</th>
+            <th>l</th>
+            <th>a</th>
          </tr>
          <tr>
             <th> </th>
             <th>0</th>
-            <th data-cell_from="l" data-cell_arrow="→" data-top_string="the">-2</th>
-            <th data-cell_from="l" data-cell_arrow="→" data-top_string="gray">-4</th>
-            <th data-cell_from="l" data-cell_arrow="→" data-top_string="koala">-6</th>
+            <th data-cell_from="l" data-cell_arrow="→" data-top_string="k">-2</th>
+            <th data-cell_from="l" data-cell_arrow="→" data-top_string="o">-4</th>
+            <th data-cell_from="l" data-cell_arrow="→" data-top_string="a">-6</th>
+            <th data-cell_from="l" data-cell_arrow="→" data-top_string="l">-8</th>
+            <th data-cell_from="l" data-cell_arrow="→" data-top_string="a">-10</th>
          </tr>
          <tr>
-            <th>the</th>
-            <th data-cell_from="u" data-cell_arrow="↓" data-left_string="the">-2</th>
-            <td data-top_string="the"
-                data-left_string="the"
-                data-match="1"
+            <th>w</th>
+            <th data-cell_from="u" data-cell_arrow="↓" data-left_string="w">-2</th>
+            <td data-top_string="k"
+                data-left_string="w"
+                data-match="-1"
                 data-cell_up="-2"
                 data-cell_left="-2"
                 data-cell_diag="0"
                 data-cell_from="d"
-                data-cell_arrow="↘">1</td>
-            <td data-top_string="gray"
-                data-left_string="the"
+                data-cell_arrow="↘">-1</td>
+            <td data-top_string="o"
+                data-left_string="w"
                 data-match="-1"
                 data-cell_up="-4"
-                data-cell_left="1"
+                data-cell_left="-1"
                 data-cell_diag="-2"
-                data-cell_from="l"
-                data-cell_arrow="→">-1</td>
-            <td data-top_string="koala"
-                data-left_string="the"
+                data-cell_from="d"
+                data-cell_arrow="↘">-3</td>
+            <td data-top_string="a"
+                data-left_string="w"
                 data-match="-1"
                 data-cell_up="-6"
-                data-cell_left="-1"
+                data-cell_left="-3"
                 data-cell_diag="-4"
-                data-cell_from="l"
-                data-cell_arrow="→">-3</td>
+                data-cell_from="d"
+                data-cell_arrow="↘">-5</td>
+            <td data-top_string="l"
+                data-left_string="w"
+                data-match="-1"
+                data-cell_up="-8"
+                data-cell_left="-5"
+                data-cell_diag="-6"
+                data-cell_from="d"
+                data-cell_arrow="↘">-7</td>
+            <td data-top_string="a"
+                data-left_string="w"
+                data-match="-1"
+                data-cell_up="-10"
+                data-cell_left="-7"
+                data-cell_diag="-8"
+                data-cell_from="d"
+                data-cell_arrow="↘">-9</td>
          </tr>
          <tr>
-            <th>grey</th>
-            <th data-cell_from="u" data-cell_arrow="↓" data-left_string="grey">-4</th>
-            <td data-top_string="the"
-                data-left_string="grey"
+            <th>o</th>
+            <th data-cell_from="u" data-cell_arrow="↓" data-left_string="o">-4</th>
+            <td data-top_string="k"
+                data-left_string="o"
                 data-match="-1"
-                data-cell_up="1"
+                data-cell_up="-1"
                 data-cell_left="-4"
                 data-cell_diag="-2"
-                data-cell_from="u"
-                data-cell_arrow="↓">-1</td>
-            <td data-top_string="gray"
-                data-left_string="grey"
-                data-match="-1"
-                data-cell_up="-1"
-                data-cell_left="-1"
-                data-cell_diag="1"
                 data-cell_from="d"
-                data-cell_arrow="↘">0</td>
-            <td data-top_string="koala"
-                data-left_string="grey"
-                data-match="-1"
+                data-cell_arrow="↘">-3</td>
+            <td data-top_string="o"
+                data-left_string="o"
+                data-match="1"
                 data-cell_up="-3"
-                data-cell_left="0"
+                data-cell_left="-3"
                 data-cell_diag="-1"
                 data-cell_from="d"
-                data-cell_arrow="↘">-2</td>
+                data-cell_arrow="↘">0</td>
+            <td data-top_string="a"
+                data-left_string="o"
+                data-match="-1"
+                data-cell_up="-5"
+                data-cell_left="0"
+                data-cell_diag="-3"
+                data-cell_from="l"
+                data-cell_arrow="→">-2</td>
+            <td data-top_string="l"
+                data-left_string="o"
+                data-match="-1"
+                data-cell_up="-7"
+                data-cell_left="-2"
+                data-cell_diag="-5"
+                data-cell_from="l"
+                data-cell_arrow="→">-4</td>
+            <td data-top_string="a"
+                data-left_string="o"
+                data-match="-1"
+                data-cell_up="-9"
+                data-cell_left="-4"
+                data-cell_diag="-7"
+                data-cell_from="l"
+                data-cell_arrow="→">-6</td>
          </tr>
          <tr>
-            <th>koala</th>
-            <th data-cell_from="u" data-cell_arrow="↓" data-left_string="koala">-6</th>
-            <td data-top_string="the"
-                data-left_string="koala"
+            <th>m</th>
+            <th data-cell_from="u" data-cell_arrow="↓" data-left_string="m">-6</th>
+            <td data-top_string="k"
+                data-left_string="m"
                 data-match="-1"
-                data-cell_up="-1"
+                data-cell_up="-3"
                 data-cell_left="-6"
                 data-cell_diag="-4"
-                data-cell_from="u"
-                data-cell_arrow="↓">-3</td>
-            <td data-top_string="gray"
-                data-left_string="koala"
+                data-cell_from="d"
+                data-cell_arrow="↘">-5</td>
+            <td data-top_string="o"
+                data-left_string="m"
                 data-match="-1"
                 data-cell_up="0"
+                data-cell_left="-5"
+                data-cell_diag="-3"
+                data-cell_from="u"
+                data-cell_arrow="↓">-2</td>
+            <td data-top_string="a"
+                data-left_string="m"
+                data-match="-1"
+                data-cell_up="-2"
+                data-cell_left="-2"
+                data-cell_diag="0"
+                data-cell_from="d"
+                data-cell_arrow="↘">-1</td>
+            <td data-top_string="l"
+                data-left_string="m"
+                data-match="-1"
+                data-cell_up="-4"
+                data-cell_left="-1"
+                data-cell_diag="-2"
+                data-cell_from="d"
+                data-cell_arrow="↘">-3</td>
+            <td data-top_string="a"
+                data-left_string="m"
+                data-match="-1"
+                data-cell_up="-6"
+                data-cell_left="-3"
+                data-cell_diag="-4"
+                data-cell_from="d"
+                data-cell_arrow="↘">-5</td>
+         </tr>
+         <tr>
+            <th>b</th>
+            <th data-cell_from="u" data-cell_arrow="↓" data-left_string="b">-8</th>
+            <td data-top_string="k"
+                data-left_string="b"
+                data-match="-1"
+                data-cell_up="-5"
+                data-cell_left="-8"
+                data-cell_diag="-6"
+                data-cell_from="d"
+                data-cell_arrow="↘">-7</td>
+            <td data-top_string="o"
+                data-left_string="b"
+                data-match="-1"
+                data-cell_up="-2"
+                data-cell_left="-7"
+                data-cell_diag="-5"
+                data-cell_from="u"
+                data-cell_arrow="↓">-4</td>
+            <td data-top_string="a"
+                data-left_string="b"
+                data-match="-1"
+                data-cell_up="-1"
+                data-cell_left="-4"
+                data-cell_diag="-2"
+                data-cell_from="d"
+                data-cell_arrow="↘">-3</td>
+            <td data-top_string="l"
+                data-left_string="b"
+                data-match="-1"
+                data-cell_up="-3"
                 data-cell_left="-3"
                 data-cell_diag="-1"
                 data-cell_from="d"
                 data-cell_arrow="↘">-2</td>
-            <td data-top_string="koala"
-                data-left_string="koala"
-                data-match="1"
-                data-cell_up="-2"
+            <td data-top_string="a"
+                data-left_string="b"
+                data-match="-1"
+                data-cell_up="-5"
                 data-cell_left="-2"
-                data-cell_diag="0"
+                data-cell_diag="-3"
                 data-cell_from="d"
-                data-cell_arrow="↘">1</td>
+                data-cell_arrow="↘">-4</td>
+         </tr>
+         <tr>
+            <th>a</th>
+            <th data-cell_from="u" data-cell_arrow="↓" data-left_string="a">-10</th>
+            <td data-top_string="k"
+                data-left_string="a"
+                data-match="-1"
+                data-cell_up="-7"
+                data-cell_left="-10"
+                data-cell_diag="-8"
+                data-cell_from="d"
+                data-cell_arrow="↘">-9</td>
+            <td data-top_string="o"
+                data-left_string="a"
+                data-match="-1"
+                data-cell_up="-4"
+                data-cell_left="-9"
+                data-cell_diag="-7"
+                data-cell_from="u"
+                data-cell_arrow="↓">-6</td>
+            <td data-top_string="a"
+                data-left_string="a"
+                data-match="1"
+                data-cell_up="-3"
+                data-cell_left="-6"
+                data-cell_diag="-4"
+                data-cell_from="d"
+                data-cell_arrow="↘">-3</td>
+            <td data-top_string="l"
+                data-left_string="a"
+                data-match="-1"
+                data-cell_up="-2"
+                data-cell_left="-3"
+                data-cell_diag="-3"
+                data-cell_from="d"
+                data-cell_arrow="↘">-4</td>
+            <td data-top_string="a"
+                data-left_string="a"
+                data-match="1"
+                data-cell_up="-4"
+                data-cell_left="-4"
+                data-cell_diag="-2"
+                data-cell_from="d"
+                data-cell_arrow="↘">-1</td>
+         </tr>
+         <tr>
+            <th>t</th>
+            <th data-cell_from="u" data-cell_arrow="↓" data-left_string="t">-12</th>
+            <td data-top_string="k"
+                data-left_string="t"
+                data-match="-1"
+                data-cell_up="-9"
+                data-cell_left="-12"
+                data-cell_diag="-10"
+                data-cell_from="d"
+                data-cell_arrow="↘">-11</td>
+            <td data-top_string="o"
+                data-left_string="t"
+                data-match="-1"
+                data-cell_up="-6"
+                data-cell_left="-11"
+                data-cell_diag="-9"
+                data-cell_from="u"
+                data-cell_arrow="↓">-8</td>
+            <td data-top_string="a"
+                data-left_string="t"
+                data-match="-1"
+                data-cell_up="-3"
+                data-cell_left="-8"
+                data-cell_diag="-6"
+                data-cell_from="u"
+                data-cell_arrow="↓">-5</td>
+            <td data-top_string="l"
+                data-left_string="t"
+                data-match="-1"
+                data-cell_up="-4"
+                data-cell_left="-5"
+                data-cell_diag="-3"
+                data-cell_from="d"
+                data-cell_arrow="↘">-4</td>
+            <td data-top_string="a"
+                data-left_string="t"
+                data-match="-1"
+                data-cell_up="-1"
+                data-cell_left="-4"
+                data-cell_diag="-4"
+                data-cell_from="u"
+                data-cell_arrow="↓">-3</td>
          </tr>
       </table>
       <h2>Alignment</h2>
       <table id="alignment">
          <tr>
-            <th>the gray koala</th>
-            <td data-match="1">the</td>
-            <td data-match="-1">gray</td>
-            <td data-match="1">koala</td>
+            <th>koala</th>
+            <td data-match="-1">k</td>
+            <td data-match="1">o</td>
+            <td data-match="-1">a</td>
+            <td data-match="-1">l</td>
+            <td data-match="1">a</td>
+            <td data-match="0"/>
          </tr>
          <tr>
-            <th>the grey koala</th>
-            <td data-match="1">the</td>
-            <td data-match="-1">grey</td>
-            <td data-match="1">koala</td>
+            <th>wombat</th>
+            <td data-match="-1">w</td>
+            <td data-match="1">o</td>
+            <td data-match="-1">m</td>
+            <td data-match="-1">b</td>
+            <td data-match="1">a</td>
+            <td data-match="0">t</td>
          </tr>
       </table>
    </body>

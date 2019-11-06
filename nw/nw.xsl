@@ -34,6 +34,40 @@
                 "u": "↓",
                 "l": "→"
             }'/>
+    <!-- Darwin texts can be used to test word-level alignment-->
+    <xsl:variable name="darwin_1859" as="xs:string">WHEN we look to the individuals of the same
+        variety or sub-variety of our older cultivated plants and animals, one of the first points
+        which strikes us, is, that they generally differ much more from each other, than do the
+        individuals of any one species or variety in a state of nature. When we reflect on the vast
+        diversity of the plants and animals which have been cultivated, and which have varied during
+        all ages under the most different climates and treatment, I think we are driven to conclude
+        that this greater variability is simply due to our domestic productions having been raised
+        under conditions of life not so uniform as, and somewhat different from, those to which the
+        parent-species have been exposed under nature. There is, also, I think, some probability in
+        the view propounded by Andrew Knight, that this variability may be partly connected with
+        excess of food. It seems pretty clear that organic beings must be exposed during several
+        generations to the new conditions of life to cause any appreciable amount of variation; and
+        that when the organisation has once begun to vary, it generally continues to vary for many
+        generations. No case is on record of a variable being ceasing to be variable under
+        cultivation. Our oldest cultivated plants, such as wheat, still often yield new varieties:
+        our oldest domesticated animals are still capable of rapid improvement or
+        modification.</xsl:variable>
+    <xsl:variable name="darwin_1872" as="xs:string">Causes of Variability. WHEN we compare the
+        individuals of the same variety or sub-variety of our older cultivated plants and animals,
+        one of the first points which strikes us is, that they generally differ more from each other
+        than do the individuals of any one species or variety in a state of nature. And if we
+        reflect on the vast diversity of the plants and animals which have been cultivated, and
+        which have varied during all ages under the most different climates and treatment, we are
+        driven to conclude that this great variability is due to our domestic productions having
+        been raised under conditions of life not so uniform as, and somewhat different from, those
+        to which the parent-species had been exposed under nature. There is, also, some probability
+        in the view propounded by Andrew Knight, that this variability may be partly connected with
+        excess of food. It seems clear that organic beings must be exposed during several
+        generations to new conditions to cause any great amount of variation; and that, when the
+        organisation has once begun to vary, it generally continues varying for many generations. No
+        case is on record of a variable organism ceasing to vary under cultivation. Our oldest
+        cultivated plants, such as wheat, still yield new varieties: our oldest domesticated animals
+        are still capable of rapid improvement or modification.</xsl:variable>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- scoring (may be altered):                              -->
@@ -275,8 +309,14 @@
     <!-- main                                                       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template name="xsl:initial-template">
-        <xsl:variable name="s1" as="xs:string+" select="'the', 'gray', 'koala'"/>
-        <xsl:variable name="s2" as="xs:string+" select="'the', 'grey', 'koala'"/>
+        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859, '\s+')"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872, '\s+')"/>-->
+        <xsl:variable name="s1" as="xs:string+" select="'koala'"/>
+        <xsl:variable name="s2" as="xs:string+" select="'wombat'"/>
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- if both inputs are single words, align by character    -->
+        <!--   otherwise align by word                              -->
+        <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:variable name="table"
             select="
                 djb:nw(if (count($s1) eq 1 and count($s2) eq 1) then
@@ -303,7 +343,7 @@
                 $table/row[1]/count(cell),
                 ()
                 )"/>
-        <!--<xsl:sequence select="$alignment"/>-->
+
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- For HTML output                                        -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -419,7 +459,6 @@
         </table>
     </xsl:template>
     <xsl:template match="top | bottom" mode="alignment" xmlns="http://www.w3.org/1999/xhtml">
-        <xsl:message select="../top"/>
         <xsl:variable name="match" as="xs:integer"
             select="
                 if (../top eq ../bottom) then
