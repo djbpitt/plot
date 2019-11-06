@@ -54,7 +54,7 @@
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:explode" as="xs:string*">
         <!-- explode string into sequence of single characters -->
-        <xsl:param name="in" as="xs:string?"/>
+        <xsl:param name="in" as="xs:string*"/>
         <xsl:sequence
             select="
                 for $c in string-to-codepoints($in)
@@ -275,8 +275,8 @@
     <!-- main                                                       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template name="xsl:initial-template">
-        <xsl:variable name="s1" as="xs:string" select="'specificity'"/>
-        <xsl:variable name="s2" as="xs:string" select="'identification'"/>
+        <xsl:variable name="s1" as="xs:string+" select="'the', 'gray', 'koala'"/>
+        <xsl:variable name="s2" as="xs:string+" select="'the', 'grey', 'koala'"/>
         <xsl:variable name="table"
             select="
                 djb:nw(if (count($s1) eq 1 and count($s2) eq 1) then
@@ -350,8 +350,8 @@
                 <!-- uncomment for diagnostics -->
                 <!--<xsl:sequence select="$alignment"/>-->
                 <xsl:apply-templates select="$alignment" mode="alignment">
-                    <xsl:with-param name="s1" as="xs:string" select="$s1"/>
-                    <xsl:with-param name="s2" as="xs:string" select="$s2"/>
+                    <xsl:with-param name="s1" as="xs:string+" select="$s1"/>
+                    <xsl:with-param name="s2" as="xs:string+" select="$s2"/>
                 </xsl:apply-templates>
             </body>
         </html>
@@ -401,8 +401,8 @@
     <!-- templates for HTML alignment table                         -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template match="table" mode="alignment" xmlns="http://www.w3.org/1999/xhtml">
-        <xsl:param name="s1" as="xs:string"/>
-        <xsl:param name="s2" as="xs:string"/>
+        <xsl:param name="s1" as="xs:string+"/>
+        <xsl:param name="s2" as="xs:string+"/>
         <table id="alignment">
             <tr>
                 <th>
@@ -419,7 +419,16 @@
         </table>
     </xsl:template>
     <xsl:template match="top | bottom" mode="alignment" xmlns="http://www.w3.org/1999/xhtml">
-        <xsl:variable name="match" as="xs:integer" select="1"/>
+        <xsl:message select="../top"/>
+        <xsl:variable name="match" as="xs:integer"
+            select="
+                if (../top eq ../bottom) then
+                    1
+                else
+                    if (exists(../top/text()) and exists(../bottom/text())) then
+                        -1
+                    else
+                        0"/>
         <td data-match="{$match}">
             <xsl:apply-templates/>
         </td>
