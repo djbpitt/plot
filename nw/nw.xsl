@@ -391,47 +391,63 @@
                     }
                     #alignment th {
                         text-align: left;
+                    }
+                    #metadata > p {
+                        margin-top: 0;
+                        margin-bottom: 0;
+                    }
+                    .input {
+                        text-indent: -1em;
+                        margin-left: 1em;
                     }</style>
             </head>
             <body>
                 <h1>Needleman Wunsch test</h1>
-                <p>
-                    <strong>Alignment scale: </strong>
+                <section id="metadata">
                     <xsl:variable name="scale" as="xs:string"
                         select="
                             if (count($s1) eq 1 and count($s2) eq 1) then
                                 'character'
                             else
                                 'word'"/>
-                    <xsl:value-of select="$scale"/>
-                    <br/>
-                    <strong>Top input: </strong>
-                    <xsl:value-of select="string-join($s1, ' ') || ' ('"/>
-                    <xsl:value-of
-                        select="
-                            if ($scale eq 'character') then
-                                string-length($s1)
-                            else
-                                count($s1)"/>
-                    <xsl:value-of select="')'"/>
-                    <br/>
-                    <strong>Bottom input: </strong>
-                    <xsl:value-of select="string-join($s2, ' ') || ' ('"/>
-                    <xsl:value-of
-                        select="
-                            if ($scale eq 'character') then
-                                string-length($s2)
-                            else
-                                count($s2)"/>
-                    <xsl:value-of select="')'"/>
-                    <br/>
-                    <strong>Generated: </strong>
-                    <xsl:value-of select="current-dateTime()"/>
-                </p>
+                    <p>
+                        <strong>Alignment scale: </strong>
+                        <xsl:value-of select="$scale"/>
+                    </p>
+
+                    <p class="input">
+                        <strong>Top input: </strong>
+                        <xsl:value-of select="string-join($s1, ' ') || ' ('"/>
+                        <xsl:value-of
+                            select="
+                                if ($scale eq 'character') then
+                                    string-length($s1)
+                                else
+                                    count($s1)"/>
+                        <xsl:value-of select="')'"/>
+                    </p>
+                    <p class="input">
+                        <strong>Left input: </strong>
+                        <xsl:value-of select="string-join($s2, ' ') || ' ('"/>
+                        <xsl:value-of
+                            select="
+                                if ($scale eq 'character') then
+                                    string-length($s2)
+                                else
+                                    count($s2)"/>
+                        <xsl:value-of select="')'"/>
+                    </p>
+                    <p>
+                        <strong>Generated: </strong>
+                        <xsl:value-of select="current-dateTime()"/>
+                    </p>
+                </section>
                 <h2>Grid</h2>
                 <!-- uncomment for diagnostics -->
                 <!--<xsl:sequence select="$table"/>-->
                 <xsl:apply-templates select="$table" mode="html"/>
+                <h2>Schematic</h2>
+                <xsl:apply-templates select="$table" mode="schematic"/>
                 <h2>Alignment</h2>
                 <xsl:variable name="alignment"
                     select="djb:align($table, $s1, $s2, $table/count(row), $table/row[1]/count(cell), ())"/>
@@ -446,7 +462,7 @@
     </xsl:template>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- templates for HTML grid                                    -->
+    <!-- templates for HTML grid (mode: html)                       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template match="table" mode="html" xmlns="http://www.w3.org/1999/xhtml">
         <table id="grid">
@@ -486,7 +502,30 @@
     </xsl:template>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- templates for HTML alignment table                         -->
+    <!-- templates for SVG map (mode: schematic)                    -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <xsl:template match="table" mode="schematic">
+        <xsl:variable name="scale" as="xs:integer" select="2"/>
+        <svg xmlns="http://www.w3.org/2000/svg" height="{count(row) * $scale}"
+            width="count(row[1]/cell) * $scale">
+            <g transform="scale(2)">
+                <xsl:apply-templates mode="schematic"/>
+            </g>
+        </svg>
+    </xsl:template>
+    <xsl:template match="row" mode="schematic">
+        <xsl:apply-templates select="cell" mode="schematic">
+            <xsl:with-param name="yPos" as="xs:integer" select="position()"/>
+        </xsl:apply-templates>
+    </xsl:template>
+    <xsl:template match="cell" mode="schematic" xmlns="http://www.w3.org/2000/svg">
+        <xsl:param name="yPos" as="xs:integer"/>
+        <rect x="{position()}" y="{$yPos}" width="1" height="1"
+            fill="{if (@match = 1) then 'darkgreen' else 'lightpink'}"/>
+    </xsl:template>
+
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- templates for HTML alignment table (mode: alignment)       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template match="table" mode="alignment" xmlns="http://www.w3.org/1999/xhtml">
         <xsl:param name="s1" as="xs:string+"/>
