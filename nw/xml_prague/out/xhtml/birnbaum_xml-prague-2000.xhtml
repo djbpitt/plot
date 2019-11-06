@@ -7,7 +7,7 @@
                 alignment. Because this dynamic programming algorithm requires the updating of
                 variables, it has posed challenges for functional programming paradigms like the one
                 underlying XSLT. The present report explores these challenges and provides an
-                implementation of the Needleman Wunsch algorithm in XSLT 3.0.</p></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#d5e23">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e25">Why sequence aligment matters</a></span></dt><dt><span class="section"><a href="#d5e35">Biological and textual alignment</a></span></dt><dt><span class="section"><a href="#d5e45">Global pairwise alignment</a></span></dt><dt><span class="section"><a href="#d5e64">Overview of this report</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e82">About sequence alignment</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e84">Alignments and scoring</a></span></dt><dt><span class="section"><a href="#d5e137">Sequence alignment algorithms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e145">Dynamic programming and the Needleman Wunsch algorithm</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e147">Dynamic programming</a></span></dt><dt><span class="section"><a href="#d5e158">The Needleman Wunsch algorithm</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e333">The challenges of dynamic programming and XSLT</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e345">Why recursion breaks</a></span></dt><dt><span class="section"><a href="#d5e360">Iteration to the rescue</a></span></dt><dt><span class="section"><a href="#d5e370">Processing the diagonal</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e408">Conclusions</a></span></dt><dt><span class="bibliography"><a href="#d5e423">Works cited</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e23"/>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e25"/>Why sequence aligment matters</h3></div></div></div><p>Sequence alignment is a way of identifying and modeling similarities and
+                implementation of the Needleman Wunsch algorithm in XSLT 3.0.</p></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#d5e23">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e25">Why sequence aligment matters</a></span></dt><dt><span class="section"><a href="#d5e35">Biological and textual alignment</a></span></dt><dt><span class="section"><a href="#d5e45">Global pairwise alignment</a></span></dt><dt><span class="section"><a href="#d5e66">Overview of this report</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e84">About sequence alignment</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e86">Alignments and scoring</a></span></dt><dt><span class="section"><a href="#d5e141">Sequence alignment algorithms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e149">Dynamic programming and the Needleman Wunsch algorithm</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e151">Dynamic programming</a></span></dt><dt><span class="section"><a href="#d5e162">The Needleman Wunsch algorithm</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e337">The challenges of dynamic programming and XSLT</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e349">Why recursion breaks</a></span></dt><dt><span class="section"><a href="#d5e364">Iteration to the rescue</a></span></dt><dt><span class="section"><a href="#d5e374">Processing the diagonal</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e420">Conclusions</a></span></dt><dt><span class="bibliography"><a href="#d5e435">Works cited</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e23"/>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e25"/>Why sequence aligment matters</h3></div></div></div><p>Sequence alignment is a way of identifying and modeling similarities and
                 differences in sequences of items, and has proven insightful and productive in both
                 the natural sciences (especially in biology and medicine, where it is applied to
                 genetic sequences) and the humanities (especially in text-critical scholarship,
@@ -47,12 +47,13 @@
                 within both domains—are also relevant:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Both genetic and textual alignment tasks can be divided into
                                 <span class="emphasis"><em>global</em></span> and <span class="emphasis"><em>local</em></span>
                             alignment. The goal of global alignment is to find the best alignment of
-                            all items in the entire sequences. In textual scholarship this is often
-                            called <span class="emphasis"><em>collation</em></span> (cf. e.g., <a class="xref" href="#fv_reader">Frankenstein variorum reader</a>). The goal of local alignment is to find
-                            moment where subsequences correspond, without attempting to optimize the
-                            alignment of the entire sequences. A common textual use for local
-                            alignment is <span class="emphasis"><em>text reuse</em></span>, e.g., finding moments
-                            where Dante quotes or paraphrases Ovid (cf. <a class="xref" href="#peteghhem_2015">Van Peteghem 2015</a>, <a class="xref" href="#intertextual_dante">Intertextual Dante</a>).</p></li><li class="listitem"><p>Both genetic and textual alignment tasks may involve
+                                <span class="emphasis"><em>all items in the entire sequences</em></span>. In textual
+                            scholarship this is often called <span class="emphasis"><em>collation</em></span> (cf.
+                            e.g., <a class="xref" href="#fv_reader">Frankenstein variorum reader</a>). The goal of local alignment is to
+                            find moments where <span class="emphasis"><em>subsequences</em></span> correspond, without
+                            attempting to optimize the alignment of the entire sequences. A common
+                            textual use for local alignment is <span class="emphasis"><em>text reuse</em></span>,
+                            e.g., finding moments where Dante quotes or paraphrases Ovid (cf. <a class="xref" href="#peteghhem_2015">Van Peteghem 2015</a>, <a class="xref" href="#intertextual_dante">Intertextual Dante</a>).</p></li><li class="listitem"><p>Both genetic and textual alignment tasks may involve
                                 <span class="emphasis"><em>pairwise alignment</em></span> or <span class="emphasis"><em>multiple
                                 alignment</em></span>. Pairwise alignment refers to the alignment of
                             two sequences; multiple alignment refers to the alignment of more than
@@ -61,7 +62,7 @@
                 identify all optimal global, pairwise alignments of two sequences, and it is
                 especially well suited to alignment tasks where the two texts are of comparable size
                 and are substantially similar to each other. The present report does not address
-                either local alignment or multiple (witness) alignment.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e64"/>Overview of this report</h3></div></div></div><p>This report begins by introducing the use of dynamic programming methods in the
+                either local alignment or multiple (witness) alignment.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e66"/>Overview of this report</h3></div></div></div><p>This report begins by introducing the use of dynamic programming methods in the
                 Needleman Wunsch algorithm to identify all optimal global alignments of two
                 manuscript witnesses. It then identifies challenges to implementing this algorithm
                 in XSLT and discusses those challenges in the context of developing such an
@@ -81,10 +82,10 @@
                             multiple-witness alignment is an NP hard problem with which the present
                             report does not seek to engage.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p><a class="xref" href="#msa">Multiple sequence alignment (Wikipedia)</a> provides an overview of multiple
                                     sequence alignment, the term in bioinformatics for what
-                                    philologists refer to as multiple-witness alignment.</p></td></tr></table></div></li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e82"/>About sequence alignment</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e84"/>Alignments and scoring</h3></div></div></div><p>An optimal alignment can be defined as an alignment that yields the best
+                                    philologists refer to as multiple-witness alignment.</p></td></tr></table></div></li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e84"/>About sequence alignment</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e86"/>Alignments and scoring</h3></div></div></div><p>An optimal alignment can be defined as an alignment that yields the best
                     <span class="emphasis"><em>score</em></span>, where the researcher is responsible for identifying
                 an appropriate scoring method. Relationships involving individual aligned items from
-                a sequence can be categorized as belonging to three possible types:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Items from both sequences are aligned and are the same. This is called
+                a sequence can be categorized as belonging to three possible types for scoring purposes:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Items from both sequences are aligned and are the same. This is called
                             a <span class="emphasis"><em>match</em></span>. If the two sequences are identical, all
                             item-level alignments are matches.</p></li><li class="listitem"><p>Items from both sequences are aligned but are different. This is
                             called a <span class="emphasis"><em>mismatch</em></span>. Mismatches may arise in
@@ -96,16 +97,17 @@
                             mismatch.</p></li><li class="listitem"><p>An item in one sequence has no corresponding item in the other
                             sequence. This is called a <span class="emphasis"><em>gap</em></span> or an
                                 <span class="emphasis"><em>indel</em></span> (a correspondence of an item to no item
-                            that can be interpreted as either an insertion in one sequence or a
-                            deletion from the other). Gaps are inevitable where the sequences are of
-                            different lengths, so that, for example. given <span class="quote">“<span class="quote">The gray
-                                koala</span>”</span> and <span class="quote">“<span class="quote">The koala</span>”</span>, the item
-                                <span class="quote">“<span class="quote">gray</span>”</span> in the first sequence corresponds to a gap in
-                            the second. Gaps may also occur with sequences of the same length; for
-                            example, if we align <span class="quote">“<span class="quote">The gray koala lives in Australia</span>”</span>
-                            with <span class="quote">“<span class="quote">The koala lives in South Australia</span>”</span>, both sequences
-                            contain six words, but the most natural alignment, with a length of
-                            seven items and one gap in each sequence, is: </p><div class="table"><a id="d5e108"/><p class="title"><strong>Table 1. Alignment example with gaps</strong></p><div class="table-contents"><table class="table" summary="Alignment example with gaps" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td>The</td><td>gray</td><td>koala</td><td>lives</td><td>in</td><td> </td><td>Australia</td></tr><tr><td>The</td><td> </td><td>koala</td><td>lives</td><td>in</td><td>South</td><td>Australia</td></tr></tbody></table></div></div><p><br class="table-break"/>
+                            that can be interpreted as either an <span class="emphasis"><em>in</em></span>sertion in
+                            one sequence or a <span class="emphasis"><em>del</em></span>etion from the other). Gaps
+                            are inevitable where the sequences are of different lengths, so that,
+                            for example. given <span class="quote">“<span class="quote">The gray koala</span>”</span> and <span class="quote">“<span class="quote">The
+                                koala</span>”</span>, the item <span class="quote">“<span class="quote">gray</span>”</span> in the first sequence
+                            corresponds to a gap in the second. Gaps may also occur with sequences
+                            of the same length; for example, if we align <span class="quote">“<span class="quote">The gray koala lives
+                                in Australia</span>”</span> with <span class="quote">“<span class="quote">The koala lives in South
+                                Australia</span>”</span>, both sequences contain six words, but the most
+                            natural alignment, with a length of seven items and one gap in each
+                            sequence, is: </p><div class="table"><a id="d5e112"/><p class="title"><strong>Table 1. Alignment example with gaps</strong></p><div class="table-contents"><table class="table" summary="Alignment example with gaps" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td>The</td><td>gray</td><td>koala</td><td>lives</td><td>in</td><td> </td><td>Australia</td></tr><tr><td>The</td><td> </td><td>koala</td><td>lives</td><td>in</td><td>South</td><td>Australia</td></tr></tbody></table></div></div><p><br class="table-break"/>
                         </p></li></ul></div><p>A common scoring method is to assign a value of <span class="quote">“<span class="quote">1</span>”</span> to matches,
                     <span class="quote">“<span class="quote">-1</span>”</span> to mismatches, and <span class="quote">“<span class="quote">-1</span>”</span> to gaps. These values
                 prefer alignments with as many matches as possible, and with as few mismatches and
@@ -120,7 +122,7 @@
                 compared. In the examples below we have assigned a score of <span class="quote">“<span class="quote">1</span>”</span> for
                 matches, <span class="quote">“<span class="quote">-1</span>”</span> for mistmatches, and <span class="quote">“<span class="quote">-2</span>”</span> for gaps. This
                 scoring system prefers mismatches to gaps, and scores gaps in a linear (not affine)
-                way.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e137"/>Sequence alignment algorithms</h3></div></div></div><p>A naïve, brute-force approach to sequence alignment would construct all possible
+                way.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e141"/>Sequence alignment algorithms</h3></div></div></div><p>A naïve, brute-force approach to sequence alignment would construct all possible
                 alignments, score them, and select the ones with the best scores. This method has
                 exponential complexity, and therefore is not realistic even for relatively small
                 real-world alignment tasks. Alternatives must therefore reduce the computational
@@ -130,16 +132,16 @@
                 advance alignments that <span class="emphasis"><em>are unlikely to be</em></span> optimal. Heuristic
                 methods entail a risk of inadvertently excluding an optimal alignment, but in the
                 case of some computationally complex problems, a heuristic approach may be the only
-                realistic way of reducing the complexity enough to make the problem
+                realistic way of reducing the complexity sufficiently to make the problem
                 tractable.</p><p>In the case of global pairwise alignment, the Needleman Wunsch algorithm,
                 described below, has been proven always to produce an optimal alignment, according
-                to whatever definition of optimal the chosen scoring method employs. Needleman
+                to whatever definition of optimal the chosen scoring method instantiates. Needleman
                 Wunsch is an implementation of <span class="emphasis"><em>dynamic programming</em></span>, and in the
                 following two sections we first describe dynamic programming as a paradigm and then
                 explain how it is employed in the Needleman Wunsch algorithm. These explanations are
                 preparatory to describing the complications dynamic programming, both in general and
                 in the context of Needleman Wunsch, poses for XSLT and how those can be
-                resolved.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e145"/>Dynamic programming and the Needleman Wunsch algorithm</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e147"/>Dynamic programming</h3></div></div></div><p>Dynamic programming, a paradigm developed by Richard Bellman at the Rand
+                resolved.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e149"/>Dynamic programming and the Needleman Wunsch algorithm</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e151"/>Dynamic programming</h3></div></div></div><p>Dynamic programming, a paradigm developed by Richard Bellman at the Rand
                 Corporation in the early 1950s, makes it possible to express complex coding tasks as
                 a combination of smaller, more tractable, overlapping ones.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>For more information about dynamic programming see <a class="xref" href="#bellman_1952">Bellman 1952</a> and <a class="xref" href="#bellman_1954">Bellman 1954</a>.</p></td></tr></table></div><p> A commonly cited example of a task that is amenable to dynamic programming
                 is the computation of a Fibonacci number. Insofar as every Fibonacci number beyond
@@ -156,7 +158,7 @@
                 alignment of two long sequences can be identified, the optimal alignment of their
                 corresponding subsequences can be extracted as a subset of the longer alignment.
                 Second, this recursion is overlapping, that is, the solution to a sub-alignment is a
-                component of the solution to a longer alignment.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e158"/>The Needleman Wunsch algorithm</h3></div></div></div><p>The history of the Needleman Wunsch algorithm is described by Boes as
+                component of the solution to a longer alignment.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e162"/>The Needleman Wunsch algorithm</h3></div></div></div><p>The history of the Needleman Wunsch algorithm is described by Boes as
                 follows:</p><div class="blockquote"><blockquote class="blockquote"><p>We will begin with the scoring system most commonly used when introducing the
                     Needleman-Wunsch algorithm: substitution scores for matched residues and linear
                     gap penalties. Although Needleman and Wunsch already discussed this scoring
@@ -183,7 +185,7 @@
                             reflecting multiples of the gap score. For example, if the gap score is
                             -2, the values would be 0, -2, -4, etc. Starting from the 0, assign
                             similar values to a column inserted on the left, after the row labels.
-                            By this point the grid should look like:</p><div class="table"><a id="d5e184"/><p class="title"><strong>Table 2. Initial grid for Needleman Wunsch</strong></p><div class="table-contents"><table class="table" summary="Initial grid for Needleman Wunsch" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td> </td><td> </td><td align="center">k</td><td align="center">o</td><td align="center">a</td><td align="center">l</td><td align="center">a</td></tr><tr><td> </td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td><td align="right">-8</td><td align="right">-10</td></tr><tr><td>c</td><td align="right">-2</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>o</td><td align="right">-4</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>l</td><td align="right">-6</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>a</td><td align="right">-8</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr></tbody></table></div></div><p><br class="table-break"/></p></li><li class="listitem"><p>Starting in the upper left of the table body, where the first items of
+                            By this point the grid should look like:</p><div class="table"><a id="d5e188"/><p class="title"><strong>Table 2. Initial grid for Needleman Wunsch</strong></p><div class="table-contents"><table class="table" summary="Initial grid for Needleman Wunsch" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td> </td><td> </td><td align="center">k</td><td align="center">o</td><td align="center">a</td><td align="center">l</td><td align="center">a</td></tr><tr><td> </td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td><td align="right">-8</td><td align="right">-10</td></tr><tr><td>c</td><td align="right">-2</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>o</td><td align="right">-4</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>l</td><td align="right">-6</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>a</td><td align="right">-8</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr></tbody></table></div></div><p><br class="table-break"/></p></li><li class="listitem"><p>Starting in the upper left of the table body, where the first items of
                             the two sequences intersect, and proceeding across each row in turn,
                             from top to bottom, write a value into each cell. That value should be
                             the highest of the following three candidate values:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>The cell immediately above plus the gap score.</p></li><li class="listitem"><p>The cell immediately to the left plus the gap
@@ -199,7 +201,7 @@
                             with the mismatch score, yields a value of -1. Since that is the highest
                             value, write it into the cell. Proceed across the first row, then
                             traverse the second row from left to right, etc., ending in the lower
-                            right. The grid should now look like:</p><div class="table"><a id="d5e247"/><p class="title"><strong>Table 3. Completed grid for Needleman Wunsch</strong></p><div class="table-contents"><table class="table" summary="Completed grid for Needleman Wunsch" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td> </td><td> </td><td align="center">k</td><td align="center">o</td><td align="center">a</td><td align="center">l</td><td align="center">a</td></tr><tr><td> </td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td><td align="right">-8</td><td align="right">-10</td></tr><tr><td>c</td><td align="right">-2</td><td align="right">-1</td><td align="right">-3</td><td align="right">-5</td><td align="right">-7</td><td align="right">-9</td></tr><tr><td>o</td><td align="right">-4</td><td align="right">-3</td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td></tr><tr><td>l</td><td align="right">-6</td><td align="right">-5</td><td align="right">-2</td><td align="right">-1</td><td align="right">-1</td><td align="right">-3</td></tr><tr><td>a</td><td align="right">-8</td><td align="right">-7</td><td align="right">-4</td><td align="right">-1</td><td align="right">-2</td><td align="right">0</td></tr></tbody></table></div></div><p><br class="table-break"/> We fill the cells in the specified order because each cell
+                            right. The grid should now look like:</p><div class="table"><a id="d5e251"/><p class="title"><strong>Table 3. Completed grid for Needleman Wunsch</strong></p><div class="table-contents"><table class="table" summary="Completed grid for Needleman Wunsch" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td> </td><td> </td><td align="center">k</td><td align="center">o</td><td align="center">a</td><td align="center">l</td><td align="center">a</td></tr><tr><td> </td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td><td align="right">-8</td><td align="right">-10</td></tr><tr><td>c</td><td align="right">-2</td><td align="right">-1</td><td align="right">-3</td><td align="right">-5</td><td align="right">-7</td><td align="right">-9</td></tr><tr><td>o</td><td align="right">-4</td><td align="right">-3</td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td></tr><tr><td>l</td><td align="right">-6</td><td align="right">-5</td><td align="right">-2</td><td align="right">-1</td><td align="right">-1</td><td align="right">-3</td></tr><tr><td>a</td><td align="right">-8</td><td align="right">-7</td><td align="right">-4</td><td align="right">-1</td><td align="right">-2</td><td align="right">0</td></tr></tbody></table></div></div><p><br class="table-break"/> We fill the cells in the specified order because each cell
                             depends on two values from the row above (the cell immediately above and
                             the one diagonally above and to the left) and the preceding cell of the
                             same row. Filling in the cells from left to right and top to bottom
@@ -216,14 +218,14 @@
                             plus the gap score of <span class="quote">“<span class="quote">-2</span>”</span> yields <span class="quote">“<span class="quote">-4</span>”</span>). In
                             the following image we have 1) added arrows indicating the source of
                             each value entered into the grid and 2) shaded match cells green and
-                            mismatch cells pink: </p><div class="figure"><a id="d5e310"/><p class="title"><strong>Figure 1. Completed alignment grid</strong></p><div class="figure-contents"><div class="mediaobject"><img src="../../images/completed_grid.png" alt="Completed alignment grid"/></div></div></div><p><br class="figure-break"/></p></li><li class="listitem"><p>At each step along this traceback path, starting from the lower right,
+                            mismatch cells pink: </p><div class="figure"><a id="d5e314"/><p class="title"><strong>Figure 1. Completed alignment grid</strong></p><div class="figure-contents"><div class="mediaobject"><img src="../../images/completed_grid.png" alt="Completed alignment grid"/></div></div></div><p><br class="figure-break"/></p></li><li class="listitem"><p>At each step along this traceback path, starting from the lower right,
                             if the step is diagonal and up, align one item from the end of each
                             sequence. If the step is to the left, align an item from the sequence at
                             the top with a gap (that is, do not select an item from the sequence at
                             the left). If the step is up, align an item from the sequence at the
                             left with a gap. In case of ties, the choices are all optimal and can be
                             pursued as alternatives. In the present case, this process produces the
-                            following single optimal alignment: </p><div class="table"><a id="d5e317"/><p class="title"><strong>Table 4. Alignment example</strong></p><div class="table-contents"><table class="table" summary="Alignment example" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><td>k</td><td>o</td><td>a</td><td>l</td><td>a</td></tr><tr><td>c</td><td>o</td><td> </td><td>l</td><td>a</td></tr></tbody></table></div></div><p><br class="table-break"/></p></li></ol></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e333"/>The challenges of dynamic programming and XSLT</h2></div></div></div><p>XSLT, at least before version 3.0, plays poorly with dynamic programming because each
+                            following single optimal alignment: </p><div class="table"><a id="d5e321"/><p class="title"><strong>Table 4. Alignment example</strong></p><div class="table-contents"><table class="table" summary="Alignment example" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><td>k</td><td>o</td><td>a</td><td>l</td><td>a</td></tr><tr><td>c</td><td>o</td><td> </td><td>l</td><td>a</td></tr></tbody></table></div></div><p><br class="table-break"/></p></li></ol></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e337"/>The challenges of dynamic programming and XSLT</h2></div></div></div><p>XSLT, at least before version 3.0, plays poorly with dynamic programming because each
             step in a dynamic programming algorithm depends on a value calculated at the preceding
             step. Functional programming of the sort supported by XSLT <code class="sgmltag-element">xsl:for-each</code> does
             not have access to these incremental values; if we try to run <code class="sgmltag-element">xsl:for-each</code>
@@ -236,10 +238,10 @@
             dependent on the output of any other step. But it also means that poplating the
             Needleman Wunsch grid in XSLT requires an alternative to <code class="sgmltag-element">xsl:for-each</code>.</p><p>Tennison draws our attention to this issue in her XSLT 2.0 implementations of a
             dynamic programming algorithm to calculate Levenshtein distance (<a class="xref" href="#tennison_2007a">Tennison 2007a</a>, <a class="xref" href="#tennison_2007b">Tennison 2007b</a>), and with respect to
-            constructing the grid the algorithms for Levenshtein and Needleman Wunsch are the same.
+            constructing the grid, the algorithms for Levenshtein and Needleman Wunsch are the same.
             The principal difference is that Levenshtein cares only about the value of the lower
-            right cell, and therefore does not require the traceback steps needed for Needleman
-            Wunsch.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e345"/>Why recursion breaks</h3></div></div></div><p>The traditional way to mimic updating a variable in XSLT is with recursion,
+            right cell, and therefore does not require the traceback steps the Needleman Wunsch uses
+            to perform the actual alignment.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e349"/>Why recursion breaks</h3></div></div></div><p>The traditional way to mimic updating a variable in XSLT is with recursion,
                 passing the updated value into each recursive call. The challenge to this approach
                 is that deep recursion can consume enough memory to overflow the available stack
                 space and crash the operation. XSLT processors can work around this limitation with
@@ -248,20 +250,21 @@
                 however, first because not all processors support it, second because functions have
                 to be written in a particular way to make it possible, and third because, insofar as
                 it is an optimization, some operations that can be understood as tail recursive may
-                not look that way to the processor, and may therefore fail to be optimized.</p><p>The important insight in Tennison’s second engagement with the problem (<a class="xref" href="#tennison_2007b">Tennison 2007b</a>) is that it is possible to construct the grid values
-                for Levenshtein (and therefore also for Needleman Wunsch) without recurring on every
-                cell. By writing values into the grid on the diagonal, instead of across each row in
-                turn, Tennison is able to calculate all values on an individual diagonal at the same
-                time, since the cells on diagonals that run from top right to bottom left have no
-                mutual dependencies. That is, while the traditional horizontal and then vertical
-                traversal makes each step dependent on the one that immediately precedes it,
-                traversal on the diagonal means that processing each diagonal makes all of the
-                information needed to process the entire next diagonal available simultaneously. The
-                absence of dependencies within a diagonal means that Tennison can use
-                    <code class="sgmltag-element">xsl:for-each</code> for all of the values on each diagonal, and recur only
-                as she moves to a new diagonal. The computational complexity of populating the grid
-                remains <span class="emphasis"><em>O(mn)</em></span>, since it is still necessary to calculate each
-                cell individually, but Tennison’s implementation reduces the recursion from the
+                not look that way to the processor, and may therefore fail to be optimized.</p><p>The important insight in Tennison’s second engagement with the Levenshtein problem
+                    (<a class="xref" href="#tennison_2007b">Tennison 2007b</a>) is that it is possible to construct the grid
+                values for Levenshtein (and therefore also for Needleman Wunsch) without recurring
+                on every cell. By writing values into the grid on the diagonal, instead of across
+                each row in turn, recurring on every cell, Tennison is able to calculate all values
+                on an individual diagonal at the same time, since the cells on diagonals that run
+                from top right to bottom left have no mutual dependencies. That is, while the
+                traditional horizontal and then vertical traversal makes each step dependent on the
+                one that immediately precedes it, traversal on the diagonal is possible because all
+                of the information needed to process the entire next diagonal available
+                simultaneously. The absence of dependencies within a diagonal means that Tennison
+                can use <code class="sgmltag-element">xsl:for-each</code> for all of the values on each diagonal, and recur
+                only as she moves to a new diagonal. The computational complexity of populating the
+                grid remains <span class="emphasis"><em>O(mn)</em></span>, since it is still necessary to calculate
+                each cell individually, but Tennison’s implementation reduces the recursion from the
                 number of cells to the number of diagonals, or roughly the square root of
                         <span class="emphasis"><em>m<sup>2</sup> +
                     n<sup>2</sup></em></span> (converging on
@@ -270,7 +273,7 @@
                 implementation <span class="quote">“<span class="quote">on the diagonal</span>”</span> was pointed out first by <a class="xref" href="#wang_2002">Wang 2002</a> (8), and then by <a class="xref" href="#naveed_2005">Naveed et al, 2005</a> (3–4), but
                 although Wang first reported that items on the diagonal could be processed in
                 parallel, it was Tennison who recognized that this observation could also be used to
-                reduce the depth of recursion in XSLT.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e360"/>Iteration to the rescue</h3></div></div></div><p>Tennison’s diagonal implementation reduced the depth of recursion, but because the
+                reduce the depth of recursion in XSLT.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e364"/>Iteration to the rescue</h3></div></div></div><p>Tennison’s diagonal implementation reduced the depth of recursion, but because the
                 values in each diagonal continued to depend on the values in the immediately
                 preceding diagonal, it nonetheless required recursion on each new diagonal. The
                 reduction in the depth of recursion scaled impressively; for example, with two
@@ -286,13 +289,27 @@
                 that was available to Tennison in 2007, in place of the recursion that she was
                 forced to retain thus observes her wise recommendation to <span class="quote">“<span class="quote">try to iterate
                     rather than recurse whenever you can</span>”</span> (<a class="xref" href="#tennison_2007b">Tennison 2007b</a>).
-            </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e370"/>Processing the diagonal</h3></div></div></div><p>The XSLT 3.0 <code class="sgmltag-element">xsl:iterate</code> element can be used for any repetitive
-                operation, and our first XSLT 3.0 implementation of Needleman Wunsch resembled the
-                Tennison’s first Levenshtein implementation, in <a class="xref" href="#tennison_2007a">Tennison 2007a</a>,
-                except that we used <code class="sgmltag-element">xsl:iterate</code> wherever she used recursion, that is, to
-                process every cell. Because <code class="sgmltag-element">xsl:iterate</code> is not dependent on a recursive
-                stack, this implementation runs to completion even with large input. [ADD DETAILS]
-                It is, however, possible to improve the efficiency of the code by taking the
+            </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e374"/>Processing the diagonal</h3></div></div></div><p>The XSLT 3.0 <code class="sgmltag-element">xsl:iterate</code> element can be used for any repetitive
+                operation, and our first XSLT 3.0 implementation of Needleman Wunsch resembled
+                Tennison’s first (non-diagonal) Levenshtein implementation, in <a class="xref" href="#tennison_2007a">Tennison 2007a</a>, except that we used <code class="sgmltag-element">xsl:iterate</code> where she
+                used recursion, that is, to process every cell. Because <code class="sgmltag-element">xsl:iterate</code> is
+                not dependent on a recursive stack, this implementation runs to completion even with
+                large input.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>By <span class="emphasis"><em>large</em></span> we mean sequences of a few hundred, but not
+                        several thousand, items. Although the implementation is iterative, this
+                        algorithm nonetheless has quadratic complexity (the number of cells is the
+                        product of the number of items in the two sequences) and cannot be
+                        parallelized because the computation of each cell must wait for the
+                        completion of the computation of preceding cells. The iterative
+                        implementation will not overflow the stack, but the time it requires to run
+                        to completion is not realistic for any real-world application.</p><p>A possibly perverse attempt to align a sequence of 11130 items against a
+                        sequence of 12392 items using Saxon-HE 9.9.1.4J with default settings on
+                        6-core machine with 32G of RAM crashed after several hours with a Java
+                            <span class="quote">“<span class="quote">GC overhead limit exceeded</span>”</span> error. Aligning a sequence of
+                        233 items against a sequence of 223 items using our non-diagonal
+                        implementation, which creates a grid and an alignment table and renders both
+                        in HTML, overflowed the stack without <code class="sgmltag-element">xsl:iterate</code>, and with
+                            <code class="sgmltag-element">xsl:iterate</code> it returned times of real 0m2.842s, user
+                        0m6.519s, sys 0m0.494s.</p></td></tr></table></div><p> It is, however, possible to improve the efficiency of the code by taking the
                 admonition in <a class="xref" href="#tennison_2007b">Tennison 2007b</a> literally, that is, by understanding
                 it as <span class="quote">“<span class="quote">iterate <span class="emphasis"><em>rather than recurse</em></span> whenever you
                     can</span>”</span>, rather than, as in our naïve first implementation, <span class="quote">“<span class="quote">iterate
@@ -305,7 +322,7 @@
                     <code class="sgmltag-element">xsl:for-each</code> can be parallelized. Whether it <span class="emphasis"><em>is</em></span>
                 executed in parallel, however, is often unpredictable, since XSLT does not give the
                 programmer explicit control over processes or threads in the same way as other
-                languages (cf. Python’s <code class="code">multiprocessing</code> module). However Saxon EE
+                languages (cf. Python’s <code class="code">multiprocessing</code> module). However, Saxon EE
                 (although not PE or HE) provides a custom <code class="sgmltag-attribute">saxon:threads</code>
                 attribute that allows the developer to specify that an <code class="sgmltag-element">xsl:for-each</code>
                 element should be processed in parallel. The documentation explains that: </p><div class="blockquote"><blockquote class="blockquote"><p>This attribute may be set on the xsl:for-each instruction. The value must
@@ -318,7 +335,8 @@
                         while the overhead of buffering is proportionally higher if the amount of
                         data produced when each item is processed is high. Multi-threading therefore
                         works best when the body of the xsl:for-each instruction performs a large
-                        amount of computation but produces a small amount of output. (<a class="xref" href="#saxon_threads">Saxon saxon:threads</a>)</p></blockquote></div><p>With this in mind, [ADD DETAILS]</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e400"/>Save yourself a trip</h4></div></div></div><p>The construction of the scoring grid for Needleman Wunsch is identical to the
+                        amount of computation but produces a small amount of output. (<a class="xref" href="#saxon_threads">Saxon saxon:threads</a>)</p></blockquote></div><p>With this in mind, we revised our first implementation to follow Tennison’s
+                diagonal method. [ADD DETAILS]</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e411"/>Save yourself a trip</h4></div></div></div><p>The construction of the scoring grid for Needleman Wunsch is identical to the
                     construction of the grid for Levenshtein, but, as was noted above, a key
                     difference in what happens next is that Levenshtein cares only about the value
                     of the lower right cell, and therefore does not need to walk back through the
@@ -328,35 +346,36 @@
                     information about the full path that led to it. We still need to iterate over
                     the path steps and retrieve item values from the sequences to be aligned, but we
                     do not need to perform any arithmetic to retrieve those steps by looking up the
-                    individual cells along the path. This comes at the cost of writing path
-                    information into each cell during the initial construction of the grid, even
-                    though we will ultimately use this information only from the one lower right
-                    cell for the final traversal. But it also means that to construct the eventual
-                    alignment we can traverse a sequence of simple values stored in the last cell,
-                    like a sequence of <span class="quote">“<span class="quote">up</span>”</span>, <span class="quote">“<span class="quote">left</span>”</span>, and
-                        <span class="quote">“<span class="quote">diagonal</span>”</span> strings, instead of performing arithmetic operations
-                    to navigate to cells within the grid and retrieve an individual value from each
-                    of them.</p><p>Our implementation does make one simplifying assumption: we identify only one
+                    individual cells along the path through the grid. Avoiding this backwards trip
+                    through the grid comes at the cost of writing path information into each cell
+                    during the initial construction of the grid, even though we will ultimately use
+                    this information only from the one lower right cell for the final traversal. But
+                    it also means that to construct the eventual alignment we can traverse a
+                    sequence of simple values stored in the last cell, like a sequence of
+                        <span class="quote">“<span class="quote">up</span>”</span>, <span class="quote">“<span class="quote">left</span>”</span>, and <span class="quote">“<span class="quote">diagonal</span>”</span> strings,
+                    instead of performing arithmetic operations to navigate to cells within the grid
+                    and retrieve an individual value from each of them.</p><p>Our implementation does make one simplifying assumption: we identify only one
                     optimal path, even though there may be more than one, since the task that
                     motivated this development required only <span class="emphasis"><em>an</em></span> optimal
-                    alignment, and not all such alignments. We limit ourselves to a single alignment
-                    result by recording only one path to each cell, resolving ties by arbitrarily
-                    favoring diagonal, then left, and only then upper sources. There is, however,
-                    nothing about the method that would prohibit storing multiple paths, and thus
-                    identifying all optimal alignments.</p></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e408"/>Conclusions</h2></div></div></div><p>The code that implements our method is available at <a class="link" href="https://github.com/djbpitt/xstuff/tree/master/nw" target="_top">https://github.com/djbpitt/xstuff/tree/master/nw</a>, and has not been
+                    alignment, and not <span class="emphasis"><em>all</em></span> such alignments. We limit ourselves
+                    to a single alignment result by recording only one path to each cell, resolving
+                    ties by arbitrarily favoring diagonal, then left, and only then upper sources.
+                    There is, however, nothing about the method that would prohibit storing multiple
+                    paths, and thus identifying all optimal alignments.</p></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e420"/>Conclusions</h2></div></div></div><p>The code that implements our method is available at <a class="link" href="https://github.com/djbpitt/xstuff/tree/master/nw" target="_top">https://github.com/djbpitt/xstuff/tree/master/nw</a>, and has not been
             reproduced here. It is densely commented, and thus offers tutorial information about the
             method.</p><p>Tennison concludes her second, improved computation of Levenshtein distance by writing
             that:</p><div class="blockquote"><blockquote class="blockquote"><p>I guess the take-home messages are: (a) try to iterate rather than recurse
                     whenever you can and (b) don’t blindly adapt algorithms designed for procedural
-                    programming languages to XSLT. [<a class="xref" href="#tennison_2007b">Tennison 2007b</a>]</p></blockquote></div><p>The XSLT 3.0 <code class="sgmltag-element">xsl:iterate</code> element provides a method to iterate reliably that
-            was not available to Tennison in 2007. Beyond that, the implementation above extends
-            Tennison’s XSLT-idiomatic implementation of a Levenshtein distance algorithm to the
-            closely related domain of Needleman Wunsch sequence alignment, with attention to the
-            additional step of traversing the optimal path to construct the actual alignment.
-            Finally, the present report also emphasizes that although <code class="sgmltag-element">xsl:iterate</code> can be
-            used for any repetitive operation, the use of <code class="sgmltag-element">xsl:for-each</code> where it is
-            appropriate, especially when combined with the Saxon EE <code class="sgmltag-attribute">saxon:threads</code> attribute, enables parallel execution that would not be
-            available with <code class="sgmltag-element">xsl:iterate</code>.</p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e423"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
+                    programming languages to XSLT. [<a class="xref" href="#tennison_2007b">Tennison 2007b</a>]</p></blockquote></div><p>The XSLT 3.0 <code class="sgmltag-element">xsl:iterate</code> element provides a robust method to iterate
+            reliably that was not available to Tennison in 2007. Beyond that, the implementation
+            above extends Tennison’s XSLT-idiomatic implementation of a Levenshtein distance
+            algorithm to the closely related domain of Needleman Wunsch sequence alignment, with
+            attention to the additional step of traversing the optimal path to construct the actual
+            alignment. Finally, the present report also emphasizes that although
+                <code class="sgmltag-element">xsl:iterate</code> can be used for any repetitive operation, the use of
+                <code class="sgmltag-element">xsl:for-each</code> where it is appropriate, especially when combined with the
+            Saxon EE <code class="sgmltag-attribute">saxon:threads</code> attribute, enables parallel
+            execution that would not be available with <code class="sgmltag-element">xsl:iterate</code>.</p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e435"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
                 <span class="quote">“<span class="quote">On the theory of dynamic programming.</span>”</span>
             <span class="citetitle"><em class="citetitle">Proceedings of the National Academy of Sciences</em></span> 38(8):716–19.
                 <a class="link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/" target="_top">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/</a></p></div><div class="bibliomixed"><a id="bellman_1954"/><p class="bibliomixed">[Bellman 1954] Bellman, Richard E. <span class="quote">“<span class="quote">The
