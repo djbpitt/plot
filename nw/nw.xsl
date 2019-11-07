@@ -38,11 +38,11 @@
             }'/>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- Darwin texts can be used to test word-level alignment      -->
+    <!-- Darwin and Woolfe texts can be used for word alignment     -->
     <!-- darwin_1859_part and darwin_1872_part are first paragraphs -->
     <!-- darwin_1859 and darwin_1872 are entire first chapters .    -->
     <!--                                                            -->
-    <!-- Full chapters don’t scale!                                  -->
+    <!-- Full chapters don’t scale!                                 -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:variable name="darwin_1859_part" as="xs:string">WHEN we look to the individuals of the same
         variety or sub-variety of our older cultivated plants and animals, one of the first points
@@ -1634,7 +1634,36 @@
         Over all these causes of Change, the accumulative action of Selection, whether applied
         methodically and quickly, or unconsciously and slowly but more efficiently, seems to have
         been the predominant Power. </xsl:variable>
-
+    <xsl:variable name="woolf_uk" as="xs:string">When she looked in the glass and saw her hair grey,
+        her cheek sunk, at fifty, she thought, possibly she might have managed things better—her
+        husband; money; his books. But for her own part she would never for a single second regret
+        her decision, evade difficulties, or slur over duties. She was now formidable to behold, and
+        it was only in silence, looking up from their plates, after she had spoken so severely about
+        Charles Tansley, that her daughters—Prue, Nancy, Rose—could sport with infidel ideas which
+        they had brewed for themselves of a life different from hers; in Paris, perhaps; a wilder
+        life; not always taking care of some man or other; for there was in all their minds a mute
+        questioning of deference and chivalry, of the Bank of England and the Indian Empire, of
+        ringed fingers and lace, though to them all there was something in this of the essence of
+        beauty, which called out the manliness in their girlish hearts, and made them, as they sat
+        at table beneath their mother’s eyes, honour her strange severity, her extreme courtesy,
+        like a Queen’s raising from the mud a beggar’s dirty foot and washing, when she thus
+        admonished them so very severely about that wretched atheist who had chased them—or,
+        speaking accurately, been invited to stay with them—in the Isle of Skye.</xsl:variable>
+    <xsl:variable name="woolf_us" as="xs:string">When she looked in the glass and saw her hair grey,
+        her cheek sunk, at fifty, she thought, possibly she might have managed things better—her
+        husband; money; his books. But for her own part she would never for a single second regret
+        her decision, evade difficulties, or slur over duties. She was now formidable to behold, and
+        it was only in silence, looking up from their plates, after she had spoken so severely about
+        Charles Tansley, that her daughters, Prue, Nancy, Rose—could sport with infidel ideas which
+        they had brewed for themselves of a life different from hers; in Paris, perhaps; a wilder
+        life; not always taking care of some man or other; for there was in all their minds a mute
+        questioning of deference and chivalry, of the Bank of England and the Indian Empire, of
+        ringed fingers and lace, though to them all there was something in this of the essence of
+        beauty, which called out the manliness in their girlish hearts, and made them, as they sat
+        at table beneath their mother’s eyes, honour her strange severity, her extreme courtesy,
+        like a Queen’s raising from the mud to wash a beggar’s dirty foot, when she thus admonished
+        them so very severely about that wretched atheist who had chased them—or, speaking
+        accurately, been invited to stay with them—in the Isles of Skye.</xsl:variable>
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- scoring (may be altered):                              -->
     <!--   match    =  1                                        -->
@@ -1891,10 +1920,13 @@
     <!-- main                                                       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template name="xsl:initial-template">
-        <xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
-        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>
-        <!--<xsl:variable name="s1" as="xs:string+" select="'koala'"/>
-        <xsl:variable name="s2" as="xs:string+" select="'cola'"/>-->
+        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($woolf_us, '\s+')"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($woolf_uk, '\s+')"/>-->
+        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>-->
+            <xsl:variable name="s1" as="xs:string+" select="'koala'"/>
+            <xsl:variable name="s2" as="xs:string+" select="'cola'"/>
+        
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- if both inputs are single words, align by character    -->
         <!--   otherwise align by word                              -->
@@ -1931,7 +1963,7 @@
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
-                <title>Needleman Wunsch test</title>
+                <title>Needleman Wunsch in XSLT 3.0</title>
                 <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
                 <style type="text/css">
                     #grid th,
@@ -1977,7 +2009,7 @@
                     }</style>
             </head>
             <body>
-                <h1>Needleman Wunsch test</h1>
+                <h1>Needleman Wunsch in XSLT 3.0</h1>
                 <section id="top">
                     <section id="metadata">
                         <xsl:variable name="scale" as="xs:string"
@@ -1997,10 +2029,10 @@
                             <xsl:value-of
                                 select="
                                     if ($scale eq 'character') then
-                                        string-length($s1)
+                                        string-length($s1[1])
                                     else
                                         count($s1)"/>
-                            <xsl:value-of select="')'"/>
+                            <xsl:value-of select="' ' || $scale || 's)'"/>
                         </p>
                         <p class="input">
                             <strong>Left input: </strong>
@@ -2008,14 +2040,19 @@
                             <xsl:value-of
                                 select="
                                     if ($scale eq 'character') then
-                                        string-length($s2)
+                                        string-length($s2[1])
                                     else
                                         count($s2)"/>
-                            <xsl:value-of select="')'"/>
+                            <xsl:value-of select="' ' || $scale || 's)'"/>
                         </p>
                         <p>
                             <strong>Generated: </strong>
                             <xsl:value-of select="current-dateTime()"/>
+                        </p>
+                        <p>
+                            <strong>Code: </strong>
+                            <a href="https://github.com/djbpitt/xstuff/tree/master/nw"
+                                >https://github.com/djbpitt/xstuff/tree/master/nw</a>
                         </p>
                     </section>
                     <section id="schematic">
@@ -2083,7 +2120,7 @@
     <!-- templates for SVG map (mode: schematic)                    -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:template match="table" mode="schematic">
-        <xsl:variable name="scale" as="xs:integer" select="2"/>
+        <xsl:variable name="scale" as="xs:double" select="2"/>
         <svg xmlns="http://www.w3.org/2000/svg" height="{count(row) * $scale}"
             width="{count(row[1]/cell) * $scale}">
             <g transform="scale(2)">
