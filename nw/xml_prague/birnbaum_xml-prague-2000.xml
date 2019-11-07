@@ -545,27 +545,15 @@
                             the left). If the step is up, align an item from the sequence at the
                             left with a gap. In case of ties, the choices are all optimal and can be
                             pursued as alternatives. In the present case, this process produces the
-                            following single optimal alignment: <table>
-                                <title>Alignment example</title>
-                                <tgroup cols="5">
-                                    <tbody>
-                                        <row>
-                                            <entry>k</entry>
-                                            <entry>o</entry>
-                                            <entry>a</entry>
-                                            <entry>l</entry>
-                                            <entry>a</entry>
-                                        </row>
-                                        <row>
-                                            <entry>c</entry>
-                                            <entry>o</entry>
-                                            <entry/>
-                                            <entry>l</entry>
-                                            <entry>a</entry>
-                                        </row>
-                                    </tbody>
-                                </tgroup>
-                            </table></para>
+                            following single optimal alignment: <figure>
+                                <title>Alignment table</title>
+                                <mediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="images/completed_alignment.png"
+                                            format="PNG"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </figure></para>
                     </listitem>
                 </orderedlist></para>
         </section>
@@ -668,7 +656,7 @@
                         parallelized because the computation of each cell must wait for the
                         completion of the computation of preceding cells. The iterative
                         implementation will not overflow the stack, but the time it requires to run
-                        to completion is not realistic for any real-world application.</para>
+                        to completion nonetheless grows quadratically.</para>
                     <para>A possibly perverse attempt to align a sequence of 11130 items against a
                         sequence of 12392 items using Saxon-HE 9.9.1.4J with default settings on
                         6-core machine with 32G of RAM crashed after several hours with a Java
@@ -682,9 +670,9 @@
                 admonition in <xref linkend="tennison_2007b"/> literally, that is, by understanding
                 it as <quote>iterate <emphasis>rather than recurse</emphasis> whenever you
                     can</quote>, rather than, as in our naïve first implementation, <quote>iterate
-                        <emphasis>whenever</emphasis> you can</quote>. In other words, we should use
-                iteration where recursion would have been required in XSLT 2.0, but not as a
-                replacement for <tag>xsl:for-each</tag>, which we should retain where
+                        <emphasis>absolutely whenever</emphasis> you can</quote>. In other words,
+                we should use iteration where recursion would have been required in XSLT 2.0, but
+                not as a replacement for <tag>xsl:for-each</tag>, which we should retain where
                 appropriate.</para>
             <para>In the Needleman Wunsch (and also Levenshtein) context, as <xref
                     linkend="wang_2002"/> and <xref linkend="naveed_2005"/> point out, all values on

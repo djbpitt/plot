@@ -7,7 +7,7 @@
                 alignment. Because this dynamic programming algorithm requires the updating of
                 variables, it has posed challenges for functional programming paradigms like the one
                 underlying XSLT. The present report explores these challenges and provides an
-                implementation of the Needleman Wunsch algorithm in XSLT 3.0.</p></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#d5e23">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e25">Why sequence aligment matters</a></span></dt><dt><span class="section"><a href="#d5e35">Biological and textual alignment</a></span></dt><dt><span class="section"><a href="#d5e45">Global pairwise alignment</a></span></dt><dt><span class="section"><a href="#d5e66">Overview of this report</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e84">About sequence alignment</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e86">Alignments and scoring</a></span></dt><dt><span class="section"><a href="#d5e141">Sequence alignment algorithms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e149">Dynamic programming and the Needleman Wunsch algorithm</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e151">Dynamic programming</a></span></dt><dt><span class="section"><a href="#d5e162">The Needleman Wunsch algorithm</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e337">The challenges of dynamic programming and XSLT</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e349">Why recursion breaks</a></span></dt><dt><span class="section"><a href="#d5e364">Iteration to the rescue</a></span></dt><dt><span class="section"><a href="#d5e374">Processing the diagonal</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e420">Conclusions</a></span></dt><dt><span class="bibliography"><a href="#d5e435">Works cited</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e23"/>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e25"/>Why sequence aligment matters</h3></div></div></div><p>Sequence alignment is a way of identifying and modeling similarities and
+                implementation of the Needleman Wunsch algorithm in XSLT 3.0.</p></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#d5e23">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e25">Why sequence aligment matters</a></span></dt><dt><span class="section"><a href="#d5e35">Biological and textual alignment</a></span></dt><dt><span class="section"><a href="#d5e45">Global pairwise alignment</a></span></dt><dt><span class="section"><a href="#d5e66">Overview of this report</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e84">About sequence alignment</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e86">Alignments and scoring</a></span></dt><dt><span class="section"><a href="#d5e141">Sequence alignment algorithms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e149">Dynamic programming and the Needleman Wunsch algorithm</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e151">Dynamic programming</a></span></dt><dt><span class="section"><a href="#d5e162">The Needleman Wunsch algorithm</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e326">The challenges of dynamic programming and XSLT</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e338">Why recursion breaks</a></span></dt><dt><span class="section"><a href="#d5e353">Iteration to the rescue</a></span></dt><dt><span class="section"><a href="#d5e363">Processing the diagonal</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e409">Conclusions</a></span></dt><dt><span class="bibliography"><a href="#d5e424">Works cited</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e23"/>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e25"/>Why sequence aligment matters</h3></div></div></div><p>Sequence alignment is a way of identifying and modeling similarities and
                 differences in sequences of items, and has proven insightful and productive in both
                 the natural sciences (especially in biology and medicine, where it is applied to
                 genetic sequences) and the humanities (especially in text-critical scholarship,
@@ -225,7 +225,7 @@
                             the left). If the step is up, align an item from the sequence at the
                             left with a gap. In case of ties, the choices are all optimal and can be
                             pursued as alternatives. In the present case, this process produces the
-                            following single optimal alignment: </p><div class="table"><a id="d5e321"/><p class="title"><strong>Table 4. Alignment example</strong></p><div class="table-contents"><table class="table" summary="Alignment example" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><td>k</td><td>o</td><td>a</td><td>l</td><td>a</td></tr><tr><td>c</td><td>o</td><td> </td><td>l</td><td>a</td></tr></tbody></table></div></div><p><br class="table-break"/></p></li></ol></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e337"/>The challenges of dynamic programming and XSLT</h2></div></div></div><p>XSLT, at least before version 3.0, plays poorly with dynamic programming because each
+                            following single optimal alignment: </p><div class="figure"><a id="d5e321"/><p class="title"><strong>Figure 2. Alignment table</strong></p><div class="figure-contents"><div class="mediaobject"><img src="../../images/completed_alignment.png" alt="Alignment table"/></div></div></div><p><br class="figure-break"/></p></li></ol></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e326"/>The challenges of dynamic programming and XSLT</h2></div></div></div><p>XSLT, at least before version 3.0, plays poorly with dynamic programming because each
             step in a dynamic programming algorithm depends on a value calculated at the preceding
             step. Functional programming of the sort supported by XSLT <code class="sgmltag-element">xsl:for-each</code> does
             not have access to these incremental values; if we try to run <code class="sgmltag-element">xsl:for-each</code>
@@ -241,7 +241,7 @@
             constructing the grid, the algorithms for Levenshtein and Needleman Wunsch are the same.
             The principal difference is that Levenshtein cares only about the value of the lower
             right cell, and therefore does not require the traceback steps the Needleman Wunsch uses
-            to perform the actual alignment.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e349"/>Why recursion breaks</h3></div></div></div><p>The traditional way to mimic updating a variable in XSLT is with recursion,
+            to perform the actual alignment.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e338"/>Why recursion breaks</h3></div></div></div><p>The traditional way to mimic updating a variable in XSLT is with recursion,
                 passing the updated value into each recursive call. The challenge to this approach
                 is that deep recursion can consume enough memory to overflow the available stack
                 space and crash the operation. XSLT processors can work around this limitation with
@@ -273,7 +273,7 @@
                 implementation <span class="quote">“<span class="quote">on the diagonal</span>”</span> was pointed out first by <a class="xref" href="#wang_2002">Wang 2002</a> (8), and then by <a class="xref" href="#naveed_2005">Naveed et al, 2005</a> (3–4), but
                 although Wang first reported that items on the diagonal could be processed in
                 parallel, it was Tennison who recognized that this observation could also be used to
-                reduce the depth of recursion in XSLT.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e364"/>Iteration to the rescue</h3></div></div></div><p>Tennison’s diagonal implementation reduced the depth of recursion, but because the
+                reduce the depth of recursion in XSLT.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e353"/>Iteration to the rescue</h3></div></div></div><p>Tennison’s diagonal implementation reduced the depth of recursion, but because the
                 values in each diagonal continued to depend on the values in the immediately
                 preceding diagonal, it nonetheless required recursion on each new diagonal. The
                 reduction in the depth of recursion scaled impressively; for example, with two
@@ -289,7 +289,7 @@
                 that was available to Tennison in 2007, in place of the recursion that she was
                 forced to retain thus observes her wise recommendation to <span class="quote">“<span class="quote">try to iterate
                     rather than recurse whenever you can</span>”</span> (<a class="xref" href="#tennison_2007b">Tennison 2007b</a>).
-            </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e374"/>Processing the diagonal</h3></div></div></div><p>The XSLT 3.0 <code class="sgmltag-element">xsl:iterate</code> element can be used for any repetitive
+            </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e363"/>Processing the diagonal</h3></div></div></div><p>The XSLT 3.0 <code class="sgmltag-element">xsl:iterate</code> element can be used for any repetitive
                 operation, and our first XSLT 3.0 implementation of Needleman Wunsch resembled
                 Tennison’s first (non-diagonal) Levenshtein implementation, in <a class="xref" href="#tennison_2007a">Tennison 2007a</a>, except that we used <code class="sgmltag-element">xsl:iterate</code> where she
                 used recursion, that is, to process every cell. Because <code class="sgmltag-element">xsl:iterate</code> is
@@ -301,7 +301,7 @@
                         parallelized because the computation of each cell must wait for the
                         completion of the computation of preceding cells. The iterative
                         implementation will not overflow the stack, but the time it requires to run
-                        to completion is not realistic for any real-world application.</p><p>A possibly perverse attempt to align a sequence of 11130 items against a
+                        to completion nonetheless grows quadratically.</p><p>A possibly perverse attempt to align a sequence of 11130 items against a
                         sequence of 12392 items using Saxon-HE 9.9.1.4J with default settings on
                         6-core machine with 32G of RAM crashed after several hours with a Java
                             <span class="quote">“<span class="quote">GC overhead limit exceeded</span>”</span> error. Aligning a sequence of
@@ -313,9 +313,9 @@
                 admonition in <a class="xref" href="#tennison_2007b">Tennison 2007b</a> literally, that is, by understanding
                 it as <span class="quote">“<span class="quote">iterate <span class="emphasis"><em>rather than recurse</em></span> whenever you
                     can</span>”</span>, rather than, as in our naïve first implementation, <span class="quote">“<span class="quote">iterate
-                        <span class="emphasis"><em>whenever</em></span> you can</span>”</span>. In other words, we should use
-                iteration where recursion would have been required in XSLT 2.0, but not as a
-                replacement for <code class="sgmltag-element">xsl:for-each</code>, which we should retain where
+                        <span class="emphasis"><em>absolutely whenever</em></span> you can</span>”</span>. In other words,
+                we should use iteration where recursion would have been required in XSLT 2.0, but
+                not as a replacement for <code class="sgmltag-element">xsl:for-each</code>, which we should retain where
                 appropriate.</p><p>In the Needleman Wunsch (and also Levenshtein) context, as <a class="xref" href="#wang_2002">Wang 2002</a> and <a class="xref" href="#naveed_2005">Naveed et al, 2005</a> point out, all values on
                 the same diagonal can be calculated in parallel, and Tennison’s use of
                     <code class="sgmltag-element">xsl:for-each</code> in her improved code, in <a class="xref" href="#tennison_2007b">Tennison 2007b</a>, to process the diagonal is compatible with this observation because
@@ -336,7 +336,7 @@
                         data produced when each item is processed is high. Multi-threading therefore
                         works best when the body of the xsl:for-each instruction performs a large
                         amount of computation but produces a small amount of output. (<a class="xref" href="#saxon_threads">Saxon saxon:threads</a>)</p></blockquote></div><p>With this in mind, we revised our first implementation to follow Tennison’s
-                diagonal method. [ADD DETAILS]</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e411"/>Save yourself a trip</h4></div></div></div><p>The construction of the scoring grid for Needleman Wunsch is identical to the
+                diagonal method. [ADD DETAILS]</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="d5e400"/>Save yourself a trip</h4></div></div></div><p>The construction of the scoring grid for Needleman Wunsch is identical to the
                     construction of the grid for Levenshtein, but, as was noted above, a key
                     difference in what happens next is that Levenshtein cares only about the value
                     of the lower right cell, and therefore does not need to walk back through the
@@ -361,7 +361,7 @@
                     to a single alignment result by recording only one path to each cell, resolving
                     ties by arbitrarily favoring diagonal, then left, and only then upper sources.
                     There is, however, nothing about the method that would prohibit storing multiple
-                    paths, and thus identifying all optimal alignments.</p></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e420"/>Conclusions</h2></div></div></div><p>The code that implements our method is available at <a class="link" href="https://github.com/djbpitt/xstuff/tree/master/nw" target="_top">https://github.com/djbpitt/xstuff/tree/master/nw</a>, and has not been
+                    paths, and thus identifying all optimal alignments.</p></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e409"/>Conclusions</h2></div></div></div><p>The code that implements our method is available at <a class="link" href="https://github.com/djbpitt/xstuff/tree/master/nw" target="_top">https://github.com/djbpitt/xstuff/tree/master/nw</a>, and has not been
             reproduced here. It is densely commented, and thus offers tutorial information about the
             method.</p><p>Tennison concludes her second, improved computation of Levenshtein distance by writing
             that:</p><div class="blockquote"><blockquote class="blockquote"><p>I guess the take-home messages are: (a) try to iterate rather than recurse
@@ -375,7 +375,7 @@
                 <code class="sgmltag-element">xsl:iterate</code> can be used for any repetitive operation, the use of
                 <code class="sgmltag-element">xsl:for-each</code> where it is appropriate, especially when combined with the
             Saxon EE <code class="sgmltag-attribute">saxon:threads</code> attribute, enables parallel
-            execution that would not be available with <code class="sgmltag-element">xsl:iterate</code>.</p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e435"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
+            execution that would not be available with <code class="sgmltag-element">xsl:iterate</code>.</p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e424"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
                 <span class="quote">“<span class="quote">On the theory of dynamic programming.</span>”</span>
             <span class="citetitle"><em class="citetitle">Proceedings of the National Academy of Sciences</em></span> 38(8):716–19.
                 <a class="link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/" target="_top">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/</a></p></div><div class="bibliomixed"><a id="bellman_1954"/><p class="bibliomixed">[Bellman 1954] Bellman, Richard E. <span class="quote">“<span class="quote">The
