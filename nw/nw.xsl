@@ -1922,10 +1922,10 @@
     <xsl:template name="xsl:initial-template">
         <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($woolf_us, '\s+')"/>
         <xsl:variable name="s2" as="xs:string+" select="tokenize($woolf_uk, '\s+')"/>-->
-        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
-        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>-->
-            <xsl:variable name="s1" as="xs:string+" select="'koala'"/>
-            <xsl:variable name="s2" as="xs:string+" select="'cola'"/>
+        <xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>
+            <!--<xsl:variable name="s1" as="xs:string+" select="'koala'"/>
+            <xsl:variable name="s2" as="xs:string+" select="'cola'"/>-->
         
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- if both inputs are single words, align by character    -->
@@ -2029,7 +2029,7 @@
                             <xsl:value-of
                                 select="
                                     if ($scale eq 'character') then
-                                        string-length($s1[1])
+                                        string-length(exactly-one($s1))
                                     else
                                         count($s1)"/>
                             <xsl:value-of select="' ' || $scale || 's)'"/>
@@ -2040,7 +2040,7 @@
                             <xsl:value-of
                                 select="
                                     if ($scale eq 'character') then
-                                        string-length($s2[1])
+                                        string-length(exactly-one($s2))
                                     else
                                         count($s2)"/>
                             <xsl:value-of select="' ' || $scale || 's)'"/>
