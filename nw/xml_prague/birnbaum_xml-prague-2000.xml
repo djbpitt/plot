@@ -792,7 +792,8 @@
             Corporation. <link xl:href="http://smo.sogang.ac.kr/doc/bellman.pdf"/></bibliomixed>
         <bibliomixed xml:id="boes_2014" xreflabel="Boes 2014">Boes, Olivier. 2014. <quote>Improving
                 the Needleman-Wunsch algorithm with the DynaMine predictor.</quote> Master in
-            Bioinformatics thesis, Université lire de Bruxelles.</bibliomixed>
+            Bioinformatics thesis, Université lire de Bruxelles. <link xl:href="t.ly/rzxZZ"
+            /></bibliomixed>
         <bibliomixed xml:id="collatex" xreflabel="CollateX">CollateX—software for collating textual
             sources. <link xl:href="https://collatex.net/"/></bibliomixed>
         <bibliomixed xml:id="fv_reader" xreflabel="Frankenstein variorum reader"><quote>Mary
@@ -810,7 +811,9 @@
                 xl:href="https://collatex.net/doc/#gothenburg-model"/></bibliomixed>
         <bibliomixed xml:id="gotoh_1982" xreflabel="Gotoh 1982">Gotoh, Osamu. 1982. <quote>An
                 improved algorithm for matching biological sequences.</quote>
-            <citetitle>Journal of molecular biology</citetitle> 162(3):705–08.</bibliomixed>
+            <citetitle>Journal of molecular biology</citetitle> 162(3):705–08. <link
+                xl:href="http://www.genome.ist.i.kyoto-u.ac.jp/~aln_user/archive/JMB82.pdf"
+            /></bibliomixed>
         <bibliomixed xml:id="intertextual_dante" xreflabel="Intertextual Dante">
             <quote>Intertextual Dante.</quote>
             <link xl:href="https://digitaldante.columbia.edu/intertexual-dante-vanpeteghem/"/>
@@ -855,7 +858,9 @@
             <citetitle>SIAM journal on applied mathematics</citetitle> 26(4):787–93.</bibliomixed>
         <bibliomixed xml:id="smith_1981" xreflabel="Smith et al. 1981">Smith, Temple F., Michael S.
             Waterman, and Walter M. Fitch. 1981. <quote>Comparative biosequence metrics.</quote>
-            <citetitle>Journal of molecular evolution</citetitle>, 18(1):38–46.</bibliomixed>
+            <citetitle>Journal of molecular evolution</citetitle>, 18(1):38–46. <link
+                xl:href="https://www.researchgate.net/publication/15863628_Comparative_biosequence_metrics"
+            /></bibliomixed>
         <bibliomixed xml:id="tennison_2007a" xreflabel="Tennison 2007a">Tennison, Jeni. 2007.
                 <quote>Levenshtein distance in XSLT 2.0.</quote> Posted to <citetitle>Jeni’s
                 musings</citetitle>, 2007-05-03. <link
