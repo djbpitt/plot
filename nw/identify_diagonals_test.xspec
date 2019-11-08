@@ -3,16 +3,191 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" stylesheet="identify_diagonals_test.xsl">
     <x:scenario label="Scenario for testing function get_diag">
         <x:call function="djb:get_diag">
-            <x:param name="cell"><cell row="3" col="2"/></x:param>
+            <x:param name="in"><cell row="3" col="2"/></x:param>
         </x:call>
         <x:expect label="Sample cell">
             <cell row="3" col="2" diag="4"/>
         </x:expect>
     </x:scenario>
-    
-    <x:scenario label="Scenario for testing function initial-template">
-        <x:call template="xsl:initial-template"/>
-        <x:expect label="5 rows, 6 columns (default)">
+
+    <x:scenario label="Scenario for testing function process_cells with square matrix">
+        <x:call function="djb:process_cells">
+            <x:param name="in">
+                <cell row="1" col="1"/>
+                <cell row="1" col="2"/>
+                <cell row="1" col="3"/>
+                <cell row="2" col="1"/>
+                <cell row="2" col="2"/>
+                <cell row="2" col="3"/>
+                <cell row="3" col="1"/>
+                <cell row="3" col="2"/>
+                <cell row="3" col="3"/>
+            </x:param>
+        </x:call>
+        <x:expect label="3 x 3 matrix">
+            <cell row="1" col="1" diag="1"/>
+            <cell row="1" col="2" diag="2"/>
+            <cell row="1" col="3" diag="3"/>
+            <cell row="2" col="1" diag="2"/>
+            <cell row="2" col="2" diag="3"/>
+            <cell row="2" col="3" diag="4"/>
+            <cell row="3" col="1" diag="3"/>
+            <cell row="3" col="2" diag="4"/>
+            <cell row="3" col="3" diag="5"/>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function process_cells with more rows than columns">
+        <x:call function="djb:process_cells">
+            <x:param name="in">
+                <cell row="1" col="1"/>
+                <cell row="1" col="2"/>
+                <cell row="1" col="3"/>
+                <cell row="1" col="4"/>
+                <cell row="2" col="1"/>
+                <cell row="2" col="2"/>
+                <cell row="2" col="3"/>
+                <cell row="2" col="4"/>
+                <cell row="3" col="1"/>
+                <cell row="3" col="2"/>
+                <cell row="3" col="3"/>
+                <cell row="3" col="4"/>
+            </x:param>
+        </x:call>
+        <x:expect label="3 x 4 matrix">
+            <cell row="1" col="1" diag="1"/>
+            <cell row="1" col="2" diag="2"/>
+            <cell row="1" col="3" diag="3"/>
+            <cell row="1" col="4" diag="4"/>
+            <cell row="2" col="1" diag="2"/>
+            <cell row="2" col="2" diag="3"/>
+            <cell row="2" col="3" diag="4"/>
+            <cell row="2" col="4" diag="5"/>
+            <cell row="3" col="1" diag="3"/>
+            <cell row="3" col="2" diag="4"/>
+            <cell row="3" col="3" diag="5"/>
+            <cell row="3" col="4" diag="6"/>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function process_cells with more columns than rows">
+        <x:call function="djb:process_cells">
+            <x:param name="in">
+                <cell row="1" col="1"/>
+                <cell row="1" col="2"/>
+                <cell row="1" col="3"/>
+                <cell row="2" col="1"/>
+                <cell row="2" col="2"/>
+                <cell row="2" col="3"/>
+                <cell row="3" col="1"/>
+                <cell row="3" col="2"/>
+                <cell row="3" col="3"/>
+                <cell row="4" col="1"/>
+                <cell row="4" col="2"/>
+                <cell row="4" col="3"/>
+            </x:param>
+        </x:call>
+        <x:expect label="4 x 3 matrix">
+            <cell row="1" col="1" diag="1"/>
+            <cell row="1" col="2" diag="2"/>
+            <cell row="1" col="3" diag="3"/>
+            <cell row="2" col="1" diag="2"/>
+            <cell row="2" col="2" diag="3"/>
+            <cell row="2" col="3" diag="4"/>
+            <cell row="3" col="1" diag="3"/>
+            <cell row="3" col="2" diag="4"/>
+            <cell row="3" col="3" diag="5"/>
+            <cell row="4" col="1" diag="4"/>
+            <cell row="4" col="2" diag="5"/>
+            <cell row="4" col="3" diag="6"/>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function group_by_diag with more rows than columns">
+        <x:call function="djb:group_by_diag">
+            <x:param name="in">
+                <cell row="1" col="1" diag="1"/>
+                <cell row="1" col="2" diag="2"/>
+                <cell row="1" col="3" diag="3"/>
+                <cell row="1" col="4" diag="4"/>
+                <cell row="1" col="5" diag="5"/>
+                <cell row="2" col="1" diag="2"/>
+                <cell row="2" col="2" diag="3"/>
+                <cell row="2" col="3" diag="4"/>
+                <cell row="2" col="4" diag="5"/>
+                <cell row="2" col="5" diag="6"/>
+                <cell row="3" col="1" diag="3"/>
+                <cell row="3" col="2" diag="4"/>
+                <cell row="3" col="3" diag="5"/>
+                <cell row="3" col="4" diag="6"/>
+                <cell row="3" col="5" diag="7"/>
+                <cell row="4" col="1" diag="4"/>
+                <cell row="4" col="2" diag="5"/>
+                <cell row="4" col="3" diag="6"/>
+                <cell row="4" col="4" diag="7"/>
+                <cell row="4" col="5" diag="8"/>
+                <cell row="5" col="1" diag="5"/>
+                <cell row="5" col="2" diag="6"/>
+                <cell row="5" col="3" diag="7"/>
+                <cell row="5" col="4" diag="8"/>
+                <cell row="5" col="5" diag="9"/>
+                <cell row="6" col="1" diag="6"/>
+                <cell row="6" col="2" diag="7"/>
+                <cell row="6" col="3" diag="8"/>
+                <cell row="6" col="4" diag="9"/>
+                <cell row="6" col="5" diag="10"/>
+            </x:param>
+        </x:call>
+        <x:expect label="6 x 5 matrix has 10 diagonals">
+            <diag diag_no="1">[1,1]</diag>
+            <diag diag_no="2">[1,2] [2,1]</diag>
+            <diag diag_no="3">[1,3] [2,2] [3,1]</diag>
+            <diag diag_no="4">[1,4] [2,3] [3,2] [4,1]</diag>
+            <diag diag_no="5">[1,5] [2,4] [3,3] [4,2] [5,1]</diag>
+            <diag diag_no="6">[2,5] [3,4] [4,3] [5,2] [6,1]</diag>
+            <diag diag_no="7">[3,5] [4,4] [5,3] [6,2]</diag>
+            <diag diag_no="8">[4,5] [5,4] [6,3]</diag>
+            <diag diag_no="9">[5,5] [6,4]</diag>
+            <diag diag_no="10">[6,5]</diag>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function group_by_diag with more columns than rows">
+        <x:call function="djb:group_by_diag">
+            <x:param name="in">
+                <cell row="1" col="1" diag="1"/>
+                <cell row="1" col="2" diag="2"/>
+                <cell row="1" col="3" diag="3"/>
+                <cell row="1" col="4" diag="4"/>
+                <cell row="1" col="5" diag="5"/>
+                <cell row="1" col="6" diag="6"/>
+                <cell row="2" col="1" diag="2"/>
+                <cell row="2" col="2" diag="3"/>
+                <cell row="2" col="3" diag="4"/>
+                <cell row="2" col="4" diag="5"/>
+                <cell row="2" col="5" diag="6"/>
+                <cell row="2" col="6" diag="7"/>
+                <cell row="3" col="1" diag="3"/>
+                <cell row="3" col="2" diag="4"/>
+                <cell row="3" col="3" diag="5"/>
+                <cell row="3" col="4" diag="6"/>
+                <cell row="3" col="5" diag="7"/>
+                <cell row="3" col="6" diag="8"/>
+                <cell row="4" col="1" diag="4"/>
+                <cell row="4" col="2" diag="5"/>
+                <cell row="4" col="3" diag="6"/>
+                <cell row="4" col="4" diag="7"/>
+                <cell row="4" col="5" diag="8"/>
+                <cell row="4" col="6" diag="9"/>
+                <cell row="5" col="1" diag="5"/>
+                <cell row="5" col="2" diag="6"/>
+                <cell row="5" col="3" diag="7"/>
+                <cell row="5" col="4" diag="8"/>
+                <cell row="5" col="5" diag="9"/>
+                <cell row="5" col="6" diag="10"/>
+            </x:param>
+        </x:call>
+        <x:expect label="5 x 6 matrix has 10 diagonals">
             <diag diag_no="1">[1,1]</diag>
             <diag diag_no="2">[1,2] [2,1]</diag>
             <diag diag_no="3">[1,3] [2,2] [3,1]</diag>
@@ -24,7 +199,49 @@
             <diag diag_no="9">[4,6] [5,5]</diag>
             <diag diag_no="10">[5,6]</diag>
         </x:expect>
-    </x:scenario>s
-    
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function group_by_diag with square matrix">
+        <x:call function="djb:group_by_diag">
+            <x:param name="in">
+                <cell row="1" col="1" diag="1"/>
+                <cell row="1" col="2" diag="2"/>
+                <cell row="1" col="3" diag="3"/>
+                <cell row="1" col="4" diag="4"/>
+                <cell row="1" col="5" diag="5"/>
+                <cell row="2" col="1" diag="2"/>
+                <cell row="2" col="2" diag="3"/>
+                <cell row="2" col="3" diag="4"/>
+                <cell row="2" col="4" diag="5"/>
+                <cell row="2" col="5" diag="6"/>
+                <cell row="3" col="1" diag="3"/>
+                <cell row="3" col="2" diag="4"/>
+                <cell row="3" col="3" diag="5"/>
+                <cell row="3" col="4" diag="6"/>
+                <cell row="3" col="5" diag="7"/>
+                <cell row="4" col="1" diag="4"/>
+                <cell row="4" col="2" diag="5"/>
+                <cell row="4" col="3" diag="6"/>
+                <cell row="4" col="4" diag="7"/>
+                <cell row="4" col="5" diag="8"/>
+                <cell row="5" col="1" diag="5"/>
+                <cell row="5" col="2" diag="6"/>
+                <cell row="5" col="3" diag="7"/>
+                <cell row="5" col="4" diag="8"/>
+                <cell row="5" col="5" diag="9"/>
+            </x:param>
+        </x:call>
+        <x:expect label="5 x 5 matrix has 10 diagonals">
+            <diag diag_no="1">[1,1]</diag>
+            <diag diag_no="2">[1,2] [2,1]</diag>
+            <diag diag_no="3">[1,3] [2,2] [3,1]</diag>
+            <diag diag_no="4">[1,4] [2,3] [3,2] [4,1]</diag>
+            <diag diag_no="5">[1,5] [2,4] [3,3] [4,2] [5,1]</diag>
+            <diag diag_no="6">[2,5] [3,4] [4,3] [5,2]</diag>
+            <diag diag_no="7">[3,5] [4,4] [5,3]</diag>
+            <diag diag_no="8">[4,5] [5,4]</diag>
+            <diag diag_no="9">[5,5]</diag>
+        </x:expect>
+    </x:scenario>
 
 </x:description>
