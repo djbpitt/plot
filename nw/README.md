@@ -14,4 +14,4 @@ See the [xml_prague](./xml_prague) subdirectory.
 
 ## Miscellaneous
 
-The [scratch](./scratch) and [levenshtein](./levenshtein) folders contain samples and tests.
+The [scratch](./scratch) and [levenshtein](./levenshtein) subdirectories contain samples and tests.
