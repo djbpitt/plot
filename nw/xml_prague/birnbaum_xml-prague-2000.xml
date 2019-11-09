@@ -723,35 +723,35 @@
                 however, nothing about the method that would prohibit recording and later processing
                 multiple paths, and thus identifying all optimal alignments.</para>
             <para>[ADD DETAILS]</para>
-            <section>
-                <title>Save yourself a trip … and some storage space</title>
-                <para>The construction of the scoring grid for Needleman Wunsch is identical to the
-                    construction of the grid for Levenshtein, but, as was noted above, a key
-                    difference in what happens next is that Levenshtein cares only about the value
-                    of the lower right cell, and therefore does not need to walk back through the
-                    grid the way Needleman Wunsch does to align the actual sequences. This means
-                    that a diagonal implementation for a Levenshtein distance calculation can throw
-                    away each diagonal once it is no longer needed, and the one-cell diagonal at the
-                    lower right will contain the one piece of information the function is expected
-                    to return: the distance between the two sequences.</para>
-                <para>The only reason we need the full grid in the Needleman Wunsch application is
-                    to traverse the path that led us to the lower right cell backward to the origin.
-                    At each step along that traversal the only information we need is the direction
-                    of the next step (up, left, or diagonal); we do not need the score and we do not
-                    need the row and column labels. This means that we can avoid this backward
-                    traversal for Needleman Wunsch entirely if we write the cumulative full path to
-                    each cell into the cell alongside its score, instead just the source of the most
-                    recent path step, so that the lower right cell will already contain information
-                    about the full path that led to it. We still need to iterate over the path steps
-                    and retrieve item values from the sequences to be aligned, but we retrieve those
-                    values from the original sequences, and not from the grid, which we no longer
-                    need. Avoiding this backwards trip through the grid comes at the cost of writing
-                    full path information into every cell during the initial construction of the
-                    grid, even though we will ultimately use this information only from the one
-                    lower right cell for the final traversal. But in compensation we can throw away
-                    diagonals along the way as we no longer need them, and we do not need to retain
-                    and traverse the entire grid to construct the alignment table.</para>
-            </section>
+        </section>
+        <section>
+            <title>Save yourself a trip … and some space</title>
+            <para>The construction of the scoring grid for Needleman Wunsch is identical to the
+                construction of the grid for Levenshtein, but, as was noted above, the key
+                difference is what happens next: Levenshtein cares only about the value of the lower
+                right cell, and therefore does not need to walk back through the grid the way
+                Needleman Wunsch does to align the actual sequences. This means that a diagonal
+                implementation for a Levenshtein distance calculation can throw away each diagonal
+                once it is no longer needed, and the one-cell diagonal at the lower right will
+                contain the one piece of information the function is expected to return: the
+                distance between the two sequences.</para>
+            <para>The only reason we need the full grid in the Needleman Wunsch application is to
+                traverse the path that led us to the lower right cell backward to the origin. At
+                each step along that traversal the only information we need is the direction of the
+                next step (up, left, or diagonal); we do not need the score and we do not need the
+                row and column labels. This means that we can avoid this backward traversal for
+                Needleman Wunsch entirely if we write the cumulative full path to each cell into the
+                cell alongside its score, instead just the source of the most recent path step, so
+                that the lower right cell will already contain information about the full path that
+                led to it. We still need to iterate over the path steps and retrieve item values
+                from the sequences to be aligned, but we retrieve those values from the original
+                sequences, and not from the grid, which we no longer need. Avoiding this backwards
+                trip through the grid comes at the cost of writing full path information into every
+                cell during the initial construction of the grid, even though we will ultimately use
+                this information only from the one lower right cell for the final traversal. But in
+                compensation we can throw away diagonals along the way as we no longer need them,
+                and we do not need to retain the entire grid only in order to traverse it to
+                construct the alignment table.</para>
         </section>
     </section>
     <section>
@@ -790,6 +790,12 @@
         <bibliomixed xml:id="bellman_1954" xreflabel="Bellman 1954">Bellman, Richard E. <quote>The
                 theory of dynamic programming.</quote> Technical report P-550. Santa Monica: Rand
             Corporation. <link xl:href="http://smo.sogang.ac.kr/doc/bellman.pdf"/></bibliomixed>
+        <bibliomixed xml:id="birnbaum_2007" xreflabel="Birnbaum 2007">Birnbaum, David J.
+                <quote>Sometimes a table is only a table: And sometimes a row is a column.</quote>
+            <citetitle>Proceedings of Extreme Markup Languages 2007.</citetitle>
+            <link
+                xl:href="http://conferences.idealliance.org/extreme/html/2007/Birnbaum01/EML2007Birnbaum01.html"
+            /></bibliomixed>
         <bibliomixed xml:id="boes_2014" xreflabel="Boes 2014">Boes, Olivier. 2014. <quote>Improving
                 the Needleman-Wunsch algorithm with the DynaMine predictor.</quote> Master in
             Bioinformatics thesis, Université lire de Bruxelles. <link xl:href="t.ly/rzxZZ"
@@ -892,4 +898,56 @@
             <link xl:href="https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf"
             /></bibliomixed>
     </bibliography>
+    <appendix>
+        <title>Thinking about alignment in tables and graphs</title>
+        <para>The dynamic programming paradigm underlying Needleman Wunsch traditionally models the
+            information that determines the optimal alignment as a grid or table, where the items in
+            one of the sequences to be aligned label the rows and the items in the other sequence
+            label the columns. In our first implementation we build this grid as a row-major table:
+            a <tag>table</tag> root element contains <tag>row</tag> children, which, in turn,
+            contain <tag>cell</tag> children, one per column. This hierarchical table structure is
+            conceptually wrong because it privileges rows over columns, and it is not the nature of
+            tables (or, at least, of this particular table) that either rows should be
+            hierarchically superior to columns or vice versa. The hierarchical table is also awkward
+            from an engineering perspective because it requires us, in order to identify the
+            location of the neighboring cells that contribute to determining a value, to use rather
+            complex XPath path expressions to dereference the position of the current context cell.
+            If, however, every cell knows its row and column membership without having to query its
+            location in a table hierarchy, we avoid having to evaluate those path expressions. Among
+            other things, recording logical row and column positions as attributes on the cells
+            makes the code that constructs and navigates diagonals easier to read.</para>
+        <para>For these conceptual and practical reasons, in our second implementation we model the
+            dynamic programming table as a flat and logically unordered set of <tag>cell</tag>
+            elements, each of which stores its conceptual row and column membership in attributes.<note>
+                <para>We refer to <emphasis>conceptual</emphasis> row and column membership because
+                    there are no <tag>row</tag> elements or <tag>column</tag> elements, and the
+                    cells are not organized hierarchically. A more scrupulous way of describing
+                    these properties might be that they record not membership in a row or column,
+                    but a relationship property that cells have to items in the two sequences to be
+                    aligned. We have implemented these properties as attributes that we call <tag
+                        class="attribute">row</tag> and <tag class="attribute">col</tag> because the
+                    spatial metaphor of a table is easy to understand. See <xref
+                        linkend="birnbaum_2007"/> for a discussion of these modeling issues.</para>
+            </note> If we think of the cells as nodes in a graph, information about (conceptual)
+            adjacency edges is only implicit, in that adjacent cells are discoverable not by edges
+            that specify both ends, but by performing arithmetic on the current <tag
+                class="attribute">row</tag> and <tag class="attribute">col</tag> values to compute
+            the values of adjacent cells. As we add scores to the graph progressively and record
+            which neighboring cell was responsible for the new value, we add an explicit directed
+            edge, stored on the cell that contains the new value as a pointer to the cell
+            responsible for that value.</para>
+        <para>We can think of this model, then, as two connected, directed, acyclic graphs expressed
+            over the same set of nodes, which are the cells. The first is the initial adjacency
+            graph, rooted at what would be row 1, column 1 in a table, which is fully connected by
+            implicit directed edges that join cells to those immediately following in what would be
+            row or column order. The second graph is rooted in what would be the last row and column
+            in a table, with directed edges that point back from each cell to the cell that
+            contributed its score value. While all cells contain directed pointers to the source of
+            their values, those that are not reachable from the lower right corner of the conceptual
+            table are ignored. It may be possible to construct more than one path from the lower
+            right corner of the conceptual table, representing more than one optimal sequence
+            alignment, but because our requirement is a single optimal path, and not all optimal
+            paths, we do not add all possible edges to this second graph, and, as a result, we
+            arrive at a single path.</para>
+    </appendix>
 </article>
