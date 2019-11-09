@@ -292,13 +292,14 @@
                 used recursion, that is, to process every cell. Because <code class="sgmltag-element">xsl:iterate</code> is
                 not dependent on a recursive stack, this implementation runs to completion even with
                 large input.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>By <span class="emphasis"><em>large</em></span> we mean sequences of a few hundred, but not
-                        several thousand, items. Although the implementation is iterative, this
-                        algorithm nonetheless has quadratic complexity (the number of cells is the
-                        product of the number of items in the two sequences) and cannot be
-                        parallelized because the computation of each cell must wait for the
-                        completion of the computation of preceding cells. The iterative
-                        implementation will not overflow the stack, but the time it requires to run
-                        to completion nonetheless grows quadratically.</p><p>A possibly perverse attempt to align a sequence of 11130 items against a
+                        several thousand, items. Although the implementation is iterative, rather
+                        than recursive, the algorithm nonetheless has quadratic complexity (the
+                        number of cells is the product of the number of items in the two sequences),
+                        and this, our first (naïve) implementation, cannot be parallelized because
+                        the computation of each cell must wait for the completion of the computation
+                        of preceding cells. The iterative implementation will not overflow the
+                        stack, but the time it requires to run to completion nonetheless grows
+                        quadratically.</p><p>A possibly perverse attempt to align a sequence of 11130 items against a
                         sequence of 12392 items using Saxon-HE 9.9.1.4J with default settings on
                         6-core machine with 32G of RAM crashed after several hours with a Java
                             <span class="quote">“<span class="quote">GC overhead limit exceeded</span>”</span> error. Aligning a much more
@@ -308,12 +309,12 @@
                         and with <code class="sgmltag-element">xsl:iterate</code> it returned times of real 0m2.842s, user
                         0m6.519s, sys 0m0.494s.</p></td></tr></table></div><p> It is, however, possible to improve the efficiency of the code by taking the
                 admonition in <a class="xref" href="#tennison_2007b">Tennison 2007b</a> literally, that is, by understanding
-                it as <span class="quote">“<span class="quote">iterate <span class="emphasis"><em>rather than recurse</em></span> whenever you
-                    can</span>”</span>, rather than, as in our naïve first implementation, <span class="quote">“<span class="quote">iterate
-                        <span class="emphasis"><em>absolutely whenever</em></span> you can</span>”</span>. In other words, we
-                should use iteration where recursion would have been required in XSLT 2.0, but not
-                as a replacement for <code class="sgmltag-element">xsl:for-each</code>, which we should retain where
-                appropriate.</p><p>In the Needleman Wunsch (and also Levenshtein) context, as <a class="xref" href="#wang_2002">Wang 2002</a> and <a class="xref" href="#naveed_2005">Naveed et al, 2005</a> point out, all values on
+                it, as Tennison did, as meaning <span class="quote">“<span class="quote">iterate <span class="emphasis"><em>rather than
+                        recurse</em></span> whenever you can</span>”</span>, rather than, as in our naïve
+                first implementation, <span class="quote">“<span class="quote">iterate <span class="emphasis"><em>absolutely whenever</em></span> you
+                    can</span>”</span>. In other words, we should use iteration where recursion would have
+                been required in XSLT 2.0, but not as a replacement for <code class="sgmltag-element">xsl:for-each</code>,
+                which we should retain where appropriate.</p><p>In the Needleman Wunsch (and also Levenshtein) context, as <a class="xref" href="#wang_2002">Wang 2002</a> and <a class="xref" href="#naveed_2005">Naveed et al, 2005</a> point out, all values on
                 the same diagonal can be calculated in parallel, and Tennison’s use of
                     <code class="sgmltag-element">xsl:for-each</code> in her improved code, in <a class="xref" href="#tennison_2007b">Tennison 2007b</a>, to process the diagonal is compatible with this observation because
                     <code class="sgmltag-element">xsl:for-each</code> can be parallelized. Whether it <span class="emphasis"><em>is</em></span>
@@ -332,16 +333,16 @@
                         while the overhead of buffering is proportionally higher if the amount of
                         data produced when each item is processed is high. Multi-threading therefore
                         works best when the body of the xsl:for-each instruction performs a large
-                        amount of computation but produces a small amount of output. (<a class="xref" href="#saxon_threads">Saxon saxon:threads</a>)</p></blockquote></div><p>With this in mind, we revised our first implementation to iterate only on each
-                diagonal, using <code class="sgmltag-element">xsl:for-each</code> to process the items within an individual
-                diagonal. The ordinal value of the diagonal (in a sweep that moves from the one-cell
-                diagonal in the upper left to the one-cell diagonal in the lower right) to which any
-                cell belongs can be determined as a function of the row and column number. We
-                compute that diagonal value at the same time as we determine the row and column
-                numbers and store all three, together with whether the cell represents a match or
-                non-match between the sequence item labeling the row and the one labeling the
-                column, on the cell, so that a sample cell might look like <code class="code">&lt;cell row="2"
-                    col="3" diag="4" match="-1"/&gt;</code>. We then use
+                        amount of computation but produces a small amount of output. (<a class="xref" href="#saxon_threads">Saxon saxon:threads</a>)</p></blockquote></div><p>With this in mind, we revised our first implementation to iterate only to move
+                through the diagonals, using <code class="sgmltag-element">xsl:for-each</code> to process the items within an
+                individual diagonal. The ordinal position of the diagonal (in a sweep that moves
+                from the one-cell diagonal in the upper left to the one-cell diagonal in the lower
+                right) to which any cell belongs can be determined as a function of the row and
+                column number. We compute that diagonal value at the same time as we determine the
+                row and column numbers and store all three, together with whether the cell
+                represents a match or non-match between the sequence item labeling the row and the
+                one labeling the column, on the cell, so that a sample cell might look like
+                    <code class="code">&lt;cell row="2" col="3" diag="4" match="-1"/&gt;</code>. We then use
                     <code class="sgmltag-element">xsl:for-each-group</code> to group the cells by diagonal, running
                     <code class="sgmltag-element">xsl:for-each</code> over the members of each group and rewriting the cells
                 on the diagonal being processed to add additional information: the scores from

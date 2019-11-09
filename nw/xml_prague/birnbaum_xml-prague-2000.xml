@@ -647,13 +647,14 @@
                 not dependent on a recursive stack, this implementation runs to completion even with
                 large input.<note>
                     <para>By <emphasis>large</emphasis> we mean sequences of a few hundred, but not
-                        several thousand, items. Although the implementation is iterative, this
-                        algorithm nonetheless has quadratic complexity (the number of cells is the
-                        product of the number of items in the two sequences) and cannot be
-                        parallelized because the computation of each cell must wait for the
-                        completion of the computation of preceding cells. The iterative
-                        implementation will not overflow the stack, but the time it requires to run
-                        to completion nonetheless grows quadratically.</para>
+                        several thousand, items. Although the implementation is iterative, rather
+                        than recursive, the algorithm nonetheless has quadratic complexity (the
+                        number of cells is the product of the number of items in the two sequences),
+                        and this, our first (naïve) implementation, cannot be parallelized because
+                        the computation of each cell must wait for the completion of the computation
+                        of preceding cells. The iterative implementation will not overflow the
+                        stack, but the time it requires to run to completion nonetheless grows
+                        quadratically.</para>
                     <para>A possibly perverse attempt to align a sequence of 11130 items against a
                         sequence of 12392 items using Saxon-HE 9.9.1.4J with default settings on
                         6-core machine with 32G of RAM crashed after several hours with a Java
@@ -665,12 +666,12 @@
                         0m6.519s, sys 0m0.494s.</para>
                 </note> It is, however, possible to improve the efficiency of the code by taking the
                 admonition in <xref linkend="tennison_2007b"/> literally, that is, by understanding
-                it as <quote>iterate <emphasis>rather than recurse</emphasis> whenever you
-                    can</quote>, rather than, as in our naïve first implementation, <quote>iterate
-                        <emphasis>absolutely whenever</emphasis> you can</quote>. In other words, we
-                should use iteration where recursion would have been required in XSLT 2.0, but not
-                as a replacement for <tag>xsl:for-each</tag>, which we should retain where
-                appropriate.</para>
+                it, as Tennison did, as meaning <quote>iterate <emphasis>rather than
+                        recurse</emphasis> whenever you can</quote>, rather than, as in our naïve
+                first implementation, <quote>iterate <emphasis>absolutely whenever</emphasis> you
+                    can</quote>. In other words, we should use iteration where recursion would have
+                been required in XSLT 2.0, but not as a replacement for <tag>xsl:for-each</tag>,
+                which we should retain where appropriate.</para>
             <para>In the Needleman Wunsch (and also Levenshtein) context, as <xref
                     linkend="wang_2002"/> and <xref linkend="naveed_2005"/> point out, all values on
                 the same diagonal can be calculated in parallel, and Tennison’s use of
@@ -698,16 +699,16 @@
                         amount of computation but produces a small amount of output. (<xref
                             linkend="saxon_threads"/>)</para>
                 </blockquote></para>
-            <para>With this in mind, we revised our first implementation to iterate only on each
-                diagonal, using <tag>xsl:for-each</tag> to process the items within an individual
-                diagonal. The ordinal value of the diagonal (in a sweep that moves from the one-cell
-                diagonal in the upper left to the one-cell diagonal in the lower right) to which any
-                cell belongs can be determined as a function of the row and column number. We
-                compute that diagonal value at the same time as we determine the row and column
-                numbers and store all three, together with whether the cell represents a match or
-                non-match between the sequence item labeling the row and the one labeling the
-                column, on the cell, so that a sample cell might look like <code>&lt;cell row="2"
-                    col="3" diag="4" match="-1"/&gt;</code>. We then use
+            <para>With this in mind, we revised our first implementation to iterate only to move
+                through the diagonals, using <tag>xsl:for-each</tag> to process the items within an
+                individual diagonal. The ordinal position of the diagonal (in a sweep that moves
+                from the one-cell diagonal in the upper left to the one-cell diagonal in the lower
+                right) to which any cell belongs can be determined as a function of the row and
+                column number. We compute that diagonal value at the same time as we determine the
+                row and column numbers and store all three, together with whether the cell
+                represents a match or non-match between the sequence item labeling the row and the
+                one labeling the column, on the cell, so that a sample cell might look like
+                    <code>&lt;cell row="2" col="3" diag="4" match="-1"/&gt;</code>. We then use
                     <tag>xsl:for-each-group</tag> to group the cells by diagonal, running
                     <tag>xsl:for-each</tag> over the members of each group and rewriting the cells
                 on the diagonal being processed to add additional information: the scores from
