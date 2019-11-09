@@ -14,13 +14,10 @@
                 where it is applied to sequences of words in variant versions of a text). In textual
                 scholarship, which is the domain in which the present report was developed, sequence
                 alignment assists the philologist in identifying locations where manuscript
-                witnesses agree and where they disagree.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p><span class="emphasis"><em>Witness</em></span>, sometimes expanded as <span class="emphasis"><em>manuscript
-                            witness</em></span>, is a technical term in text-critical scholarship for
-                        a manuscript that provides evidence of the history of a text.</p></td></tr></table></div><p> These moments of agreement and disagreement, in turn, provide evidence about
-                probable (or, at least, candidate) moments of shared transmission between textual
-                witnesses, and thus serve as evidence to construct and support a philological
-                argument about the history of a text.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>For an introduction to, among other things, the evaluation of shared and
-                        divergent readings as a component of textual criticism see <a class="xref" href="#trovato_2014">Trovato 2014</a>.</p></td></tr></table></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e35"/>Biological and textual alignment</h3></div></div></div><p>Insofar as biomedical research enjoys a larger scientific community and richer
+                witnesses agree and where they disagree.<a href="#ftn.d5e28" class="footnote" id="d5e28"><sup class="footnote">[1]</sup></a> These moments of agreement and disagreement, in turn, provide evidence
+                about probable (or, at least, candidate) moments of shared transmission between
+                textual witnesses, and thus serve as evidence to construct and support a
+                philological argument about the history of a text.<a href="#ftn.d5e32" class="footnote" id="d5e32"><sup class="footnote">[2]</sup></a></p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e35"/>Biological and textual alignment</h3></div></div></div><p>Insofar as biomedical research enjoys a larger scientific community and richer
                 funding resources than textual humanities scholarship, it is not surprising that the
                 literature about sequence alignment, and the science reported in that literature, is
                 quantitatively greater in the natural sciences than in the humanities. Furthermore,
@@ -74,15 +71,13 @@
                             alignment. For example, the Gothenburg model of textual collation, which
                             has been implemented in the CollateX [<a class="xref" href="#collatex">CollateX</a>] and
                             Juxta [<a class="xref" href="#juxta">Juxta</a>] tools, expresses the collation process
-                            as a five-step pipeline, within which alignment serves as the third step.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>For further information about the Gothenburg model see <a class="xref" href="#gothenburg">Gothenburg model</a>.</p></td></tr></table></div></li><li class="listitem"><p>Real-world textual alignment tasks often involve more than two
+                            as a five-step pipeline, within which alignment serves as the third step.<a href="#ftn.d5e76" class="footnote" id="d5e76"><sup class="footnote">[3]</sup></a></p></li><li class="listitem"><p>Real-world textual alignment tasks often involve more than two
                             witnesses, that is, they involve multiple-witness, rather than pairwise,
                             alignment. While some approaches to multiple-witness alignment are
                             implemented as a progressive or iterative application of pairwise
                             alignment, these methods are subject to order effects. Ultimately,
                             multiple-witness alignment is an NP hard problem with which the present
-                            report does not seek to engage.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p><a class="xref" href="#msa">Multiple sequence alignment (Wikipedia)</a> provides an overview of multiple
-                                    sequence alignment, the term in bioinformatics for what
-                                    philologists refer to as multiple-witness alignment.</p></td></tr></table></div></li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e84"/>About sequence alignment</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e86"/>Alignments and scoring</h3></div></div></div><p>An optimal alignment can be defined as an alignment that yields the best
+                            report does not seek to engage.<a href="#ftn.d5e81" class="footnote" id="d5e81"><sup class="footnote">[4]</sup></a></p></li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e84"/>About sequence alignment</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e86"/>Alignments and scoring</h3></div></div></div><p>An optimal alignment can be defined as an alignment that yields the best
                     <span class="emphasis"><em>score</em></span>, where the researcher is responsible for identifying
                 an appropriate scoring method. Relationships involving individual aligned items from
                 a sequence can be categorized as belonging to three possible types for scoring purposes:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Items from both sequences are aligned and are the same. This is called
@@ -143,17 +138,15 @@
                 general and in the context of Needleman Wunsch, pose for XSLT and how they can be
                 resolved.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e149"/>Dynamic programming and the Needleman Wunsch algorithm</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e151"/>Dynamic programming</h3></div></div></div><p>Dynamic programming, a paradigm developed by Richard Bellman at the Rand
                 Corporation in the early 1950s, makes it possible to express complex coding tasks as
-                a combination of smaller, more tractable, overlapping ones.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>For more information about dynamic programming see <a class="xref" href="#bellman_1952">Bellman 1952</a> and <a class="xref" href="#bellman_1954">Bellman 1954</a>.</p></td></tr></table></div><p> A commonly cited example of a task that is amenable to dynamic programming
-                is the computation of a Fibonacci number. Insofar as every Fibonacci number beyond
-                the first two can be expressed as a function of the two immediately preceding
-                Fibonacci numbers, a naïve top-down approach would compute the two preceding values.
-                This requires computing all of their preceding values, which requires computing
-                their preceding values, etc., which ultimately leads to computing the same values
-                repeatedly. A dynamic bottom-up computation, on the other hand, would calculate each
-                smaller number only once and then use those values to move up to larger numbers.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>A top-down dynamic approach would perform all of the recursive computation
-                        at the beginning, but <span class="emphasis"><em>memoize</em></span> (that is, store and
-                        index) the sub-calculations, so that they could be looked up and reused,
-                        without having to be recomputed, when needed at the next level down.</p></td></tr></table></div><p>Sequence alignment meets the two requirements for a problem to be amenable to
+                a combination of smaller, more tractable, overlapping ones.<a href="#ftn.d5e154" class="footnote" id="d5e154"><sup class="footnote">[5]</sup></a> A commonly cited example of a task that is amenable to dynamic
+                programming is the computation of a Fibonacci number. Insofar as every Fibonacci
+                number beyond the first two can be expressed as a function of the two immediately
+                preceding Fibonacci numbers, a naïve top-down approach would compute the two
+                preceding values. This requires computing all of their preceding values, which
+                requires computing their preceding values, etc., which ultimately leads to computing
+                the same values repeatedly. A dynamic bottom-up computation, on the other hand,
+                would calculate each smaller number only once and then use those values to move up
+                to larger numbers.<a href="#ftn.d5e158" class="footnote" id="d5e158"><sup class="footnote">[6]</sup></a></p><p>Sequence alignment meets the two requirements for a problem to be amenable to
                 dynamic programming. First, it can be expressed recursively, that is, if the optimal
                 alignment of two long sequences can be identified, the optimal alignment of their
                 corresponding subsequences can be extracted as a subset of the longer alignment.
@@ -178,7 +171,7 @@
                     best possible solution with respect to the chosen scoring system. There [exists]
                     also non-optimal alignment algorithms, most notably the heuristic methods
                     …</span>”</span> [<a class="xref" href="#boes_2014">Boes 2014</a>, 13]</p><p>Performing alignment according to the Needleman Wunsch dynamic programming
-                algorithm entails the following steps:</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>For a clear and more detailed explanation see <a class="xref" href="#snip">Global alignment</a>.</p></td></tr></table></div><p>
+                algorithm entails the following steps:<a href="#ftn.d5e178" class="footnote" id="d5e178"><sup class="footnote">[7]</sup></a>
                 </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Construct a grid with one sequence along the top, labeling the
                             columns, and the other along the left, labeling the rows.</p></li><li class="listitem"><p>Determine a scoring system. Here we score matches as 1, mismatches as
                             -1, and gaps as -2.</p></li><li class="listitem"><p>Insert a row at the top, below the labels, with sequential numbers
@@ -235,13 +228,13 @@
                 <span class="emphasis"><em>orders the output</em></span> according to the input sequence, but it does
             not necessarily <span class="emphasis"><em>perform the computation</em></span> in that order. This is a
             feature because it means that such instructions can be parallelized, since no step is
-            dependent on the output of any other step. But it also means that poplating the
+            dependent on the output of any other step. But it also means that populating the
             Needleman Wunsch grid in XSLT requires an alternative to <code class="sgmltag-element">xsl:for-each</code>.</p><p>Tennison draws our attention to this issue in her XSLT 2.0 implementations of a
             dynamic programming algorithm to calculate Levenshtein distance (<a class="xref" href="#tennison_2007a">Tennison 2007a</a>, <a class="xref" href="#tennison_2007b">Tennison 2007b</a>), and with respect to
-            constructing the grid, the algorithms for Levenshtein and Needleman Wunsch are the same.
-            The principal difference is that Levenshtein cares only about the value of the lower
-            right cell, and therefore does not require the traceback steps the Needleman Wunsch uses
-            to perform the actual alignment.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e338"/>Why recursion breaks</h3></div></div></div><p>The traditional way to mimic updating a variable in XSLT is with recursion,
+            constructing the grid, the algorithms for Levenshtein and Needleman Wunsch are
+            analogous. The principal difference is that Levenshtein cares only about the value of
+            the lower right cell, and therefore does not require the traceback steps the Needleman
+            Wunsch uses to perform the alignment of actual sequence items.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e338"/>Why recursion breaks</h3></div></div></div><p>The traditional way to mimic updating a variable in XSLT is with recursion,
                 passing the updated value into each recursive call. The challenge to this approach
                 is that deep recursion can consume enough memory to overflow the available stack
                 space and crash the operation. XSLT processors can work around this limitation with
@@ -291,25 +284,9 @@
                 Tennison’s first (non-diagonal) Levenshtein implementation, in <a class="xref" href="#tennison_2007a">Tennison 2007a</a>, except that we used <code class="sgmltag-element">xsl:iterate</code> where she
                 used recursion, that is, to process every cell. Because <code class="sgmltag-element">xsl:iterate</code> is
                 not dependent on a recursive stack, this implementation runs to completion even with
-                large input.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>By <span class="emphasis"><em>large</em></span> we mean sequences of a few hundred, but not
-                        several thousand, items. Although the implementation is iterative, rather
-                        than recursive, the algorithm nonetheless has quadratic complexity (the
-                        number of cells is the product of the number of items in the two sequences),
-                        and this, our first (naïve) implementation, cannot be parallelized because
-                        the computation of each cell must wait for the completion of the computation
-                        of preceding cells. The iterative implementation will not overflow the
-                        stack, but the time it requires to run to completion nonetheless grows
-                        quadratically.</p><p>A possibly perverse attempt to align a sequence of 11130 items against a
-                        sequence of 12392 items using Saxon-HE 9.9.1.4J with default settings on
-                        6-core machine with 32G of RAM crashed after several hours with a Java
-                            <span class="quote">“<span class="quote">GC overhead limit exceeded</span>”</span> error. Aligning a much more
-                        modest sequence of 233 items against a sequence of 223 items using our
-                        non-diagonal implementation, which creates a grid and an alignment table and
-                        renders both in HTML, overflowed the stack without <code class="sgmltag-element">xsl:iterate</code>,
-                        and with <code class="sgmltag-element">xsl:iterate</code> it returned times of real 0m2.842s, user
-                        0m6.519s, sys 0m0.494s.</p></td></tr></table></div><p> It is, however, possible to improve the efficiency of the code by taking the
-                admonition in <a class="xref" href="#tennison_2007b">Tennison 2007b</a> literally, that is, by understanding
-                it, as Tennison did, as meaning <span class="quote">“<span class="quote">iterate <span class="emphasis"><em>rather than
+                large input.<a href="#ftn.d5e368" class="footnote" id="d5e368"><sup class="footnote">[8]</sup></a> It is, however, possible to improve the efficiency of the code by taking
+                the admonition in <a class="xref" href="#tennison_2007b">Tennison 2007b</a> literally, that is, by
+                understanding it, as Tennison did, as meaning <span class="quote">“<span class="quote">iterate <span class="emphasis"><em>rather than
                         recurse</em></span> whenever you can</span>”</span>, rather than, as in our naïve
                 first implementation, <span class="quote">“<span class="quote">iterate <span class="emphasis"><em>absolutely whenever</em></span> you
                     can</span>”</span>. In other words, we should use iteration where recursion would have
@@ -466,13 +443,7 @@
             other things, recording logical row and column positions as attributes on the cells
             makes the code that constructs and navigates diagonals easier to read.</p><p>For these conceptual and practical reasons, in our second implementation we model the
             dynamic programming table as a flat and logically unordered set of <code class="sgmltag-element">cell</code>
-            elements, each of which stores its conceptual row and column membership in attributes.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="file:/Applications/Oxygen%20XML%20Editor/frameworks/docbook/css/img/note.png"/></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>We refer to <span class="emphasis"><em>conceptual</em></span> row and column membership because
-                    there are no <code class="sgmltag-element">row</code> elements or <code class="sgmltag-element">column</code> elements, and the
-                    cells are not organized hierarchically. A more scrupulous way of describing
-                    these properties might be that they record not membership in a row or column,
-                    but a relationship property that cells have to items in the two sequences to be
-                    aligned. We have implemented these properties as attributes that we call <code class="sgmltag-attribute">row</code> and <code class="sgmltag-attribute">col</code> because the
-                    spatial metaphor of a table is easy to understand. See <a class="xref" href="#birnbaum_2007">Birnbaum 2007</a> for a discussion of these modeling issues.</p></td></tr></table></div><p> If we think of the cells as nodes in a graph, information about (conceptual)
+            elements, each of which stores its conceptual row and column membership in attributes.<a href="#ftn.d5e513" class="footnote" id="d5e513"><sup class="footnote">[9]</sup></a> If we think of the cells as nodes in a graph, information about (conceptual)
             adjacency edges is only implicit, in that adjacent cells are discoverable not by edges
             that specify both ends, but by performing arithmetic on the current <code class="sgmltag-attribute">row</code> and <code class="sgmltag-attribute">col</code> values to compute
             the values of adjacent cells. As we add scores to the graph progressively and record
@@ -490,4 +461,34 @@
             right corner of the conceptual table, representing more than one optimal sequence
             alignment, but because our requirement is a single optimal path, and not all optimal
             paths, we do not add all possible edges to this second graph, and, as a result, we
-            arrive at a single path.</p></div></div></body></html>
+            arrive at a single path.</p></div><div class="footnotes"><br/><hr style="width:100; text-align:left;margin-left: 0"/><div id="ftn.d5e28" class="footnote"><p><a href="#d5e28" class="para"><sup class="para">[1] </sup></a><span class="emphasis"><em>Witness</em></span>, sometimes expanded as <span class="emphasis"><em>manuscript
+                            witness</em></span>, is a technical term in text-critical scholarship for
+                        a manuscript that provides evidence of the history of a text.</p></div><div id="ftn.d5e32" class="footnote"><p><a href="#d5e32" class="para"><sup class="para">[2] </sup></a>For an introduction to, among other things, the evaluation of shared and
+                        divergent readings as a component of textual criticism see <a class="xref" href="#trovato_2014">Trovato 2014</a>.</p></div><div id="ftn.d5e76" class="footnote"><p><a href="#d5e76" class="para"><sup class="para">[3] </sup></a>For further information about the Gothenburg model see <a class="xref" href="#gothenburg">Gothenburg model</a>.</p></div><div id="ftn.d5e81" class="footnote"><p><a href="#d5e81" class="para"><sup class="para">[4] </sup></a><a class="xref" href="#msa">Multiple sequence alignment (Wikipedia)</a> provides an overview of multiple
+                                    sequence alignment, the term in bioinformatics for what
+                                    philologists refer to as multiple-witness alignment.</p></div><div id="ftn.d5e154" class="footnote"><p><a href="#d5e154" class="para"><sup class="para">[5] </sup></a>For more information about dynamic programming see <a class="xref" href="#bellman_1952">Bellman 1952</a> and <a class="xref" href="#bellman_1954">Bellman 1954</a>.</p></div><div id="ftn.d5e158" class="footnote"><p><a href="#d5e158" class="para"><sup class="para">[6] </sup></a>A top-down dynamic approach would perform all of the recursive computation
+                        at the beginning, but <span class="emphasis"><em>memoize</em></span> (that is, store and
+                        index) the sub-calculations, so that they could be looked up and reused,
+                        without having to be recomputed, when needed at the next level down.</p></div><div id="ftn.d5e178" class="footnote"><p><a href="#d5e178" class="para"><sup class="para">[7] </sup></a>For a clear and more detailed explanation see <a class="xref" href="#snip">Global alignment</a>.</p></div><div id="ftn.d5e368" class="footnote"><p><a href="#d5e368" class="para"><sup class="para">[8] </sup></a>By <span class="emphasis"><em>large</em></span> we mean sequences of a few hundred, but not
+                        several thousand, items. Although the implementation is iterative, rather
+                        than recursive, the algorithm nonetheless has quadratic complexity (the
+                        number of cells is the product of the number of items in the two sequences),
+                        and this, our first (naïve) implementation, cannot be parallelized because
+                        the computation of each cell must wait for the completion of the computation
+                        of preceding cells. The iterative implementation will not overflow the
+                        stack, but the time it requires to run to completion nonetheless grows
+                        quadratically.</p><p>A possibly perverse attempt to align a sequence of 11130 items against a
+                        sequence of 12392 items using Saxon-HE 9.9.1.4J with default settings on
+                        6-core machine with 32G of RAM crashed after several hours with a Java
+                            <span class="quote">“<span class="quote">GC overhead limit exceeded</span>”</span> error. Aligning a much more
+                        modest sequence of 233 items against a sequence of 223 items using our
+                        non-diagonal implementation, which creates a grid and an alignment table and
+                        renders both in HTML, overflowed the stack without <code class="sgmltag-element">xsl:iterate</code>,
+                        and with <code class="sgmltag-element">xsl:iterate</code> it returned times of real 0m2.842s, user
+                        0m6.519s, sys 0m0.494s.</p></div><div id="ftn.d5e513" class="footnote"><p><a href="#d5e513" class="para"><sup class="para">[9] </sup></a>We refer to <span class="emphasis"><em>conceptual</em></span> row and column membership because
+                    there are no <code class="sgmltag-element">row</code> elements or <code class="sgmltag-element">column</code> elements, and the
+                    cells are not organized hierarchically. A more scrupulous way of describing
+                    these properties might be that they record not membership in a row or column,
+                    but a relationship property that cells have to items in the two sequences to be
+                    aligned. We have implemented these properties as attributes that we call <code class="sgmltag-attribute">row</code> and <code class="sgmltag-attribute">col</code> because the
+                    spatial metaphor of a table is easy to understand. See <a class="xref" href="#birnbaum_2007">Birnbaum 2007</a> for a discussion of these modeling issues.</p></div></div></div></body></html>

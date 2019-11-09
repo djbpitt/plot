@@ -54,18 +54,18 @@
                 where it is applied to sequences of words in variant versions of a text). In textual
                 scholarship, which is the domain in which the present report was developed, sequence
                 alignment assists the philologist in identifying locations where manuscript
-                witnesses agree and where they disagree.<note>
+                witnesses agree and where they disagree.<footnote>
                     <para><emphasis>Witness</emphasis>, sometimes expanded as <emphasis>manuscript
                             witness</emphasis>, is a technical term in text-critical scholarship for
                         a manuscript that provides evidence of the history of a text.</para>
-                </note> These moments of agreement and disagreement, in turn, provide evidence about
-                probable (or, at least, candidate) moments of shared transmission between textual
-                witnesses, and thus serve as evidence to construct and support a philological
-                argument about the history of a text.<note>
+                </footnote> These moments of agreement and disagreement, in turn, provide evidence
+                about probable (or, at least, candidate) moments of shared transmission between
+                textual witnesses, and thus serve as evidence to construct and support a
+                philological argument about the history of a text.<footnote>
                     <para>For an introduction to, among other things, the evaluation of shared and
                         divergent readings as a component of textual criticism see <xref
                             linkend="trovato_2014"/>.</para>
-                </note></para>
+                </footnote></para>
         </section>
         <section>
             <title>Biological and textual alignment</title>
@@ -154,10 +154,10 @@
                             alignment. For example, the Gothenburg model of textual collation, which
                             has been implemented in the CollateX [<xref linkend="collatex"/>] and
                             Juxta [<xref linkend="juxta"/>] tools, expresses the collation process
-                            as a five-step pipeline, within which alignment serves as the third step.<note>
+                            as a five-step pipeline, within which alignment serves as the third step.<footnote>
                                 <para>For further information about the Gothenburg model see <xref
                                         linkend="gothenburg"/>.</para>
-                            </note></para>
+                            </footnote></para>
                     </listitem>
                     <listitem>
                         <para>Real-world textual alignment tasks often involve more than two
@@ -166,11 +166,11 @@
                             implemented as a progressive or iterative application of pairwise
                             alignment, these methods are subject to order effects. Ultimately,
                             multiple-witness alignment is an NP hard problem with which the present
-                            report does not seek to engage.<note>
+                            report does not seek to engage.<footnote>
                                 <para><xref linkend="msa"/> provides an overview of multiple
                                     sequence alignment, the term in bioinformatics for what
                                     philologists refer to as multiple-witness alignment.</para>
-                            </note></para>
+                            </footnote></para>
                     </listitem>
                 </itemizedlist></para>
         </section>
@@ -288,22 +288,23 @@
             <title>Dynamic programming</title>
             <para>Dynamic programming, a paradigm developed by Richard Bellman at the Rand
                 Corporation in the early 1950s, makes it possible to express complex coding tasks as
-                a combination of smaller, more tractable, overlapping ones.<note>
+                a combination of smaller, more tractable, overlapping ones.<footnote>
                     <para>For more information about dynamic programming see <xref
                             linkend="bellman_1952"/> and <xref linkend="bellman_1954"/>.</para>
-                </note> A commonly cited example of a task that is amenable to dynamic programming
-                is the computation of a Fibonacci number. Insofar as every Fibonacci number beyond
-                the first two can be expressed as a function of the two immediately preceding
-                Fibonacci numbers, a naïve top-down approach would compute the two preceding values.
-                This requires computing all of their preceding values, which requires computing
-                their preceding values, etc., which ultimately leads to computing the same values
-                repeatedly. A dynamic bottom-up computation, on the other hand, would calculate each
-                smaller number only once and then use those values to move up to larger numbers.<note>
+                </footnote> A commonly cited example of a task that is amenable to dynamic
+                programming is the computation of a Fibonacci number. Insofar as every Fibonacci
+                number beyond the first two can be expressed as a function of the two immediately
+                preceding Fibonacci numbers, a naïve top-down approach would compute the two
+                preceding values. This requires computing all of their preceding values, which
+                requires computing their preceding values, etc., which ultimately leads to computing
+                the same values repeatedly. A dynamic bottom-up computation, on the other hand,
+                would calculate each smaller number only once and then use those values to move up
+                to larger numbers.<footnote>
                     <para>A top-down dynamic approach would perform all of the recursive computation
                         at the beginning, but <emphasis>memoize</emphasis> (that is, store and
                         index) the sub-calculations, so that they could be looked up and reused,
                         without having to be recomputed, when needed at the next level down.</para>
-                </note></para>
+                </footnote></para>
             <para>Sequence alignment meets the two requirements for a problem to be amenable to
                 dynamic programming. First, it can be expressed recursively, that is, if the optimal
                 alignment of two long sequences can be identified, the optimal alignment of their
@@ -340,10 +341,10 @@
                     also non-optimal alignment algorithms, most notably the heuristic methods
                     …</quote> [<xref linkend="boes_2014"/>, 13]</para>
             <para>Performing alignment according to the Needleman Wunsch dynamic programming
-                algorithm entails the following steps:<note>
+                algorithm entails the following steps:<footnote>
                     <para>For a clear and more detailed explanation see <xref linkend="snip"
                         />.</para>
-                </note>
+                </footnote>
                 <orderedlist>
                     <listitem>
                         <para>Construct a grid with one sequence along the top, labeling the
@@ -570,15 +571,15 @@
                 <emphasis>orders the output</emphasis> according to the input sequence, but it does
             not necessarily <emphasis>perform the computation</emphasis> in that order. This is a
             feature because it means that such instructions can be parallelized, since no step is
-            dependent on the output of any other step. But it also means that poplating the
+            dependent on the output of any other step. But it also means that populating the
             Needleman Wunsch grid in XSLT requires an alternative to <tag>xsl:for-each</tag>.</para>
         <para>Tennison draws our attention to this issue in her XSLT 2.0 implementations of a
             dynamic programming algorithm to calculate Levenshtein distance (<xref
                 linkend="tennison_2007a"/>, <xref linkend="tennison_2007b"/>), and with respect to
-            constructing the grid, the algorithms for Levenshtein and Needleman Wunsch are the same.
-            The principal difference is that Levenshtein cares only about the value of the lower
-            right cell, and therefore does not require the traceback steps the Needleman Wunsch uses
-            to perform the actual alignment.</para>
+            constructing the grid, the algorithms for Levenshtein and Needleman Wunsch are
+            analogous. The principal difference is that Levenshtein cares only about the value of
+            the lower right cell, and therefore does not require the traceback steps the Needleman
+            Wunsch uses to perform the alignment of actual sequence items.</para>
         <section>
             <title>Why recursion breaks</title>
             <para>The traditional way to mimic updating a variable in XSLT is with recursion,
@@ -645,7 +646,7 @@
                     linkend="tennison_2007a"/>, except that we used <tag>xsl:iterate</tag> where she
                 used recursion, that is, to process every cell. Because <tag>xsl:iterate</tag> is
                 not dependent on a recursive stack, this implementation runs to completion even with
-                large input.<note>
+                large input.<footnote>
                     <para>By <emphasis>large</emphasis> we mean sequences of a few hundred, but not
                         several thousand, items. Although the implementation is iterative, rather
                         than recursive, the algorithm nonetheless has quadratic complexity (the
@@ -664,9 +665,9 @@
                         renders both in HTML, overflowed the stack without <tag>xsl:iterate</tag>,
                         and with <tag>xsl:iterate</tag> it returned times of real 0m2.842s, user
                         0m6.519s, sys 0m0.494s.</para>
-                </note> It is, however, possible to improve the efficiency of the code by taking the
-                admonition in <xref linkend="tennison_2007b"/> literally, that is, by understanding
-                it, as Tennison did, as meaning <quote>iterate <emphasis>rather than
+                </footnote> It is, however, possible to improve the efficiency of the code by taking
+                the admonition in <xref linkend="tennison_2007b"/> literally, that is, by
+                understanding it, as Tennison did, as meaning <quote>iterate <emphasis>rather than
                         recurse</emphasis> whenever you can</quote>, rather than, as in our naïve
                 first implementation, <quote>iterate <emphasis>absolutely whenever</emphasis> you
                     can</quote>. In other words, we should use iteration where recursion would have
@@ -919,7 +920,7 @@
             makes the code that constructs and navigates diagonals easier to read.</para>
         <para>For these conceptual and practical reasons, in our second implementation we model the
             dynamic programming table as a flat and logically unordered set of <tag>cell</tag>
-            elements, each of which stores its conceptual row and column membership in attributes.<note>
+            elements, each of which stores its conceptual row and column membership in attributes.<footnote>
                 <para>We refer to <emphasis>conceptual</emphasis> row and column membership because
                     there are no <tag>row</tag> elements or <tag>column</tag> elements, and the
                     cells are not organized hierarchically. A more scrupulous way of describing
@@ -929,7 +930,7 @@
                         class="attribute">row</tag> and <tag class="attribute">col</tag> because the
                     spatial metaphor of a table is easy to understand. See <xref
                         linkend="birnbaum_2007"/> for a discussion of these modeling issues.</para>
-            </note> If we think of the cells as nodes in a graph, information about (conceptual)
+            </footnote> If we think of the cells as nodes in a graph, information about (conceptual)
             adjacency edges is only implicit, in that adjacent cells are discoverable not by edges
             that specify both ends, but by performing arithmetic on the current <tag
                 class="attribute">row</tag> and <tag class="attribute">col</tag> values to compute
