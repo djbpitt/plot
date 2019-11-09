@@ -208,8 +208,8 @@
                             for example. given <quote>The gray koala</quote> and <quote>The
                                 koala</quote>, the item <quote>gray</quote> in the first sequence
                             corresponds to a gap in the second. Gaps may also occur with sequences
-                            of the same length; for example, if we align <quote>The gray koala lives
-                                in Australia</quote> with <quote>The koala lives in South
+                            of the same length; for example, if we align <quote>The brown koala
+                                lives in Australia</quote> with <quote>The koala lives in South
                                 Australia</quote>, both sequences contain six words, but the most
                             natural alignment, with a length of seven items and one gap in each
                             sequence, is: <table>
@@ -218,7 +218,7 @@
                                     <tbody>
                                         <row>
                                             <entry>The</entry>
-                                            <entry>gray</entry>
+                                            <entry>brown</entry>
                                             <entry>koala</entry>
                                             <entry>lives</entry>
                                             <entry>in</entry>
@@ -563,16 +563,17 @@
         <title>The challenges of dynamic programming and XSLT</title>
         <para>XSLT, at least before version 3.0, plays poorly with dynamic programming because each
             step in a dynamic programming algorithm depends on a value calculated at the preceding
-            step. Functional programming of the sort supported by XSLT <tag>xsl:for-each</tag> does
-            not have access to these incremental values; if we try to run <tag>xsl:for-each</tag>
-            over all of the cells and populate them according to the values before and above them,
-            those neighboring values will be the values in place initially, that is, null. The
-            reason is that <tag>xsl:for-each</tag> is not an iterative instruction: it
-                <emphasis>orders the output</emphasis> according to the input sequence, but it does
-            not necessarily <emphasis>perform the computation</emphasis> in that order. This is a
-            feature because it means that such instructions can be parallelized, since no step is
-            dependent on the output of any other step. But it also means that populating the
-            Needleman Wunsch grid in XSLT requires an alternative to <tag>xsl:for-each</tag>.</para>
+            step. Functional programming of the sort supported by XSLT
+                <tag>&lt;xsl:for-each&gt;</tag> does not have access to these incremental values; if
+            we try to run <tag>&lt;xsl:for-each&gt;</tag> over all of the cells and populate them
+            according to the values before and above them, those neighboring values will be the
+            values in place initially, that is, null. The reason is that
+                <tag>&lt;xsl:for-each&gt;</tag> is not an iterative instruction: it <emphasis>orders
+                the output</emphasis> according to the input sequence, but it does not necessarily
+                <emphasis>perform the computation</emphasis> in that order. This is a feature
+            because it means that such instructions can be parallelized, since no step is dependent
+            on the output of any other step. But it also means that populating the Needleman Wunsch
+            grid in XSLT requires an alternative to <tag>&lt;xsl:for-each&gt;</tag>.</para>
         <para>Tennison draws our attention to this issue in her XSLT 2.0 implementations of a
             dynamic programming algorithm to calculate Levenshtein distance (<xref
                 linkend="tennison_2007a"/>, <xref linkend="tennison_2007b"/>), and with respect to
@@ -603,17 +604,18 @@
                 immediately precedes it, traversal on the diagonal is possible because all of the
                 information needed to process the entire next diagonal available simultaneously. The
                 absence of dependencies within a diagonal means that Tennison can use
-                    <tag>xsl:for-each</tag> for all of the values on each diagonal, and recur only
-                as she moves to a new diagonal. The computational complexity of populating the grid
-                remains <emphasis>O(mn)</emphasis>, since it is still necessary to calculate each
-                cell individually, but Tennison’s implementation reduces the recursion from the
-                number of cells to the number of diagonals, which is <emphasis>n + m - 1</emphasis>,
-                that is, <emphasis>O(n)</emphasis>. The substantial improvement in computational
-                efficiency that results from an implementation <quote>on the diagonal</quote> was
-                pointed out first by <xref linkend="wang_2002"/> (8), and then by <xref
-                    linkend="naveed_2005"/> (3–4), but although Wang first reported that items on
-                the diagonal could be processed in parallel, it was Tennison who recognized that
-                this observation could also be used to reduce the depth of recursion in XSLT.</para>
+                    <tag>&lt;xsl:for-each&gt;</tag> for all of the values on each diagonal, and
+                recur only as she moves to a new diagonal. The computational complexity of
+                populating the grid remains <emphasis>O(mn)</emphasis>, since it is still necessary
+                to calculate each cell individually, but Tennison’s implementation reduces the
+                recursion from the number of cells to the number of diagonals, which is <emphasis>n
+                    + m - 1</emphasis>, that is, <emphasis>O(n)</emphasis>. The substantial
+                improvement in computational efficiency that results from an implementation
+                    <quote>on the diagonal</quote> was pointed out first by <xref
+                    linkend="wang_2002"/> (8), and then by <xref linkend="naveed_2005"/> (3–4), but
+                although Wang first reported that items on the diagonal could be processed in
+                parallel, it was Tennison who recognized that this observation could also be used to
+                reduce the depth of recursion in XSLT.</para>
         </section>
         <section>
             <title>Iteration to the rescue</title>
@@ -625,28 +627,28 @@
                 times, while the diagonal method makes only 39 function calls—although very large
                 input could still produce a stack overflow in situations where tail recursion
                 optimization is not available. In XSLT 3.0, however, it is possible to use
-                    <tag>xsl:iterate</tag> to avoid recursive coding entirely:<blockquote>
+                    <tag>&lt;xsl:iterate&gt;</tag> to avoid recursive coding entirely:<blockquote>
                     <para>[xsl:iterate] is similar to xsl:for-each, except that the items in the
                         input sequence are processed sequentially, and after processing each item in
                         the input sequence it is possible to set parameters for use in the next
                         iteration. It can therefore be used to solve problems that in XSLT 2.0
                         require recursive functions or templates. (<xref linkend="saxon_iterate"
                         />)</para>
-                </blockquote> The use of <tag>xsl:iterate</tag>, which was not part of the XSLT 2.0
-                that was available to Tennison in 2007, in place of the recursion that she was
-                forced to retain thus observes her wise recommendation to <quote>try to iterate
+                </blockquote> The use of <tag>&lt;xsl:iterate&gt;</tag>, which was not part of the
+                XSLT 2.0 that was available to Tennison in 2007, in place of the recursion that she
+                was forced to retain thus observes her wise recommendation to <quote>try to iterate
                     rather than recurse whenever you can</quote> (<xref linkend="tennison_2007b"/>).
             </para>
         </section>
         <section>
             <title>Processing the diagonal</title>
-            <para>The XSLT 3.0 <tag>xsl:iterate</tag> element can be used for any repetitive
+            <para>The XSLT 3.0 <tag>&lt;xsl:iterate&gt;</tag> element can be used for any repetitive
                 operation, and our first XSLT 3.0 implementation of Needleman Wunsch resembled
                 Tennison’s first (non-diagonal) Levenshtein implementation, in <xref
-                    linkend="tennison_2007a"/>, except that we used <tag>xsl:iterate</tag> where she
-                used recursion, that is, to process every cell. Because <tag>xsl:iterate</tag> is
-                not dependent on a recursive stack, this implementation runs to completion even with
-                large input.<footnote>
+                    linkend="tennison_2007a"/>, except that we used <tag>&lt;xsl:iterate&gt;</tag>
+                where she used recursion, that is, to process every cell. Because
+                    <tag>&lt;xsl:iterate&gt;</tag> is not dependent on a recursive stack, this
+                implementation runs to completion even with large input.<footnote>
                     <para>By <emphasis>large</emphasis> we mean sequences of a few hundred, but not
                         several thousand, items. Although the implementation is iterative, rather
                         than recursive, the algorithm nonetheless has quadratic complexity (the
@@ -662,29 +664,31 @@
                             <quote>GC overhead limit exceeded</quote> error. Aligning a much more
                         modest sequence of 233 items against a sequence of 223 items using our
                         non-diagonal implementation, which creates a grid and an alignment table and
-                        renders both in HTML, overflowed the stack without <tag>xsl:iterate</tag>,
-                        and with <tag>xsl:iterate</tag> it returned times of real 0m2.842s, user
-                        0m6.519s, sys 0m0.494s.</para>
+                        renders both in HTML, overflowed the stack without
+                            <tag>&lt;xsl:iterate&gt;</tag>, and with <tag>&lt;xsl:iterate&gt;</tag>
+                        it returned times of real 0m2.842s, user 0m6.519s, sys 0m0.494s.</para>
                 </footnote> It is, however, possible to improve the efficiency of the code by taking
                 the admonition in <xref linkend="tennison_2007b"/> literally, that is, by
                 understanding it, as Tennison did, as meaning <quote>iterate <emphasis>rather than
                         recurse</emphasis> whenever you can</quote>, rather than, as in our naïve
                 first implementation, <quote>iterate <emphasis>absolutely whenever</emphasis> you
                     can</quote>. In other words, we should use iteration where recursion would have
-                been required in XSLT 2.0, but not as a replacement for <tag>xsl:for-each</tag>,
-                which we should retain where appropriate.</para>
+                been required in XSLT 2.0, but not as a replacement for
+                    <tag>&lt;xsl:for-each&gt;</tag>, which we should retain where
+                appropriate.</para>
             <para>In the Needleman Wunsch (and also Levenshtein) context, as <xref
                     linkend="wang_2002"/> and <xref linkend="naveed_2005"/> point out, all values on
                 the same diagonal can be calculated in parallel, and Tennison’s use of
-                    <tag>xsl:for-each</tag> in her improved code, in <xref linkend="tennison_2007b"
-                />, to process the diagonal is compatible with this observation because
-                    <tag>xsl:for-each</tag> can be parallelized. Whether it <emphasis>is</emphasis>
-                executed in parallel, however, is often unpredictable, since XSLT does not give the
-                programmer explicit control over processes or threads in the same way as other
-                languages (cf. Python’s <code>multiprocessing</code> module). However, Saxon EE
-                (although not PE or HE) provides a custom <tag class="attribute">saxon:threads</tag>
-                attribute that allows the developer to specify that an <tag>xsl:for-each</tag>
-                element should be processed in parallel. The documentation explains that: <blockquote>
+                    <tag>&lt;xsl:for-each&gt;</tag> in her improved code, in <xref
+                    linkend="tennison_2007b"/>, to process the diagonal is compatible with this
+                observation because <tag>&lt;xsl:for-each&gt;</tag> can be parallelized. Whether it
+                    <emphasis>is</emphasis> executed in parallel, however, is often unpredictable,
+                since XSLT does not give the programmer explicit control over processes or threads
+                in the same way as other languages (cf. Python’s <code>multiprocessing</code>
+                module). However, Saxon EE (although not PE or HE) provides a custom <tag
+                    class="attribute">@saxon:threads</tag> attribute that allows the developer to
+                specify that an <tag>&lt;xsl:for-each&gt;</tag> element should be processed in
+                parallel. The documentation explains that: <blockquote>
                     <para>This attribute may be set on the xsl:for-each instruction. The value must
                         be an integer. When this attribute is used with Saxon-EE, the items selected
                         by the select expression of the instruction are processed in parallel, using
@@ -701,18 +705,18 @@
                             linkend="saxon_threads"/>)</para>
                 </blockquote></para>
             <para>With this in mind, we revised our first implementation to iterate only to move
-                through the diagonals, using <tag>xsl:for-each</tag> to process the items within an
-                individual diagonal. The ordinal position of the diagonal (in a sweep that moves
-                from the one-cell diagonal in the upper left to the one-cell diagonal in the lower
-                right) to which any cell belongs can be determined as a function of the row and
-                column number. We compute that diagonal value at the same time as we determine the
-                row and column numbers and store all three, together with whether the cell
+                through the diagonals, using <tag>&lt;xsl:for-each&gt;</tag> to process the items
+                within an individual diagonal. The ordinal position of the diagonal (in a sweep that
+                moves from the one-cell diagonal in the upper left to the one-cell diagonal in the
+                lower right) to which any cell belongs can be determined as a function of the row
+                and column number. We compute that diagonal value at the same time as we determine
+                the row and column numbers and store all three, together with whether the cell
                 represents a match or non-match between the sequence item labeling the row and the
                 one labeling the column, on the cell, so that a sample cell might look like
-                    <code>&lt;cell row="2" col="3" diag="4" match="-1"/&gt;</code>. We then use
-                    <tag>xsl:for-each-group</tag> to group the cells by diagonal, running
-                    <tag>xsl:for-each</tag> over the members of each group and rewriting the cells
-                on the diagonal being processed to add additional information: the scores from
+                    <tag>&lt;cell row="2" col="3" diag="4" match="-1"/&gt;</tag>. We then use
+                    <tag>&lt;xsl:for-each-group&gt;</tag> to group the cells by diagonal, running
+                    <tag>&lt;xsl:for-each&gt;</tag> over the members of each group and rewriting the
+                cells on the diagonal being processed to add additional information: the scores from
                 relevant neighboring cells; which cell contributed the highest value; and the
                 (highest) value itself, which becomes the content of the cell.</para>
             <para>It is possible for more than one neighboring cell to tie for highest value, and
@@ -770,17 +774,17 @@
                     whenever you can and (b) don’t blindly adapt algorithms designed for procedural
                     programming languages to XSLT. [<xref linkend="tennison_2007b"/>]</para>
             </blockquote></para>
-        <para>The XSLT 3.0 <tag>xsl:iterate</tag> element provides a robust method to iterate
-            reliably that was not available to Tennison in 2007. Beyond that, the implementation
-            above extends Tennison’s XSLT-idiomatic implementation of a Levenshtein distance
-            algorithm to the closely related domain of Needleman Wunsch sequence alignment, with
-            attention to the additional step of traversing the optimal path to construct the actual
-            alignment. Finally, the present report also emphasizes that although
-                <tag>xsl:iterate</tag> can be used for any repetitive operation, the use of
-                <tag>xsl:for-each</tag> where it is appropriate, especially when combined with the
-            Saxon EE <tag class="attribute">saxon:threads</tag> attribute, enables parallel
-            execution that would not be available it <tag>xsl:iterate</tag> were used everywhere a
-            sequence is processed.</para>
+        <para>The XSLT 3.0 <tag>&lt;xsl:iterate&gt;</tag> element provides a robust method to
+            iterate reliably that was not available to Tennison in 2007. Beyond that, the
+            implementation above extends Tennison’s XSLT-idiomatic implementation of a Levenshtein
+            distance algorithm to the closely related domain of Needleman Wunsch sequence alignment,
+            with attention to the additional step of traversing the optimal path to construct the
+            actual alignment. Finally, the present report also emphasizes that although
+                <tag>&lt;xsl:iterate&gt;</tag> can be used for any repetitive operation, the use of
+                <tag>&lt;xsl:for-each&gt;</tag> where it is appropriate, especially when combined
+            with the Saxon EE <tag class="attribute">@saxon:threads</tag> attribute, enables
+            parallel execution that would not be available it <tag>&lt;xsl:iterate&gt;</tag> were
+            used everywhere a sequence is processed.</para>
     </section>
     <bibliography>
         <title>Works cited</title>
@@ -901,39 +905,41 @@
             /></bibliomixed>
     </bibliography>
     <appendix>
-        <title>Thinking about alignment in tables and graphs</title>
+        <title>Modeling alignment as table and graph</title>
         <para>The dynamic programming paradigm underlying Needleman Wunsch traditionally models the
             information that determines the optimal alignment as a grid or table, where the items in
             one of the sequences to be aligned label the rows and the items in the other sequence
             label the columns. In our first implementation we build this grid as a row-major table:
-            a <tag>table</tag> root element contains <tag>row</tag> children, which, in turn,
-            contain <tag>cell</tag> children, one per column. This hierarchical table structure is
-            conceptually wrong because it privileges rows over columns, and it is not the nature of
-            tables (or, at least, of this particular table) that either rows should be
-            hierarchically superior to columns or vice versa. The hierarchical table is also awkward
-            from an engineering perspective because it requires us, in order to identify the
-            location of the neighboring cells that contribute to determining a value, to use rather
-            complex XPath path expressions to dereference the position of the current context cell.
-            If, however, every cell knows its row and column membership without having to query its
-            location in a table hierarchy, we avoid having to evaluate those path expressions. Among
-            other things, recording logical row and column positions as attributes on the cells
-            makes the code that constructs and navigates diagonals easier to read.</para>
+            a <tag>&lt;table&gt;</tag> root element contains <tag>&lt;row&gt;</tag> children, which,
+            in turn, contain <tag>&lt;cell&gt;</tag> children, one per column. This hierarchical
+            table structure is conceptually wrong because it privileges rows over columns, and it is
+            not the nature of tables (or, at least, of this particular table) that either rows
+            should be hierarchically superior to columns or vice versa. The hierarchical table is
+            also awkward from an engineering perspective because it requires us, in order to
+            identify the location of the neighboring cells that contribute to determining a value,
+            to use rather complex XPath path expressions to dereference the position of the current
+            context cell. If, however, every cell knows its row and column membership without having
+            to query its location in a table hierarchy, we avoid having to evaluate those path
+            expressions. Among other things, recording logical row and column positions as
+            attributes on the cells makes the code that constructs and navigates diagonals easier to
+            read.</para>
         <para>For these conceptual and practical reasons, in our second implementation we model the
-            dynamic programming table as a flat and logically unordered set of <tag>cell</tag>
-            elements, each of which stores its conceptual row and column membership in attributes.<footnote>
+            dynamic programming table as a flat and logically unordered set of
+                <tag>&lt;cell&gt;</tag> elements, each of which stores its conceptual row and column
+            membership in attributes.<footnote>
                 <para>We refer to <emphasis>conceptual</emphasis> row and column membership because
-                    there are no <tag>row</tag> elements or <tag>column</tag> elements, and the
-                    cells are not organized hierarchically. A more scrupulous way of describing
-                    these properties might be that they record not membership in a row or column,
-                    but a relationship property that cells have to items in the two sequences to be
-                    aligned. We have implemented these properties as attributes that we call <tag
-                        class="attribute">row</tag> and <tag class="attribute">col</tag> because the
-                    spatial metaphor of a table is easy to understand. See <xref
+                    there are no <tag>&lt;row&gt;</tag> elements or <tag>&lt;column&gt;</tag>
+                    elements, and the cells are not organized hierarchically. A more scrupulous way
+                    of describing these properties might be that they record not membership in a row
+                    or column, but a relationship property that cells have to items in the two
+                    sequences to be aligned. We have implemented these properties as attributes that
+                    we call <tag class="attribute">@row</tag> and <tag class="attribute">@col</tag>
+                    because the spatial metaphor of a table is easy to understand. See <xref
                         linkend="birnbaum_2007"/> for a discussion of these modeling issues.</para>
             </footnote> If we think of the cells as nodes in a graph, information about (conceptual)
             adjacency edges is only implicit, in that adjacent cells are discoverable not by edges
             that specify both ends, but by performing arithmetic on the current <tag
-                class="attribute">row</tag> and <tag class="attribute">col</tag> values to compute
+                class="attribute">@row</tag> and <tag class="attribute">@col</tag> values to compute
             the values of adjacent cells. As we add scores to the graph progressively and record
             which neighboring cell was responsible for the new value, we add an explicit directed
             edge, stored on the cell that contains the new value as a pointer to the cell
