@@ -1804,10 +1804,12 @@
                     <!-- sort from highest to lowest, subsorted alphabetically -->
                     <xsl:variable name="highest" as="element(score)+">
                         <xsl:perform-sort select="$scores">
-                            <xsl:sort order="descending"/>
+                            <xsl:sort order="descending" select="number(.)"/>
                             <xsl:sort select="@source"/>
                         </xsl:perform-sort>
                     </xsl:variable>
+                    <xsl:message select="$highest"/>
+
                     <!--
                         copy <cell> with all existing attributes (@row, @col, @match, and two strings)
                         add @u, @l, and @d with scores from three neighbors
@@ -1989,6 +1991,9 @@
                             </xsl:choose>
                             <xsl:for-each select="current-group()">
                                 <td>
+                                    <xsl:for-each select="@*">
+                                        <xsl:attribute name="data-{name()}" select="."/>
+                                    </xsl:for-each>
                                     <xsl:value-of select="."/>
                                 </td>
                             </xsl:for-each>
