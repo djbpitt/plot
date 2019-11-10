@@ -1781,6 +1781,7 @@
             <xsl:param name="ult" as="element(cell)*" select="()"/>
             <xsl:param name="penult" as="element(cell)*" select="()"/>
             <xsl:on-completion select="$cells"/>
+            <!--<xsl:message select="current()"/>-->
             <xsl:variable name="search_space" as="document-node()">
                 <xsl:document>
                     <cell/>
@@ -1791,7 +1792,7 @@
                 <xsl:for-each select="cell">
                     <!-- compute scores for three neighbors -->
                     <xsl:variable name="scores" as="element(score)+">
-                        <score source="u">
+                        <!--<score source="u">
                             <xsl:value-of
                                 select="$cells[@row = current()/@row - 1 and @col = current()/@col] + $gap"
                             />
@@ -1805,9 +1806,18 @@
                             <xsl:value-of
                                 select="$cells[@row = current()/@row - 1 and @col = current()/@col - 1] + @match"
                             />
+                        </score>-->
+                        <score source='u'>
+                            <xsl:value-of select="key('cellByRowCol', (current()/@row - 1, current()/@col/number()), $search_space) + $gap"/>
+                        </score>
+                        <score source='l'>
+                            <xsl:value-of select="key('cellByRowCol', (current()/@row/number(), current()/@col - 1), $search_space) + $gap"/>
+                        </score>
+                        <score source='d'>
+                            <xsl:value-of select="key('cellByRowCol', (current()/@row - 1, current()/@col - 1), $search_space) + @match"/>
                         </score>
                     </xsl:variable>
-                    <xsl:message select="key('cellByRowCol', (current()/@row/number() - 1, current()/@col/number() - 1), $search_space)"/>
+                    <!--<xsl:message select="key('cellByRowCol', (current()/@row - 1, current()/@col), $search_space) + 1"/>-->
                     <!-- sort from highest to lowest, subsorted alphabetically -->
                     <xsl:variable name="highest" as="element(score)+">
                         <xsl:perform-sort select="$scores">
@@ -1940,9 +1950,9 @@
         <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($woolf_us, '\s+')"/>
         <xsl:variable name="s2" as="xs:string+" select="tokenize($woolf_uk, '\s+')"/>-->
         <xsl:variable name="s1" as="xs:string+"
-            select="tokenize($darwin_1859_part, '\s+')[position() lt 50]"/>
+            select="tokenize($darwin_1859_part, '\s+')"/>
         <xsl:variable name="s2" as="xs:string+"
-            select="tokenize($darwin_1872_part, '\s+')[position() lt 50]"/>
+            select="tokenize($darwin_1872_part, '\s+')"/>
         <!--<xsl:variable name="s1" as="xs:string+" select="djb:explode('kitten')"/>
         <xsl:variable name="s2" as="xs:string+" select="djb:explode('sitting')"/>-->
 
