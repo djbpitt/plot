@@ -1715,13 +1715,13 @@
             <cell row="0" col="0" diag="0">0</cell>
             <!-- left side -->
             <xsl:for-each select="$s1">
-                <cell row="{position()}" col="0" diag="{position()}" from="'u'">
+                <cell row="{position()}" col="0" diag="{position()}" from="u">
                     <xsl:value-of select="position() * $gap"/>
                 </cell>
             </xsl:for-each>
             <!-- top row -->
             <xsl:for-each select="$s2">
-                <cell row="0" col="{position()}" from="'l'" diag="{position()}">
+                <cell row="0" col="{position()}" from="l" diag="{position()}">
                     <xsl:value-of select="position() * $gap"/>
                 </cell>
             </xsl:for-each>
@@ -1778,45 +1778,53 @@
             -->
             <xsl:param name="cells" as="element(cell)*" select="()"/>
             <xsl:on-completion select="$cells"/>
-            <!-- uncomment for diagnostic information about <xsl:iterate> progress -->
-            <!--<xsl:message
-                select="'Diag', @n/string(),', new cells', count(cell), ', accumulated cells', count($cells)"/>-->
             <xsl:variable name="new_cells" as="element(cell)+">
+                <!-- carry existing cells forward through iterations-->
                 <xsl:sequence select="$cells"/>
+                <!-- process cells in new diagonal -->
                 <xsl:for-each select="cell">
-                    <xsl:variable name="u-value"
-                        select="$cells[@row = current()/@row - 1 and @col = current()/@col]"/>
-                    <xsl:variable name="l-value"
-                        select="$cells[@row = current()/@row and @col = current()/@col - 1]"/>
-                    <xsl:variable name="d-value"
-                        select="$cells[@row = current()/@row - 1 and @col = current()/@col - 1]"/>
+                    <!-- compute scores for three neighbors -->
+                    <xsl:variable name="scores" as="element(score)+">
+                        <score source="u">
+                            <xsl:value-of
+                                select="$cells[@row = current()/@row - 1 and @col = current()/@col] + $gap"
+                            />
+                        </score>
+                        <score source="l">
+                            <xsl:value-of
+                                select="$cells[@row = current()/@row and @col = current()/@col - 1] + $gap"
+                            />
+                        </score>
+                        <score source="d">
+                            <xsl:value-of
+                                select="$cells[@row = current()/@row - 1 and @col = current()/@col - 1] + @match"
+                            />
+                        </score>
+                    </xsl:variable>
+                    <!-- sort from highest to lowest, subsorted alphabetically -->
+                    <xsl:variable name="highest" as="element(score)+">
+                        <xsl:perform-sort select="$scores">
+                            <xsl:sort order="descending"/>
+                            <xsl:sort select="@source"/>
+                        </xsl:perform-sort>
+                    </xsl:variable>
+                    <!--
+                        copy <cell> with all existing attributes (@row, @col, @match, and two strings)
+                        add @u, @l, and @d with scores from three neighbors
+                        write highest score into content
+                    -->
                     <xsl:copy>
                         <xsl:copy-of select="@*"/>
-                        <xsl:attribute name="u" select="$u-value"/>
-                        <xsl:attribute name="l" select="$l-value"/>
-                        <xsl:attribute name="d" select="$d-value"/>
                         <xsl:choose>
                             <xsl:when test="text()">
                                 <xsl:apply-templates/>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:value-of
-                                    select="
-                                        max((
-                                        if ($u-value) then
-                                            $u-value + $gap
-                                        else
-                                            (),
-                                        if ($l-value) then
-                                            $l-value + $gap
-                                        else
-                                            (),
-                                        if ($d-value) then
-                                            $d-value + @match
-                                        else
-                                            ()
-                                        ))"
-                                />
+                                <xsl:attribute name="u" select="$scores[@source eq 'u']"/>
+                                <xsl:attribute name="l" select="$scores[@source eq 'l']"/>
+                                <xsl:attribute name="d" select="$scores[@source eq 'd']"/>
+                                <xsl:attribute name="source" select="$highest[1]/@source"/>
+                                <xsl:value-of select="$highest[1]"/>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:copy>
@@ -1940,6 +1948,54 @@
                 else
                     $s2)"/>
         <!--<xsl:sequence select="$cells"/>-->
-        <xsl:sequence select="djb:nw($cells)"/>
+        <xsl:variable name="grid" select="djb:nw($cells)"/>
+        <!--<xsl:sequence select="$grid"/>-->
+        <html xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+                <title>Needleman Wunsch</title>
+            </head>
+            <body>
+                <table border="1">
+                    <tr>
+                        <th>&#xa0;</th>
+                        <th>&#xa0;</th>
+                        <xsl:for-each
+                            select="
+                                for $c in string-to-codepoints($s2)
+                                return
+                                    codepoints-to-string($c)">
+                            <th>
+                                <xsl:value-of select="."/>
+                            </th>
+                        </xsl:for-each>
+                    </tr>
+                    <xsl:for-each-group group-by="@row" select="$grid">
+                        <xsl:variable name="rowNo" select="position()"/>
+                        <tr>
+                            <xsl:choose>
+                                <xsl:when test="$rowNo eq 1">
+                                    <th>&#xa0;</th>
+                                </xsl:when>
+                                <xsl:when test="$rowNo gt 1">
+                                    <th>
+                                        <xsl:value-of
+                                            select="
+                                                (for $c in string-to-codepoints($s1)
+                                                return
+                                                    codepoints-to-string($c))[$rowNo - 1]"
+                                        />
+                                    </th>
+                                </xsl:when>
+                            </xsl:choose>
+                            <xsl:for-each select="current-group()">
+                                <td>
+                                    <xsl:value-of select="."/>
+                                </td>
+                            </xsl:for-each>
+                        </tr>
+                    </xsl:for-each-group>
+                </table>
+            </body>
+        </html>
     </xsl:template>
 </xsl:stylesheet>
