@@ -2,9 +2,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <title>Needleman Wunsch</title>
+      <link rel="stylesheet"
+            type="text/css"
+            href="http://www.obdurodon.org/css/style.css"/>
+      <style type="text/css">
+                    #grid th,
+                    #grid td {
+                    text-align: right;
+                    }
+                    #grid th:first-of-type {
+                    text-align: left;
+                    }
+                    #grid tr:first-of-type &gt; th {
+                    text-align: center;
+                    }
+                    #grid td:before,
+                    #grid th:before {
+                    content: attr(data-arrow) " ";
+                    font-size: small;
+                    }
+                    [data-match = "1"] {
+                    background-color: palegreen;
+                    }
+                    [data-match = "-1"] {
+                    background-color: pink;
+                    }
+                    #alignment th {
+                    text-align: left;
+                    }
+                    #metadata &gt; p {
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    }
+                    .input {
+                    text-indent: -1em;
+                    margin-left: 1em;
+                    }
+                    #top {
+                    display: flex;
+                    flex-direction: row;
+                    }
+                    #metadata,
+                    #schematic {
+                    display: flex;
+                    flex-direction: column;
+                    }</style>
    </head>
    <body>
-      <table border="1">
+      <table id="grid" border="1">
          <tr>
             <th> </th>
             <th> </th>
@@ -18,18 +63,50 @@
          </tr>
          <tr>
             <th> </th>
-            <td data-row="0" data-col="0" data-diag="0">0</td>
-            <td data-row="0" data-col="1" data-from="l" data-diag="1">-2</td>
-            <td data-row="0" data-col="2" data-from="l" data-diag="2">-4</td>
-            <td data-row="0" data-col="3" data-from="l" data-diag="3">-6</td>
-            <td data-row="0" data-col="4" data-from="l" data-diag="4">-8</td>
-            <td data-row="0" data-col="5" data-from="l" data-diag="5">-10</td>
-            <td data-row="0" data-col="6" data-from="l" data-diag="6">-12</td>
-            <td data-row="0" data-col="7" data-from="l" data-diag="7">-14</td>
+            <td data-row="0" data-col="0" data-diag="0" data-arrow="">0</td>
+            <td data-row="0"
+                data-col="1"
+                data-source="l"
+                data-diag="1"
+                data-arrow="→">-2</td>
+            <td data-row="0"
+                data-col="2"
+                data-source="l"
+                data-diag="2"
+                data-arrow="→">-4</td>
+            <td data-row="0"
+                data-col="3"
+                data-source="l"
+                data-diag="3"
+                data-arrow="→">-6</td>
+            <td data-row="0"
+                data-col="4"
+                data-source="l"
+                data-diag="4"
+                data-arrow="→">-8</td>
+            <td data-row="0"
+                data-col="5"
+                data-source="l"
+                data-diag="5"
+                data-arrow="→">-10</td>
+            <td data-row="0"
+                data-col="6"
+                data-source="l"
+                data-diag="6"
+                data-arrow="→">-12</td>
+            <td data-row="0"
+                data-col="7"
+                data-source="l"
+                data-diag="7"
+                data-arrow="→">-14</td>
          </tr>
          <tr>
             <th>k</th>
-            <td data-row="1" data-col="0" data-diag="1" data-from="u">-2</td>
+            <td data-row="1"
+                data-col="0"
+                data-diag="1"
+                data-source="u"
+                data-arrow="↓">-2</td>
             <td data-row="1"
                 data-col="1"
                 data-diag="2"
@@ -39,7 +116,8 @@
                 data-u="-4"
                 data-l="-4"
                 data-d="-1"
-                data-source="d">-1</td>
+                data-source="d"
+                data-arrow="↘">-1</td>
             <td data-row="1"
                 data-col="2"
                 data-diag="3"
@@ -49,7 +127,8 @@
                 data-u="-6"
                 data-l="-3"
                 data-d="-3"
-                data-source="d">-3</td>
+                data-source="d"
+                data-arrow="↘">-3</td>
             <td data-row="1"
                 data-col="3"
                 data-diag="4"
@@ -59,7 +138,8 @@
                 data-u="-8"
                 data-l="-5"
                 data-d="-5"
-                data-source="d">-5</td>
+                data-source="d"
+                data-arrow="↘">-5</td>
             <td data-row="1"
                 data-col="4"
                 data-diag="5"
@@ -69,7 +149,8 @@
                 data-u="-10"
                 data-l="-7"
                 data-d="-7"
-                data-source="d">-7</td>
+                data-source="d"
+                data-arrow="↘">-7</td>
             <td data-row="1"
                 data-col="5"
                 data-diag="6"
@@ -79,7 +160,8 @@
                 data-u="-12"
                 data-l="-9"
                 data-d="-9"
-                data-source="d">-9</td>
+                data-source="d"
+                data-arrow="↘">-9</td>
             <td data-row="1"
                 data-col="6"
                 data-diag="7"
@@ -89,7 +171,8 @@
                 data-u="-14"
                 data-l="-11"
                 data-d="-11"
-                data-source="d">-11</td>
+                data-source="d"
+                data-arrow="↘">-11</td>
             <td data-row="1"
                 data-col="7"
                 data-diag="8"
@@ -99,11 +182,16 @@
                 data-u="-16"
                 data-l="-13"
                 data-d="-13"
-                data-source="d">-13</td>
+                data-source="d"
+                data-arrow="↘">-13</td>
          </tr>
          <tr>
             <th>i</th>
-            <td data-row="2" data-col="0" data-diag="2" data-from="u">-4</td>
+            <td data-row="2"
+                data-col="0"
+                data-diag="2"
+                data-source="u"
+                data-arrow="↓">-4</td>
             <td data-row="2"
                 data-col="1"
                 data-diag="3"
@@ -113,7 +201,8 @@
                 data-u="-3"
                 data-l="-6"
                 data-d="-3"
-                data-source="d">-3</td>
+                data-source="d"
+                data-arrow="↘">-3</td>
             <td data-row="2"
                 data-col="2"
                 data-diag="4"
@@ -123,7 +212,8 @@
                 data-u="-5"
                 data-l="-5"
                 data-d="0"
-                data-source="d">0</td>
+                data-source="d"
+                data-arrow="↘">0</td>
             <td data-row="2"
                 data-col="3"
                 data-diag="5"
@@ -133,7 +223,8 @@
                 data-u="-7"
                 data-l="-2"
                 data-d="-4"
-                data-source="l">-2</td>
+                data-source="l"
+                data-arrow="→">-2</td>
             <td data-row="2"
                 data-col="4"
                 data-diag="6"
@@ -143,7 +234,8 @@
                 data-u="-9"
                 data-l="-4"
                 data-d="-6"
-                data-source="l">-4</td>
+                data-source="l"
+                data-arrow="→">-4</td>
             <td data-row="2"
                 data-col="5"
                 data-diag="7"
@@ -153,7 +245,8 @@
                 data-u="-11"
                 data-l="-6"
                 data-d="-6"
-                data-source="d">-6</td>
+                data-source="d"
+                data-arrow="↘">-6</td>
             <td data-row="2"
                 data-col="6"
                 data-diag="8"
@@ -163,7 +256,8 @@
                 data-u="-13"
                 data-l="-8"
                 data-d="-10"
-                data-source="l">-8</td>
+                data-source="l"
+                data-arrow="→">-8</td>
             <td data-row="2"
                 data-col="7"
                 data-diag="9"
@@ -173,11 +267,16 @@
                 data-u="-15"
                 data-l="-10"
                 data-d="-12"
-                data-source="l">-10</td>
+                data-source="l"
+                data-arrow="→">-10</td>
          </tr>
          <tr>
             <th>t</th>
-            <td data-row="3" data-col="0" data-diag="3" data-from="u">-6</td>
+            <td data-row="3"
+                data-col="0"
+                data-diag="3"
+                data-source="u"
+                data-arrow="↓">-6</td>
             <td data-row="3"
                 data-col="1"
                 data-diag="4"
@@ -187,7 +286,8 @@
                 data-u="-5"
                 data-l="-8"
                 data-d="-5"
-                data-source="d">-5</td>
+                data-source="d"
+                data-arrow="↘">-5</td>
             <td data-row="3"
                 data-col="2"
                 data-diag="5"
@@ -197,7 +297,8 @@
                 data-u="-2"
                 data-l="-7"
                 data-d="-4"
-                data-source="u">-2</td>
+                data-source="u"
+                data-arrow="↓">-2</td>
             <td data-row="3"
                 data-col="3"
                 data-diag="6"
@@ -207,7 +308,8 @@
                 data-u="-4"
                 data-l="-4"
                 data-d="1"
-                data-source="d">1</td>
+                data-source="d"
+                data-arrow="↘">1</td>
             <td data-row="3"
                 data-col="4"
                 data-diag="7"
@@ -217,7 +319,8 @@
                 data-u="-6"
                 data-l="-1"
                 data-d="-1"
-                data-source="d">-1</td>
+                data-source="d"
+                data-arrow="↘">-1</td>
             <td data-row="3"
                 data-col="5"
                 data-diag="8"
@@ -227,7 +330,8 @@
                 data-u="-8"
                 data-l="-3"
                 data-d="-5"
-                data-source="l">-3</td>
+                data-source="l"
+                data-arrow="→">-3</td>
             <td data-row="3"
                 data-col="6"
                 data-diag="9"
@@ -237,7 +341,8 @@
                 data-u="-10"
                 data-l="-5"
                 data-d="-7"
-                data-source="l">-5</td>
+                data-source="l"
+                data-arrow="→">-5</td>
             <td data-row="3"
                 data-col="7"
                 data-diag="10"
@@ -247,11 +352,16 @@
                 data-u="-12"
                 data-l="-7"
                 data-d="-9"
-                data-source="l">-7</td>
+                data-source="l"
+                data-arrow="→">-7</td>
          </tr>
          <tr>
             <th>t</th>
-            <td data-row="4" data-col="0" data-diag="4" data-from="u">-8</td>
+            <td data-row="4"
+                data-col="0"
+                data-diag="4"
+                data-source="u"
+                data-arrow="↓">-8</td>
             <td data-row="4"
                 data-col="1"
                 data-diag="5"
@@ -261,7 +371,8 @@
                 data-u="-7"
                 data-l="-10"
                 data-d="-7"
-                data-source="d">-7</td>
+                data-source="d"
+                data-arrow="↘">-7</td>
             <td data-row="4"
                 data-col="2"
                 data-diag="6"
@@ -271,7 +382,8 @@
                 data-u="-4"
                 data-l="-9"
                 data-d="-6"
-                data-source="u">-4</td>
+                data-source="u"
+                data-arrow="↓">-4</td>
             <td data-row="4"
                 data-col="3"
                 data-diag="7"
@@ -281,7 +393,8 @@
                 data-u="-1"
                 data-l="-6"
                 data-d="-1"
-                data-source="d">-1</td>
+                data-source="d"
+                data-arrow="↘">-1</td>
             <td data-row="4"
                 data-col="4"
                 data-diag="8"
@@ -291,7 +404,8 @@
                 data-u="-3"
                 data-l="-3"
                 data-d="2"
-                data-source="d">2</td>
+                data-source="d"
+                data-arrow="↘">2</td>
             <td data-row="4"
                 data-col="5"
                 data-diag="9"
@@ -301,7 +415,8 @@
                 data-u="-5"
                 data-l="0"
                 data-d="-2"
-                data-source="l">0</td>
+                data-source="l"
+                data-arrow="→">0</td>
             <td data-row="4"
                 data-col="6"
                 data-diag="10"
@@ -311,7 +426,8 @@
                 data-u="-7"
                 data-l="-2"
                 data-d="-4"
-                data-source="l">-2</td>
+                data-source="l"
+                data-arrow="→">-2</td>
             <td data-row="4"
                 data-col="7"
                 data-diag="11"
@@ -321,11 +437,16 @@
                 data-u="-9"
                 data-l="-4"
                 data-d="-6"
-                data-source="l">-4</td>
+                data-source="l"
+                data-arrow="→">-4</td>
          </tr>
          <tr>
             <th>e</th>
-            <td data-row="5" data-col="0" data-diag="5" data-from="u">-10</td>
+            <td data-row="5"
+                data-col="0"
+                data-diag="5"
+                data-source="u"
+                data-arrow="↓">-10</td>
             <td data-row="5"
                 data-col="1"
                 data-diag="6"
@@ -335,7 +456,8 @@
                 data-u="-9"
                 data-l="-12"
                 data-d="-9"
-                data-source="d">-9</td>
+                data-source="d"
+                data-arrow="↘">-9</td>
             <td data-row="5"
                 data-col="2"
                 data-diag="7"
@@ -345,7 +467,8 @@
                 data-u="-6"
                 data-l="-11"
                 data-d="-8"
-                data-source="u">-6</td>
+                data-source="u"
+                data-arrow="↓">-6</td>
             <td data-row="5"
                 data-col="3"
                 data-diag="8"
@@ -355,7 +478,8 @@
                 data-u="-3"
                 data-l="-8"
                 data-d="-5"
-                data-source="u">-3</td>
+                data-source="u"
+                data-arrow="↓">-3</td>
             <td data-row="5"
                 data-col="4"
                 data-diag="9"
@@ -365,7 +489,8 @@
                 data-u="0"
                 data-l="-5"
                 data-d="-2"
-                data-source="u">0</td>
+                data-source="u"
+                data-arrow="↓">0</td>
             <td data-row="5"
                 data-col="5"
                 data-diag="10"
@@ -375,7 +500,8 @@
                 data-u="-2"
                 data-l="-2"
                 data-d="1"
-                data-source="d">1</td>
+                data-source="d"
+                data-arrow="↘">1</td>
             <td data-row="5"
                 data-col="6"
                 data-diag="11"
@@ -385,7 +511,8 @@
                 data-u="-4"
                 data-l="-1"
                 data-d="-1"
-                data-source="d">-1</td>
+                data-source="d"
+                data-arrow="↘">-1</td>
             <td data-row="5"
                 data-col="7"
                 data-diag="12"
@@ -395,11 +522,16 @@
                 data-u="-6"
                 data-l="-3"
                 data-d="-3"
-                data-source="d">-3</td>
+                data-source="d"
+                data-arrow="↘">-3</td>
          </tr>
          <tr>
             <th>n</th>
-            <td data-row="6" data-col="0" data-diag="6" data-from="u">-12</td>
+            <td data-row="6"
+                data-col="0"
+                data-diag="6"
+                data-source="u"
+                data-arrow="↓">-12</td>
             <td data-row="6"
                 data-col="1"
                 data-diag="7"
@@ -409,7 +541,8 @@
                 data-u="-11"
                 data-l="-14"
                 data-d="-11"
-                data-source="d">-11</td>
+                data-source="d"
+                data-arrow="↘">-11</td>
             <td data-row="6"
                 data-col="2"
                 data-diag="8"
@@ -419,7 +552,8 @@
                 data-u="-8"
                 data-l="-13"
                 data-d="-10"
-                data-source="u">-8</td>
+                data-source="u"
+                data-arrow="↓">-8</td>
             <td data-row="6"
                 data-col="3"
                 data-diag="9"
@@ -429,7 +563,8 @@
                 data-u="-5"
                 data-l="-10"
                 data-d="-7"
-                data-source="u">-5</td>
+                data-source="u"
+                data-arrow="↓">-5</td>
             <td data-row="6"
                 data-col="4"
                 data-diag="10"
@@ -439,7 +574,8 @@
                 data-u="-2"
                 data-l="-7"
                 data-d="-4"
-                data-source="u">-2</td>
+                data-source="u"
+                data-arrow="↓">-2</td>
             <td data-row="6"
                 data-col="5"
                 data-diag="11"
@@ -449,7 +585,8 @@
                 data-u="-1"
                 data-l="-4"
                 data-d="-1"
-                data-source="d">-1</td>
+                data-source="d"
+                data-arrow="↘">-1</td>
             <td data-row="6"
                 data-col="6"
                 data-diag="12"
@@ -459,7 +596,8 @@
                 data-u="-3"
                 data-l="-3"
                 data-d="2"
-                data-source="d">2</td>
+                data-source="d"
+                data-arrow="↘">2</td>
             <td data-row="6"
                 data-col="7"
                 data-diag="13"
@@ -469,7 +607,8 @@
                 data-u="-5"
                 data-l="0"
                 data-d="-2"
-                data-source="l">0</td>
+                data-source="l"
+                data-arrow="→">0</td>
          </tr>
       </table>
    </body>

@@ -1715,13 +1715,13 @@
             <cell row="0" col="0" diag="0">0</cell>
             <!-- left side -->
             <xsl:for-each select="$s1">
-                <cell row="{position()}" col="0" diag="{position()}" from="u">
+                <cell row="{position()}" col="0" diag="{position()}" source="u">
                     <xsl:value-of select="position() * $gap"/>
                 </cell>
             </xsl:for-each>
             <!-- top row -->
             <xsl:for-each select="$s2">
-                <cell row="0" col="{position()}" from="l" diag="{position()}">
+                <cell row="0" col="{position()}" source="l" diag="{position()}">
                     <xsl:value-of select="position() * $gap"/>
                 </cell>
             </xsl:for-each>
@@ -1955,9 +1955,53 @@
         <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <title>Needleman Wunsch</title>
+                <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
+                <style type="text/css">
+                    #grid th,
+                    #grid td {
+                    text-align: right;
+                    }
+                    #grid th:first-of-type {
+                    text-align: left;
+                    }
+                    #grid tr:first-of-type &gt; th {
+                    text-align: center;
+                    }
+                    #grid td:before,
+                    #grid th:before {
+                    content: attr(data-arrow) " ";
+                    font-size: small;
+                    }
+                    [data-match = "1"] {
+                    background-color: palegreen;
+                    }
+                    [data-match = "-1"] {
+                    background-color: pink;
+                    }
+                    #alignment th {
+                    text-align: left;
+                    }
+                    #metadata &gt; p {
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    }
+                    .input {
+                    text-indent: -1em;
+                    margin-left: 1em;
+                    }
+                    #top {
+                    display: flex;
+                    flex-direction: row;
+                    }
+                    #metadata,
+                    #schematic {
+                    display: flex;
+                    flex-direction: column;
+                    }</style>
+
             </head>
             <body>
-                <table border="1">
+                <table id="grid" border="1">
                     <tr>
                         <th>&#xa0;</th>
                         <th>&#xa0;</th>
@@ -1994,6 +2038,14 @@
                                     <xsl:for-each select="@*">
                                         <xsl:attribute name="data-{name()}" select="."/>
                                     </xsl:for-each>
+                                    <xsl:attribute name="data-arrow"
+                                        select="if (@source eq 'd') 
+                                            then '↘' 
+                                            else if (@source eq 'l') 
+                                                then '→' 
+                                            else if (@source eq 'u')
+                                                then '↓'
+                                                else ()"/>
                                     <xsl:value-of select="."/>
                                 </td>
                             </xsl:for-each>
