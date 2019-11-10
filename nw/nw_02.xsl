@@ -1930,25 +1930,19 @@
     <xsl:template name="xsl:initial-template">
         <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($woolf_us, '\s+')"/>
         <xsl:variable name="s2" as="xs:string+" select="tokenize($woolf_uk, '\s+')"/>-->
-        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
-        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>-->
-        <xsl:variable name="s1" as="xs:string+" select="'kitten'"/>
-        <xsl:variable name="s2" as="xs:string+" select="'sitting'"/>
+        <xsl:variable name="s1" as="xs:string+"
+            select="tokenize($darwin_1859_part, '\s+')[position() lt 50]"/>
+        <xsl:variable name="s2" as="xs:string+"
+            select="tokenize($darwin_1872_part, '\s+')[position() lt 50]"/>
+        <!--<xsl:variable name="s1" as="xs:string+" select="djb:explode('kitten')"/>-->
+        <!--<xsl:variable name="s2" as="xs:string+" select="djb:explode('sitting')"/>-->
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- if both inputs are single words, align by character    -->
         <!--   otherwise align by word                              -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <xsl:variable name="cells"
-            select="
-                djb:cells(if (count($s1) eq 1 and count($s2) eq 1) then
-                    djb:explode($s1)
-                else
-                    $s1,
-                if (count($s1) eq 1 and count($s2) eq 1) then
-                    djb:explode($s2)
-                else
-                    $s2)"/>
+        <xsl:variable name="cells" select="
+                djb:cells($s1, $s2)"/>
         <!--<xsl:sequence select="$cells"/>-->
         <xsl:variable name="grid" select="djb:nw($cells)"/>
         <!--<xsl:sequence select="$grid"/>-->
@@ -2006,10 +2000,7 @@
                         <th>&#xa0;</th>
                         <th>&#xa0;</th>
                         <xsl:for-each
-                            select="
-                                for $c in string-to-codepoints($s2)
-                                return
-                                    codepoints-to-string($c)">
+                            select="$s2">
                             <th>
                                 <xsl:value-of select="."/>
                             </th>
@@ -2025,10 +2016,7 @@
                                 <xsl:when test="$rowNo gt 1">
                                     <th>
                                         <xsl:value-of
-                                            select="
-                                                (for $c in string-to-codepoints($s1)
-                                                return
-                                                    codepoints-to-string($c))[$rowNo - 1]"
+                                            select="$s1[$rowNo - 1]"
                                         />
                                     </th>
                                 </xsl:when>
@@ -2039,13 +2027,20 @@
                                         <xsl:attribute name="data-{name()}" select="."/>
                                     </xsl:for-each>
                                     <xsl:attribute name="data-arrow"
-                                        select="if (@source eq 'd') 
-                                            then '↘' 
-                                            else if (@source eq 'l') 
-                                                then '→' 
-                                            else if (@source eq 'u')
-                                                then '↓'
-                                                else ()"/>
+                                        select="
+                                            if (@source eq 'd')
+                                            then
+                                                '↘'
+                                            else
+                                                if (@source eq 'l')
+                                                then
+                                                    '→'
+                                                else
+                                                    if (@source eq 'u')
+                                                    then
+                                                        '↓'
+                                                    else
+                                                        ()"/>
                                     <xsl:value-of select="."/>
                                 </td>
                             </xsl:for-each>
