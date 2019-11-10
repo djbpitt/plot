@@ -20,6 +20,7 @@
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
 
     <xsl:output method="xml" indent="yes"/>
+    <xsl:key name="cellByRowCol" match="cell" use="number(@row), number(@col)" composite="yes"/>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- stylesheet variables                                       -->
@@ -1777,11 +1778,10 @@
                     thus to $cells
             -->
             <xsl:param name="cells" as="element(cell)*" select="()"/>
+            <xsl:param name="ult" as="element(cell)*" select="()"/>
+            <xsl:param name="penult" as="element(cell)*" select="()"/>
             <xsl:on-completion select="$cells"/>
             <xsl:variable name="new_cells" as="element(cell)+">
-                <!-- carry existing cells forward through iterations-->
-                <xsl:sequence select="$cells"/>
-                <!-- process cells in new diagonal -->
                 <xsl:for-each select="cell">
                     <!-- compute scores for three neighbors -->
                     <xsl:variable name="scores" as="element(score)+">
@@ -1833,7 +1833,9 @@
                 </xsl:for-each>
             </xsl:variable>
             <xsl:next-iteration>
-                <xsl:with-param name="cells" select="$new_cells"/>
+                <xsl:with-param name="cells" as="element(cell)+" select="$cells, $new_cells"/>
+                <xsl:with-param name="ult" as="element(cell)+" select="$new_cells"/>
+                <xsl:with-param name="penult" as="element(cell)*" select="$ult"/>
             </xsl:next-iteration>
         </xsl:iterate>
     </xsl:function>
@@ -1934,8 +1936,8 @@
             select="tokenize($darwin_1859_part, '\s+')[position() lt 50]"/>
         <xsl:variable name="s2" as="xs:string+"
             select="tokenize($darwin_1872_part, '\s+')[position() lt 50]"/>
-        <!--<xsl:variable name="s1" as="xs:string+" select="djb:explode('kitten')"/>-->
-        <!--<xsl:variable name="s2" as="xs:string+" select="djb:explode('sitting')"/>-->
+        <!--<xsl:variable name="s1" as="xs:string+" select="djb:explode('kitten')"/>
+        <xsl:variable name="s2" as="xs:string+" select="djb:explode('sitting')"/>-->
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- if both inputs are single words, align by character    -->
@@ -1999,8 +2001,7 @@
                     <tr>
                         <th>&#xa0;</th>
                         <th>&#xa0;</th>
-                        <xsl:for-each
-                            select="$s2">
+                        <xsl:for-each select="$s2">
                             <th>
                                 <xsl:value-of select="."/>
                             </th>
@@ -2015,9 +2016,7 @@
                                 </xsl:when>
                                 <xsl:when test="$rowNo gt 1">
                                     <th>
-                                        <xsl:value-of
-                                            select="$s1[$rowNo - 1]"
-                                        />
+                                        <xsl:value-of select="$s1[$rowNo - 1]"/>
                                     </th>
                                 </xsl:when>
                             </xsl:choose>
