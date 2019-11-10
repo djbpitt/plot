@@ -7,7 +7,7 @@
                 alignment. Because this dynamic programming algorithm requires the updating of
                 variables, it has posed challenges for functional programming paradigms like the one
                 underlying XSLT. The present report explores these challenges and provides an
-                implementation of the Needleman Wunsch algorithm in XSLT 3.0.</p></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#d5e23">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e25">Why sequence aligment matters</a></span></dt><dt><span class="section"><a href="#d5e35">Biological and textual alignment</a></span></dt><dt><span class="section"><a href="#d5e45">Global pairwise alignment</a></span></dt><dt><span class="section"><a href="#d5e66">Overview of this report</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e84">About sequence alignment</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e86">Alignments and scoring</a></span></dt><dt><span class="section"><a href="#d5e141">Sequence alignment algorithms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e149">Dynamic programming and the Needleman Wunsch algorithm</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e151">Dynamic programming</a></span></dt><dt><span class="section"><a href="#d5e162">The Needleman Wunsch algorithm</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e326">The challenges of dynamic programming and XSLT</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e338">Why recursion breaks</a></span></dt><dt><span class="section"><a href="#d5e351">Iteration to the rescue</a></span></dt><dt><span class="section"><a href="#d5e361">Processing the diagonal</a></span></dt><dt><span class="section"><a href="#d5e406">Save yourself a trip … and some space</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e410">Conclusions</a></span></dt><dt><span class="bibliography"><a href="#d5e426">Works cited</a></span></dt><dt><span class="appendix"><a href="#d5e505">A. Modeling alignment as table and graph</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e23"/>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e25"/>Why sequence aligment matters</h3></div></div></div><p>Sequence alignment is a way of identifying and modeling similarities and
+                implementation of the Needleman Wunsch algorithm in XSLT 3.0.</p></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#d5e23">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e25">Why sequence aligment matters</a></span></dt><dt><span class="section"><a href="#d5e35">Biological and textual alignment</a></span></dt><dt><span class="section"><a href="#d5e45">Global pairwise alignment</a></span></dt><dt><span class="section"><a href="#d5e66">Overview of this report</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e84">About sequence alignment</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e86">Alignments and scoring</a></span></dt><dt><span class="section"><a href="#d5e141">Sequence alignment algorithms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e149">Dynamic programming and the Needleman Wunsch algorithm</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e151">Dynamic programming</a></span></dt><dt><span class="section"><a href="#d5e162">The Needleman Wunsch algorithm</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e326">The challenges of dynamic programming and XSLT</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e338">Why recursion breaks</a></span></dt><dt><span class="section"><a href="#d5e351">Iteration to the rescue</a></span></dt><dt><span class="section"><a href="#d5e361">Processing the diagonal</a></span></dt><dt><span class="section"><a href="#d5e410">Save yourself a trip … and some space</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e414">Conclusions</a></span></dt><dt><span class="bibliography"><a href="#d5e430">Works cited</a></span></dt><dt><span class="appendix"><a href="#d5e509">A. Modeling alignment as table and graph</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e23"/>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e25"/>Why sequence aligment matters</h3></div></div></div><p>Sequence alignment is a way of identifying and modeling similarities and
                 differences in sequences of items, and has proven insightful and productive in both
                 the natural sciences (especially in biology and medicine, where it is applied to
                 genetic sequences) and the humanities (especially in text-critical scholarship,
@@ -327,7 +327,12 @@
                     <code class="sgmltag-element">&lt;xsl:for-each&gt;</code> over the members of each group and rewriting the
                 cells on the diagonal being processed to add additional information: the scores from
                 relevant neighboring cells; which cell contributed the highest value; and the
-                (highest) value itself, which becomes the content of the cell.</p><p>It is possible for more than one neighboring cell to tie for highest value, and
+                (highest) value itself, which becomes the content of the cell. We constrain the
+                search space for neighboring values by searching only the two preceding diagonals
+                (which we return as separate parameters upon iteration), and we improve the
+                retrieval from this space by using <code class="sgmltag-element">&lt;xsl:key&gt;</code> with a composite <code class="sgmltag-attribute">@use</code> attribute that indexes that search space according
+                to <code class="sgmltag-attribute">@row</code> and <code class="sgmltag-attribute">@col</code>
+                values.</p><p>It is possible for more than one neighboring cell to tie for highest value, and
                 our implementation makes a simplifying assumption and identifies only one optimal
                 path, even though there may be more than one, since the task that motivated this
                 development required only <span class="emphasis"><em>an</em></span> optimal alignment, and not
@@ -335,7 +340,7 @@
                 alignment result by recording only one path to each cell, resolving ties by
                 arbitrarily favoring diagonal, then left, and only then upper sources. There is,
                 however, nothing about the method that would prohibit recording and later processing
-                multiple paths, and thus identifying all optimal alignments.</p><p>[ADD DETAILS]</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e406"/>Save yourself a trip … and some space</h3></div></div></div><p>The construction of the scoring grid for Needleman Wunsch is identical to the
+                multiple paths, and thus identifying all optimal alignments.</p><p>[ADD DETAILS]</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e410"/>Save yourself a trip … and some space</h3></div></div></div><p>The construction of the scoring grid for Needleman Wunsch is identical to the
                 construction of the grid for Levenshtein, but, as was noted above, the key
                 difference is what happens next: Levenshtein cares only about the value of the lower
                 right cell, and therefore does not need to walk back through the grid the way
@@ -359,7 +364,7 @@
                 this information only from the one lower right cell for the final traversal. But in
                 compensation we can throw away diagonals along the way as we no longer need them,
                 and we do not need to retain the entire grid only in order to traverse it to
-                construct the alignment table.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e410"/>Conclusions</h2></div></div></div><p>The code that implements our method is available at <a class="link" href="https://github.com/djbpitt/xstuff/tree/master/nw" target="_top">https://github.com/djbpitt/xstuff/tree/master/nw</a>, and has not been
+                construct the alignment table.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e414"/>Conclusions</h2></div></div></div><p>The code that implements our method is available at <a class="link" href="https://github.com/djbpitt/xstuff/tree/master/nw" target="_top">https://github.com/djbpitt/xstuff/tree/master/nw</a>, and has not been
             reproduced here. It is densely commented, and thus offers tutorial information about the
             method. Small exploratory stylesheets that were used to develop individual components of
             the code have been retained in a <span class="emphasis"><em>scratch</em></span> subdirectory.</p><p>Tennison concludes her second, improved computation of Levenshtein distance by writing
@@ -375,7 +380,7 @@
                 <code class="sgmltag-element">&lt;xsl:for-each&gt;</code> where it is appropriate, especially when combined
             with the Saxon EE <code class="sgmltag-attribute">@saxon:threads</code> attribute, enables
             parallel execution that would not be available it <code class="sgmltag-element">&lt;xsl:iterate&gt;</code> were
-            used everywhere a sequence is processed.</p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e426"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
+            used everywhere a sequence is processed.</p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e430"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
                 <span class="quote">“<span class="quote">On the theory of dynamic programming.</span>”</span>
             <span class="citetitle"><em class="citetitle">Proceedings of the National Academy of Sciences</em></span> 38(8):716–19.
                 <a class="link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/" target="_top">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/</a></p></div><div class="bibliomixed"><a id="bellman_1954"/><p class="bibliomixed">[Bellman 1954] Bellman, Richard E. <span class="quote">“<span class="quote">The
@@ -429,7 +434,7 @@
             <span class="citetitle"><em class="citetitle">Cybernetics</em></span> 4(1):52–57.</p></div><div class="bibliomixed"><a id="wang_2002"/><p class="bibliomixed">[Wang 2002] Wang, Bin. 2002. <span class="quote">“<span class="quote">Implementation
                 of a dynamic programming algorithm for DNA sequence alignment on the cell matrix
                 architecture. MA thesis, Utah State University.</span>”</span>
-            <a class="link" href="https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf" target="_top">https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf</a></p></div></div><div class="appendix"><h2 class="title" style="clear: both"><a id="d5e505"/>A. Modeling alignment as table and graph</h2><p>The dynamic programming paradigm underlying Needleman Wunsch traditionally models the
+            <a class="link" href="https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf" target="_top">https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf</a></p></div></div><div class="appendix"><h2 class="title" style="clear: both"><a id="d5e509"/>A. Modeling alignment as table and graph</h2><p>The dynamic programming paradigm underlying Needleman Wunsch traditionally models the
             information that determines the optimal alignment as a grid or table, where the items in
             one of the sequences to be aligned label the rows and the items in the other sequence
             label the columns. In our first implementation we build this grid as a row-major table:
@@ -448,7 +453,7 @@
             read.</p><p>For these conceptual and practical reasons, in our second implementation we model the
             dynamic programming table as a flat and logically unordered set of
                 <code class="sgmltag-element">&lt;cell&gt;</code> elements, each of which stores its conceptual row and column
-            membership in attributes.<a href="#ftn.d5e513" class="footnote" id="d5e513"><sup class="footnote">[9]</sup></a> If we think of the cells as nodes in a graph, information about (conceptual)
+            membership in attributes.<a href="#ftn.d5e517" class="footnote" id="d5e517"><sup class="footnote">[9]</sup></a> If we think of the cells as nodes in a graph, information about (conceptual)
             adjacency edges is only implicit, in that adjacent cells are discoverable not by edges
             that specify both ends, but by performing arithmetic on the current <code class="sgmltag-attribute">@row</code> and <code class="sgmltag-attribute">@col</code> values to compute
             the values of adjacent cells. As we add scores to the graph progressively and record
@@ -490,7 +495,7 @@
                         non-diagonal implementation, which creates a grid and an alignment table and
                         renders both in HTML, overflowed the stack without
                             <code class="sgmltag-element">&lt;xsl:iterate&gt;</code>, and with <code class="sgmltag-element">&lt;xsl:iterate&gt;</code>
-                        it returned times of real 0m2.842s, user 0m6.519s, sys 0m0.494s.</p></div><div id="ftn.d5e513" class="footnote"><p><a href="#d5e513" class="para"><sup class="para">[9] </sup></a>We refer to <span class="emphasis"><em>conceptual</em></span> row and column membership because
+                        it returned times of real 0m2.842s, user 0m6.519s, sys 0m0.494s.</p></div><div id="ftn.d5e517" class="footnote"><p><a href="#d5e517" class="para"><sup class="para">[9] </sup></a>We refer to <span class="emphasis"><em>conceptual</em></span> row and column membership because
                     there are no <code class="sgmltag-element">&lt;row&gt;</code> elements or <code class="sgmltag-element">&lt;column&gt;</code>
                     elements, and the cells are not organized hierarchically. A more scrupulous way
                     of describing these properties might be that they record not membership in a row

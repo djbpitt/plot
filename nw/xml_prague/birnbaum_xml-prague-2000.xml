@@ -718,7 +718,13 @@
                     <tag>&lt;xsl:for-each&gt;</tag> over the members of each group and rewriting the
                 cells on the diagonal being processed to add additional information: the scores from
                 relevant neighboring cells; which cell contributed the highest value; and the
-                (highest) value itself, which becomes the content of the cell.</para>
+                (highest) value itself, which becomes the content of the cell. We constrain the
+                search space for neighboring values by searching only the two preceding diagonals
+                (which we return as separate parameters upon iteration), and we improve the
+                retrieval from this space by using <tag>&lt;xsl:key&gt;</tag> with a composite <tag
+                    class="attribute">@use</tag> attribute that indexes that search space according
+                to <tag class="attribute">@row</tag> and <tag class="attribute">@col</tag>
+                values.</para>
             <para>It is possible for more than one neighboring cell to tie for highest value, and
                 our implementation makes a simplifying assumption and identifies only one optimal
                 path, even though there may be more than one, since the task that motivated this
