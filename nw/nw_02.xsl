@@ -1781,6 +1781,12 @@
             <xsl:param name="ult" as="element(cell)*" select="()"/>
             <xsl:param name="penult" as="element(cell)*" select="()"/>
             <xsl:on-completion select="$cells"/>
+            <xsl:variable name="search_space" as="document-node()">
+                <xsl:document>
+                    <cell/>
+                    <xsl:sequence select="$ult, $penult"/>
+                </xsl:document>
+            </xsl:variable>
             <xsl:variable name="new_cells" as="element(cell)+">
                 <xsl:for-each select="cell">
                     <!-- compute scores for three neighbors -->
@@ -1801,6 +1807,7 @@
                             />
                         </score>
                     </xsl:variable>
+                    <xsl:message select="key('cellByRowCol', (current()/@row/number() - 1, current()/@col/number() - 1), $search_space)"/>
                     <!-- sort from highest to lowest, subsorted alphabetically -->
                     <xsl:variable name="highest" as="element(score)+">
                         <xsl:perform-sort select="$scores">
@@ -1808,7 +1815,7 @@
                             <xsl:sort select="@source"/>
                         </xsl:perform-sort>
                     </xsl:variable>
-                    <xsl:message select="$highest"/>
+                    <!--<xsl:message select="$highest"/>-->
 
                     <!--
                         copy <cell> with all existing attributes (@row, @col, @match, and two strings)
