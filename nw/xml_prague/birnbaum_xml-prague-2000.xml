@@ -38,7 +38,7 @@
             <para>The Needleman Wunsch algorithm, which this year celebrates its quinquagenary
                 anniversary, has been proven to produce an optimal global pairwise sequence
                 alignment. Because this dynamic programming algorithm requires the updating of
-                variables, it has posed challenges for functional programming paradigms like the one
+                variables, it poses challenges for functional programming paradigms like the one
                 underlying XSLT. The present report explores these challenges and provides an
                 implementation of the Needleman Wunsch algorithm in XSLT 3.0.</para>
         </abstract>
@@ -201,18 +201,18 @@
                     <listitem>
                         <para>An item in one sequence has no corresponding item in the other
                             sequence. This is called a <emphasis>gap</emphasis> or an
-                                <emphasis>indel</emphasis> (a correspondence of an item to no item
-                            that can be interpreted as either an <emphasis>in</emphasis>sertion in
-                            one sequence or a <emphasis>del</emphasis>etion from the other). Gaps
-                            are inevitable where the sequences are of different lengths, so that,
-                            for example. given <quote>The gray koala</quote> and <quote>The
-                                koala</quote>, the item <quote>gray</quote> in the first sequence
-                            corresponds to a gap in the second. Gaps may also occur with sequences
-                            of the same length; for example, if we align <quote>The brown koala
-                                lives in Australia</quote> with <quote>The koala lives in South
-                                Australia</quote>, both sequences contain six words, but the most
-                            natural alignment, with a length of seven items and one gap in each
-                            sequence, is: <table>
+                                <emphasis>indel</emphasis> (a correspondence of an item in one
+                            sequence to no item in the other, which can be interpreted as either an
+                                <emphasis>in</emphasis>sertion in one sequence or a
+                                <emphasis>del</emphasis>etion from the other). Gaps are inevitable
+                            where the sequences are of different lengths, so that, for example.
+                            given <quote>The gray koala</quote> and <quote>The koala</quote>, the
+                            item <quote>gray</quote> in the first sequence corresponds to a gap in
+                            the second. Gaps may also occur with sequences of the same length; for
+                            example, if we align <quote>The brown koala lives in Australia</quote>
+                            with <quote>The koala lives in South Australia</quote>, both sequences
+                            contain six words, but the most natural alignment, with a length of
+                            seven items and one gap in each sequence, is: <table>
                                 <title>Alignment example with gaps</title>
                                 <tgroup cols="7">
                                     <tbody>
@@ -244,7 +244,7 @@
                     <quote>-1</quote> to mismatches, and <quote>-1</quote> to gaps. These values
                 prefer alignments with as many matches as possible, and with as few mismatches and
                 gaps as possible. But other scoring methods might, for example, assign a greater
-                penalty to gaps than to mismatches, or might assign greater penalties to new gaps
+                penalty to gaps than to mismatches, or might assign different penalties to new gaps
                 than to continuations of existing gaps (this is called an
                     <emphasis>affine</emphasis> gap penalty).</para>
             <para>The scoring method determines what will be identified as an optimal alignment for
@@ -337,7 +337,7 @@
             </blockquote>
             <para>Boes further explains that Needleman Wunsch <quote>is an
                         <emphasis>optimal</emphasis> algorithm, which means that it produces the
-                    best possible solution with respect to the chosen scoring system. There [exists]
+                    best possible solution with respect to the chosen scoring system. There [exist]
                     also non-optimal alignment algorithms, most notably the heuristic methods
                     …</quote> [<xref linkend="boes_2014"/>, 13]</para>
             <para>Performing alignment according to the Needleman Wunsch dynamic programming
@@ -601,9 +601,10 @@
                 individual diagonal at the same time, since the cells on diagonals that run from top
                 right to bottom left have no mutual dependencies. That is, while the traditional
                 horizontal and then vertical traversal makes each step dependent on the one that
-                immediately precedes it, traversal on the diagonal is possible because all of the
-                information needed to process the entire next diagonal available simultaneously. The
-                absence of dependencies within a diagonal means that Tennison can use
+                immediately precedes it, traversal on the diagonal can be implemented more
+                efficiently because all of the information needed to process an entire diagonal is
+                available simultaneously from the two preceding diagonals. The absence of
+                dependencies within a diagonal means that Tennison can use
                     <tag>&lt;xsl:for-each&gt;</tag> for all of the values on each diagonal, and
                 recur only as she moves to a new diagonal. The computational complexity of
                 populating the grid remains <emphasis>O(mn)</emphasis>, since it is still necessary
@@ -792,8 +793,8 @@
                 <tag>&lt;xsl:iterate&gt;</tag> can be used for any repetitive operation, the use of
                 <tag>&lt;xsl:for-each&gt;</tag> where it is appropriate, especially when combined
             with the Saxon EE <tag class="attribute">@saxon:threads</tag> attribute, enables
-            parallel execution that would not be available it <tag>&lt;xsl:iterate&gt;</tag> were
-            used everywhere a sequence is processed.</para>
+            parallel execution that would not be available were <tag>&lt;xsl:iterate&gt;</tag> used
+            everywhere a sequence is processed.</para>
     </section>
     <bibliography>
         <title>Works cited</title>
@@ -918,20 +919,20 @@
         <para>The dynamic programming paradigm underlying Needleman Wunsch traditionally models the
             information that determines the optimal alignment as a grid or table, where the items in
             one of the sequences to be aligned label the rows and the items in the other sequence
-            label the columns. In our first implementation we build this grid as a row-major table:
-            a <tag>&lt;table&gt;</tag> root element contains <tag>&lt;row&gt;</tag> children, which,
-            in turn, contain <tag>&lt;cell&gt;</tag> children, one per column. This hierarchical
-            table structure is conceptually wrong because it privileges rows over columns, and it is
-            not the nature of tables (or, at least, of this particular table) that either rows
-            should be hierarchically superior to columns or vice versa. The hierarchical table is
-            also awkward from an engineering perspective because it requires us, in order to
-            identify the location of the neighboring cells that contribute to determining a value,
-            to use rather complex XPath path expressions to dereference the position of the current
-            context cell. If, however, every cell knows its row and column membership without having
-            to query its location in a table hierarchy, we avoid having to evaluate those path
-            expressions. Among other things, recording logical row and column positions as
-            attributes on the cells makes the code that constructs and navigates diagonals easier to
-            read.</para>
+            label the columns. In our first implementation we build this grid as a row-major
+            hierarchical table, as is common XML table modeling: a <tag>&lt;table&gt;</tag> root
+            element contains <tag>&lt;row&gt;</tag> children, which, in turn, contain
+                <tag>&lt;cell&gt;</tag> children, one per column. This hierarchical table structure
+            is conceptually wrong because it privileges rows over columns, and it is not the nature
+            of tables (or, at least, of this particular table) that either rows should be
+            hierarchically superior to columns or vice versa. The hierarchical table is also awkward
+            from an engineering perspective because it requires us, in order to identify the
+            location of the neighboring cells that contribute to determining a value, to use rather
+            complex XPath path expressions to dereference the position of the current context cell.
+            If, however, every cell knows its row and column membership without having to query its
+            location in a table hierarchy, we avoid having to evaluate those path expressions. Among
+            other things, recording logical row and column positions as attributes on the cells
+            makes the code that constructs and navigates diagonals easier to read.</para>
         <para>For these conceptual and practical reasons, in our second implementation we model the
             dynamic programming table as a flat and logically unordered set of
                 <tag>&lt;cell&gt;</tag> elements, each of which stores its conceptual row and column
@@ -946,13 +947,30 @@
                     because the spatial metaphor of a table is easy to understand. See <xref
                         linkend="birnbaum_2007"/> for a discussion of these modeling issues.</para>
             </footnote> If we think of the cells as nodes in a graph, information about (conceptual)
-            adjacency edges is only implicit, in that adjacent cells are discoverable not by edges
-            that specify both ends, but by performing arithmetic on the current <tag
+            adjacency edges is only implicit, in that adjacent cells are discoverable not by a set
+            of edges that specify both ends, but by performing arithmetic on the current <tag
                 class="attribute">@row</tag> and <tag class="attribute">@col</tag> values to compute
-            the values of adjacent cells. As we add scores to the graph progressively and record
-            which neighboring cell was responsible for the new value, we add an explicit directed
-            edge, stored on the cell that contains the new value as a pointer to the cell
-            responsible for that value.</para>
+            the corresponding values of adjacent cells. As we add scores to the graph progressively
+            and record which neighboring cell was responsible for the new value, we add an explicit
+            directed edge, stored on the cell that contains the new value as a pointer in the
+            direction of the cell responsible for that value.<footnote>
+                <para>We store the direction (up, left, diagonal) instead of the specific cell
+                    coordinates for two reasons. First, storing the three directional values is
+                    convenient because there is a direct mapping from them to a procedure for
+                    building the alignment table. Second, there is a direct mapping from the same
+                    directional values to the arrow characters we use to visualize the grid. When it
+                    comes time to trace the optimal path back through the grid, we can compute the
+                    specific <tag class="attribute">@row</tag> and <tag class="attribute"
+                        >@column</tag> values of the cell to which each direction value points as a
+                    function of the direction and the <tag class="attribute">@row</tag> and <tag
+                        class="attribute">@column</tag> values of the current cell.. It is also
+                    possible, alternatively, to store both the direction and the <tag
+                        class="attribute">@row</tag> and <tag class="attribute">@column</tag> values
+                    of the cell to which the direction points, which, after all, were computed as
+                    part of the scoring procedure. Whether it is better to economize on storage or
+                    on computation in this case is an engineering trade-off that can be determined
+                    during implementation.</para>
+            </footnote></para>
         <para>We can think of this model, then, as two connected, directed, acyclic graphs expressed
             over the same set of nodes, which are the cells. The first is the initial adjacency
             graph, rooted at what would be row 1, column 1 in a table, which is fully connected by

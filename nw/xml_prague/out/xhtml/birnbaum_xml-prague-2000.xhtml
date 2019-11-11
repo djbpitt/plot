@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html
   PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Sequence alignment in XSLT 3.0</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.2"/><meta name="description" content="The Needleman Wunsch algorithm, which this year celebrates its quinquagenary anniversary, has been proven to produce an optimal global pairwise sequence alignment. Because this dynamic programming algorithm requires the updating of variables, it has posed challenges for functional programming paradigms like the one underlying XSLT. The present report explores these challenges and provides an implementation of the Needleman Wunsch algorithm in XSLT 3.0."/><meta name="keywords" content="sequence alignment, xslt"/></head><body><div xml:lang="en" class="article"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1"/>Sequence alignment in XSLT 3.0</h2></div><div><div class="author"><h3 class="author"><span class="firstname">David</span> <span class="othername">J.</span> <span class="surname">Birnbaum</span></h3><div class="affiliation"><span class="jobtitle">Professor<br/></span><span class="orgname">Department of Slavic Languages and Literatures, University of Pittsburgh
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Sequence alignment in XSLT 3.0</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.2"/><meta name="description" content="The Needleman Wunsch algorithm, which this year celebrates its quinquagenary anniversary, has been proven to produce an optimal global pairwise sequence alignment. Because this dynamic programming algorithm requires the updating of variables, it poses challenges for functional programming paradigms like the one underlying XSLT. The present report explores these challenges and provides an implementation of the Needleman Wunsch algorithm in XSLT 3.0."/><meta name="keywords" content="sequence alignment, xslt"/></head><body><div xml:lang="en" class="article"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1"/>Sequence alignment in XSLT 3.0</h2></div><div><div class="author"><h3 class="author"><span class="firstname">David</span> <span class="othername">J.</span> <span class="surname">Birnbaum</span></h3><div class="affiliation"><span class="jobtitle">Professor<br/></span><span class="orgname">Department of Slavic Languages and Literatures, University of Pittsburgh
                     (US)<br/></span></div><code class="email">&lt;<a class="email" href="mailto:djbpitt@gmail.com">djbpitt@gmail.com</a>&gt;</code></div></div><div><div class="abstract"><p class="title"><strong>Abstract</strong></p><p>The Needleman Wunsch algorithm, which this year celebrates its quinquagenary
                 anniversary, has been proven to produce an optimal global pairwise sequence
                 alignment. Because this dynamic programming algorithm requires the updating of
-                variables, it has posed challenges for functional programming paradigms like the one
+                variables, it poses challenges for functional programming paradigms like the one
                 underlying XSLT. The present report explores these challenges and provides an
                 implementation of the Needleman Wunsch algorithm in XSLT 3.0.</p></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#d5e23">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e25">Why sequence aligment matters</a></span></dt><dt><span class="section"><a href="#d5e35">Biological and textual alignment</a></span></dt><dt><span class="section"><a href="#d5e45">Global pairwise alignment</a></span></dt><dt><span class="section"><a href="#d5e66">Overview of this report</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e84">About sequence alignment</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e86">Alignments and scoring</a></span></dt><dt><span class="section"><a href="#d5e141">Sequence alignment algorithms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e149">Dynamic programming and the Needleman Wunsch algorithm</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e151">Dynamic programming</a></span></dt><dt><span class="section"><a href="#d5e162">The Needleman Wunsch algorithm</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e326">The challenges of dynamic programming and XSLT</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e338">Why recursion breaks</a></span></dt><dt><span class="section"><a href="#d5e350">Iteration to the rescue</a></span></dt><dt><span class="section"><a href="#d5e360">Processing the diagonal</a></span></dt><dt><span class="section"><a href="#d5e411">Save yourself a trip … and some space</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e415">Conclusions</a></span></dt><dt><span class="bibliography"><a href="#d5e431">Works cited</a></span></dt><dt><span class="appendix"><a href="#d5e510">A. Modeling alignment as table and graph</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e23"/>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e25"/>Why sequence aligment matters</h3></div></div></div><p>Sequence alignment is a way of identifying and modeling similarities and
                 differences in sequences of items, and has proven insightful and productive in both
@@ -91,23 +91,23 @@
                             matches), the color words sandwiched between them form an aligned
                             mismatch.</p></li><li class="listitem"><p>An item in one sequence has no corresponding item in the other
                             sequence. This is called a <span class="emphasis"><em>gap</em></span> or an
-                                <span class="emphasis"><em>indel</em></span> (a correspondence of an item to no item
-                            that can be interpreted as either an <span class="emphasis"><em>in</em></span>sertion in
-                            one sequence or a <span class="emphasis"><em>del</em></span>etion from the other). Gaps
-                            are inevitable where the sequences are of different lengths, so that,
-                            for example. given <span class="quote">“<span class="quote">The gray koala</span>”</span> and <span class="quote">“<span class="quote">The
-                                koala</span>”</span>, the item <span class="quote">“<span class="quote">gray</span>”</span> in the first sequence
-                            corresponds to a gap in the second. Gaps may also occur with sequences
-                            of the same length; for example, if we align <span class="quote">“<span class="quote">The brown koala
-                                lives in Australia</span>”</span> with <span class="quote">“<span class="quote">The koala lives in South
-                                Australia</span>”</span>, both sequences contain six words, but the most
-                            natural alignment, with a length of seven items and one gap in each
-                            sequence, is: </p><div class="table"><a id="d5e112"/><p class="title"><strong>Table 1. Alignment example with gaps</strong></p><div class="table-contents"><table class="table" summary="Alignment example with gaps" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td>The</td><td>brown</td><td>koala</td><td>lives</td><td>in</td><td> </td><td>Australia</td></tr><tr><td>The</td><td> </td><td>koala</td><td>lives</td><td>in</td><td>South</td><td>Australia</td></tr></tbody></table></div></div><p><br class="table-break"/>
+                                <span class="emphasis"><em>indel</em></span> (a correspondence of an item in one
+                            sequence to no item in the other, which can be interpreted as either an
+                                <span class="emphasis"><em>in</em></span>sertion in one sequence or a
+                                <span class="emphasis"><em>del</em></span>etion from the other). Gaps are inevitable
+                            where the sequences are of different lengths, so that, for example.
+                            given <span class="quote">“<span class="quote">The gray koala</span>”</span> and <span class="quote">“<span class="quote">The koala</span>”</span>, the
+                            item <span class="quote">“<span class="quote">gray</span>”</span> in the first sequence corresponds to a gap in
+                            the second. Gaps may also occur with sequences of the same length; for
+                            example, if we align <span class="quote">“<span class="quote">The brown koala lives in Australia</span>”</span>
+                            with <span class="quote">“<span class="quote">The koala lives in South Australia</span>”</span>, both sequences
+                            contain six words, but the most natural alignment, with a length of
+                            seven items and one gap in each sequence, is: </p><div class="table"><a id="d5e112"/><p class="title"><strong>Table 1. Alignment example with gaps</strong></p><div class="table-contents"><table class="table" summary="Alignment example with gaps" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td>The</td><td>brown</td><td>koala</td><td>lives</td><td>in</td><td> </td><td>Australia</td></tr><tr><td>The</td><td> </td><td>koala</td><td>lives</td><td>in</td><td>South</td><td>Australia</td></tr></tbody></table></div></div><p><br class="table-break"/>
                         </p></li></ul></div><p>A common scoring method is to assign a value of <span class="quote">“<span class="quote">1</span>”</span> to matches,
                     <span class="quote">“<span class="quote">-1</span>”</span> to mismatches, and <span class="quote">“<span class="quote">-1</span>”</span> to gaps. These values
                 prefer alignments with as many matches as possible, and with as few mismatches and
                 gaps as possible. But other scoring methods might, for example, assign a greater
-                penalty to gaps than to mismatches, or might assign greater penalties to new gaps
+                penalty to gaps than to mismatches, or might assign different penalties to new gaps
                 than to continuations of existing gaps (this is called an
                     <span class="emphasis"><em>affine</em></span> gap penalty).</p><p>The scoring method determines what will be identified as an optimal alignment for
                 a circular reason: optimal in this context is defined as the alignment with the best
@@ -168,7 +168,7 @@
                     Needleman-Wunsch and its variants using different mathematical notations. (<a class="xref" href="#boes_2014">Boes 2014</a> 14; pointers are to <a class="xref" href="#needleman_1970">Needleman and Wunsch 1970</a>,
                         <a class="xref" href="#gotoh_1982">Gotoh 1982</a>, <a class="xref" href="#vintsyuk_1968">Vintsyuk 1968</a>, <a class="xref" href="#sellers_1974">Sellers 1974</a>, and <a class="xref" href="#smith_1981">Smith et al. 1981</a>)</p></blockquote></div><p>Boes further explains that Needleman Wunsch <span class="quote">“<span class="quote">is an
                         <span class="emphasis"><em>optimal</em></span> algorithm, which means that it produces the
-                    best possible solution with respect to the chosen scoring system. There [exists]
+                    best possible solution with respect to the chosen scoring system. There [exist]
                     also non-optimal alignment algorithms, most notably the heuristic methods
                     …</span>”</span> [<a class="xref" href="#boes_2014">Boes 2014</a>, 13]</p><p>Performing alignment according to the Needleman Wunsch dynamic programming
                 algorithm entails the following steps:<a href="#ftn.d5e178" class="footnote" id="d5e178"><sup class="footnote">[7]</sup></a>
@@ -252,9 +252,10 @@
                 individual diagonal at the same time, since the cells on diagonals that run from top
                 right to bottom left have no mutual dependencies. That is, while the traditional
                 horizontal and then vertical traversal makes each step dependent on the one that
-                immediately precedes it, traversal on the diagonal is possible because all of the
-                information needed to process the entire next diagonal available simultaneously. The
-                absence of dependencies within a diagonal means that Tennison can use
+                immediately precedes it, traversal on the diagonal can be implemented more
+                efficiently because all of the information needed to process an entire diagonal is
+                available simultaneously from the two preceding diagonals. The absence of
+                dependencies within a diagonal means that Tennison can use
                     <code class="sgmltag-element">&lt;xsl:for-each&gt;</code> for all of the values on each diagonal, and
                 recur only as she moves to a new diagonal. The computational complexity of
                 populating the grid remains <span class="emphasis"><em>O(mn)</em></span>, since it is still necessary
@@ -379,8 +380,8 @@
                 <code class="sgmltag-element">&lt;xsl:iterate&gt;</code> can be used for any repetitive operation, the use of
                 <code class="sgmltag-element">&lt;xsl:for-each&gt;</code> where it is appropriate, especially when combined
             with the Saxon EE <code class="sgmltag-attribute">@saxon:threads</code> attribute, enables
-            parallel execution that would not be available it <code class="sgmltag-element">&lt;xsl:iterate&gt;</code> were
-            used everywhere a sequence is processed.</p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e431"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
+            parallel execution that would not be available were <code class="sgmltag-element">&lt;xsl:iterate&gt;</code> used
+            everywhere a sequence is processed.</p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e431"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
                 <span class="quote">“<span class="quote">On the theory of dynamic programming.</span>”</span>
             <span class="citetitle"><em class="citetitle">Proceedings of the National Academy of Sciences</em></span> 38(8):716–19.
                 <a class="link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/" target="_top">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/</a></p></div><div class="bibliomixed"><a id="bellman_1954"/><p class="bibliomixed">[Bellman 1954] Bellman, Richard E. <span class="quote">“<span class="quote">The
@@ -437,29 +438,29 @@
             <a class="link" href="https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf" target="_top">https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf</a></p></div></div><div class="appendix"><h2 class="title" style="clear: both"><a id="d5e510"/>A. Modeling alignment as table and graph</h2><p>The dynamic programming paradigm underlying Needleman Wunsch traditionally models the
             information that determines the optimal alignment as a grid or table, where the items in
             one of the sequences to be aligned label the rows and the items in the other sequence
-            label the columns. In our first implementation we build this grid as a row-major table:
-            a <code class="sgmltag-element">&lt;table&gt;</code> root element contains <code class="sgmltag-element">&lt;row&gt;</code> children, which,
-            in turn, contain <code class="sgmltag-element">&lt;cell&gt;</code> children, one per column. This hierarchical
-            table structure is conceptually wrong because it privileges rows over columns, and it is
-            not the nature of tables (or, at least, of this particular table) that either rows
-            should be hierarchically superior to columns or vice versa. The hierarchical table is
-            also awkward from an engineering perspective because it requires us, in order to
-            identify the location of the neighboring cells that contribute to determining a value,
-            to use rather complex XPath path expressions to dereference the position of the current
-            context cell. If, however, every cell knows its row and column membership without having
-            to query its location in a table hierarchy, we avoid having to evaluate those path
-            expressions. Among other things, recording logical row and column positions as
-            attributes on the cells makes the code that constructs and navigates diagonals easier to
-            read.</p><p>For these conceptual and practical reasons, in our second implementation we model the
+            label the columns. In our first implementation we build this grid as a row-major
+            hierarchical table, as is common XML table modeling: a <code class="sgmltag-element">&lt;table&gt;</code> root
+            element contains <code class="sgmltag-element">&lt;row&gt;</code> children, which, in turn, contain
+                <code class="sgmltag-element">&lt;cell&gt;</code> children, one per column. This hierarchical table structure
+            is conceptually wrong because it privileges rows over columns, and it is not the nature
+            of tables (or, at least, of this particular table) that either rows should be
+            hierarchically superior to columns or vice versa. The hierarchical table is also awkward
+            from an engineering perspective because it requires us, in order to identify the
+            location of the neighboring cells that contribute to determining a value, to use rather
+            complex XPath path expressions to dereference the position of the current context cell.
+            If, however, every cell knows its row and column membership without having to query its
+            location in a table hierarchy, we avoid having to evaluate those path expressions. Among
+            other things, recording logical row and column positions as attributes on the cells
+            makes the code that constructs and navigates diagonals easier to read.</p><p>For these conceptual and practical reasons, in our second implementation we model the
             dynamic programming table as a flat and logically unordered set of
                 <code class="sgmltag-element">&lt;cell&gt;</code> elements, each of which stores its conceptual row and column
             membership in attributes.<a href="#ftn.d5e518" class="footnote" id="d5e518"><sup class="footnote">[10]</sup></a> If we think of the cells as nodes in a graph, information about (conceptual)
-            adjacency edges is only implicit, in that adjacent cells are discoverable not by edges
-            that specify both ends, but by performing arithmetic on the current <code class="sgmltag-attribute">@row</code> and <code class="sgmltag-attribute">@col</code> values to compute
-            the values of adjacent cells. As we add scores to the graph progressively and record
-            which neighboring cell was responsible for the new value, we add an explicit directed
-            edge, stored on the cell that contains the new value as a pointer to the cell
-            responsible for that value.</p><p>We can think of this model, then, as two connected, directed, acyclic graphs expressed
+            adjacency edges is only implicit, in that adjacent cells are discoverable not by a set
+            of edges that specify both ends, but by performing arithmetic on the current <code class="sgmltag-attribute">@row</code> and <code class="sgmltag-attribute">@col</code> values to compute
+            the corresponding values of adjacent cells. As we add scores to the graph progressively
+            and record which neighboring cell was responsible for the new value, we add an explicit
+            directed edge, stored on the cell that contains the new value as a pointer in the
+            direction of the cell responsible for that value.<a href="#ftn.d5e528" class="footnote" id="d5e528"><sup class="footnote">[11]</sup></a></p><p>We can think of this model, then, as two connected, directed, acyclic graphs expressed
             over the same set of nodes, which are the cells. The first is the initial adjacency
             graph, rooted at what would be row 1, column 1 in a table, which is fully connected by
             implicit directed edges that join cells to those immediately following in what would be
@@ -504,4 +505,16 @@
                     or column, but a relationship property that cells have to items in the two
                     sequences to be aligned. We have implemented these properties as attributes that
                     we call <code class="sgmltag-attribute">@row</code> and <code class="sgmltag-attribute">@col</code>
-                    because the spatial metaphor of a table is easy to understand. See <a class="xref" href="#birnbaum_2007">Birnbaum 2007</a> for a discussion of these modeling issues.</p></div></div></div></body></html>
+                    because the spatial metaphor of a table is easy to understand. See <a class="xref" href="#birnbaum_2007">Birnbaum 2007</a> for a discussion of these modeling issues.</p></div><div id="ftn.d5e528" class="footnote"><p><a href="#d5e528" class="para"><sup class="para">[11] </sup></a>We store the direction (up, left, diagonal) instead of the specific cell
+                    coordinates for two reasons. First, storing the three directional values is
+                    convenient because there is a direct mapping from them to a procedure for
+                    building the alignment table. Second, there is a direct mapping from the same
+                    directional values to the arrow characters we use to visualize the grid. When it
+                    comes time to trace the optimal path back through the grid, we can compute the
+                    specific <code class="sgmltag-attribute">@row</code> and <code class="sgmltag-attribute">@column</code> values of the cell to which each direction value points as a
+                    function of the direction and the <code class="sgmltag-attribute">@row</code> and <code class="sgmltag-attribute">@column</code> values of the current cell.. It is also
+                    possible, alternatively, to store both the direction and the <code class="sgmltag-attribute">@row</code> and <code class="sgmltag-attribute">@column</code> values
+                    of the cell to which the direction points, which, after all, were computed as
+                    part of the scoring procedure. Whether it is better to economize on storage or
+                    on computation in this case is an engineering trade-off that can be determined
+                    during implementation.</p></div></div></div></body></html>
