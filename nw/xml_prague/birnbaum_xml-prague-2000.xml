@@ -609,11 +609,11 @@
                 populating the grid remains <emphasis>O(mn)</emphasis>, since it is still necessary
                 to calculate each cell individually, but Tennison’s implementation reduces the
                 recursion from the number of cells to the number of diagonals, which is <emphasis>n
-                    + m - 1</emphasis>, that is, <emphasis>O(n)</emphasis>. The substantial
-                improvement in computational efficiency that results from an implementation
-                    <quote>on the diagonal</quote> was pointed out first by <xref
-                    linkend="wang_2002"/> (8), and then by <xref linkend="naveed_2005"/> (3–4), but
-                although Wang first reported that items on the diagonal could be processed in
+                    + m - 1</emphasis>, that is, linear with respect to the total number of items in
+                the two sequences. The substantial improvement in computational efficiency that
+                results from an implementation <quote>on the diagonal</quote> was pointed out first
+                by <xref linkend="wang_2002"/> (8), and then by <xref linkend="naveed_2005"/> (3–4),
+                but although Wang first reported that items on the diagonal could be processed in
                 parallel, it was Tennison who recognized that this observation could also be used to
                 reduce the depth of recursion in XSLT.</para>
         </section>
@@ -716,15 +716,18 @@
                     <tag>&lt;cell row="2" col="3" diag="4" match="-1"/&gt;</tag>. We then use
                     <tag>&lt;xsl:for-each-group&gt;</tag> to group the cells by diagonal, running
                     <tag>&lt;xsl:for-each&gt;</tag> over the members of each group and rewriting the
-                cells on the diagonal being processed to add additional information: the scores from
-                relevant neighboring cells; which cell contributed the highest value; and the
-                (highest) value itself, which becomes the content of the cell. We constrain the
-                search space for neighboring values by searching only the two preceding diagonals
-                (which we return as separate parameters upon iteration), and we improve the
-                retrieval from this space by using <tag>&lt;xsl:key&gt;</tag> with a composite <tag
-                    class="attribute">@use</tag> attribute that indexes that search space according
-                to <tag class="attribute">@row</tag> and <tag class="attribute">@col</tag>
-                values.</para>
+                cells on the diagonal being processed to add new attributes that contain: the scores
+                from relevant neighboring cells; which cell contributed the highest value; and the
+                (highest) value itself, which becomes the content of the cell.<footnote>
+                    <para>Much of the information stored in attribute values is used once, to
+                        calculate the score for the new cell, and does not need to be preserved. We
+                        retain it here only for debugging and reporting purposes.</para>
+                </footnote> We constrain the search space for neighboring values by searching only
+                the two preceding diagonals (which we return as separate parameters upon iteration),
+                and we improve the retrieval from this space by using <tag>&lt;xsl:key&gt;</tag>
+                with a composite <tag class="attribute">@use</tag> attribute that indexes that
+                search space according to <tag class="attribute">@row</tag> and <tag
+                    class="attribute">@col</tag> values.</para>
             <para>It is possible for more than one neighboring cell to tie for highest value, and
                 our implementation makes a simplifying assumption and identifies only one optimal
                 path, even though there may be more than one, since the task that motivated this
