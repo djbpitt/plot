@@ -1792,21 +1792,6 @@
                 <xsl:for-each select="cell">
                     <!-- compute scores for three neighbors -->
                     <xsl:variable name="scores" as="element(score)+">
-                        <!--<score source="u">
-                            <xsl:value-of
-                                select="$cells[@row = current()/@row - 1 and @col = current()/@col] + $gap"
-                            />
-                        </score>
-                        <score source="l">
-                            <xsl:value-of
-                                select="$cells[@row = current()/@row and @col = current()/@col - 1] + $gap"
-                            />
-                        </score>
-                        <score source="d">
-                            <xsl:value-of
-                                select="$cells[@row = current()/@row - 1 and @col = current()/@col - 1] + @match"
-                            />
-                        </score>-->
                         <score source="u">
                             <xsl:value-of
                                 select="key('cellByRowCol', (current()/@row - 1, current()/@col/number()), $search_space) + $gap"
@@ -2049,9 +2034,10 @@
                                         uncomment to write attribute values into html
                                         for diagnostic purposes; we need only @match
                                     -->
-                                    <xsl:for-each select="@*">
+                                    <!--<xsl:for-each select="@*">
                                         <xsl:attribute name="data-{name()}" select="."/>
-                                    </xsl:for-each>
+                                    </xsl:for-each>-->
+                                    <xsl:attribute name="data-match" select="@match"/>
                                     <xsl:attribute name="data-arrow"
                                         select="
                                             if (@source eq 'd')
