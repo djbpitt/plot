@@ -1807,14 +1807,20 @@
                                 select="$cells[@row = current()/@row - 1 and @col = current()/@col - 1] + @match"
                             />
                         </score>-->
-                        <score source='u'>
-                            <xsl:value-of select="key('cellByRowCol', (current()/@row - 1, current()/@col/number()), $search_space) + $gap"/>
+                        <score source="u">
+                            <xsl:value-of
+                                select="key('cellByRowCol', (current()/@row - 1, current()/@col/number()), $search_space) + $gap"
+                            />
                         </score>
-                        <score source='l'>
-                            <xsl:value-of select="key('cellByRowCol', (current()/@row/number(), current()/@col - 1), $search_space) + $gap"/>
+                        <score source="l">
+                            <xsl:value-of
+                                select="key('cellByRowCol', (current()/@row/number(), current()/@col - 1), $search_space) + $gap"
+                            />
                         </score>
-                        <score source='d'>
-                            <xsl:value-of select="key('cellByRowCol', (current()/@row - 1, current()/@col - 1), $search_space) + @match"/>
+                        <score source="d">
+                            <xsl:value-of
+                                select="key('cellByRowCol', (current()/@row - 1, current()/@col - 1), $search_space) + @match"
+                            />
                         </score>
                     </xsl:variable>
                     <!--<xsl:message select="key('cellByRowCol', (current()/@row - 1, current()/@col), $search_space) + 1"/>-->
@@ -1949,10 +1955,8 @@
     <xsl:template name="xsl:initial-template">
         <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($woolf_us, '\s+')"/>
         <xsl:variable name="s2" as="xs:string+" select="tokenize($woolf_uk, '\s+')"/>-->
-        <xsl:variable name="s1" as="xs:string+"
-            select="tokenize($darwin_1859_part, '\s+')"/>
-        <xsl:variable name="s2" as="xs:string+"
-            select="tokenize($darwin_1872_part, '\s+')"/>
+        <xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>
         <!--<xsl:variable name="s1" as="xs:string+" select="djb:explode('kitten')"/>
         <xsl:variable name="s2" as="xs:string+" select="djb:explode('sitting')"/>-->
 
@@ -2039,6 +2043,12 @@
                             </xsl:choose>
                             <xsl:for-each select="current-group()">
                                 <td>
+                                    <!-- TODO: name attributes with data- prefix initially
+                                        to avoid the expense of renaming for HTML output -->
+                                    <!-- 
+                                        uncomment to write attribute values into html
+                                        for diagnostic purposes; we need only @match
+                                    -->
                                     <xsl:for-each select="@*">
                                         <xsl:attribute name="data-{name()}" select="."/>
                                     </xsl:for-each>
