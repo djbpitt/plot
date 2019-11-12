@@ -660,14 +660,15 @@
                         stack, but the time it requires to run to completion nonetheless grows
                         quadratically.</para>
                     <para>A possibly perverse attempt to align a sequence of 11130 items against a
-                        sequence of 12392 items using Saxon-HE 9.9.1.4J with default settings on
-                        6-core machine with 32G of RAM crashed after several hours with a Java
-                            <quote>GC overhead limit exceeded</quote> error. Aligning a much more
-                        modest sequence of 233 items against a sequence of 223 items using our
-                        non-diagonal implementation, which creates a grid and an alignment table and
-                        renders both in HTML, overflowed the stack without
-                            <tag>&lt;xsl:iterate&gt;</tag>, and with <tag>&lt;xsl:iterate&gt;</tag>
-                        it returned times of real 0m2.842s, user 0m6.519s, sys 0m0.494s.</para>
+                        sequence of 12392 items (137922960 cells) using Saxon-HE 9.9.1.4J with
+                        default settings on 6-core machine with 32G of RAM crashed after several
+                        hours with a Java <quote>GC overhead limit exceeded</quote> error. Aligning
+                        a much more modest sequence of 233 items against a sequence of 223 items
+                        (51959 cells) using our non-diagonal implementation, which creates a grid
+                        and an alignment table and renders both in HTML, overflowed the stack
+                        without <tag>&lt;xsl:iterate&gt;</tag>, and with
+                            <tag>&lt;xsl:iterate&gt;</tag> it returned times of real 0m2.842s, user
+                        0m6.519s, sys 0m0.494s.</para>
                 </footnote> It is, however, possible to improve the efficiency of the code by taking
                 the admonition in <xref linkend="tennison_2007b"/> literally, that is, by
                 understanding it, as Tennison did, as meaning <quote>iterate <emphasis>rather than

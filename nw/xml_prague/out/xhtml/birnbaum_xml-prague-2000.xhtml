@@ -489,14 +489,15 @@
                         of preceding cells. The iterative implementation will not overflow the
                         stack, but the time it requires to run to completion nonetheless grows
                         quadratically.</p><p>A possibly perverse attempt to align a sequence of 11130 items against a
-                        sequence of 12392 items using Saxon-HE 9.9.1.4J with default settings on
-                        6-core machine with 32G of RAM crashed after several hours with a Java
-                            <span class="quote">“<span class="quote">GC overhead limit exceeded</span>”</span> error. Aligning a much more
-                        modest sequence of 233 items against a sequence of 223 items using our
-                        non-diagonal implementation, which creates a grid and an alignment table and
-                        renders both in HTML, overflowed the stack without
-                            <code class="sgmltag-element">&lt;xsl:iterate&gt;</code>, and with <code class="sgmltag-element">&lt;xsl:iterate&gt;</code>
-                        it returned times of real 0m2.842s, user 0m6.519s, sys 0m0.494s.</p></div><div id="ftn.d5e401" class="footnote"><p><a href="#d5e401" class="para"><sup class="para">[9] </sup></a>Much of the information stored in attribute values is used once, to
+                        sequence of 12392 items (137922960 cells) using Saxon-HE 9.9.1.4J with
+                        default settings on 6-core machine with 32G of RAM crashed after several
+                        hours with a Java <span class="quote">“<span class="quote">GC overhead limit exceeded</span>”</span> error. Aligning
+                        a much more modest sequence of 233 items against a sequence of 223 items
+                        (51959 cells) using our non-diagonal implementation, which creates a grid
+                        and an alignment table and renders both in HTML, overflowed the stack
+                        without <code class="sgmltag-element">&lt;xsl:iterate&gt;</code>, and with
+                            <code class="sgmltag-element">&lt;xsl:iterate&gt;</code> it returned times of real 0m2.842s, user
+                        0m6.519s, sys 0m0.494s.</p></div><div id="ftn.d5e401" class="footnote"><p><a href="#d5e401" class="para"><sup class="para">[9] </sup></a>Much of the information stored in attribute values is used once, to
                         calculate the score for the new cell, and does not need to be preserved. We
                         retain it here only for debugging and reporting purposes.</p></div><div id="ftn.d5e518" class="footnote"><p><a href="#d5e518" class="para"><sup class="para">[10] </sup></a>We refer to <span class="emphasis"><em>conceptual</em></span> row and column membership because
                     there are no <code class="sgmltag-element">&lt;row&gt;</code> elements or <code class="sgmltag-element">&lt;column&gt;</code>
