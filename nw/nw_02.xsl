@@ -1716,13 +1716,13 @@
             <cell row="0" col="0" diag="0">0</cell>
             <!-- left side -->
             <xsl:for-each select="$s1">
-                <cell row="{position()}" col="0" diag="{position()}" source="u">
+                <cell row="{position()}" col="0" diag="{position()}" source="u" left_string="{.}">
                     <xsl:value-of select="position() * $gap"/>
                 </cell>
             </xsl:for-each>
             <!-- top row -->
             <xsl:for-each select="$s2">
-                <cell row="0" col="{position()}" source="l" diag="{position()}">
+                <cell row="0" col="{position()}" source="l" diag="{position()}" top_string="{.}">
                     <xsl:value-of select="position() * $gap"/>
                 </cell>
             </xsl:for-each>
@@ -1761,7 +1761,7 @@
     <!--   @left_string as xs:string                                -->
     <!--   @match as xs:integer (1 or -1)                           -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <xsl:function name="djb:nw">
+    <xsl:function name="djb:nw" as="element(cell)+">
         <xsl:param name="in" as="element(cell)+"/>
         <xsl:variable name="diags" as="element(diag)+">
             <xsl:for-each-group select="$in" group-by="@diag">
@@ -1780,8 +1780,9 @@
             <xsl:param name="cells" as="element(cell)*" select="()"/>
             <xsl:param name="ult" as="element(cell)*" select="()"/>
             <xsl:param name="penult" as="element(cell)*" select="()"/>
-            <xsl:on-completion select="$cells"/>
-            <!--<xsl:message select="current()"/>-->
+            <xsl:on-completion>
+                <xsl:sequence select="$cells"/>
+            </xsl:on-completion>
             <xsl:variable name="search_space" as="document-node()">
                 <xsl:document>
                     <cell/>
@@ -1851,83 +1852,52 @@
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- djb:align                                                  -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <xsl:function name="djb:align" as="element(table)">
-        <xsl:param name="in" as="element(table)"/>
-        <xsl:param name="s1" as="xs:string*"/>
-        <xsl:param name="s2" as="xs:string*"/>
-        <xsl:param name="current_row" as="xs:integer"/>
-        <xsl:param name="current_column" as="xs:integer"/>
-        <xsl:param name="pairs" as="element(pair)*"/>
-        <xsl:iterate select="1 to 100000">
-            <xsl:param name="in" as="element(table)" select="$in"/>
-            <xsl:param name="s1" as="xs:string*" select="$s1"/>
-            <xsl:param name="s2" as="xs:string*" select="$s2"/>
-            <xsl:param name="current_row" as="xs:integer" select="$current_row"/>
-            <xsl:param name="current_column" as="xs:integer" select="$current_column"/>
-            <xsl:param name="pairs" as="element(pair)*" select="$pairs"/>
-            <xsl:variable name="current_cell" as="element(cell)?"
-                select="$in/row[$current_row]/cell[$current_column]"/>
+    <xsl:function name="djb:align" as="element(pair)+">
+        <xsl:param name="in" as="element(cell)+"/>
+        <!-- document node in order to use key-->
+        <xsl:variable name="cells" as="document-node()">
+            <xsl:document>
+                <xsl:sequence select="$in"/>
+            </xsl:document>
+        </xsl:variable>
+        <xsl:variable name="last_cell" as="element(cell)"
+            select="exactly-one($cells/cell[@diag/number() eq max($cells/cell/@diag)])"/>
+        <xsl:iterate select="1 to 10000">
+            <xsl:param name="pairs" as="element(pair)+">
+                <!-- seed with last pair, build backwards -->
+                <pair top="{$last_cell/@top_string}" left="{$last_cell/@left_string}"
+                    match="{$last_cell/@match}" source="{$last_cell/@source}"/>
+            </xsl:param>
+            <xsl:param name="old" as="element(cell)" select="$last_cell"/>
             <xsl:choose>
-                <xsl:when test="$current_row eq 2 and $current_column eq 2">
+                <xsl:when test="not($old/@source)">
+                    <!-- only the origin doesn't have a @source -->
                     <xsl:break>
-                        <table>
-                            <xsl:sequence select="$pairs"/>
-                        </table>
+                        <xsl:sequence select="$pairs[position() lt last()]"/>
                     </xsl:break>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:variable name="new_pairs" as="element(pair)+">
-                        <xsl:sequence select="$pairs"/>
-                        <pair>
-                            <top>
-                                <xsl:choose>
-                                    <xsl:when test="$current_cell/@cell_from = ('d', 'l')">
-                                        <xsl:value-of select="$current_cell/@top_string"/>
-                                    </xsl:when>
-                                    <xsl:otherwise> </xsl:otherwise>
-                                </xsl:choose>
-                            </top>
-                            <bottom>
-                                <xsl:choose>
-                                    <xsl:when test="$current_cell/@cell_from = ('d', 'u')">
-                                        <xsl:value-of select="$current_cell/@left_string"/>
-                                    </xsl:when>
-                                    <xsl:otherwise> </xsl:otherwise>
-                                </xsl:choose>
-                            </bottom>
-                        </pair>
+                    <xsl:variable name="new_row" as="xs:double"
+                        select="
+                            if ($old/@source = ('d', 'u')) then
+                                $old/@row - 1
+                            else
+                                $old/@row/number()"/>
+                    <xsl:variable name="new_col" as="xs:double"
+                        select="
+                            if ($old/@source = ('d', 'l')) then
+                                $old/@col - 1
+                            else
+                                $old/@col/number()"/>
+                    <xsl:variable name="new_cell" as="element(cell)"
+                        select="key('cellByRowCol', ($new_row, $new_col), $cells)"/>
+                    <xsl:variable name="new_pair" as="element(pair)">
+                        <pair top="{$new_cell/@top_string}" left="{$new_cell/@left_string}"
+                            match="{$new_cell/@match}" source="{$new_cell/@source}"/>
                     </xsl:variable>
-                    <xsl:variable name="new_row" as="xs:integer"
-                        select="
-                            if ($current_cell/@cell_from = ('d', 'u')) then
-                                $current_row - 1
-                            else
-                                $current_row"/>
-                    <xsl:variable name="new_column" as="xs:integer"
-                        select="
-                            if ($current_cell/@cell_from = ('d', 'l')) then
-                                $current_column - 1
-                            else
-                                $current_column"/>
-                    <xsl:variable name="new_s1" as="xs:string*"
-                        select="
-                            if ($current_cell/@cell_from = ('d', 'l')) then
-                                subsequence($s1, 1, count($s1) - 1)
-                            else
-                                $s1"/>
-                    <xsl:variable name="new_s2" as="xs:string*"
-                        select="
-                            if ($current_cell/@cell_from = ('d', 'u')) then
-                                subsequence($s2, 1, count($s2) - 1)
-                            else
-                                $s2"/>
                     <xsl:next-iteration>
-                        <!-- $table doesn't change, so don't send it recursively -->
-                        <xsl:with-param name="s1" as="xs:string*" select="$new_s1"/>
-                        <xsl:with-param name="s2" as="xs:string*" select="$new_s2"/>
-                        <xsl:with-param name="current_row" as="xs:integer" select="$new_row"/>
-                        <xsl:with-param name="current_column" as="xs:integer" select="$new_column"/>
-                        <xsl:with-param name="pairs" as="element(pair)+" select="$new_pairs"/>
+                        <xsl:with-param name="pairs" as="element(pair)+" select="$pairs, $new_pair"/>
+                        <xsl:with-param name="old" as="element(cell)" select="$new_cell"/>
                     </xsl:next-iteration>
                 </xsl:otherwise>
             </xsl:choose>
@@ -1940,25 +1910,26 @@
     <xsl:template name="xsl:initial-template">
         <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($woolf_us, '\s+')"/>
         <xsl:variable name="s2" as="xs:string+" select="tokenize($woolf_uk, '\s+')"/>-->
-        <xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
-        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>
+        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>-->
         <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859, '\s+')"/>
         <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872, '\s+')"/>-->
-        <!--<xsl:variable name="s1" as="xs:string+" select="djb:explode('kitten')"/>
-        <xsl:variable name="s2" as="xs:string+" select="djb:explode('sitting')"/>-->
-
+        <xsl:variable name="s1" as="xs:string+" select="djb:explode('kitten')"/>
+        <xsl:variable name="s2" as="xs:string+" select="djb:explode('sitting')"/>
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- if both inputs are single words, align by character    -->
         <!--   otherwise align by word                              -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:variable name="cells" select="
-                djb:cells($s1, $s2)"/>
+                djb:cells($s1, $s2)" as="element(cell)+"/>
         <!--<xsl:sequence select="$cells"/>-->
-        <xsl:variable name="grid" select="djb:nw($cells)"/>
+        <xsl:variable name="grid" select="djb:nw($cells)" as="element(cell)+"/>
         <!--<xsl:sequence select="$grid"/>-->
+        <xsl:variable name="alignment" select="djb:align($grid)"/>
+        <!--<xsl:sequence select="$alignment"/>-->
         <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
-                <title>Needleman Wunsch</title>
+                <title>Needleman Wunsch, version 2</title>
                 <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
                 <style type="text/css">
                     #grid th,
@@ -2002,9 +1973,45 @@
                     display: flex;
                     flex-direction: column;
                     }</style>
-
             </head>
             <body>
+                <h1>Needleman Wunsch, version 2</h1>
+                <h2>Alignment table</h2>
+                <xsl:variable name="tops" as="element(html:td)+">
+                    <xsl:for-each select="$alignment">
+                        <td data-match="{@match}">
+                            <xsl:value-of
+                                select="
+                                    if (@source = ('d', 'l')) then
+                                        @top
+                                    else
+                                        '&#xa0;'"
+                            />
+                        </td>
+                    </xsl:for-each>
+                </xsl:variable>
+                <xsl:variable name="lefts" as="element(html:td)+">
+                    <xsl:for-each select="$alignment">
+                        <td data-match="{@match}">
+                            <xsl:value-of
+                                select="
+                                    if (@source = ('d', 'u')) then
+                                        @left
+                                    else
+                                        '&#xa0;'"
+                            />
+                        </td>
+                    </xsl:for-each>
+                </xsl:variable>
+                <table id="alignment" border="1">
+                    <tr>
+                        <xsl:sequence select="reverse($tops)"/>
+                    </tr>
+                    <tr>
+                        <xsl:sequence select="reverse($lefts)"/>
+                    </tr>
+                </table>
+                <h2>Alignment grid</h2>
                 <table id="grid" border="1">
                     <tr>
                         <th>&#xa0;</th>
