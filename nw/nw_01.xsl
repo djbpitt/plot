@@ -1922,10 +1922,12 @@
     <xsl:template name="xsl:initial-template">
         <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($woolf_us, '\s+')"/>
         <xsl:variable name="s2" as="xs:string+" select="tokenize($woolf_uk, '\s+')"/>-->
-        <xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
-        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>
-        <!--<xsl:variable name="s1" as="xs:string+" select="'kittens'"/>
-        <xsl:variable name="s2" as="xs:string+" select="'sitting'"/>-->
+        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>-->
+        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859, '\s+')[position() le 3000]"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872, '\s+')[position() le 3000]"/>-->
+        <xsl:variable name="s1" as="xs:string+" select="'kitten'"/>
+        <xsl:variable name="s2" as="xs:string+" select="'sitting'"/>
         
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- if both inputs are single words, align by character    -->
@@ -2055,9 +2057,9 @@
                                 >https://github.com/djbpitt/xstuff/tree/master/nw</a>
                         </p>
                     </section>
-                    <section id="schematic">
+                    <!--<section id="schematic">
                         <xsl:apply-templates select="$table" mode="schematic"/>
-                    </section>
+                    </section>-->
                 </section>
                 <h2>Alignment</h2>
                 <xsl:variable name="alignment"
