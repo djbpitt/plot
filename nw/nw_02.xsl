@@ -1979,7 +1979,12 @@
                 <h2>Alignment table</h2>
                 <xsl:variable name="tops" as="element(html:td)+">
                     <xsl:for-each select="$alignment">
-                        <td data-match="{@match}">
+                        <td
+                            data-match="{
+                                    if (@source eq 'd') then
+                                        @match
+                                    else
+                                        ()}">
                             <xsl:value-of
                                 select="
                                     if (@source = ('d', 'l')) then
@@ -1992,7 +1997,11 @@
                 </xsl:variable>
                 <xsl:variable name="lefts" as="element(html:td)+">
                     <xsl:for-each select="$alignment">
-                        <td data-match="{@match}">
+                        <td
+                            data-match="{
+                            if (@source eq 'd') then
+                            @match
+                            else ()}">
                             <xsl:value-of
                                 select="
                                     if (@source = ('d', 'u')) then
