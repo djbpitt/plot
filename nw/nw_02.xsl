@@ -1795,17 +1795,17 @@
                     <xsl:variable name="scores" as="element(score)+">
                         <score source="u">
                             <xsl:value-of
-                                select="key('cellByRowCol', (current()/@row - 1, current()/@col/number()), $search_space) + $gap"
+                                select="key('cellByRowCol', (@row - 1, @col/number()), $search_space) + $gap"
                             />
                         </score>
                         <score source="l">
                             <xsl:value-of
-                                select="key('cellByRowCol', (current()/@row/number(), current()/@col - 1), $search_space) + $gap"
+                                select="key('cellByRowCol', (@row/number(), @col - 1), $search_space) + $gap"
                             />
                         </score>
                         <score source="d">
                             <xsl:value-of
-                                select="key('cellByRowCol', (current()/@row - 1, current()/@col - 1), $search_space) + @match"
+                                select="key('cellByRowCol', (@row - 1, @col - 1), $search_space) + @match"
                             />
                         </score>
                     </xsl:variable>
@@ -1860,8 +1860,9 @@
                 <xsl:sequence select="$in"/>
             </xsl:document>
         </xsl:variable>
+        <xsl:variable name="last_diag" as="xs:double" select="max($cells/cell/@diag)"/>
         <xsl:variable name="last_cell" as="element(cell)"
-            select="exactly-one($cells/cell[@diag/number() eq max($cells/cell/@diag)])"/>
+            select="exactly-one($cells/cell[@diag/number() eq $last_diag])"/>
         <xsl:iterate select="1 to 10000">
             <xsl:param name="pairs" as="element(pair)+">
                 <!-- seed with last pair, build backwards -->
@@ -1914,6 +1915,8 @@
         <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>
         <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859, '\s+')"/>
         <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872, '\s+')"/>-->
+        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859, '\s+')[position() le 100]"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872, '\s+')[position() le 100]"/>-->
         <!--<xsl:variable name="s1" as="xs:string+" select="djb:explode('kitten')"/>
         <xsl:variable name="s2" as="xs:string+" select="djb:explode('sitting')"/>-->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->

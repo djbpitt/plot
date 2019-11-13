@@ -1922,12 +1922,12 @@
     <xsl:template name="xsl:initial-template">
         <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($woolf_us, '\s+')"/>
         <xsl:variable name="s2" as="xs:string+" select="tokenize($woolf_uk, '\s+')"/>-->
-        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
-        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>-->
-        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859, '\s+')[position() le 3000]"/>
-        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872, '\s+')[position() le 3000]"/>-->
-        <xsl:variable name="s1" as="xs:string+" select="'kitten'"/>
-        <xsl:variable name="s2" as="xs:string+" select="'sitting'"/>
+        <xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>
+        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859, '\s+')[position() le 1000]"/>
+        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872, '\s+')[position() le 1000]"/>-->
+        <!--<xsl:variable name="s1" as="xs:string+" select="'kitten'"/>
+        <xsl:variable name="s2" as="xs:string+" select="'sitting'"/>-->
         
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- if both inputs are single words, align by character    -->
