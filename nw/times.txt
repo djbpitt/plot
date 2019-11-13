@@ -1,0 +1,41 @@
+2.9 GHz Intel Core i9 (6 physical cores, 12 logical cores)
+32 GB 2400 MHz DDR4
+Command line Saxon HE 9.9.1.4, Java Xmx24g
+Construct alignment grid and alignment table and serialize both as XHTML
+Times are averages of 5 iterations, ignoring high and low
+
+Input is 1000 x 1000
+
+Version 1
+24 threads
+
+real	0m50.722s
+user	0m55.537s
+sys		0m3.786s
+
+real	0m48.786s
+user	0m53.474s
+sys		0m3.750s
+
+Version 2
+24 threads
+
+real	1m14.775s
+user	1m29.442s
+sys		0m5.695s
+
+real	1m16.019s
+user	1m33.888s
+sys		0m5.579s
+
+real	1m14.089s
+user	1m31.290s
+sys		0m5.909s
+
+real	1m19.724s
+user	1m35.727s
+sys		0m6.290s
+
+real	1m17.033s
+user	1m35.324s
+sys		0m5.906s
