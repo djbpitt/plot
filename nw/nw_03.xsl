@@ -1826,15 +1826,12 @@
                         write highest score into content
                     -->
                     <xsl:copy>
-                        <xsl:copy-of select="@*"/>
+                        <xsl:copy-of select="@row, @col, @match, @source"/>
                         <xsl:choose>
                             <xsl:when test="text()">
                                 <xsl:apply-templates/>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:attribute name="u" select="$scores[@source eq 'u']"/>
-                                <xsl:attribute name="l" select="$scores[@source eq 'l']"/>
-                                <xsl:attribute name="d" select="$scores[@source eq 'd']"/>
                                 <xsl:attribute name="source" select="$highest[1]/@source"/>
                                 <xsl:value-of select="$highest[1]"/>
                             </xsl:otherwise>
@@ -1945,12 +1942,12 @@
         <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>-->
         <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859, '\s+')"/>
         <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872, '\s+')"/>-->
-        <xsl:variable name="s1" as="xs:string+"
-            select="tokenize($darwin_1859, '\s+')[position() le 3000]"/>
-        <xsl:variable name="s2" as="xs:string+"
-            select="tokenize($darwin_1872, '\s+')[position() le 3000]"/>
-        <!--<xsl:variable name="s1" as="xs:string+" select="djb:explode('kitten')"/>
-        <xsl:variable name="s2" as="xs:string+" select="djb:explode('sitting')"/>-->
+        <!--<xsl:variable name="s1" as="xs:string+"
+            select="tokenize($darwin_1859, '\s+')[position() le 3000]"/>-->
+        <!--<xsl:variable name="s2" as="xs:string+"
+            select="tokenize($darwin_1872, '\s+')[position() le 3000]"/>-->
+        <xsl:variable name="s1" as="xs:string+" select="djb:explode('kitten')"/>
+        <xsl:variable name="s2" as="xs:string+" select="djb:explode('sitting')"/>
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- if both inputs are single words, align by character    -->
@@ -1960,8 +1957,8 @@
                 djb:cells($s1, $s2)"/>
         <!--<xsl:sequence select="$cells"/>-->
         <xsl:variable name="grid" select="djb:nw($cells)"/>
-        <!--<xsl:sequence select="$grid"/>-->
-        <html xmlns="http://www.w3.org/1999/xhtml">
+        <xsl:sequence select="$grid"/>
+        <!--<html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <title>Needleman Wunsch</title>
                 <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
@@ -2035,15 +2032,15 @@
                             </xsl:choose>
                             <xsl:for-each select="current-group()">
                                 <td>
-                                    <!-- TODO: name attributes with data- prefix initially
-                                        to avoid the expense of renaming for HTML output -->
-                                    <!-- 
+                                    <!-\- TODO: name attributes with data- prefix initially
+                                        to avoid the expense of renaming for HTML output -\->
+                                    <!-\- 
                                         uncomment to write attribute values into html
                                         for diagnostic purposes; we need only @match
-                                    -->
-                                    <!--<xsl:for-each select="@*">
+                                    -\->
+                                    <!-\-<xsl:for-each select="@*">
                                         <xsl:attribute name="data-{name()}" select="."/>
-                                    </xsl:for-each>-->
+                                    </xsl:for-each>-\->
                                     <xsl:attribute name="data-match" select="@match"/>
                                     <xsl:attribute name="data-arrow"
                                         select="
@@ -2067,6 +2064,11 @@
                     </xsl:for-each-group>
                 </table>
             </body>
-        </html>
+        </html>-->
     </xsl:template>
+    
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- alignment table in HTML                                    -->
+    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    
 </xsl:stylesheet>
