@@ -37,10 +37,11 @@
         <abstract>
             <para>The Needleman Wunsch algorithm, which this year celebrates its quinquagenary
                 anniversary, has been proven to produce an optimal global pairwise sequence
-                alignment. Because this dynamic programming algorithm requires the updating of
-                variables, it poses challenges for functional programming paradigms like the one
-                underlying XSLT. The present report explores these challenges and provides an
-                implementation of the Needleman Wunsch algorithm in XSLT 3.0.</para>
+                alignment. Because this dynamic programming algorithm requires the progressive
+                updating of mutually dependent variables, it poses challenges for functional
+                programming paradigms like the one underlying XSLT. The present report explores
+                these challenges and provides an implementation of the Needleman Wunsch algorithm in
+                XSLT 3.0.</para>
         </abstract>
     </info>
     <section>
@@ -48,20 +49,20 @@
         <section>
             <title>Why sequence aligment matters</title>
             <para>Sequence alignment is a way of identifying and modeling similarities and
-                differences in sequences of items, and has proven insightful and productive in both
-                the natural sciences (especially in biology and medicine, where it is applied to
-                genetic sequences) and the humanities (especially in text-critical scholarship,
-                where it is applied to sequences of words in variant versions of a text). In textual
-                scholarship, which is the domain in which the present report was developed, sequence
-                alignment assists the philologist in identifying locations where manuscript
-                witnesses agree and where they disagree.<footnote>
+                differences in sequences of items, and has proven insightful and productive for
+                research in both the natural sciences (especially in biology and medicine, where it
+                is applied to genetic sequences) and the humanities (especially in text-critical
+                scholarship, where it is applied to sequences of words in variant versions of a
+                text). In textual scholarship, which is the domain in which the present report was
+                developed, sequence alignment assists the philologist in identifying locations where
+                manuscript witnesses agree and where they disagree.<footnote>
                     <para><emphasis>Witness</emphasis>, sometimes expanded as <emphasis>manuscript
                             witness</emphasis>, is a technical term in text-critical scholarship for
                         a manuscript that provides evidence of the history of a text.</para>
-                </footnote> These moments of agreement and disagreement, in turn, provide evidence
-                about probable (or, at least, candidate) moments of shared transmission between
-                textual witnesses, and thus serve as evidence to construct and support a
-                philological argument about the history of a text.<footnote>
+                </footnote> These agreements and disagreements, in turn, provide evidence about
+                probable (or, at least, candidate) moments of shared transmission among textual
+                witnesses, and thus serve as evidence to construct and support a philological
+                argument about the history of a text.<footnote>
                     <para>For an introduction to, among other things, the evaluation of shared and
                         divergent readings as a component of textual criticism see <xref
                             linkend="trovato_2014"/>.</para>
@@ -106,7 +107,7 @@
         <section>
             <title>Global pairwise alignment</title>
             <para>The following two distinctions—not between biological and textual alignment, but
-                within both domains—are also relevant:<itemizedlist>
+                within both domains—are also relevant to the present report:<itemizedlist>
                     <listitem>
                         <para>Both genetic and textual alignment tasks can be divided into
                                 <emphasis>global</emphasis> and <emphasis>local</emphasis>
@@ -249,7 +250,7 @@
                     <emphasis>affine</emphasis> gap penalty).</para>
             <para>The scoring method determines what will be identified as an optimal alignment for
                 a circular reason: optimal in this context is defined as the alignment with the best
-                score. This means that selection of an appropriate scoring method during
+                score. This means that the selection of an appropriate scoring method during
                 philological alignment should reflect the researcher’s theory of the types of
                 correspondences and non-correspondences that are meaningful for identifying textual
                 moments to be compared. In the examples below we have assigned a score of
@@ -599,24 +600,25 @@
                 on every cell. By writing values into the grid on the diagonal, instead of across
                 each row in turn, as is traditional, Tennison is able to calculate all values on an
                 individual diagonal at the same time, since the cells on diagonals that run from top
-                right to bottom left have no mutual dependencies. That is, while the traditional
-                horizontal and then vertical traversal makes each step dependent on the one that
-                immediately precedes it, traversal on the diagonal can be implemented more
-                efficiently because all of the information needed to process an entire diagonal is
-                available simultaneously from the two preceding diagonals. The absence of
-                dependencies within a diagonal means that Tennison can use
-                    <tag>&lt;xsl:for-each&gt;</tag> for all of the values on each diagonal, and
-                recur only as she moves to a new diagonal. The computational complexity of
-                populating the grid remains <emphasis>O(mn)</emphasis>, since it is still necessary
-                to calculate each cell individually, but Tennison’s implementation reduces the
-                recursion from the number of cells to the number of diagonals, which is <emphasis>n
-                    + m - 1</emphasis>, that is, linear with respect to the total number of items in
-                the two sequences. The substantial improvement in computational efficiency that
-                results from an implementation <quote>on the diagonal</quote> was pointed out first
-                by <xref linkend="wang_2002"/> (8), and then by <xref linkend="naveed_2005"/> (3–4),
-                but although Wang first reported that items on the diagonal could be processed in
-                parallel, it was Tennison who recognized that this observation could also be used to
-                reduce the depth of recursion in XSLT.</para>
+                right to bottom left have no mutual dependencies.<footnote>
+                    <para>Not only are there no mutual dependencies within a diagonal, but all of
+                        the information needed to process an entire diagonal is available
+                        simultaneously from only the two preceding diagonals, without any dependency
+                        on earlier ones. This property contributes to the scalability and efficiency
+                        of our final implementation, below.</para>
+                </footnote> The absence of dependencies within a diagonal means that Tennison can
+                use <tag>&lt;xsl:for-each&gt;</tag>, instead of recursion, to compute all of the
+                values on each diagonal, and recur only as she moves to a new diagonal. The
+                computational complexity of populating the grid remains <emphasis>O(mn)</emphasis>,
+                since it is still necessary to calculate each cell individually, but Tennison’s
+                implementation reduces the recursion from the number of cells to the number of
+                diagonals, which is <emphasis>n + m - 1</emphasis>, that is, linear with respect to
+                the total number of items in the two sequences. The substantial improvement in
+                computational efficiency that results from an implementation <quote>on the
+                    diagonal</quote> was identified by <xref linkend="wang_2002"/> (8), and then by
+                    <xref linkend="naveed_2005"/> (3–4), but although Wang first reported that items
+                on the diagonal could be processed in parallel, it was Tennison who recognized that
+                this observation could also be used to reduce the depth of recursion in XSLT.</para>
         </section>
         <section>
             <title>Iteration to the rescue</title>
@@ -658,7 +660,10 @@
                         the computation of each cell must wait for the completion of the computation
                         of preceding cells. The iterative implementation will not overflow the
                         stack, but the time it requires to run to completion nonetheless grows
-                        quadratically.</para>
+                        quadratically. Furthermore, the size of the grid scales quadratically, and
+                        although an iterative, rather than recursive, implementation will not fill
+                        the stack with ever-growing copies of the grid, even a single grid can grow
+                        to a scale where it exceeds reasonable memory expectations, </para>
                     <para>A possibly perverse attempt to align a sequence of 11130 items against a
                         sequence of 12392 items (137922960 cells) using Saxon-HE 9.9.1.4J with
                         default settings on 6-core machine with 32G of RAM crashed after several
@@ -668,15 +673,16 @@
                         and an alignment table and renders both in HTML, overflowed the stack
                         without <tag>&lt;xsl:iterate&gt;</tag>, and with
                             <tag>&lt;xsl:iterate&gt;</tag> it returned times of real 0m2.842s, user
-                        0m6.519s, sys 0m0.494s.</para>
-                </footnote> It is, however, possible to improve the efficiency of the code by taking
-                the admonition in <xref linkend="tennison_2007b"/> literally, that is, by
-                understanding it, as Tennison did, as meaning <quote>iterate <emphasis>rather than
-                        recurse</emphasis> whenever you can</quote>, rather than, as in our naïve
-                first implementation, <quote>iterate <emphasis>absolutely whenever</emphasis> you
-                    can</quote>. In other words, we should use iteration where recursion would have
-                been required in XSLT 2.0, but not as a replacement for
-                    <tag>&lt;xsl:for-each&gt;</tag>, which we should retain where
+                        0m6.519s, sys 0m0.494s. (User time plus sys time exceeds real time because
+                        Saxon parallalizes some of the operations.)</para>
+                </footnote> It is, however, possible to improve the efficiency of the code further
+                by taking the admonition (and the implementation) in <xref linkend="tennison_2007b"
+                /> literally, that is, by understanding it, as Tennison did, as meaning
+                    <quote>iterate <emphasis>rather than recurse</emphasis> whenever you
+                can</quote>, rather than, as in our naïve first implementation, <quote>iterate
+                        <emphasis>absolutely whenever</emphasis> you can</quote>. In other words, we
+                should use iteration where recursion would have been required in XSLT 2.0, but not
+                as a replacement for <tag>&lt;xsl:for-each&gt;</tag>, which we should retain where
                 appropriate.</para>
             <para>In the Needleman Wunsch (and also Levenshtein) context, as <xref
                     linkend="wang_2002"/> and <xref linkend="naveed_2005"/> point out, all values on
@@ -729,16 +735,20 @@
                 and we improve the retrieval from this space by using <tag>&lt;xsl:key&gt;</tag>
                 with a composite <tag class="attribute">@use</tag> attribute that indexes that
                 search space according to <tag class="attribute">@row</tag> and <tag
-                    class="attribute">@col</tag> values.</para>
+                    class="attribute">@col</tag> values. We retain the entire grid, even though only
+                the two preceding diagonals are needed to continue the computation, for two reasons:
+                we will traverse it backwards, once it is complete, to construct the actual
+                alignment table, and we will output it for illustrative and diagonstic
+                purposes.</para>
             <para>It is possible for more than one neighboring cell to tie for highest value, and
                 our implementation makes a simplifying assumption and identifies only one optimal
                 path, even though there may be more than one, since the task that motivated this
                 development required only <emphasis>an</emphasis> optimal alignment, and not
-                    <emphasis>all</emphasis> such alignments. We limit ourselves to a single
-                alignment result by recording only one path to each cell, resolving ties by
-                arbitrarily favoring diagonal, then left, and only then upper sources. There is,
-                however, nothing about the method that would prohibit recording and later processing
-                multiple paths, and thus identifying all optimal alignments.</para>
+                    <emphasis>all</emphasis> such alignments. We therefore limit ourselves to a
+                single alignment result by recording only one optimal path to each cell, resolving
+                ties by arbitrarily favoring diagonal, then left, and only then upper sources. There
+                is, however, nothing about the method that would prohibit recording and later
+                processing multiple paths, and thus identifying all optimal alignments.</para>
             <para>[ADD DETAILS]</para>
         </section>
         <section>
