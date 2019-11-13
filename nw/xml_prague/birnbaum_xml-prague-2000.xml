@@ -749,7 +749,42 @@
                 ties by arbitrarily favoring diagonal, then left, and only then upper sources. There
                 is, however, nothing about the method that would prohibit recording and later
                 processing multiple paths, and thus identifying all optimal alignments.</para>
-            <para>[ADD DETAILS]</para>
+            <para>Perhaps not surprisingly, not only is the diagonal method no faster than the fully
+                iterative one, but it is actually slower, with average times of:<footnote>
+                    <para>Timing was performed by aligning two 1000-item sequences on a MacBook Pro
+                        with a 2.9 GHz Intel Core i9 CPU (6 physical cores, 12 logical cores) and 32
+                        GB 2400 MHz DDR4 RAM, using command-line Saxon HE 9.9.1.4 with a Java Xmx24g
+                        value. The process constructed a full alignment grid and alignment table and
+                        serialized both as XHTML. Times are averages of 5 iterations, as reported by
+                        the commmand-line <code>time</code> command, after removing high and low
+                        (that is, of the 3 middle values).</para>
+                </footnote><table>
+                    <title>Alignment timings (in seconds)</title>
+                    <tgroup cols="4">
+                        <thead>
+                            <row>
+                                <entry>Method</entry>
+                                <entry>Real</entry>
+                                <entry>User</entry>
+                                <entry>Sys</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry>Traditional</entry>
+                                <entry>49.975</entry>
+                                <entry>54.667</entry>
+                                <entry>3.768</entry>
+                            </row>
+                            <row>
+                                <entry>Diagonal</entry>
+                                <entry>75.942</entry>
+                                <entry>93.501</entry>
+                                <entry>5.837</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table></para>
         </section>
         <section>
             <title>Save yourself a trip … and some space</title>
