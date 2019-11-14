@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:djb="http://www.obdurodon.org"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" stylesheet="compute_diagonals.xsl">
+    <!-- actual parameters are declaared inside scenarios -->
+    <x:param name="in1" select="'placeholder'"/>
+    <x:param name="in2" select="'placeholder'"/>
+
+    <x:scenario label="Scenario for testing function tokenize_input with two one-word inputs">
+        <x:call function="djb:tokenize_input">
+            <x:param name="in1" select="'kittens'"/>
+            <x:param name="in2" select="'sitting'"/>
+        </x:call>
+        <x:expect label="Two one-word inputs are okay"
+            select='            
+            map{
+                "left":("s","i","t","t","i","n","g"),
+                "top":("k","i","t","t","e","n","s"),
+                "type":"characters"
+            }'
+        />
+    </x:scenario>
+    <x:scenario label="Scenario for testing function tokenize_input with two one multi-word inputs">
+        <x:call function="djb:tokenize_input">
+            <x:param name="in1" select="'hi, mom'"/>
+            <x:param name="in2" select="'hello and good bye, dad'"/>
+        </x:call>
+        <x:expect label="Two multi-word inputs are okay"
+            select="
+            map {
+                'left':('hello', 'and', 'good', 'bye,', 'dad'), 
+                'top':('hi,', 'mom'), 
+                 'type':'words'
+            }"
+        />
+    </x:scenario>
+</x:description>
