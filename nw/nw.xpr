@@ -6,6 +6,10 @@
             <serialized version="21.1" xml:space="preserve">
                 <serializableOrderedMap>
                     <entry>
+                        <String>key.fonts.option.pane</String>
+                        <Boolean>true</Boolean>
+                    </entry>
+                    <entry>
                         <String>scenario.associations</String>
                         <scenarioAssociation-array>
                             <scenarioAssociation>
