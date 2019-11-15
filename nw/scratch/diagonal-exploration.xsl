@@ -98,9 +98,9 @@
         <!-- top and left strings and their lengths                -->
         <!--   $top, $top_len, $left, $left_len                    -->
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <xsl:variable name="top" as="xs:string+" select="'k', 'i', 't', 't', 'e', 'n'"/>
+        <xsl:variable name="top" as="xs:string+" select="'k', 'i', 't'"/>
         <xsl:variable name="top_len" as="xs:integer" select="count($top)"/>
-        <xsl:variable name="left" as="xs:string+" select="'s', 'i', 't', 't', 'i', 'n', 'g'"/>
+        <xsl:variable name="left" as="xs:string+" select="'s', 'i', 't', 't', 'i'"/>
         <xsl:variable name="left_len" as="xs:integer" select="count($left)"/>
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- scores for gap, match, and mismatch .                 -->
@@ -114,7 +114,9 @@
         <!-- sum of counts of the sequences - 1                    -->
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <html xmlns="http://www.w3.org/1999/xhtml">
-            <head>Diagonal exploration</head>
+            <head>
+                <title>Diagonal exploration</title>
+            </head>
             <body>
                 <h1>Diagonal exploration</h1>
                 <h2>
@@ -122,7 +124,6 @@
                 </h2>
                 <xsl:sequence
                     select="djb:create_grid($left_len, $top_len) => djb:grid_as_html_table()"/>
-
             </body>
         </html>
         <!-- Procedure:
