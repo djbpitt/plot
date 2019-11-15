@@ -86,8 +86,16 @@
         />
     </xsl:function>
     <xsl:template name="xsl:initial-template">
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- copy stylesheet parameters locally (needed by xspec)  -->
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:param name="in1" as="xs:string" select="$in1"/>
         <xsl:param name="in2" as="xs:string" select="$in2"/>
+        
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- extract token sequence and length from both strings   -->
+        <!-- $input_type is 'words' or 'characters'                -->
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:variable name="result" as="map(xs:string, item()+)"
             select="djb:tokenize_input($in1, $in2)"/>
         <xsl:variable name="top" as="xs:string+" select="$result('top')"/>
