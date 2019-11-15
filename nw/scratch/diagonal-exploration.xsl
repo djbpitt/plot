@@ -10,9 +10,9 @@
         <!-- top and left strings and their lengths                -->
         <!--   $top, $top_len, $left, $left_len                    -->
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <xsl:variable name="top" as="xs:string+" select="'k', 'i', 't'"/>
+        <xsl:variable name="top" as="xs:string+" select="'k', 'i', 't', 'e'"/>
         <xsl:variable name="top_len" as="xs:integer" select="count($top)"/>
-        <xsl:variable name="left" as="xs:string+" select="'d', 'o', 'l', 't'"/>
+        <xsl:variable name="left" as="xs:string+" select="'d', 'o', 't'"/>
         <xsl:variable name="left_len" as="xs:integer" select="count($left)"/>
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- scores for gap, match, and mismatch .                 -->
@@ -26,7 +26,9 @@
         <!-- sum of counts of the sequences - 1                    -->
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:variable name="diag_count" as="xs:integer" select="$top_len + $left_len - 1"/>
-        <!-- -->
+        <geometry>
+            <xsl:sequence select="$left_len, 'rows x', $top_len, 'columns'"/>
+        </geometry>
         <!-- Procedure:
             1. Create <cell> with 
                 @row, @col: calculated by looping through diagonal
@@ -54,11 +56,25 @@
             <xsl:variable name="diag" as="xs:integer" select="."/>
             <xsl:message select="'Processing diag', $diag"/>
             <diag n="{$diag}">
-                <xsl:for-each select="max((1, $diag - $top_len)) to min(($diag, $top_len))">
-                    <xsl:variable name="col" as="xs:integer" select="."/>
-                    <xsl:for-each select="$diag - $col + 1">
-                        <xsl:variable name="row" as="xs:integer" select="."/>
-                        <xsl:value-of separator="" select="'[', $row, ',', $col, '] '"/>
+                <!--
+                    $row_start is 1 until $left_len, then augment by $diag - $left_len
+                    $row_end is $diag until $left_len, and then stays at $left_len
+                    $col is $diag - $row + 1 (otherwise would start at 0, since $diag 1
+                        has [1,1])
+                -->
+                <xsl:variable name="shift" as="xs:integer"
+                    select="
+                        if ($diag gt $top_len) then
+                            ($diag - $top_len)
+                        else
+                            0"/>
+                <xsl:variable name="row_start" as="xs:integer" select="1 + $shift"/>
+                <xsl:variable name="row_end" as="xs:integer" select="min(($diag, $left_len))"/>
+                <xsl:for-each select="$row_start to $row_end">
+                    <xsl:variable name="row" as="xs:integer" select="."/>
+                    <xsl:for-each select="1">
+                        <xsl:variable name="col" as="xs:integer" select="$diag - $row + 1"/>
+                        <xsl:value-of separator="" select="'[', $row, ',', $col, ']'"/>
                     </xsl:for-each>
                 </xsl:for-each>
             </diag>
