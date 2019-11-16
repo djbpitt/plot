@@ -31,7 +31,7 @@
     <!-- darwin_1859_part and darwin_1872_part are first paragraphs -->
     <!-- darwin_1859 and darwin_1872 are entire first chapters .    -->
     <!--                                                            -->
-    <!-- Full chapters don’t scale!                                 -->
+    <!-- Full chapters don’t scale for full grid                    -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:variable name="darwin_1859_part" as="xs:string">WHEN we look to the individuals of the same
         variety or sub-variety of our older cultivated plants and animals, one of the first points
@@ -1659,9 +1659,9 @@
     <!--   mismatch = -1                                        -->
     <!--   gap      = -2                                        -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <xsl:variable name="match" as="xs:integer" select="1"/>
-    <xsl:variable name="mismatch" as="xs:integer" select="-1"/>
-    <xsl:variable name="gap" as="xs:integer" select="-2"/>
+    <xsl:variable name="match_score" as="xs:integer" select="1"/>
+    <xsl:variable name="mismatch_score" as="xs:integer" select="-1"/>
+    <xsl:variable name="gap_score" as="xs:integer" select="-2"/>
 
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- user-defined functions                                    -->
@@ -1836,19 +1836,14 @@
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- choose input (for testing)                             -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($woolf_us, '\s+')"/>
-        <xsl:variable name="s2" as="xs:string+" select="tokenize($woolf_uk, '\s+')"/>-->
-        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859_part, '\s+')"/>
-        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872_part, '\s+')"/>-->
-        <!--<xsl:variable name="s1" as="xs:string+" select="tokenize($darwin_1859, '\s+')"/>
-        <xsl:variable name="s2" as="xs:string+" select="tokenize($darwin_1872, '\s+')"/>-->
-        <!--<xsl:variable name="s1" as="xs:string+"
-            select="tokenize($darwin_1859, '\s+')[position() le 3000]"/>-->
-        <!--<xsl:variable name="s2" as="xs:string+"
-            select="tokenize($darwin_1872, '\s+')[position() le 3000]"/>-->
-        <xsl:variable name="left" as="xs:string" select="'kitten'"/>
-        <xsl:variable name="top" as="xs:string" select="'sitting'"/>
-
+        <!--<xsl:variable name="left" as="xs:string+" select="$woolf_us"/>
+        <xsl:variable name="top" as="xs:string+" select="$woolf_uk"/>-->
+        <xsl:variable name="left" as="xs:string+" select="$darwin_1859_part"/>
+        <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>
+        <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
+        <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>-->
+        <!--<xsl:variable name="left" as="xs:string" select="'kitten'"/>
+        <xsl:variable name="top" as="xs:string" select="'sitting'"/>-->
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- tokenize inputs and count                              -->
@@ -1864,132 +1859,37 @@
 
         <xsl:iterate select="1 to $diag_count">
             <!-- $ult and $penult hold the preceding two diags, with modification -->
-            <xsl:param name="ult" as="element(diag)?" select="()"/>
-            <xsl:param name="penult" as="element(diag)?" select="()"/>
+            <xsl:param name="ult" as="element(cell)*" select="()"/>
+            <xsl:param name="penult" as="element(cell)*" select="()"/>
             <xsl:on-completion>
                 <!-- return lower right cell, with modification-->
                 <xsl:sequence select="$ult"/>
             </xsl:on-completion>
-            <xsl:variable name="current" select="djb:get_diag_cells(., $left_len, $top_len)"/>
-            <!--<xsl:message select="'Current diag', $current_diag"/>-->
+            <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"/>
+            <xsl:message
+                select="'Current diag', ., 'of', $diag_count, 'with', count($current_diag/cell), 'cells'"/>
+            <!-- search space as document for key use-->
+            <xsl:variable name="search_space" as="document-node()">
+                <xsl:document>
+                    <xsl:sequence select="$ult | $penult"/>
+                </xsl:document>
+            </xsl:variable>
+            <xsl:variable name="current" as="element(cell)+">
+                <xsl:for-each select="$current_diag/cell">
+                    <xsl:copy>
+                        <xsl:copy-of select="@*"/>
+                        <xsl:attribute name="match"
+                            select="$left_tokens[current()/number(@row)] eq $top_tokens[current()/number(@col)]"
+                        />
+                    </xsl:copy>
+                </xsl:for-each>
+            </xsl:variable>
             <xsl:next-iteration>
                 <!-- $current becomes $ult, $ult becomes $penult-->
-                <xsl:with-param name="ult" as="element(diag)" select="$current"/>
-                <xsl:with-param name="penult" as="element(diag)?" select="$ult"/>
+                <xsl:with-param name="ult" as="element(cell)+" select="$current"/>
+                <xsl:with-param name="penult" as="element(cell)*" select="$ult"/>
             </xsl:next-iteration>
         </xsl:iterate>
-
-        <!--<html xmlns="http://www.w3.org/1999/xhtml">
-            <head>
-                <title>Needleman Wunsch</title>
-                <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
-                <style type="text/css">
-                    #grid th,
-                    #grid td {
-                    text-align: right;
-                    }
-                    #grid th:first-of-type {
-                    text-align: left;
-                    }
-                    #grid tr:first-of-type &gt; th {
-                    text-align: center;
-                    }
-                    #grid td:before,
-                    #grid th:before {
-                    content: attr(data-arrow) " ";
-                    font-size: small;
-                    }
-                    [data-match = "1"] {
-                    background-color: palegreen;
-                    }
-                    [data-match = "-1"] {
-                    background-color: pink;
-                    }
-                    #alignment th {
-                    text-align: left;
-                    }
-                    #metadata &gt; p {
-                    margin-top: 0;
-                    margin-bottom: 0;
-                    }
-                    .input {
-                    text-indent: -1em;
-                    margin-left: 1em;
-                    }
-                    #top {
-                    display: flex;
-                    flex-direction: row;
-                    }
-                    #metadata,
-                    #schematic {
-                    display: flex;
-                    flex-direction: column;
-                    }</style>
-
-            </head>
-            <body>
-                <table id="grid" border="1">
-                    <tr>
-                        <th>&#xa0;</th>
-                        <th>&#xa0;</th>
-                        <xsl:for-each select="$s2">
-                            <th>
-                                <xsl:value-of select="."/>
-                            </th>
-                        </xsl:for-each>
-                    </tr>
-                    <xsl:for-each-group group-by="@row" select="$grid">
-                        <xsl:variable name="rowNo" select="position()"/>
-                        <tr>
-                            <xsl:choose>
-                                <xsl:when test="$rowNo eq 1">
-                                    <th>&#xa0;</th>
-                                </xsl:when>
-                                <xsl:when test="$rowNo gt 1">
-                                    <th>
-                                        <xsl:value-of select="$s1[$rowNo - 1]"/>
-                                    </th>
-                                </xsl:when>
-                            </xsl:choose>
-                            <xsl:for-each select="current-group()">
-                                <td>
-                                    <!-\- TODO: name attributes with data- prefix initially
-                                        to avoid the expense of renaming for HTML output -\->
-                                    <!-\- 
-                                        uncomment to write attribute values into html
-                                        for diagnostic purposes; we need only @match
-                                    -\->
-                                    <!-\-<xsl:for-each select="@*">
-                                        <xsl:attribute name="data-{name()}" select="."/>
-                                    </xsl:for-each>-\->
-                                    <xsl:attribute name="data-match" select="@match"/>
-                                    <xsl:attribute name="data-arrow"
-                                        select="
-                                            if (@source eq 'd')
-                                            then
-                                                '↘'
-                                            else
-                                                if (@source eq 'l')
-                                                then
-                                                    '→'
-                                                else
-                                                    if (@source eq 'u')
-                                                    then
-                                                        '↓'
-                                                    else
-                                                        ()"/>
-                                    <xsl:value-of select="."/>
-                                </td>
-                            </xsl:for-each>
-                        </tr>
-                    </xsl:for-each-group>
-                </table>
-            </body>
-        </html>-->
     </xsl:template>
-
-    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- alignment table in HTML                                    -->
-    <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
 
 </xsl:stylesheet>
