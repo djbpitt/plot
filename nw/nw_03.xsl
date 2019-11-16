@@ -1876,8 +1876,29 @@
             </xsl:variable>
             <xsl:variable name="current" as="element(cell)+">
                 <xsl:for-each select="$current_diag/cell">
+                    <xsl:variable name="score" as="xs:integer" select="1"/>
                     <xsl:copy>
                         <xsl:copy-of select="@*"/>
+                        <!-- add 
+                            $match (boolean)
+                            $gap_score (not $match_score, since that will depend on @match in the new cell)
+                            $direction (source of score value)
+                            $score (of new cell)
+                        -->
+                        <xsl:attribute name="score">
+                            <xsl:choose>
+                                <xsl:when test="@row = 1">
+                                    <xsl:value-of select="@row * $gap_score"/>
+                                </xsl:when>
+                                <xsl:when test="@col = 1">
+                                    <xsl:value-of select="@col * $gap_score"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <!-- get three values, mapped to sources, sort and choose -->
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:attribute>
+                        <xsl:attribute name="gap_score" select="$score + $gap_score"/>
                         <xsl:attribute name="match"
                             select="$left_tokens[current()/number(@row)] eq $top_tokens[current()/number(@col)]"
                         />
