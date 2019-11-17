@@ -2,6 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:djb="http://www.obdurodon.org"
     xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:array="http://www.w3.org/2005/xpath-functions/array"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     version="3.0">
 
@@ -1838,12 +1839,12 @@
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!--<xsl:variable name="left" as="xs:string+" select="$woolf_us"/>
         <xsl:variable name="top" as="xs:string+" select="$woolf_uk"/>-->
-        <xsl:variable name="left" as="xs:string+" select="$darwin_1859_part"/>
-        <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>
+        <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859_part"/>
+        <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>-->
         <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
         <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>-->
-        <!--<xsl:variable name="left" as="xs:string" select="'kitten'"/>
-        <xsl:variable name="top" as="xs:string" select="'sitting'"/>-->
+        <xsl:variable name="left" as="xs:string" select="'kitten'"/>
+        <xsl:variable name="top" as="xs:string" select="'sitting'"/>
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- tokenize inputs and count                              -->
@@ -1865,9 +1866,8 @@
                 <!-- return lower right cell, with modification-->
                 <xsl:sequence select="$ult"/>
             </xsl:on-completion>
+            <xsl:message select="'$ult', $ult"/>
             <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"/>
-            <xsl:message
-                select="'Current diag', ., 'of', $diag_count, 'with', count($current_diag/cell), 'cells'"/>
             <!-- search space as document for key use-->
             <xsl:variable name="search_space" as="document-node()">
                 <xsl:document>
@@ -1876,32 +1876,53 @@
             </xsl:variable>
             <xsl:variable name="current" as="element(cell)+">
                 <xsl:for-each select="$current_diag/cell">
-                    <xsl:variable name="score" as="xs:integer" select="1"/>
+                    <!-- is the current cell a match? -->
+                    <xsl:variable name="current_match" as="xs:integer"
+                        select="
+                            if ($left_tokens[current()/number(@row)] eq $top_tokens[current()/number(@col)]) then
+                                1
+                            else
+                                -1"/>
+                    <!-- 
+                        get three values, mapped to sources, sort (score, then source) and choose
+                        $winner(2) will be source of best score (breaking ties as d, l, u)
+                        $winner(1) will be the best score
+                    -->
+                    <xsl:variable name="winner" as="array(*)"
+                        select="
+                            array:sort([
+                                [number(key('cellByRowCol', (@row - 1, @col - 1), $search_space)/@score) + $current_match, 'd'],
+                                [number(key('cellByRowCol', (@row - 1, @col/number()), $search_space)/@gap_score), 'l'],
+                                [number(key('cellByRowCol', (@row/number(), @col - 1), $search_space)/@gap_score), 'u']
+                            ])(1)"/>
+                    <xsl:variable name="score" as="xs:double">
+                        <xsl:choose>
+                            <xsl:when test="@row = 1 and @col = 1">
+                                <xsl:value-of select="$current_match"/>
+                            </xsl:when>
+                            <xsl:when test="@row = 1">
+                                <xsl:value-of select="@row * $gap_score"/>
+                            </xsl:when>
+                            <xsl:when test="@col = 1">
+                                <xsl:value-of select="@col * $gap_score"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:sequence select="$winner(1) ! number()"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
                     <xsl:copy>
                         <xsl:copy-of select="@*"/>
                         <!-- add 
                             $match (boolean)
                             $gap_score (not $match_score, since that will depend on @match in the new cell)
-                            $direction (source of score value)
+                            $source (source of score value)
                             $score (of new cell)
                         -->
-                        <xsl:attribute name="score">
-                            <xsl:choose>
-                                <xsl:when test="@row = 1">
-                                    <xsl:value-of select="@row * $gap_score"/>
-                                </xsl:when>
-                                <xsl:when test="@col = 1">
-                                    <xsl:value-of select="@col * $gap_score"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <!-- get three values, mapped to sources, sort and choose -->
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:attribute>
+                        <xsl:attribute name="match" select="$current_match"/>
+                        <xsl:attribute name="score" select="$score"/>
                         <xsl:attribute name="gap_score" select="$score + $gap_score"/>
-                        <xsl:attribute name="match"
-                            select="$left_tokens[current()/number(@row)] eq $top_tokens[current()/number(@col)]"
-                        />
+                        <xsl:attribute name="source" select="$winner(2)"/>
                     </xsl:copy>
                 </xsl:for-each>
             </xsl:variable>
