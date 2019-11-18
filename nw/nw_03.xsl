@@ -1863,7 +1863,7 @@
                     <tr>
                         <td>&#xa0;</td>
                         <td>&#xa0;</td>
-                        <xsl:for-each select="$top">
+                        <xsl:for-each select="$left">
                             <td>
                                 <xsl:sequence select="."/>
                             </td>
@@ -1873,7 +1873,7 @@
                         <xsl:sort/>
                         <xsl:variable name="row" as="xs:integer" select="."/>
                         <tr>
-                            <xsl:sequence select="($left[$row], '&#xa0;')[1]"/>
+                            <xsl:sequence select="($top[$row], '&#xa0;')[1]"/>
                             <xsl:for-each select="$in[@row = $row]">
                                 <xsl:sort select="@col"/>
                                 <td>
@@ -1900,8 +1900,8 @@
         <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>-->
         <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
         <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>-->
-        <xsl:variable name="left" as="xs:string" select="'kit'"/>
-        <xsl:variable name="top" as="xs:string" select="'sit'"/>
+        <xsl:variable name="left" as="xs:string" select="'kitten'"/>
+        <xsl:variable name="top" as="xs:string" select="'sitting'"/>
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- tokenize inputs and count                              -->
