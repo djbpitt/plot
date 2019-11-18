@@ -236,13 +236,14 @@
         <xsl:variable name="left" as="xs:string+" select="$result('left')"/>
         <xsl:variable name="left_len" as="xs:integer" select="count($left)"/>
         <xsl:variable name="input_type" as="xs:string" select="$result('type')"/>
-        <html xmlns="http://www.w3.org/1999/xhtml">
+        <xsl:sequence select="djb:create_grid($left_len, $top_len)"/>
+        <!--<html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <title>grid test</title>
             </head>
             <body>
                 <xsl:sequence select="djb:create_grid($left_len, $top_len) => djb:grid_as_html()"/>
             </body>
-        </html>
+        </html>-->
     </xsl:template>
 </xsl:stylesheet>

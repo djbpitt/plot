@@ -5,17 +5,33 @@
     <x:param name="in2" select="'no_value'"/>
 
     <!-- djb:get_diag_cells() -->
-    <x:scenario label="Scenario for testing function get_diag_cells for diag 3 in 5 x 3">
+    <x:scenario label="Scenario for testing function get_diag_cells for diag 3 in 5 x 3, with left">
         <x:call function="djb:get_diag_cells">
             <x:param name="diag" select="3"/>
             <x:param name="left_len" select="5"/>
             <x:param name="top_len" select="3"/>
         </x:call>
-        <x:expect label="[1,3], [2,2], [3,1]">
+        <x:expect label="[0, 4], [1,3], [2,2], [3,1]">
             <diag n="3">
                 <cell row="1" col="3"/>
                 <cell row="2" col="2"/>
                 <cell row="3" col="1"/>
+                <cell row="4" col="0"/>
+            </diag></x:expect>
+    </x:scenario>
+    <x:scenario
+        label="Scenario for testing function get_diag_cells for diag 3 in 5 x 3, with top and left">
+        <x:call function="djb:get_diag_cells">
+            <x:param name="diag" select="2"/>
+            <x:param name="left_len" select="5"/>
+            <x:param name="top_len" select="3"/>
+        </x:call>
+        <x:expect label="[0, 3], [1,2], [2,1], [3,0]">
+            <diag n="2">
+                <cell row="1" col="2"/>
+                <cell row="2" col="1"/>
+                <cell row="0" col="3"/>
+                <cell row="3" col="0"/>
             </diag></x:expect>
     </x:scenario>
     <x:scenario label="Scenario for testing function get_diag_cells for diag 5 in 5 x 3">
@@ -50,34 +66,40 @@
             <x:param name="left_len" select="3"/>
             <x:param name="top_len" select="5"/>
         </x:call>
-        <x:expect label="Diags for 3 x 5 grid">
-            <diag n="1">
+        <x:expect label="Diags for full 3 x 5 grid, with row and col 0">
+            <diag xmlns:djb="http://www.obdurodon.org" n="1">
                 <cell row="1" col="1"/>
+                <cell row="0" col="2"/>
+                <cell row="2" col="0"/>
             </diag>
-            <diag n="2">
+            <diag xmlns:djb="http://www.obdurodon.org" n="2">
                 <cell row="1" col="2"/>
                 <cell row="2" col="1"/>
+                <cell row="0" col="3"/>
+                <cell row="3" col="0"/>
             </diag>
-            <diag n="3">
+            <diag xmlns:djb="http://www.obdurodon.org" n="3">
                 <cell row="1" col="3"/>
                 <cell row="2" col="2"/>
                 <cell row="3" col="1"/>
+                <cell row="0" col="4"/>
             </diag>
-            <diag n="4">
+            <diag xmlns:djb="http://www.obdurodon.org" n="4">
                 <cell row="1" col="4"/>
                 <cell row="2" col="3"/>
                 <cell row="3" col="2"/>
+                <cell row="0" col="5"/>
             </diag>
-            <diag n="5">
+            <diag xmlns:djb="http://www.obdurodon.org" n="5">
                 <cell row="1" col="5"/>
                 <cell row="2" col="4"/>
                 <cell row="3" col="3"/>
             </diag>
-            <diag n="6">
+            <diag xmlns:djb="http://www.obdurodon.org" n="6">
                 <cell row="2" col="5"/>
                 <cell row="3" col="4"/>
             </diag>
-            <diag n="7">
+            <diag xmlns:djb="http://www.obdurodon.org" n="7">
                 <cell row="3" col="5"/>
             </diag>
         </x:expect>
@@ -87,34 +109,40 @@
             <x:param name="left_len" select="5"/>
             <x:param name="top_len" select="3"/>
         </x:call>
-        <x:expect label="Diags for 5 x 3 grid">
-            <diag n="1">
+        <x:expect label="Diags for full 5 x 3 grid, with row and col 0">
+            <diag xmlns:djb="http://www.obdurodon.org" n="1">
                 <cell row="1" col="1"/>
+                <cell row="0" col="2"/>
+                <cell row="2" col="0"/>
             </diag>
-            <diag n="2">
+            <diag xmlns:djb="http://www.obdurodon.org" n="2">
                 <cell row="1" col="2"/>
                 <cell row="2" col="1"/>
+                <cell row="0" col="3"/>
+                <cell row="3" col="0"/>
             </diag>
-            <diag n="3">
+            <diag xmlns:djb="http://www.obdurodon.org" n="3">
                 <cell row="1" col="3"/>
                 <cell row="2" col="2"/>
                 <cell row="3" col="1"/>
+                <cell row="4" col="0"/>
             </diag>
-            <diag n="4">
+            <diag xmlns:djb="http://www.obdurodon.org" n="4">
                 <cell row="2" col="3"/>
                 <cell row="3" col="2"/>
                 <cell row="4" col="1"/>
+                <cell row="5" col="0"/>
             </diag>
-            <diag n="5">
+            <diag xmlns:djb="http://www.obdurodon.org" n="5">
                 <cell row="3" col="3"/>
                 <cell row="4" col="2"/>
                 <cell row="5" col="1"/>
             </diag>
-            <diag n="6">
+            <diag xmlns:djb="http://www.obdurodon.org" n="6">
                 <cell row="4" col="3"/>
                 <cell row="5" col="2"/>
             </diag>
-            <diag n="7">
+            <diag xmlns:djb="http://www.obdurodon.org" n="7">
                 <cell row="5" col="3"/>
             </diag>
         </x:expect>
