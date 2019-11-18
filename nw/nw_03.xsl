@@ -1673,8 +1673,8 @@
     <!-- returns all cell in specified diagonal .                  -->
     <!-- parameters:                                               -->
     <!--   $diag as xs:integer                                     -->
-    <!--   $left_len xs:integer (total number of rows)             -->
-    <!--   $ltop_len xs:integer (total number of columns)          -->
+    <!--   @left_len xs:integer (total number of rows)             -->
+    <!--   @ltop_len xs:integer (total number of columns)          -->
     <!-- return: <diag>, with $diag as @n and <cell> contents      -->
     <!--   note: <cell> elements specify @row and @col             -->
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -1718,6 +1718,16 @@
                 <xsl:variable name="col" as="xs:integer" select="$diag - $row + 1"/>
                 <cell row="{$row}" col="{$col}"/>
             </xsl:for-each>
+            <!-- create row and column 0 where needed -->
+            <xsl:if test="$diag lt $top_len">
+                <xsl:variable name="tmp" as="xs:integer" select="$diag + 1"/>
+                <cell row="0" col="{$tmp}" score="{$tmp}" gap_score="{$tmp * $gap_score}"
+                    source="'l'"/>
+            </xsl:if>
+            <xsl:if test="$diag lt $left_len">
+                <xsl:variable name="tmp" as="xs:integer" select="$diag + 1"/>
+                <cell row="{$tmp}" col="0" score="{$tmp}" gap_score="{$tmp * $gap_score}"/>
+            </xsl:if>
         </diag>
     </xsl:function>
 
@@ -1843,8 +1853,8 @@
         <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>-->
         <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
         <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>-->
-        <xsl:variable name="left" as="xs:string" select="'kitten'"/>
-        <xsl:variable name="top" as="xs:string" select="'sitting'"/>
+        <xsl:variable name="left" as="xs:string" select="'kit'"/>
+        <xsl:variable name="top" as="xs:string" select="'sit'"/>
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- tokenize inputs and count                              -->
@@ -1860,13 +1870,20 @@
 
         <xsl:iterate select="1 to $diag_count">
             <!-- $ult and $penult hold the preceding two diags, with modification -->
-            <xsl:param name="ult" as="element(cell)*" select="()"/>
-            <xsl:param name="penult" as="element(cell)*" select="()"/>
+            <xsl:param name="ult" as="element(cell)+">
+                <cell row="1" col="0" score="{$gap_score ! number()}"
+                    gap_score="{$gap_score ! number() * 2}" source="u"/>
+                <cell row="0" col="1" score="{$gap_score}" gap_score="{$gap_score * 2}" source="l"/>
+            </xsl:param>
+            <xsl:param name="penult" as="element(cell)*">
+                <cell row="0" col="0" score="0"/>
+            </xsl:param>
+            <xsl:param name="cumulative" as="element(cell)*" select="$penult | $ult"/>
             <xsl:on-completion>
                 <!-- return lower right cell, with modification-->
-                <xsl:sequence select="$ult"/>
+                <!--<xsl:sequence select="$ult"/>-->
+                <xsl:sequence select="$cumulative"/>
             </xsl:on-completion>
-            <xsl:message select="'$ult', $ult"/>
             <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"/>
             <!-- search space as document for key use-->
             <xsl:variable name="search_space" as="document-node()">
@@ -1888,29 +1905,32 @@
                         $winner(2) will be source of best score (breaking ties as d, l, u)
                         $winner(1) will be the best score
                     -->
-                    <xsl:variable name="winner" as="array(*)"
-                        select="
-                            array:sort([
-                                [number(key('cellByRowCol', (@row - 1, @col - 1), $search_space)/@score) + $current_match, 'd'],
-                                [number(key('cellByRowCol', (@row - 1, @col/number()), $search_space)/@gap_score), 'l'],
-                                [number(key('cellByRowCol', (@row/number(), @col - 1), $search_space)/@gap_score), 'u']
-                            ])(1)"/>
-                    <xsl:variable name="score" as="xs:double">
-                        <xsl:choose>
-                            <xsl:when test="@row = 1 and @col = 1">
-                                <xsl:value-of select="$current_match"/>
-                            </xsl:when>
-                            <xsl:when test="@row = 1">
-                                <xsl:value-of select="@row * $gap_score"/>
-                            </xsl:when>
-                            <xsl:when test="@col = 1">
-                                <xsl:value-of select="@col * $gap_score"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:sequence select="$winner(1) ! number()"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
+                    <!--<xsl:message select="'processing', current(), 'with search space', $search_space"/>-->
+                    <xsl:variable name="winners" as="element(winner)+">
+                        <winner name="d">
+                            <xsl:sequence
+                                select="key('cellByRowCol', (number(@row) - 1, number(@col) - 1), $search_space)/number(@score) + $current_match"
+                            />
+                        </winner>
+                        <winner name="u">
+                            <xsl:sequence
+                                select="key('cellByRowCol', (number(@row) - 1, number(@col)), $search_space)/number(@gap_score)"
+                            />
+                        </winner>
+                        <winner name="l">
+                            <xsl:sequence
+                                select="key('cellByRowCol', (number(@row), number(@col) - 1), $search_space)/number(@gap_score)"
+                            />
+                        </winner>
                     </xsl:variable>
+                    <xsl:variable name="winners_sorted" as="element(winner)+">
+                        <xsl:perform-sort select="$winners">
+                            <xsl:sort order="descending" data-type="number"/>
+                            <xsl:sort select="@name"/>
+                        </xsl:perform-sort>
+                    </xsl:variable>
+                    <xsl:message select="'Winners', $winners"/>
+                    <xsl:message select="'Sorted ', $winners_sorted"/>
                     <xsl:copy>
                         <xsl:copy-of select="@*"/>
                         <!-- add 
@@ -1920,16 +1940,18 @@
                             $score (of new cell)
                         -->
                         <xsl:attribute name="match" select="$current_match"/>
-                        <xsl:attribute name="score" select="$score"/>
-                        <xsl:attribute name="gap_score" select="$score + $gap_score"/>
-                        <xsl:attribute name="source" select="$winner(2)"/>
+                        <xsl:attribute name="score" select="$winners_sorted[1]"/>
+                        <xsl:attribute name="gap_score"
+                            select="$winners_sorted[1] ! number() + $gap_score ! number()"/>
+                        <xsl:attribute name="source" select="$winners_sorted[1]/@name"/>
                     </xsl:copy>
                 </xsl:for-each>
             </xsl:variable>
             <xsl:next-iteration>
-                <!-- $current becomes $ult, $ult becomes $penult-->
                 <xsl:with-param name="ult" as="element(cell)+" select="$current"/>
                 <xsl:with-param name="penult" as="element(cell)*" select="$ult"/>
+                <xsl:with-param name="cumulative" as="element(cell)+" select="$cumulative, $current"
+                />
             </xsl:next-iteration>
         </xsl:iterate>
     </xsl:template>
