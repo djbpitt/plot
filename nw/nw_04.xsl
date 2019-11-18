@@ -1889,7 +1889,7 @@
         </html>
     </xsl:function>
 
-    <xsl:function name="djb:find_path" as="xs:string">
+    <xsl:function name="djb:find_path">
         <xsl:param name="diag_count" as="xs:integer"/>
         <xsl:param name="left_len" as="xs:integer"/>
         <xsl:param name="top_len" as="xs:integer"/>
@@ -1908,9 +1908,9 @@
             <xsl:param name="cumulative" as="element(cell)*" select="$penult | $ult"/>
             <xsl:on-completion>
                 <!-- return lower right cell, with modification-->
-                <xsl:value-of select="$ult/@path"/>
+                <!--<xsl:value-of select="$ult/@path"/>-->
                 <!--<xsl:sequence select="$cumulative => djb:grid_to_html($left_tokens, $top_tokens)"/>-->
-                <!--<xsl:sequence select="$cumulative"/>-->
+                <xsl:sequence select="$cumulative"/>
             </xsl:on-completion>
             <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"/>
             <!-- search space as document for key use-->
@@ -2011,7 +2011,7 @@
         <xsl:variable name="input_type" as="xs:string" select="$tokenized_input('type')"/>
         <xsl:variable name="diag_count" as="xs:integer" select="$top_len + $left_len - 1"/>
 
-        <xsl:variable name="final_path" as="xs:string"
+        <xsl:variable name="final_path"
             select="djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens)"/>
         <xsl:sequence select="$final_path"/>
 
