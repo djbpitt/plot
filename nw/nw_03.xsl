@@ -1840,6 +1840,53 @@
         />
     </xsl:function>
 
+    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- djb:grid_to_html()                                        -->
+    <!-- outputs alignment grid as HTML table                      -->
+    <!-- parameters:                                               -->
+    <!--   in as element(cell)+                                    -->
+    <!-- returns:                                                  -->
+    <!--   HTML document                                           -->
+    <!-- note: diagnostic only; not used in production             -->
+    <!--   to use, set iterator to return $cumulative              -->
+    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <xsl:function name="djb:grid_to_html" as="element(html:html)">
+        <xsl:param name="in" as="element(cell)+"/>
+        <xsl:param name="top" as="xs:string+"/>
+        <xsl:param name="left" as="xs:string+"/>
+        <html xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+                <title>test</title>
+            </head>
+            <body>
+                <table border="1">
+                    <tr>
+                        <td>&#xa0;</td>
+                        <td>&#xa0;</td>
+                        <xsl:for-each select="$top">
+                            <td>
+                                <xsl:sequence select="."/>
+                            </td>
+                        </xsl:for-each>
+                    </tr>
+                    <xsl:for-each select="distinct-values($in/@row)">
+                        <xsl:sort/>
+                        <xsl:variable name="row" as="xs:integer" select="."/>
+                        <tr>
+                            <xsl:sequence select="($left[$row], '&#xa0;')[1]"/>
+                            <xsl:for-each select="$in[@row = $row]">
+                                <xsl:sort select="@col"/>
+                                <td>
+                                    <xsl:value-of select="@score, @source"/>
+                                </td>
+                            </xsl:for-each>
+                        </tr>
+                    </xsl:for-each>
+                </table>
+            </body>
+        </html>
+    </xsl:function>
+
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- main                                                       -->
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -1882,7 +1929,7 @@
             <xsl:on-completion>
                 <!-- return lower right cell, with modification-->
                 <!--<xsl:sequence select="$ult"/>-->
-                <xsl:sequence select="$cumulative"/>
+                <xsl:sequence select="$cumulative => djb:grid_to_html($left_tokens, $top_tokens)"/>
             </xsl:on-completion>
             <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"/>
             <!-- search space as document for key use-->
