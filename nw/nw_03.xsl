@@ -1929,7 +1929,8 @@
             <xsl:on-completion>
                 <!-- return lower right cell, with modification-->
                 <!--<xsl:sequence select="$ult"/>-->
-                <xsl:sequence select="$cumulative => djb:grid_to_html($left_tokens, $top_tokens)"/>
+                <!--<xsl:sequence select="$cumulative => djb:grid_to_html($left_tokens, $top_tokens)"/>-->
+                <xsl:sequence select="$cumulative"/>
             </xsl:on-completion>
             <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"/>
             <!-- search space as document for key use-->
