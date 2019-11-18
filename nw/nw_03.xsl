@@ -12,7 +12,9 @@
     <!-- https://github.com/djbpitt/xstuff/nw .                     -->
     <!--                                                            -->
     <!-- Needleman Wunsch alignment in XSLT 3.0                     -->
-    <!-- Implementation 2: Iterates over diagonals .    s           -->
+    <!-- Implementation 3: Iterates over diagonals,                 -->
+    <!--   uses <xsl:for-each> inside diagonal)                     -->
+    <!-- Returns last cell, cumulative cells, or table in html .    -->
     <!--                                                            -->
     <!-- See:                                                       -->
     <!--   https://www.cs.sjsu.edu/~aid/cs152/NeedlemanWunsch.pdf   -->
@@ -1929,8 +1931,8 @@
             <xsl:on-completion>
                 <!-- return lower right cell, with modification-->
                 <!--<xsl:sequence select="$ult"/>-->
-                <!--<xsl:sequence select="$cumulative => djb:grid_to_html($left_tokens, $top_tokens)"/>-->
-                <xsl:sequence select="$cumulative"/>
+                <xsl:sequence select="$cumulative => djb:grid_to_html($left_tokens, $top_tokens)"/>
+                <!--<xsl:sequence select="$cumulative"/>-->
             </xsl:on-completion>
             <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"/>
             <!-- search space as document for key use-->
