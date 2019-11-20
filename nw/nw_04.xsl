@@ -1889,6 +1889,22 @@
         </html>
     </xsl:function>
 
+    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- djb:find_path()                                           -->
+    <!-- generates alignment grid, recording full paths            -->
+    <!-- parameters:                                               -->
+    <!--   $diag_count as xs:integer                               -->
+    <!--   $left_len as xs:integer                                 -->
+    <!--   $top_len as xs:integer                                  -->
+    <!--   $left_tokens as xs:string+                              -->
+    <!--   $top_tokens as xs:string+                               -->
+    <!-- returns:                                                  -->
+    <!--   full optimal path as string of d, l, and u              -->
+    <!-- notes:                                                    -->
+    <!--   modify <xsl:on-completion> to change output .           -->
+    <!--   can maintain cumulative grid as $cumulative, but this   -->
+    <!--   is disabled by default for scalability and efficiency . -->
+    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:find_path">
         <xsl:param name="diag_count" as="xs:integer"/>
         <xsl:param name="left_len" as="xs:integer"/>
@@ -1905,12 +1921,13 @@
             <xsl:param name="penult" as="element(cell)*">
                 <cell row="0" col="0" score="0"/>
             </xsl:param>
-            <xsl:param name="cumulative" as="element(cell)*" select="$penult | $ult"/>
+            <!--<xsl:param name="cumulative" as="element(cell)*" select="$penult | $ult"/>-->
             <xsl:on-completion>
                 <!-- return lower right cell, with modification-->
-                <!--<xsl:value-of select="$ult/@path"/>-->
+                <xsl:value-of select="$ult/@path"/>
                 <!--<xsl:sequence select="$cumulative => djb:grid_to_html($left_tokens, $top_tokens)"/>-->
-                <xsl:sequence select="$cumulative"/>
+                <!--<xsl:sequence select="$cumulative"/>-->
+                <xsl:message select="$ult/@path"/>
             </xsl:on-completion>
             <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"/>
             <!-- search space as document for key use-->
@@ -1919,6 +1936,8 @@
                     <xsl:sequence select="$ult | $penult"/>
                 </xsl:document>
             </xsl:variable>
+            <!--<xsl:message
+                select="'diag', current(), '/', $diag_count, ';', count($current_diag/cell), 'cells; search space', count($search_space/cell), 'cells'"/>-->
             <xsl:variable name="current" as="element(cell)+">
                 <xsl:for-each select="$current_diag/cell">
                     <!-- is the current cell a match? -->
@@ -1933,7 +1952,6 @@
                         $winner(2) will be source of best score (breaking ties as d, l, u)
                         $winner(1) will be the best score
                     -->
-                    <!--<xsl:message select="'processing', current(), 'with search space', $search_space"/>-->
                     <xsl:variable name="d_cell" as="element(cell)?"
                         select="key('cellByRowCol', (number(@row) - 1, number(@col) - 1), $search_space)"/>
                     <xsl:variable name="l_cell" as="element(cell)?"
@@ -1976,11 +1994,59 @@
             <xsl:next-iteration>
                 <xsl:with-param name="ult" as="element(cell)+" select="$current"/>
                 <xsl:with-param name="penult" as="element(cell)*" select="$ult"/>
-                <xsl:with-param name="cumulative" as="element(cell)+" select="$cumulative, $current"
-                />
+                <!--<xsl:with-param name="cumulative" as="element(cell)+" select="$cumulative, $current"
+                />-->
             </xsl:next-iteration>
         </xsl:iterate>
+    </xsl:function>
 
+    <xsl:function name="djb:create_alignment_table" as="element(pair)+">
+        <xsl:param name="path" as="xs:string"/>
+        <xsl:param name="left_tokens" as="xs:string*"/>
+        <xsl:param name="top_tokens" as="xs:string*"/>
+        <xsl:param name="max_path_length" as="xs:integer"/>
+        <xsl:variable name="path_steps" as="xs:string+"
+            select="
+                reverse(for $c in string-to-codepoints($path)
+                return
+                    codepoints-to-string($c))"/>
+        <xsl:iterate select="1 to count($path_steps)">
+            <xsl:param name="left_tokens" as="xs:string*" select="reverse($left_tokens)"/>
+            <xsl:param name="top_tokens" as="xs:string*" select="reverse($top_tokens)"/>
+            <xsl:param name="pairs" as="element(pair)*" select="()"/>
+            <xsl:on-completion>
+                <xsl:sequence select="$pairs"/>
+            </xsl:on-completion>
+            <xsl:variable name="new_left_tokens" as="xs:string*"
+                select="
+                    if ($path_steps[current()] = ('d', 'l')) then
+                        tail($left_tokens)
+                    else
+                        $left_tokens"/>
+            <xsl:variable name="new_top_tokens" as="xs:string*"
+                select="
+                    if ($path_steps[current()] = ('d', 't')) then
+                        tail($top_tokens)
+                    else
+                        $top_tokens"/>
+            <xsl:variable name="new_pair" as="element(pair)">
+                <pair
+                    left="{if ($path_steps[current()] = ('d', 'l')) then head($left_tokens) else ''}"
+                    top="{if ($path_steps[current()] = ('d', 't')) then head($top_tokens) else ''}"
+                />
+            </xsl:variable>
+            <xsl:message
+                select="
+                    'position', current(), 'path_step', $path_steps[current()],
+                    'left', head($left_tokens), 'left_tokens', $left_tokens,
+                    'top', head($top_tokens), 'top_tokens', $top_tokens,
+                    'new_pair', $new_pair"/>
+            <xsl:next-iteration>
+                <xsl:with-param name="left_tokens" as="xs:string*" select="$new_left_tokens"/>
+                <xsl:with-param name="top_tokens" as="xs:string*" select="$new_top_tokens"/>
+                <xsl:with-param name="pairs" select="$pairs, $new_pair"/>
+            </xsl:next-iteration>
+        </xsl:iterate>
     </xsl:function>
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
@@ -2011,8 +2077,10 @@
         <xsl:variable name="input_type" as="xs:string" select="$tokenized_input('type')"/>
         <xsl:variable name="diag_count" as="xs:integer" select="$top_len + $left_len - 1"/>
 
-        <xsl:variable name="final_path"
-            select="djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens)"/>
+        <xsl:variable name="final_path" as="element(pair)+"
+            select="
+                djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens) =>
+                djb:create_alignment_table($left_tokens, $top_tokens, sum(($left_len, $top_len)))"/>
         <xsl:sequence select="$final_path"/>
 
     </xsl:template>
