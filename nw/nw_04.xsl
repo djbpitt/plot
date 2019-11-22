@@ -1905,7 +1905,7 @@
     <!--   can maintain cumulative grid as $cumulative, but this   -->
     <!--   is disabled by default for scalability and efficiency . -->
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <xsl:function name="djb:find_path">
+    <xsl:function name="djb:find_path" as="xs:string">
         <xsl:param name="diag_count" as="xs:integer"/>
         <xsl:param name="left_len" as="xs:integer"/>
         <xsl:param name="top_len" as="xs:integer"/>
@@ -1927,7 +1927,7 @@
                 <xsl:value-of select="$ult/@path"/>
                 <!--<xsl:sequence select="$cumulative => djb:grid_to_html($left_tokens, $top_tokens)"/>-->
                 <!--<xsl:sequence select="$cumulative"/>-->
-                <xsl:message select="$ult/@path"/>
+                <!--<xsl:message select="$ult/@path"/>-->
             </xsl:on-completion>
             <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"/>
             <!-- search space as document for key use-->
@@ -2000,51 +2000,109 @@
         </xsl:iterate>
     </xsl:function>
 
-    <xsl:function name="djb:create_alignment_table" as="element(pair)+">
+    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- djb:create_alignment_table()                              -->
+    <!-- generates alignment table                                 -->
+    <!-- parameters:                                               -->
+    <!--   $path as xs:string (d, l, and u steps)                  -->
+    <!--   $left_tokens as xs:string+                              -->
+    <!--   $top_tokens as xs:string+                               -->
+    <!-- returns:                                                  -->
+    <!--   html <table> with two rows                              -->
+    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <xsl:function name="djb:create_alignment_table" as="element(html:table)">
         <xsl:param name="path" as="xs:string"/>
-        <xsl:param name="left_tokens" as="xs:string*"/>
-        <xsl:param name="top_tokens" as="xs:string*"/>
-        <xsl:param name="max_path_length" as="xs:integer"/>
+        <xsl:param name="left_tokens_in" as="xs:string*"/>
+        <xsl:param name="top_tokens_in" as="xs:string*"/>
+        <!-- 
+            break optimal path into individual steps of d, l, u
+            traverse from the end
+        -->
         <xsl:variable name="path_steps" as="xs:string+"
             select="
                 reverse(for $c in string-to-codepoints($path)
                 return
                     codepoints-to-string($c))"/>
         <xsl:iterate select="1 to count($path_steps)">
-            <xsl:param name="left_tokens" as="xs:string*" select="reverse($left_tokens)"/>
-            <xsl:param name="top_tokens" as="xs:string*" select="reverse($top_tokens)"/>
-            <xsl:param name="pairs" as="element(pair)*" select="()"/>
+            <xsl:param name="left_tokens" as="xs:string*" select="reverse($left_tokens_in)"/>
+            <xsl:param name="top_tokens" as="xs:string*" select="reverse($top_tokens_in)"/>
+            <xsl:param name="left_cells" as="element(html:td)*" select="()"/>
+            <xsl:param name="top_cells" as="element(html:td)*" select="()"/>
             <xsl:on-completion>
-                <xsl:sequence select="$pairs"/>
+                <xsl:sequence>
+                    <table xmlns="http://www.w3.org/1999/xhtml">
+                        <tr>
+                            <th>Left</th>
+                            <xsl:sequence select="reverse($left_cells)"/>
+                        </tr>
+                        <tr>
+                            <th>Top</th>
+                            <xsl:sequence select="reverse($top_cells)"/>
+                        </tr>
+                    </table>
+                </xsl:sequence>
             </xsl:on-completion>
+            <xsl:variable name="current_direction" as="xs:string" select="$path_steps[current()]"/>
             <xsl:variable name="new_left_tokens" as="xs:string*"
                 select="
-                    if ($path_steps[current()] = ('d', 'l')) then
+                    if ($current_direction = ('d', 'u')) then
                         tail($left_tokens)
                     else
                         $left_tokens"/>
             <xsl:variable name="new_top_tokens" as="xs:string*"
                 select="
-                    if ($path_steps[current()] = ('d', 't')) then
+                    if ($current_direction = ('d', 'l')) then
                         tail($top_tokens)
                     else
                         $top_tokens"/>
-            <xsl:variable name="new_pair" as="element(pair)">
-                <pair
-                    left="{if ($path_steps[current()] = ('d', 'l')) then head($left_tokens) else ''}"
-                    top="{if ($path_steps[current()] = ('d', 't')) then head($top_tokens) else ''}"
-                />
+            <xsl:variable name="match_test" as="xs:integer?">
+                <!-- to style cells according to whether they match -->
+                <xsl:if test="$current_direction eq 'd'">
+                    <xsl:choose>
+                        <xsl:when test="head($left_tokens) = head($top_tokens)">
+                            <xsl:sequence select="1"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:sequence select="-1"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:if>
             </xsl:variable>
-            <xsl:message
-                select="
-                    'position', current(), 'path_step', $path_steps[current()],
-                    'left', head($left_tokens), 'left_tokens', $left_tokens,
-                    'top', head($top_tokens), 'top_tokens', $top_tokens,
-                    'new_pair', $new_pair"/>
+            <xsl:variable name="new_left_cell" as="element(html:td)">
+                <td xmlns="http://www.w3.org/1999/xhtml">
+                    <xsl:if test="$current_direction eq 'd'">
+                        <xsl:attribute name="data-match" select="$match_test"/>
+                    </xsl:if>
+                    <xsl:choose>
+                        <xsl:when test="$current_direction = ('d', 'u')">
+                            <xsl:sequence select="head($left_tokens)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:sequence select="'&#xa0;'"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </td>
+            </xsl:variable>
+            <xsl:variable name="new_top_cell" as="element(html:td)">
+                <td xmlns="http://www.w3.org/1999/xhtml">
+                    <xsl:if test="$current_direction eq 'd'">
+                        <xsl:attribute name="data-match" select="$match_test"/>
+                    </xsl:if>
+                    <xsl:choose>
+                        <xsl:when test="$current_direction = ('d', 'l')">
+                            <xsl:sequence select="head($top_tokens)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:sequence select="'&#xa0;'"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </td>
+            </xsl:variable>
             <xsl:next-iteration>
                 <xsl:with-param name="left_tokens" as="xs:string*" select="$new_left_tokens"/>
                 <xsl:with-param name="top_tokens" as="xs:string*" select="$new_top_tokens"/>
-                <xsl:with-param name="pairs" select="$pairs, $new_pair"/>
+                <xsl:with-param name="left_cells" select="$left_cells, $new_left_cell"/>
+                <xsl:with-param name="top_cells" select="$top_cells, $new_top_cell"/>
             </xsl:next-iteration>
         </xsl:iterate>
     </xsl:function>
@@ -2063,7 +2121,7 @@
         <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
         <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>-->
         <xsl:variable name="left" as="xs:string" select="'kitten'"/>
-        <xsl:variable name="top" as="xs:string" select="'sitting'"/>
+        <xsl:variable name="top" as="xs:string" select="'itting'"/>
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- tokenize inputs and count                              -->
@@ -2077,11 +2135,41 @@
         <xsl:variable name="input_type" as="xs:string" select="$tokenized_input('type')"/>
         <xsl:variable name="diag_count" as="xs:integer" select="$top_len + $left_len - 1"/>
 
-        <xsl:variable name="final_path" as="element(pair)+"
+        <xsl:variable name="final_path" as="element(html:table)+"
             select="
                 djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens) =>
-                djb:create_alignment_table($left_tokens, $top_tokens, sum(($left_len, $top_len)))"/>
-        <xsl:sequence select="$final_path"/>
+                djb:create_alignment_table($left_tokens, $top_tokens)"/>
+        <html xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+                <title>Needleman Wunsch alignnment</title>
+                <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
+                <style type="text/css">
+                    td[data-match = "1"] {
+                        background-color: palegreen;
+                    }
+                    td[data-match = "-1"] {
+                        background-color: pink;
+                    }</style>
+            </head>
+            <body>
+                <h1>Needleman Wunsch alignment</h1>
+                <h2>Input</h2>
+                <ul>
+                    <li>
+                        <strong>Left: </strong>
+                        <xsl:sequence select="$left"/>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <strong>Top: </strong>
+                        <xsl:sequence select="$top"/>
+                    </li>
+                </ul>
+                <h2>Alignment table</h2>
+                <xsl:sequence select="$final_path"/>
+            </body>
+        </html>
 
     </xsl:template>
 

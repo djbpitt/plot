@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>Needleman Wunsch alignnment</title>
+      <link rel="stylesheet"
+            type="text/css"
+            href="http://www.obdurodon.org/css/style.css"/>
+      <style type="text/css">
+                    td[data-match = "1"] {
+                        background-color: palegreen;
+                    }
+                    td[data-match = "-1"] {
+                        background-color: pink;
+                    }</style>
+   </head>
+   <body>
+      <h1>Needleman Wunsch alignment</h1>
+      <h2>Input</h2>
+      <ul>
+         <li>
+            <strong>Left: </strong>kitten</li>
+      </ul>
+      <ul>
+         <li>
+            <strong>Top: </strong>itting</li>
+      </ul>
+      <h2>Alignment table</h2>
+      <table>
+         <tr>
+            <th>Left</th>
+            <td data-match="1">i</td>
+            <td data-match="1">t</td>
+            <td data-match="1">t</td>
+            <td data-match="-1">i</td>
+            <td data-match="1">n</td>
+            <td>g</td>
+         </tr>
+         <tr>
+            <th>Top</th>
+            <td data-match="1">i</td>
+            <td data-match="1">t</td>
+            <td data-match="1">t</td>
+            <td data-match="-1">e</td>
+            <td data-match="1">n</td>
+            <td> </td>
+         </tr>
+      </table>
+   </body>
+</html>
