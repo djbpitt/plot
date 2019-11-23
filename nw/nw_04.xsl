@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:djb="http://www.obdurodon.org"
-    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:html="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/"
     xmlns:array="http://www.w3.org/2005/xpath-functions/array"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     version="3.0">
@@ -1715,7 +1715,7 @@
         <xsl:variable name="row_start" as="xs:integer" select="1 + $shift"/>
         <xsl:variable name="row_end" as="xs:integer" select="min(($diag, $left_len))"/>
         <diag n="{$diag}">
-            <xsl:for-each select="$row_start to $row_end">
+            <xsl:for-each select="$row_start to $row_end" saxon:threads="10">
                 <xsl:variable name="row" as="xs:integer" select="."/>
                 <xsl:variable name="col" as="xs:integer" select="$diag - $row + 1"/>
                 <cell row="{$row}" col="{$col}"/>
@@ -1752,7 +1752,7 @@
                 select="'$left_len and $top_len must both be positive integers'"/>
         </xsl:if>
         <xsl:variable name="diag_count" as="xs:integer" select="$top_len + $left_len - 1"/>
-        <xsl:for-each select="1 to $diag_count">
+        <xsl:for-each select="1 to $diag_count" saxon:threads="10">
             <xsl:sequence select="djb:get_diag_cells(., $left_len, $top_len)"/>
         </xsl:for-each>
     </xsl:function>
@@ -1905,6 +1905,7 @@
     <!--   can maintain cumulative grid as $cumulative, but this   -->
     <!--   is disabled by default for scalability and efficiency . -->
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- return type is normally xs:string; change to element(cell)+ for cumulative table output -->
     <xsl:function name="djb:find_path" as="xs:string">
         <xsl:param name="diag_count" as="xs:integer"/>
         <xsl:param name="left_len" as="xs:integer"/>
@@ -1915,17 +1916,20 @@
             <!-- $ult and $penult hold the preceding two diags, with modification -->
             <xsl:param name="ult" as="element(cell)+">
                 <cell row="1" col="0" score="{$gap_score ! number()}"
-                    gap_score="{$gap_score ! number() * 2}" source="u"/>
-                <cell row="0" col="1" score="{$gap_score}" gap_score="{$gap_score * 2}" source="l"/>
+                    gap_score="{$gap_score ! number() * 2}" source="u" path="u"/>
+                <cell row="0" col="1" score="{$gap_score}" gap_score="{$gap_score * 2}" source="l"
+                    path="l"/>
             </xsl:param>
             <xsl:param name="penult" as="element(cell)*">
                 <cell row="0" col="0" score="0"/>
             </xsl:param>
+            <!-- uncomment for cumulative output -->
             <!--<xsl:param name="cumulative" as="element(cell)*" select="$penult | $ult"/>-->
             <xsl:on-completion>
                 <!-- return lower right cell, with modification-->
                 <xsl:value-of select="$ult/@path"/>
                 <!--<xsl:sequence select="$cumulative => djb:grid_to_html($left_tokens, $top_tokens)"/>-->
+                <!-- return this instead for full table -->
                 <!--<xsl:sequence select="$cumulative"/>-->
                 <!--<xsl:message select="$ult/@path"/>-->
             </xsl:on-completion>
@@ -1936,10 +1940,10 @@
                     <xsl:sequence select="$ult | $penult"/>
                 </xsl:document>
             </xsl:variable>
-            <!--<xsl:message
-                select="'diag', current(), '/', $diag_count, ';', count($current_diag/cell), 'cells; search space', count($search_space/cell), 'cells'"/>-->
+            <xsl:message
+                select="'diag', current(), '/', $diag_count, ';', count($current_diag/cell), 'cells; search space', count($search_space/cell), 'cells'"/>
             <xsl:variable name="current" as="element(cell)+">
-                <xsl:for-each select="$current_diag/cell">
+                <xsl:for-each select="$current_diag/cell" saxon:threads="10">
                     <!-- is the current cell a match? -->
                     <xsl:variable name="current_match" as="xs:integer"
                         select="
@@ -1994,6 +1998,7 @@
             <xsl:next-iteration>
                 <xsl:with-param name="ult" as="element(cell)+" select="$current"/>
                 <xsl:with-param name="penult" as="element(cell)*" select="$ult"/>
+                <!-- uncomment for cumulative output -->
                 <!--<xsl:with-param name="cumulative" as="element(cell)+" select="$cumulative, $current"
                 />-->
             </xsl:next-iteration>
@@ -2118,10 +2123,10 @@
         <xsl:variable name="top" as="xs:string+" select="$woolf_uk"/>-->
         <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859_part"/>
         <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>-->
-        <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
-        <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>-->
-        <xsl:variable name="left" as="xs:string" select="'kitten'"/>
-        <xsl:variable name="top" as="xs:string" select="'itting'"/>
+        <xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
+        <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>
+        <!--<xsl:variable name="left" as="xs:string" select="'kitten'"/>
+        <xsl:variable name="top" as="xs:string" select="'itting'"/>-->
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- tokenize inputs and count                              -->
@@ -2134,6 +2139,10 @@
         <xsl:variable name="left_len" as="xs:integer" select="count($left_tokens)"/>
         <xsl:variable name="input_type" as="xs:string" select="$tokenized_input('type')"/>
         <xsl:variable name="diag_count" as="xs:integer" select="$top_len + $left_len - 1"/>
+
+        <!-- uncomment to generate full table; must also change djb:find_path() output to cumulative -->
+        <!--<xsl:sequence
+            select="djb:grid_to_html(djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens), $left_tokens, $top_tokens)"/>-->
 
         <xsl:variable name="final_path" as="element(html:table)+"
             select="
