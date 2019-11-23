@@ -1715,7 +1715,7 @@
         <xsl:variable name="row_start" as="xs:integer" select="1 + $shift"/>
         <xsl:variable name="row_end" as="xs:integer" select="min(($diag, $left_len))"/>
         <diag n="{$diag}">
-            <xsl:for-each select="$row_start to $row_end" saxon:threads="10">
+            <xsl:for-each select="$row_start to $row_end">
                 <xsl:variable name="row" as="xs:integer" select="."/>
                 <xsl:variable name="col" as="xs:integer" select="$diag - $row + 1"/>
                 <cell row="{$row}" col="{$col}"/>
@@ -1752,7 +1752,7 @@
                 select="'$left_len and $top_len must both be positive integers'"/>
         </xsl:if>
         <xsl:variable name="diag_count" as="xs:integer" select="$top_len + $left_len - 1"/>
-        <xsl:for-each select="1 to $diag_count" saxon:threads="10">
+        <xsl:for-each select="1 to $diag_count">
             <xsl:sequence select="djb:get_diag_cells(., $left_len, $top_len)"/>
         </xsl:for-each>
     </xsl:function>
@@ -1943,7 +1943,7 @@
             <xsl:message
                 select="'diag', current(), '/', $diag_count, ';', count($current_diag/cell), 'cells; search space', count($search_space/cell), 'cells'"/>
             <xsl:variable name="current" as="element(cell)+">
-                <xsl:for-each select="$current_diag/cell" saxon:threads="10">
+                <xsl:for-each select="$current_diag/cell">
                     <!-- is the current cell a match? -->
                     <xsl:variable name="current_match" as="xs:integer"
                         select="
