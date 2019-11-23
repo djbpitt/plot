@@ -2123,10 +2123,10 @@
         <xsl:variable name="top" as="xs:string+" select="$woolf_uk"/>-->
         <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859_part"/>
         <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>-->
-        <xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
-        <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>
-        <!--<xsl:variable name="left" as="xs:string" select="'kitten'"/>
-        <xsl:variable name="top" as="xs:string" select="'itting'"/>-->
+        <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
+        <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>-->
+        <xsl:variable name="left" as="xs:string" select="'kitten'"/>
+        <xsl:variable name="top" as="xs:string" select="'itting'"/>
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- tokenize inputs and count                              -->
