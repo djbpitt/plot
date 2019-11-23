@@ -1940,8 +1940,8 @@
                     <xsl:sequence select="$ult | $penult"/>
                 </xsl:document>
             </xsl:variable>
-            <xsl:message
-                select="'diag', current(), '/', $diag_count, ';', count($current_diag/cell), 'cells; search space', count($search_space/cell), 'cells'"/>
+            <!--<xsl:message
+                select="'diag', current(), '/', $diag_count, ';', count($current_diag/cell), 'cells; search space', count($search_space/cell), 'cells'"/>-->
             <xsl:variable name="current" as="element(cell)+">
                 <xsl:for-each select="$current_diag/cell">
                     <!-- is the current cell a match? -->
@@ -1969,6 +1969,7 @@
                         <winner name="u" score="{$u_cell/number(@gap_score)}" path="{$u_cell/@path}"
                         />
                     </xsl:variable>
+                    <xsl:message select="$winners"/>
                     <xsl:variable name="winners_sorted" as="element(winner)+">
                         <xsl:perform-sort select="$winners">
                             <xsl:sort select="@score" order="descending" data-type="number"/>
