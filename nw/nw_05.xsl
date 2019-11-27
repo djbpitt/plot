@@ -23,7 +23,7 @@
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
 
     <xsl:output method="xml" indent="yes"/>
-    <xsl:key name="cellByRowCol" match="cell" use="number(@row), number(@col)" composite="yes"/>
+    <xsl:key name="cellByRowCol" match="cell" use="@row, @col" composite="yes"/>
 
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- stylesheet variables .                                    -->
@@ -1656,6 +1656,7 @@
         like a Queen’s raising from the mud to wash a beggar’s dirty foot, when she thus admonished
         them so very severely about that wretched atheist who had chased them—or, speaking
         accurately, been invited to stay with them—in the Isles of Skye.</xsl:variable>
+
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- scoring (may be altered):                              -->
     <!--   match    =  1                                        -->
@@ -1670,17 +1671,17 @@
     <!-- user-defined functions                                    -->
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
 
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- djb:get_diag_cells()                                      -->
-    <!-- returns all cell in specified diagonal .                  -->
-    <!-- parameters:                                               -->
-    <!--   $diag as xs:integer                                     -->
-    <!--   @left_len xs:integer (total number of rows)             -->
-    <!--   @ltop_len xs:integer (total number of columns)          -->
-    <!-- return: <diag>, with $diag as @n and <cell> contents      -->
-    <!--   note: <cell> elements specify @row and @col             -->
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:get_diag_cells" as="element(diag)+">
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- djb:get_diag_cells()                                      -->
+        <!-- returns all cell in specified diagonal .                  -->
+        <!-- parameters:                                               -->
+        <!--   $diag as xs:integer                                     -->
+        <!--   @left_len xs:integer (total number of rows)             -->
+        <!--   @ltop_len xs:integer (total number of columns)          -->
+        <!-- return: <diag>, with $diag as @n and <cell> contents      -->
+        <!--   note: <cell> elements specify @row and @col             -->
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:param name="diag" as="xs:integer"/>
         <xsl:param name="left_len" as="xs:integer"/>
         <xsl:param name="top_len" as="xs:integer"/>
@@ -1714,37 +1715,52 @@
                     0"/>
         <xsl:variable name="row_start" as="xs:integer" select="1 + $shift"/>
         <xsl:variable name="row_end" as="xs:integer" select="min(($diag, $left_len))"/>
-        <diag n="{$diag}">
+        <diag xsl:validation="preserve">
+            <xsl:attribute name="n" type="xs:integer" select="$diag"/>
             <xsl:for-each select="$row_start to $row_end" saxon:threads="10">
                 <xsl:variable name="row" as="xs:integer" select="."/>
                 <xsl:variable name="col" as="xs:integer" select="$diag - $row + 1"/>
-                <cell row="{$row}" col="{$col}"/>
+                <cell xsl:validation="preserve">
+                    <xsl:attribute name="row" type="xs:integer" select="$row"/>
+                    <xsl:attribute name="col" type="xs:integer" select="$col"/>
+                </cell>
             </xsl:for-each>
             <!-- create row and column 0 where needed -->
             <xsl:if test="$diag lt $top_len">
                 <xsl:variable name="tmp" as="xs:integer" select="$diag + 1"/>
-                <cell row="0" col="{$tmp}" score="{$tmp}" gap_score="{$tmp * $gap_score}"
-                    source="'l'"/>
+                <cell xsl:validation="preserve">
+                    <xsl:attribute name="row" type="xs:integer" select="0"/>
+                    <xsl:attribute name="col" type="xs:integer" select="$tmp"/>
+                    <xsl:attribute name="score" type="xs:integer" select="$tmp"/>
+                    <xsl:attribute name="gap_score" type="xs:integer" select="$tmp * $gap_score"/>
+                    <xsl:attribute name="source" type="xs:string" select="'l'"/>
+                </cell>
             </xsl:if>
             <xsl:if test="$diag lt $left_len">
                 <xsl:variable name="tmp" as="xs:integer" select="$diag + 1"/>
-                <cell row="{$tmp}" col="0" score="{$tmp}" gap_score="{$tmp * $gap_score}"/>
+                <cell xsl:validation="preserve">
+                    <xsl:attribute name="row" type="xs:integer" select="$tmp"/>
+                    <xsl:attribute name="col" type="xs:integer" select="0"/>
+                    <xsl:attribute name="score" type="xs:integer" select="$tmp"/>
+                    <xsl:attribute name="gap_score" type="xs:integer" select="$tmp * $gap_score"/>
+                    <xsl:attribute name="source" type="xs:string" select="'u'"/>
+                </cell>
             </xsl:if>
         </diag>
     </xsl:function>
 
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- djb:create_grid()                                         -->
-    <!-- finds all cells in grid, organized by diagonal            -->
-    <!-- parameters:                                               -->
-    <!--   $left_len as xs:integer .                               -->
-    <!--   $top_len as xs:integer                                  -->
-    <!-- returns:                                                  -->
-    <!--   element(diag)+ (from djb:get_diag_cells)                -->
-    <!-- dependencies:                                             -->
-    <!--   calls djb:get_diag_cells() for each diagonal            -->
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:create_grid" as="element(diag)+">
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- djb:create_grid()                                         -->
+        <!-- finds all cells in grid, organized by diagonal            -->
+        <!-- parameters:                                               -->
+        <!--   $left_len as xs:integer .                               -->
+        <!--   $top_len as xs:integer                                  -->
+        <!-- returns:                                                  -->
+        <!--   element(diag)+ (from djb:get_diag_cells)                -->
+        <!-- dependencies:                                             -->
+        <!--   calls djb:get_diag_cells() for each diagonal            -->
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:param name="left_len" as="xs:integer"/>
         <xsl:param name="top_len" as="xs:integer"/>
         <xsl:if test="($left_len, $top_len) &lt; 1">
@@ -1757,19 +1773,19 @@
         </xsl:for-each>
     </xsl:function>
 
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- djb:tokenize_input()                                      -->
-    <!-- finds all cells in grid, organized by diagonal            -->
-    <!-- parameters:                                               -->
-    <!--   $top as xs:string                                       -->
-    <!--   $left as xs:string .                                    -->
-    <!-- returns:                                                  -->
-    <!--   map:                                                    -->
-    <!--     top: tokenized input as xs:string+                    -->
-    <!--     left: tokenized input as xs:string+                   -->
-    <!--     type: 'words' or 'characters'                         -->
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:tokenize_input" as="map(xs:string, item()+)">
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- djb:tokenize_input()                                      -->
+        <!-- finds all cells in grid, organized by diagonal            -->
+        <!-- parameters:                                               -->
+        <!--   $top as xs:string                                       -->
+        <!--   $left as xs:string .                                    -->
+        <!-- returns:                                                  -->
+        <!--   map:                                                    -->
+        <!--     top: tokenized input as xs:string+                    -->
+        <!--     left: tokenized input as xs:string+                   -->
+        <!--     type: 'words' or 'characters'                         -->
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:param name="top" as="xs:string"/>
         <xsl:param name="left" as="xs:string"/>
 
@@ -1842,17 +1858,17 @@
         />
     </xsl:function>
 
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- djb:grid_to_html()                                        -->
-    <!-- outputs alignment grid as HTML table                      -->
-    <!-- parameters:                                               -->
-    <!--   in as element(cell)+                                    -->
-    <!-- returns:                                                  -->
-    <!--   HTML document                                           -->
-    <!-- note: diagnostic only; not used in production             -->
-    <!--   to use, set iterator to return $cumulative              -->
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:grid_to_html" as="element(html:html)">
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- djb:grid_to_html()                                        -->
+        <!-- outputs alignment grid as HTML table                      -->
+        <!-- parameters:                                               -->
+        <!--   in as element(cell)+                                    -->
+        <!-- returns:                                                  -->
+        <!--   HTML document                                           -->
+        <!-- note: diagnostic only; not used in production             -->
+        <!--   to use, set iterator to return $cumulative              -->
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:param name="in" as="element(cell)+"/>
         <xsl:param name="top" as="xs:string+"/>
         <xsl:param name="left" as="xs:string+"/>
@@ -1889,24 +1905,24 @@
         </html>
     </xsl:function>
 
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- djb:find_path()                                           -->
-    <!-- generates alignment grid, recording full paths            -->
-    <!-- parameters:                                               -->
-    <!--   $diag_count as xs:integer                               -->
-    <!--   $left_len as xs:integer                                 -->
-    <!--   $top_len as xs:integer                                  -->
-    <!--   $left_tokens as xs:string+                              -->
-    <!--   $top_tokens as xs:string+                               -->
-    <!-- returns:                                                  -->
-    <!--   full optimal path as string of d, l, and u              -->
-    <!-- notes:                                                    -->
-    <!--   modify <xsl:on-completion> to change output .           -->
-    <!--   can maintain cumulative grid as $cumulative, but this   -->
-    <!--   is disabled by default for scalability and efficiency . -->
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- return type is normally xs:string; change to element(cell)+ for cumulative table output -->
     <xsl:function name="djb:find_path" as="xs:string">
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- djb:find_path()                                           -->
+        <!-- generates alignment grid, recording full paths            -->
+        <!-- parameters:                                               -->
+        <!--   $diag_count as xs:integer                               -->
+        <!--   $left_len as xs:integer                                 -->
+        <!--   $top_len as xs:integer                                  -->
+        <!--   $left_tokens as xs:string+                              -->
+        <!--   $top_tokens as xs:string+                               -->
+        <!-- returns:                                                  -->
+        <!--   full optimal path as string of d, l, and u              -->
+        <!-- notes:                                                    -->
+        <!--   modify <xsl:on-completion> to change output .           -->
+        <!--   can maintain cumulative grid as $cumulative, but this   -->
+        <!--   is disabled by default for scalability and efficiency . -->
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- return type is normally xs:string; change to element(cell)+ for cumulative table output -->
         <xsl:param name="diag_count" as="xs:integer"/>
         <xsl:param name="left_len" as="xs:integer"/>
         <xsl:param name="top_len" as="xs:integer"/>
@@ -1915,13 +1931,29 @@
         <xsl:iterate select="1 to $diag_count">
             <!-- $ult and $penult hold the preceding two diags, with modification -->
             <xsl:param name="ult" as="element(cell)+">
-                <cell row="1" col="0" score="{$gap_score ! number()}"
-                    gap_score="{$gap_score ! number() * 2}" source="u" path="u"/>
-                <cell row="0" col="1" score="{$gap_score}" gap_score="{$gap_score * 2}" source="l"
-                    path="l"/>
+                <cell xsl:validation="preserve">
+                    <xsl:attribute name="row" type="xs:integer" select="1"/>
+                    <xsl:attribute name="col" type="xs:integer" select="0"/>
+                    <xsl:attribute name="score" type="xs:integer" select="$gap_score"/>
+                    <xsl:attribute name="gap_score" type="xs:integer" select="$gap_score * 2"/>
+                    <xsl:attribute name="source" type="xs:string" select="'u'"/>
+                    <xsl:attribute name="path" type="xs:string" select="'u'"/>
+                </cell>
+                <cell xsl:validation="preserve">
+                    <xsl:attribute name="row" type="xs:integer" select="0"/>
+                    <xsl:attribute name="col" type="xs:integer" select="1"/>
+                    <xsl:attribute name="score" type="xs:integer" select="$gap_score"/>
+                    <xsl:attribute name="gap_score" type="xs:integer" select="$gap_score * 2"/>
+                    <xsl:attribute name="source" type="xs:string" select="'l'"/>
+                    <xsl:attribute name="path" type="xs:string" select="'l'"/>
+                </cell>
             </xsl:param>
-            <xsl:param name="penult" as="element(cell)*">
-                <cell row="0" col="0" score="0"/>
+            <xsl:param name="penult" as="element(cell)+">
+                <cell xsl:validation="preserve">
+                    <xsl:attribute name="row" type="xs:integer" select="0"/>
+                    <xsl:attribute name="col" type="xs:integer" select="0"/>
+                    <xsl:attribute name="score" type="xs:integer" select="0"/>
+                </cell>
             </xsl:param>
             <!-- uncomment for cumulative output -->
             <!--<xsl:param name="cumulative" as="element(cell)*" select="$penult | $ult"/>-->
@@ -1933,17 +1965,23 @@
                 <!--<xsl:sequence select="$cumulative"/>-->
                 <!--<xsl:message select="$ult/@path"/>-->
             </xsl:on-completion>
-            <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"/>
+            <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"
+                as="element(diag)+"/>
+            <xsl:message select="for $cell in $current_diag/cell return $cell/@row instance of xs:integer"/>
             <!-- search space as document for key use-->
-            <xsl:variable name="search_space" as="document-node()">
-                <xsl:document>
-                    <xsl:sequence select="$ult | $penult"/>
+            <xsl:variable name="search_space" as="document-node(element(root))">
+                <xsl:document validation="preserve">
+                    <root>
+                        <xsl:sequence select="$ult | $penult"/>
+                    </root>
                 </xsl:document>
             </xsl:variable>
-            <xsl:message
-                select="'diag', current(), '/', $diag_count, ';', count($current_diag/cell), 'cells; search space', count($search_space/cell), 'cells'"/>
+            <!--<xsl:message
+                select="'diag', current(), '/', $diag_count, ';', count($current_diag/cell), 'cells; search space', count($search_space/cell), 'cells'"/>-->
             <xsl:variable name="current" as="element(cell)+">
                 <xsl:for-each select="$current_diag/cell" saxon:threads="10">
+                    <!--<xsl:message select="."/>
+                    <xsl:message select="@row, @row instance of xs:integer"/>-->
                     <!-- is the current cell a match? -->
                     <xsl:variable name="current_match" as="xs:integer"
                         select="
@@ -1957,21 +1995,42 @@
                         $winner(1) will be the best score
                     -->
                     <xsl:variable name="d_cell" as="element(cell)?"
-                        select="key('cellByRowCol', (number(@row) - 1, number(@col) - 1), $search_space)"/>
+                        select="key('cellByRowCol', (@row - 1, @col - 1), $search_space)"/>
                     <xsl:variable name="l_cell" as="element(cell)?"
-                        select="key('cellByRowCol', (number(@row), number(@col) - 1), $search_space)"/>
+                        select="key('cellByRowCol', (@row, @col - 1), $search_space)"/>
                     <xsl:variable name="u_cell" as="element(cell)?"
-                        select="key('cellByRowCol', (number(@row) - 1, number(@col)), $search_space)"/>
+                        select="key('cellByRowCol', (@row - 1, @col), $search_space)"/>
                     <xsl:variable name="winners" as="element(winner)+">
-                        <winner name="d" score="{$d_cell/number(@score) + $current_match}"
-                            path="{$d_cell/@path}"/>
-                        <winner name="l" score="{$l_cell/number(@gap_score)}" path="{$l_cell/@path}"/>
-                        <winner name="u" score="{$u_cell/number(@gap_score)}" path="{$u_cell/@path}"
-                        />
+                        <xsl:if test="$d_cell">
+                            <winner xsl:validation="preserve">
+                                <xsl:attribute name="name" type="xs:string" select="'d'"/>
+                                <xsl:attribute name="score" type="xs:integer"
+                                    select="$d_cell/@score + $current_match"/>
+                                <xsl:attribute name="path" type="xs:string" select="$d_cell/@path"/>
+                            </winner>
+                        </xsl:if>
+                        <xsl:if test="$l_cell">
+                            <winner xsl:validation="preserve">
+                                <xsl:attribute name="name" type="xs:string" select="'l'"/>
+                                <xsl:attribute name="score" type="xs:integer"
+                                    select="$l_cell/@gap_score"/>
+                                <xsl:attribute name="path" type="xs:string" select="$l_cell/@path"/>
+                            </winner>
+                        </xsl:if>
+                        <xsl:if test="$u_cell">
+                            <winner xsl:validation="preserve">
+                                <xsl:attribute name="name" type="xs:string" select="'u'"/>
+                                <xsl:attribute name="score" type="xs:integer"
+                                    select="$u_cell/@gap_score"/>
+                                <xsl:attribute name="path" type="xs:string" select="$u_cell/@pathh"
+                                />
+                            </winner>
+                        </xsl:if>
                     </xsl:variable>
                     <xsl:variable name="winners_sorted" as="element(winner)+">
                         <xsl:perform-sort select="$winners">
-                            <xsl:sort select="@score" order="descending" data-type="number"/>
+                            <!-- should know to perform numeric sort without being told -->
+                            <xsl:sort select="@score" order="descending"/>
                             <xsl:sort select="@name"/>
                         </xsl:perform-sort>
                     </xsl:variable>
@@ -1985,11 +2044,13 @@
                         -->
                         <xsl:variable name="current_score" as="xs:integer"
                             select="$winners_sorted[1]/@score"/>
-                        <xsl:attribute name="match" select="$current_match"/>
-                        <xsl:attribute name="score" select="$current_score"/>
-                        <xsl:attribute name="gap_score" select="$current_score + $gap_score"/>
-                        <xsl:attribute name="source" select="$winners_sorted[1]/@name"/>
-                        <xsl:attribute name="path"
+                        <xsl:attribute name="match" type="xs:integer" select="$current_match"/>
+                        <xsl:attribute name="score" type="xs:integer" select="$current_score"/>
+                        <xsl:attribute name="gap_score" type="xs:integer"
+                            select="$current_score + $gap_score"/>
+                        <xsl:attribute name="source" type="xs:string"
+                            select="$winners_sorted[1]/@name"/>
+                        <xsl:attribute name="path" type="xs:string"
                             select="string-join(($winners_sorted[1]/@path, $winners_sorted[1]/@name))"
                         />
                     </xsl:copy>
@@ -2005,17 +2066,17 @@
         </xsl:iterate>
     </xsl:function>
 
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <!-- djb:create_alignment_table()                              -->
-    <!-- generates alignment table                                 -->
-    <!-- parameters:                                               -->
-    <!--   $path as xs:string (d, l, and u steps)                  -->
-    <!--   $left_tokens as xs:string+                              -->
-    <!--   $top_tokens as xs:string+                               -->
-    <!-- returns:                                                  -->
-    <!--   html <table> with two rows                              -->
-    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:function name="djb:create_alignment_table" as="element(html:table)">
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+        <!-- djb:create_alignment_table()                              -->
+        <!-- generates alignment table                                 -->
+        <!-- parameters:                                               -->
+        <!--   $path as xs:string (d, l, and u steps)                  -->
+        <!--   $left_tokens as xs:string+                              -->
+        <!--   $top_tokens as xs:string+                               -->
+        <!-- returns:                                                  -->
+        <!--   html <table> with two rows                              -->
+        <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:param name="path" as="xs:string"/>
         <xsl:param name="left_tokens_in" as="xs:string*"/>
         <xsl:param name="top_tokens_in" as="xs:string*"/>
@@ -2123,10 +2184,10 @@
         <xsl:variable name="top" as="xs:string+" select="$woolf_uk"/>-->
         <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859_part"/>
         <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>-->
-        <xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
-        <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>
-        <!--<xsl:variable name="left" as="xs:string" select="'kitten'"/>
-        <xsl:variable name="top" as="xs:string" select="'itting'"/>-->
+        <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
+        <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>-->
+        <xsl:variable name="left" as="xs:string" select="'kitten'"/>
+        <xsl:variable name="top" as="xs:string" select="'itting'"/>
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- tokenize inputs and count                              -->
