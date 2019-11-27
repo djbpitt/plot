@@ -1905,7 +1905,7 @@
         </html>
     </xsl:function>
 
-    <xsl:function name="djb:find_path" as="xs:string">
+    <xsl:function name="djb:find_path" as="element(cell)+">
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- djb:find_path()                                           -->
         <!-- generates alignment grid, recording full paths            -->
@@ -1961,13 +1961,13 @@
                 </cell>
             </xsl:param>
             <!-- uncomment for cumulative output -->
-            <!--<xsl:param name="cumulative" as="element(cell)*" select="$penult | $ult"/>-->
+            <xsl:param name="cumulative" as="element(cell)*" select="$penult | $ult"/>
             <xsl:on-completion>
                 <!-- return lower right cell, with modification-->
-                <xsl:value-of select="$ult/@path"/>
+                <!--<xsl:value-of select="$ult/@path"/>-->
                 <!--<xsl:sequence select="$cumulative => djb:grid_to_html($left_tokens, $top_tokens)"/>-->
                 <!-- return this instead for full table -->
-                <!--<xsl:sequence select="$cumulative"/>-->
+                <xsl:sequence select="$cumulative"/>
                 <!--<xsl:message select="$ult/@path"/>-->
             </xsl:on-completion>
             <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"
@@ -2026,7 +2026,7 @@
                                 <xsl:attribute name="name" type="xs:string" select="'u'"/>
                                 <xsl:attribute name="score" type="xs:integer"
                                     select="$u_cell/@gap_score"/>
-                                <xsl:attribute name="path" type="xs:string" select="$u_cell/@pathh"
+                                <xsl:attribute name="path" type="xs:string" select="$u_cell/@path"
                                 />
                             </winner>
                         </xsl:if>
@@ -2038,6 +2038,7 @@
                             <xsl:sort select="@name"/>
                         </xsl:perform-sort>
                     </xsl:variable>
+                    <xsl:message select="'winner: ', $winners_sorted[1]"/>
                     <xsl:copy>
                         <xsl:copy-of select="@*"/>
                         <!-- add 
@@ -2064,8 +2065,8 @@
                 <xsl:with-param name="ult" as="element(cell)+" select="$current"/>
                 <xsl:with-param name="penult" as="element(cell)*" select="$ult"/>
                 <!-- uncomment for cumulative output -->
-                <!--<xsl:with-param name="cumulative" as="element(cell)+" select="$cumulative, $current"
-                />-->
+                <xsl:with-param name="cumulative" as="element(cell)+" select="$cumulative, $current"
+                />
             </xsl:next-iteration>
         </xsl:iterate>
     </xsl:function>
@@ -2206,12 +2207,12 @@
         <xsl:variable name="diag_count" as="xs:integer" select="$top_len + $left_len - 1"/>
 
         <!-- uncomment to generate full table; must also change djb:find_path() output to cumulative -->
-        <!--<xsl:sequence
-            select="djb:grid_to_html(djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens), $left_tokens, $top_tokens)"/>-->
+        <xsl:sequence
+            select="djb:grid_to_html(djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens), $left_tokens, $top_tokens)"/>
         <!--<xsl:sequence
             select="djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens)"/>-->
 
-        <xsl:variable name="final_path" as="element(html:table)+"
+        <!--<xsl:variable name="final_path" as="element(html:table)+"
             select="
                 djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens) =>
                 djb:create_alignment_table($left_tokens, $top_tokens)"/>
@@ -2245,7 +2246,7 @@
                 <h2>Alignment table</h2>
                 <xsl:sequence select="$final_path"/>
             </body>
-        </html>
+        </html>-->
 
     </xsl:template>
 
