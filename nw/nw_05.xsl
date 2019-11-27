@@ -1686,13 +1686,13 @@
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:param name="top" as="xs:string"/>
         <xsl:param name="left" as="xs:string"/>
-        
+
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- normalize whitespace                                  -->
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:variable name="top_n" as="xs:string" select="normalize-space($top)"/>
         <xsl:variable name="left_n" as="xs:string" select="normalize-space($left)"/>
-        
+
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- validate input                                        -->
         <!-- no null strings                                       -->
@@ -1703,59 +1703,59 @@
         </xsl:if>
         <xsl:if
             test="
-            not(
-            (matches($top_n, '\s') and matches($left_n, '\s'))
-            or
-            not(matches($top_n, '\s')) and not(matches($left_n, '\s'))
-            )">
+                not(
+                (matches($top_n, '\s') and matches($left_n, '\s'))
+                or
+                not(matches($top_n, '\s')) and not(matches($left_n, '\s'))
+                )">
             <xsl:message
                 select="'Either both strings must be single words or both strings must be multiple words'"
                 terminate="yes"/>
         </xsl:if>
-        
+
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- split the inputs                                      -->
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:variable name="top_out" as="xs:string+"
             select="
-            if (matches($top_n, '\s')) then
-            tokenize($top_n, '\s+')
-            else
-            for $c in string-to-codepoints($top_n)
-            return
-            codepoints-to-string($c)"/>
+                if (matches($top_n, '\s')) then
+                    tokenize($top_n, '\s+')
+                else
+                    for $c in string-to-codepoints($top_n)
+                    return
+                        codepoints-to-string($c)"/>
         <xsl:variable name="left_out" as="xs:string+"
             select="
-            if (matches($left_n, '\s')) then
-            tokenize($left_n, '\s+')
-            else
-            for $c in string-to-codepoints($left_n)
-            return
-            codepoints-to-string($c)"/>
-        
+                if (matches($left_n, '\s')) then
+                    tokenize($left_n, '\s+')
+                else
+                    for $c in string-to-codepoints($left_n)
+                    return
+                        codepoints-to-string($c)"/>
+
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- are we returning characters or words?                 -->
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:variable name="input_type" as="xs:string+"
             select="
-            if (matches($top_n, '\s')) then
-            'words'
-            else
-            'characters'"/>
-        
+                if (matches($top_n, '\s')) then
+                    'words'
+                else
+                    'characters'"/>
+
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- return tokenized sequences and type in map            -->
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:sequence
             select="
-            map {
-            'top': $top_out,
-            'left': $left_out,
-            'type': $input_type
-            }"
+                map {
+                    'top': $top_out,
+                    'left': $left_out,
+                    'type': $input_type
+                }"
         />
     </xsl:function>
-    
+
     <xsl:function name="djb:get_diag_cells" as="element(diag)+">
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- djb:get_diag_cells()                                      -->
@@ -1905,7 +1905,7 @@
         </html>
     </xsl:function>
 
-    <xsl:function name="djb:find_path" as="element(cell)+">
+    <xsl:function name="djb:find_path" as="xs:string">
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- djb:find_path()                                           -->
         <!-- generates alignment grid, recording full paths            -->
@@ -1922,11 +1922,7 @@
         <!--   can maintain cumulative grid as $cumulative, but this   -->
         <!--   is disabled by default for scalability and efficiency . -->
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        
-        <!--
-            TODO: Currently returning just the last path step and not the entire pathh
-        -->
-        
+
         <!-- return type is normally xs:string; change to element(cell)+ for cumulative table output -->
         <xsl:param name="diag_count" as="xs:integer"/>
         <xsl:param name="left_len" as="xs:integer"/>
@@ -1961,13 +1957,13 @@
                 </cell>
             </xsl:param>
             <!-- uncomment for cumulative output -->
-            <xsl:param name="cumulative" as="element(cell)*" select="$penult | $ult"/>
+            <!--<xsl:param name="cumulative" as="element(cell)*" select="$penult | $ult"/>-->
             <xsl:on-completion>
                 <!-- return lower right cell, with modification-->
-                <!--<xsl:value-of select="$ult/@path"/>-->
+                <xsl:value-of select="$ult/@path"/>
                 <!--<xsl:sequence select="$cumulative => djb:grid_to_html($left_tokens, $top_tokens)"/>-->
                 <!-- return this instead for full table -->
-                <xsl:sequence select="$cumulative"/>
+                <!--<xsl:sequence select="$cumulative"/>-->
                 <!--<xsl:message select="$ult/@path"/>-->
             </xsl:on-completion>
             <xsl:variable name="current_diag" select="djb:get_diag_cells(., $left_len, $top_len)"
@@ -2026,8 +2022,7 @@
                                 <xsl:attribute name="name" type="xs:string" select="'u'"/>
                                 <xsl:attribute name="score" type="xs:integer"
                                     select="$u_cell/@gap_score"/>
-                                <xsl:attribute name="path" type="xs:string" select="$u_cell/@path"
-                                />
+                                <xsl:attribute name="path" type="xs:string" select="$u_cell/@path"/>
                             </winner>
                         </xsl:if>
                     </xsl:variable>
@@ -2038,7 +2033,6 @@
                             <xsl:sort select="@name"/>
                         </xsl:perform-sort>
                     </xsl:variable>
-                    <xsl:message select="'winner: ', $winners_sorted[1]"/>
                     <xsl:copy>
                         <xsl:copy-of select="@*"/>
                         <!-- add 
@@ -2065,8 +2059,8 @@
                 <xsl:with-param name="ult" as="element(cell)+" select="$current"/>
                 <xsl:with-param name="penult" as="element(cell)*" select="$ult"/>
                 <!-- uncomment for cumulative output -->
-                <xsl:with-param name="cumulative" as="element(cell)+" select="$cumulative, $current"
-                />
+                <!--<xsl:with-param name="cumulative" as="element(cell)+" select="$cumulative, $current"
+                />-->
             </xsl:next-iteration>
         </xsl:iterate>
     </xsl:function>
@@ -2187,12 +2181,12 @@
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!--<xsl:variable name="left" as="xs:string+" select="$woolf_us"/>
         <xsl:variable name="top" as="xs:string+" select="$woolf_uk"/>-->
-        <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859_part"/>
-        <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>-->
+        <xsl:variable name="left" as="xs:string+" select="$darwin_1859_part"/>
+        <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>
         <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
         <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>-->
-        <xsl:variable name="left" as="xs:string" select="'kitten'"/>
-        <xsl:variable name="top" as="xs:string" select="'itting'"/>
+        <!--<xsl:variable name="left" as="xs:string" select="'kitten'"/>
+        <xsl:variable name="top" as="xs:string" select="'itting'"/>-->
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- tokenize inputs and count                              -->
@@ -2207,12 +2201,12 @@
         <xsl:variable name="diag_count" as="xs:integer" select="$top_len + $left_len - 1"/>
 
         <!-- uncomment to generate full table; must also change djb:find_path() output to cumulative -->
-        <xsl:sequence
-            select="djb:grid_to_html(djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens), $left_tokens, $top_tokens)"/>
+        <!--<xsl:sequence
+            select="djb:grid_to_html(djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens), $left_tokens, $top_tokens)"/>-->
         <!--<xsl:sequence
             select="djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens)"/>-->
 
-        <!--<xsl:variable name="final_path" as="element(html:table)+"
+        <xsl:variable name="final_path" as="element(html:table)+"
             select="
                 djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens) =>
                 djb:create_alignment_table($left_tokens, $top_tokens)"/>
@@ -2234,19 +2228,18 @@
                 <ul>
                     <li>
                         <strong>Left: </strong>
-                        <xsl:sequence select="$left"/>
+                        <xsl:sequence select="concat($left, ' (', $left_len, ' ', $input_type, ')')"
+                        />
                     </li>
-                </ul>
-                <ul>
                     <li>
                         <strong>Top: </strong>
-                        <xsl:sequence select="$top"/>
+                        <xsl:sequence select="concat($top, ' (', $top_len, ' ', $input_type, ')')"/>
                     </li>
                 </ul>
                 <h2>Alignment table</h2>
                 <xsl:sequence select="$final_path"/>
             </body>
-        </html>-->
+        </html>
 
     </xsl:template>
 
