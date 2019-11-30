@@ -2181,12 +2181,22 @@
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!--<xsl:variable name="left" as="xs:string+" select="$woolf_us"/>
         <xsl:variable name="top" as="xs:string+" select="$woolf_uk"/>-->
-        <xsl:variable name="left" as="xs:string+" select="$darwin_1859_part"/>
-        <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>
+        <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859_part"/>
+        <xsl:variable name="top" as="xs:string+" select="$darwin_1872_part"/>-->
         <!--<xsl:variable name="left" as="xs:string+" select="$darwin_1859"/>
         <xsl:variable name="top" as="xs:string+" select="$darwin_1872"/>-->
         <!--<xsl:variable name="left" as="xs:string" select="'kitten'"/>
         <xsl:variable name="top" as="xs:string" select="'itting'"/>-->
+
+        <xsl:variable name="darwin_1859_xml" as="document-node(element(ch))"
+            select="doc('texts/darwin_1859_01.xml')"/>
+        <xsl:variable name="darwin_1860_xml" as="document-node(element(ch))"
+            select="doc('texts/darwin_1860_01.xml')"/>
+        <xsl:variable name="paragraph_count" as="xs:integer" select="15"/>
+        <xsl:variable name="left" as="xs:string+"
+            select="string-join($darwin_1859_xml//p[position() le $paragraph_count], ' ')"/>
+        <xsl:variable name="top" as="xs:string+"
+            select="string-join($darwin_1860_xml//p[position() le $paragraph_count], ' ')"/>
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- tokenize inputs and count                              -->
