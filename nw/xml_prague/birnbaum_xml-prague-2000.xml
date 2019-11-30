@@ -769,16 +769,16 @@
                 three-diagonal life cycle of each cell.</para>
         </section>
         <section>
-            <title>Optimizations</title>
+            <title>Performance</title>
             <para>We implemented the method described above using vanilla XSLT 3.0 of the sort that
                 can be executed in <application>Saxon HE</application> without using any proprietary
                 extensions. As a small optimization, because each cell is used an average of three
                 times to compute new cell values (once each as diagonal, left, and upper), and the
                 left and upper behaviors are the same (sum the score of the cell and the gap
                 penalty), we perform that sum operation just once and store it when the cell is
-                created, instead of computing it twice on the two times when it is used. </para>
+                created, instead of computing it twice on the two times when it is used.</para>
             <para>We then revised the code for <application>Saxon EE</application> with two further
-                optimizations: <itemizedlist>
+                modifications: <itemizedlist>
                     <listitem>
                         <para>We use the <tag class="attribute">@saxon:threads</tag> attribute with
                             a somewhat arbitrary value of <tag class="attvalue">10</tag> on our <tag
@@ -788,7 +788,11 @@
                                 class="attribute">@saxon:threads</tag> attribute, the number of
                             computations that can actually be performed simultaneously depends on
                             the number of cores provided by the CPU and on other demands on CPU
-                            resources).</para>
+                            resources). We expect this modification, which takes advantage of
+                            multiprocessing, to reduce wall time by a constant factor, where the
+                            extent of the performance improvement depends on the amount of time the
+                            program spends executing the <tag>&lt;xsl:for-each
+                                saxon:threads="10"&gt;</tag> instruction.</para>
                     </listitem>
                     <listitem>
                         <para>We used schema-aware processing with type annotations (using the <tag
@@ -802,9 +806,232 @@
                             typing we would have had to convert them explicitly to numerical values
                             whenever we needed to perform arithmetic on them. Typing them as they
                             are created and preserving the typing removes the need to cast them
-                            explicitly as numbers later.</para>
+                            explicitly as numbers later. The reduction in processing that results
+                            from not having to perform explicit casting must be balanced against the
+                            overhead of performing schema validation (or, perhaps more accurately,
+                            type validation).</para>
                     </listitem>
                 </itemizedlist></para>
+            <para>To explore the performance and scalability of the implementations we performed
+                word-level aligning on Chapter 1 of the 1859 and 1860 (first and second) editions of
+                Charles Darwin’s <citetitle>On the origin of species</citetitle>, which we copied
+                from <citetitle>Darwin online</citetitle> (<link
+                    xl:href="http://darwin-online.org.uk/"/>).<footnote>
+                    <para>Needleman Wunsch poses scalability challenges because the dynamic
+                        programming algorithm requires computing a value for every pairwise
+                        combination of items in the two sequences, which grows quadratically.
+                        Attempts at improved performance typically leverage parallelization (as we
+                        do in a modest way with <tag>&lt;xsl:for-each saxon:threads="10"&gt;</tag>)
+                        or employ heuristics (which may sacrifice accuracy for efficiency). These
+                        considerations are largely out of scope for this report; for further
+                        information see <xref linkend="boes_2014"/>, as well as <xref
+                            linkend="muhamad"/>.</para>
+                </footnote> We chose these editions to simplify the simulation of natural testing
+                circumstances across different quantities of text. Specifically, these chapters have
+                the same number of paragraphs, and the paragraphs observe the same order with
+                respect to their content, although there are small differences in wording within the paragraphs.<footnote>
+                    <para>(This is not the case consistently with later editions, which deviate more
+                        substantially from one another.) </para>
+                </footnote> This means that we can scale the quantity of text while always working
+                with a natural comparison by specifying the number of paragraphs (rather than the
+                number of words) to compare. We ran the EE (v. 9.9.1.5J) and HE (v. 9.9.1.4J)
+                transformations from the command line with the following commands, respectively:
+                    <code>java -jar saxon9ee.jar -sa -it -repeat:10 -o:/dev/null nw_ee.xsl</code>
+                and <code>java -jar saxon9he.jar -it -repeat:10 -o:/dev/null nw_he.xsl</code>. These
+                instructions cause Saxon to perform the specified transformation 10 times and report
+                the average execution time of the last 6 runs. The testing platform was a mid-2018
+                MacBook Pro with a 2.9 GHz Intel Core i9 processor (6 physical and 12 logical cores)
+                and 32 GB 2400 MHz DDR4 RAM. Times are in milliseconds.</para>
+            <para>
+                <table>
+                    <title>EE and HE performance</title>
+                    <tgroup cols="7">
+                        <thead>
+                            <row>
+                                <entry align="center">Paragraphs</entry>
+                                <entry align="center">1859 tokens</entry>
+                                <entry align="center">1860 tokens</entry>
+                                <entry align="center">total tokens</entry>
+                                <entry align="center">EE time</entry>
+                                <entry align="center">HE time</entry>
+                                <entry align="center">EE vs HE</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry align="right">1</entry>
+                                <entry align="right">193</entry>
+                                <entry align="right">194</entry>
+                                <entry align="right">387</entry>
+                                <entry align="right">579.78</entry>
+                                <entry align="right">456.13</entry>
+                                <entry align="right">127.11%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">2</entry>
+                                <entry align="right">232</entry>
+                                <entry align="right">233</entry>
+                                <entry align="right">465</entry>
+                                <entry align="right">726.72</entry>
+                                <entry align="right">593.15</entry>
+                                <entry align="right">122.52%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">3</entry>
+                                <entry align="right">679</entry>
+                                <entry align="right">683</entry>
+                                <entry align="right">1362</entry>
+                                <entry align="right">4909.34</entry>
+                                <entry align="right">5576.78</entry>
+                                <entry align="right">88.03%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">4</entry>
+                                <entry align="right">772</entry>
+                                <entry align="right">777</entry>
+                                <entry align="right">1549</entry>
+                                <entry align="right">6649.46</entry>
+                                <entry align="right">7907.39</entry>
+                                <entry align="right">84.09%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">5</entry>
+                                <entry align="right">810</entry>
+                                <entry align="right">815</entry>
+                                <entry align="right">1625</entry>
+                                <entry align="right">7113.30</entry>
+                                <entry align="right">7934.86</entry>
+                                <entry align="right">89.65%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">6</entry>
+                                <entry align="right">942</entry>
+                                <entry align="right">947</entry>
+                                <entry align="right">1889</entry>
+                                <entry align="right">9839.23</entry>
+                                <entry align="right">10877.44</entry>
+                                <entry align="right">90.46%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">7</entry>
+                                <entry align="right">1187</entry>
+                                <entry align="right">1193</entry>
+                                <entry align="right">2380</entry>
+                                <entry align="right">16045.75</entry>
+                                <entry align="right">18487.85</entry>
+                                <entry align="right">86.79%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">8</entry>
+                                <entry align="right">1363</entry>
+                                <entry align="right">1369</entry>
+                                <entry align="right">2732</entry>
+                                <entry align="right">22128.54</entry>
+                                <entry align="right">25354.76</entry>
+                                <entry align="right">87.28%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">9</entry>
+                                <entry align="right">1583</entry>
+                                <entry align="right">1589</entry>
+                                <entry align="right">3172</entry>
+                                <entry align="right">30649.80</entry>
+                                <entry align="right">36941.59</entry>
+                                <entry align="right">82.97%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">10</entry>
+                                <entry align="right">1676</entry>
+                                <entry align="right">1682</entry>
+                                <entry align="right">3358</entry>
+                                <entry align="right">34737.72</entry>
+                                <entry align="right">39240.80</entry>
+                                <entry align="right">88.52%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">11</entry>
+                                <entry align="right">1908</entry>
+                                <entry align="right">1912</entry>
+                                <entry align="right">3820</entry>
+                                <entry align="right">45419.14</entry>
+                                <entry align="right">53596.64</entry>
+                                <entry align="right">84.74%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">12</entry>
+                                <entry align="right">2233</entry>
+                                <entry align="right">2239</entry>
+                                <entry align="right">4472</entry>
+                                <entry align="right">67714.14</entry>
+                                <entry align="right">70821.35</entry>
+                                <entry align="right">95.61%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">13</entry>
+                                <entry align="right">2659</entry>
+                                <entry align="right">2663</entry>
+                                <entry align="right">5322</entry>
+                                <entry align="right">96157.29</entry>
+                                <entry align="right">103138.17</entry>
+                                <entry align="right">93.23%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">14</entry>
+                                <entry align="right">2966</entry>
+                                <entry align="right">2974</entry>
+                                <entry align="right">5940</entry>
+                                <entry align="right">126676.50</entry>
+                                <entry align="right">138079.87</entry>
+                                <entry align="right">91.74%</entry>
+                            </row>
+                            <row>
+                                <entry align="right">15</entry>
+                                <entry align="right">3147</entry>
+                                <entry align="right">3126</entry>
+                                <entry align="right">6273</entry>
+                                <entry align="right">145853.59</entry>
+                                <entry align="right">146487.75</entry>
+                                <entry align="right">99.57%</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+            </para>
+            <para>The chart below shows EE and HE converging as both grow at a quadratic rate with
+                respect to the number of tokens being aligned:<figure>
+                    <title>Performance with Saxon EE and HE</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/performance.png" format="PNG" scalefit="1"
+                                width="100%" contentwidth="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure></para>
+            <para>Except with a very small number of tokens, EE runs the same operation as HE in
+                slightly less time, with the times converging as the number of tokens grows. As
+                expected, the performance of both implementations scales quadratically because most
+                of the computation happens on a per-cell level, the number of cells grows
+                quadratically because it is the product of the lengths of the two sequences to be
+                aligned, and the ability to parallelize the computation of cell values is
+                constrained by the relatively small number of CPU cores. The small and progressively
+                decreasing difference in time between the EE and HE implementations is consistent
+                with the fact that 1) the effect of parallelization is dependent on the number of
+                cores, which is constant, and 2) the number of cells, which is the same in both
+                implementations, is the principal factor that determines execution time. The fact
+                that the storage requirement scales linearly (unlike processing, which scales
+                quadratically) means that it is possible to align long sequences without overflowing
+                the available memory, but the quadratic execution time means that the alignment of
+                long sequences is not well suited for real-time interactive processing.<footnote>
+                    <para>With respect to storage, processing stores only a constant three diagonals
+                        at a time, and the length of a diagonal is linear with respect to the sum of
+                        the lengths of the sequences being compared. The lengths of the full paths
+                        that are accumulated on the cells grow linearly with respect to the number
+                        of diagonals, which also enjoys a linear relatinship with the lengths of the
+                        two sequences being aligned. The number of cells on a diagonal grows, levels
+                        off, and then shrinks linearly with respect to the number of tokens in the
+                        two sequences being compared; the first and last diagonal each contain a
+                        single cell.</para>
+                </footnote></para>
         </section>
     </section>
     <section>
@@ -825,7 +1052,7 @@
             iterate reliably that was not available to Tennison in 2007. Beyond that, we extend
             Tennison’s XSLT-idiomatic implementation of a Levenshtein distance algorithm to the
             closely related domain of Needleman Wunsch sequence alignment, with attention to the
-            additional step of traversing the optimal path to construct the actual alignment.
+            additional requirement of traversing the optimal path to construct the actual alignment.
         </para>
     </section>
     <bibliography>
@@ -875,6 +1102,14 @@
         </bibliomixed>
         <bibliomixed xml:id="juxta" xreflabel="Juxta">Juxta. <link
                 xl:href="https://www.juxtasoftware.org/"/></bibliomixed>
+        <bibliomixed xml:id="muhamad" xreflabel="Muhamad et al. 2018">FN Muhamad, F. N., R. B.
+            Ahmad, S. M.Asi, and M. N. Murad. 2018. <quote>Performance analysis Of Needleman-Wunsch
+                algorithm (global) and Smith-Waterman algorithm (local) In reducing search space and
+                time for DNA sequence Alignment.</quote>
+            <citetitle>Journal of Physics: Conf. Series 1019 012085.</citetitle>
+            doi:10.1088/1742-6596/1019/1/012085. <link
+                xl:href="https://iopscience.iop.org/article/10.1088/1742-6596/1019/1/012085/pdf"/>
+        </bibliomixed>
         <bibliomixed xml:id="msa" xreflabel="Multiple sequence alignment (Wikipedia)">Multiple
             sequence alignment (Wikipedia). Accessed 2019-11-03. <link
                 xl:href="https://en.wikipedia.org/wiki/Multiple_sequence_alignment"/></bibliomixed>

@@ -8,7 +8,7 @@
                 updating of mutually dependent variables, it poses challenges for functional
                 programming paradigms like the one underlying XSLT. The present report explores
                 these challenges and provides an implementation of the Needleman Wunsch algorithm in
-                XSLT 3.0.</p></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#d5e23">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e25">Why sequence aligment matters</a></span></dt><dt><span class="section"><a href="#d5e35">Biological and textual alignment</a></span></dt><dt><span class="section"><a href="#d5e45">Global pairwise alignment</a></span></dt><dt><span class="section"><a href="#d5e66">Overview of this report</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e82">About sequence alignment</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e84">Alignment and scoring</a></span></dt><dt><span class="section"><a href="#d5e140">Sequence alignment algorithms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e149">Dynamic programming and the Needleman Wunsch algorithm</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e151">Dynamic programming</a></span></dt><dt><span class="section"><a href="#d5e171">The Needleman Wunsch algorithm</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e351">The challenges of dynamic programming and XSLT</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e363">Why recursion breaks</a></span></dt><dt><span class="section"><a href="#d5e377">Iteration to the rescue</a></span></dt><dt><span class="section"><a href="#d5e387">Processing the diagonal</a></span></dt><dt><span class="section"><a href="#d5e424">Save yourself a trip … and some space</a></span></dt><dt><span class="section"><a href="#d5e430">Optimizations</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e452">Conclusions</a></span></dt><dt><span class="bibliography"><a href="#d5e464">Works cited</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e23"/>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e25"/>Why sequence aligment matters</h3></div></div></div><p>Sequence alignment is a way of identifying and modeling similarities and
+                XSLT 3.0.</p></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#d5e23">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e25">Why sequence aligment matters</a></span></dt><dt><span class="section"><a href="#d5e35">Biological and textual alignment</a></span></dt><dt><span class="section"><a href="#d5e45">Global pairwise alignment</a></span></dt><dt><span class="section"><a href="#d5e66">Overview of this report</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e82">About sequence alignment</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e84">Alignment and scoring</a></span></dt><dt><span class="section"><a href="#d5e140">Sequence alignment algorithms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e149">Dynamic programming and the Needleman Wunsch algorithm</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e151">Dynamic programming</a></span></dt><dt><span class="section"><a href="#d5e171">The Needleman Wunsch algorithm</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e351">The challenges of dynamic programming and XSLT</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e363">Why recursion breaks</a></span></dt><dt><span class="section"><a href="#d5e377">Iteration to the rescue</a></span></dt><dt><span class="section"><a href="#d5e387">Processing the diagonal</a></span></dt><dt><span class="section"><a href="#d5e424">Save yourself a trip … and some space</a></span></dt><dt><span class="section"><a href="#d5e430">Performance</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e609">Conclusions</a></span></dt><dt><span class="bibliography"><a href="#d5e621">Works cited</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e23"/>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e25"/>Why sequence aligment matters</h3></div></div></div><p>Sequence alignment is a way of identifying and modeling similarities and
                 differences in sequences of items, and has proven insightful and productive for
                 research in both the natural sciences (especially in biology and medicine, where it
                 is applied to genetic sequences) and the humanities (especially in text-critical
@@ -376,27 +376,66 @@
                 right cell for the final traversal. In compensation for storing that additional
                 information in the cells, though, we no longer need to pass the entire cumulative
                 grid through the iterations, so the additional paths must be stored only for the
-                three-diagonal life cycle of each cell.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e430"/>Optimizations</h3></div></div></div><p>We implemented the method described above using vanilla XSLT 3.0 of the sort that
+                three-diagonal life cycle of each cell.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e430"/>Performance</h3></div></div></div><p>We implemented the method described above using vanilla XSLT 3.0 of the sort that
                 can be executed in <span class="application">Saxon HE</span> without using any proprietary
                 extensions. As a small optimization, because each cell is used an average of three
                 times to compute new cell values (once each as diagonal, left, and upper), and the
                 left and upper behaviors are the same (sum the score of the cell and the gap
                 penalty), we perform that sum operation just once and store it when the cell is
-                created, instead of computing it twice on the two times when it is used. </p><p>We then revised the code for <span class="application">Saxon EE</span> with two further
-                optimizations: </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>We use the <code class="sgmltag-attribute">@saxon:threads</code> attribute with
+                created, instead of computing it twice on the two times when it is used.</p><p>We then revised the code for <span class="application">Saxon EE</span> with two further
+                modifications: </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>We use the <code class="sgmltag-attribute">@saxon:threads</code> attribute with
                             a somewhat arbitrary value of <code class="sgmltag-attvalue">10</code> on our <code class="sgmltag-element">xsl:for-each</code> elements. This ensures that the
                             body of the <code class="sgmltag-element">xsl:for-each</code> element will be
                             parallelized (although regardless of the value of the <code class="sgmltag-attribute">@saxon:threads</code> attribute, the number of
                             computations that can actually be performed simultaneously depends on
                             the number of cores provided by the CPU and on other demands on CPU
-                            resources).</p></li><li class="listitem"><p>We used schema-aware processing with type annotations (using the <code class="sgmltag-attribute">@type</code> attribute) on the <code class="sgmltag-element">&lt;cell&gt;</code> attributes that were used in computation, which
+                            resources). We expect this modification, which takes advantage of
+                            multiprocessing, to reduce wall time by a constant factor, where the
+                            extent of the performance improvement depends on the amount of time the
+                            program spends executing the <code class="sgmltag-element">&lt;xsl:for-each
+                                saxon:threads="10"&gt;</code> instruction.</p></li><li class="listitem"><p>We used schema-aware processing with type annotations (using the <code class="sgmltag-attribute">@type</code> attribute) on the <code class="sgmltag-element">&lt;cell&gt;</code> attributes that were used in computation, which
                             means principally the <code class="sgmltag-attribute">@row</code> and <code class="sgmltag-attribute">@col</code> (column) attributes, which we typed as
                                 <code class="sgmltag-attvalue">xs:integer</code>. By default attributes on
                             constructed elements that do not undergo validation are typed as <code class="sgmltag-attvalue">xs:untypedAtomic</code>, and without our explicit
                             typing we would have had to convert them explicitly to numerical values
                             whenever we needed to perform arithmetic on them. Typing them as they
                             are created and preserving the typing removes the need to cast them
-                            explicitly as numbers later.</p></li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e452"/>Conclusions</h2></div></div></div><p>The code that implements our method is available at <a class="link" href="https://github.com/djbpitt/xstuff/tree/master/nw" target="_top">https://github.com/djbpitt/xstuff/tree/master/nw</a>, and has not been
+                            explicitly as numbers later. The reduction in processing that results
+                            from not having to perform explicit casting must be balanced against the
+                            overhead of performing schema validation (or, perhaps more accurately,
+                            type validation).</p></li></ul></div><p>To explore the performance and scalability of the implementations we performed
+                word-level aligning on Chapter 1 of the 1859 and 1860 (first and second) editions of
+                Charles Darwin’s <em class="citetitle">On the origin of species</em>, which we copied
+                from <em class="citetitle">Darwin online</em> (<a class="link" href="http://darwin-online.org.uk/" target="_top">http://darwin-online.org.uk/</a>).<a href="#ftn.d5e457" class="footnote" id="d5e457"><sup class="footnote">[8]</sup></a> We chose these editions to simplify the simulation of natural testing
+                circumstances across different quantities of text. Specifically, these chapters have
+                the same number of paragraphs, and the paragraphs observe the same order with
+                respect to their content, although there are small differences in wording within the paragraphs.<a href="#ftn.d5e462" class="footnote" id="d5e462"><sup class="footnote">[9]</sup></a> This means that we can scale the quantity of text while always working
+                with a natural comparison by specifying the number of paragraphs (rather than the
+                number of words) to compare. We ran the EE (v. 9.9.1.5J) and HE (v. 9.9.1.4J)
+                transformations from the command line with the following commands, respectively:
+                    <code class="code">java -jar saxon9ee.jar -sa -it -repeat:10 -o:/dev/null nw_ee.xsl</code>
+                and <code class="code">java -jar saxon9he.jar -it -repeat:10 -o:/dev/null nw_he.xsl</code>. These
+                instructions cause Saxon to perform the specified transformation 10 times and report
+                the average execution time of the last 6 runs. The testing platform was a mid-2018
+                MacBook Pro with a 2.9 GHz Intel Core i9 processor (6 physical and 12 logical cores)
+                and 32 GB 2400 MHz DDR4 RAM. Times are in milliseconds.</p><p>
+                </p><div class="table"><a id="d5e467"/><p class="title"><strong>Table 4. EE and HE performance</strong></p><div class="table-contents"><table class="table" summary="EE and HE performance" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><thead><tr><th align="center">Paragraphs</th><th align="center">1859 tokens</th><th align="center">1860 tokens</th><th align="center">total tokens</th><th align="center">EE time</th><th align="center">HE time</th><th align="center">EE vs HE</th></tr></thead><tbody><tr><td align="right">1</td><td align="right">193</td><td align="right">194</td><td align="right">387</td><td align="right">579.78</td><td align="right">456.13</td><td align="right">127.11%</td></tr><tr><td align="right">2</td><td align="right">232</td><td align="right">233</td><td align="right">465</td><td align="right">726.72</td><td align="right">593.15</td><td align="right">122.52%</td></tr><tr><td align="right">3</td><td align="right">679</td><td align="right">683</td><td align="right">1362</td><td align="right">4909.34</td><td align="right">5576.78</td><td align="right">88.03%</td></tr><tr><td align="right">4</td><td align="right">772</td><td align="right">777</td><td align="right">1549</td><td align="right">6649.46</td><td align="right">7907.39</td><td align="right">84.09%</td></tr><tr><td align="right">5</td><td align="right">810</td><td align="right">815</td><td align="right">1625</td><td align="right">7113.30</td><td align="right">7934.86</td><td align="right">89.65%</td></tr><tr><td align="right">6</td><td align="right">942</td><td align="right">947</td><td align="right">1889</td><td align="right">9839.23</td><td align="right">10877.44</td><td align="right">90.46%</td></tr><tr><td align="right">7</td><td align="right">1187</td><td align="right">1193</td><td align="right">2380</td><td align="right">16045.75</td><td align="right">18487.85</td><td align="right">86.79%</td></tr><tr><td align="right">8</td><td align="right">1363</td><td align="right">1369</td><td align="right">2732</td><td align="right">22128.54</td><td align="right">25354.76</td><td align="right">87.28%</td></tr><tr><td align="right">9</td><td align="right">1583</td><td align="right">1589</td><td align="right">3172</td><td align="right">30649.80</td><td align="right">36941.59</td><td align="right">82.97%</td></tr><tr><td align="right">10</td><td align="right">1676</td><td align="right">1682</td><td align="right">3358</td><td align="right">34737.72</td><td align="right">39240.80</td><td align="right">88.52%</td></tr><tr><td align="right">11</td><td align="right">1908</td><td align="right">1912</td><td align="right">3820</td><td align="right">45419.14</td><td align="right">53596.64</td><td align="right">84.74%</td></tr><tr><td align="right">12</td><td align="right">2233</td><td align="right">2239</td><td align="right">4472</td><td align="right">67714.14</td><td align="right">70821.35</td><td align="right">95.61%</td></tr><tr><td align="right">13</td><td align="right">2659</td><td align="right">2663</td><td align="right">5322</td><td align="right">96157.29</td><td align="right">103138.17</td><td align="right">93.23%</td></tr><tr><td align="right">14</td><td align="right">2966</td><td align="right">2974</td><td align="right">5940</td><td align="right">126676.50</td><td align="right">138079.87</td><td align="right">91.74%</td></tr><tr><td align="right">15</td><td align="right">3147</td><td align="right">3126</td><td align="right">6273</td><td align="right">145853.59</td><td align="right">146487.75</td><td align="right">99.57%</td></tr></tbody></table></div></div><p><br class="table-break"/>
+            </p><p>The chart below shows EE and HE converging as both grow at a quadratic rate with
+                respect to the number of tokens being aligned:</p><div class="figure"><a id="d5e601"/><p class="title"><strong>Figure 3. Performance with Saxon EE and HE</strong></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="100%"><tr><td><img src="../../images/performance.png" width="540" alt="Performance with Saxon EE and HE"/></td></tr></table></div></div></div><p><br class="figure-break"/></p><p>Except with a very small number of tokens, EE runs the same operation as HE in
+                slightly less time, with the times converging as the number of tokens grows. As
+                expected, the performance of both implementations scales quadratically because most
+                of the computation happens on a per-cell level, the number of cells grows
+                quadratically because it is the product of the lengths of the two sequences to be
+                aligned, and the ability to parallelize the computation of cell values is
+                constrained by the relatively small number of CPU cores. The small and progressively
+                decreasing difference in time between the EE and HE implementations is consistent
+                with the fact that 1) the effect of parallelization is dependent on the number of
+                cores, which is constant, and 2) the number of cells, which is the same in both
+                implementations, is the principal factor that determines execution time. The fact
+                that the storage requirement scales linearly (unlike processing, which scales
+                quadratically) means that it is possible to align long sequences without overflowing
+                the available memory, but the quadratic execution time means that the alignment of
+                long sequences is not well suited for real-time interactive processing.<a href="#ftn.d5e607" class="footnote" id="d5e607"><sup class="footnote">[10]</sup></a></p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e609"/>Conclusions</h2></div></div></div><p>The code that implements our method is available at <a class="link" href="https://github.com/djbpitt/xstuff/tree/master/nw" target="_top">https://github.com/djbpitt/xstuff/tree/master/nw</a>, and has not been
             reproduced here. It is densely commented, and thus offers tutorial information about the
             method. Small exploratory stylesheets that were used to develop individual components of
             the code have been retained in a <span class="emphasis"><em>scratch</em></span> subdirectory.</p><p>Tennison concludes her second, improved computation of Levenshtein distance by writing
@@ -406,8 +445,8 @@
             iterate reliably that was not available to Tennison in 2007. Beyond that, we extend
             Tennison’s XSLT-idiomatic implementation of a Levenshtein distance algorithm to the
             closely related domain of Needleman Wunsch sequence alignment, with attention to the
-            additional step of traversing the optimal path to construct the actual alignment.
-        </p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e464"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
+            additional requirement of traversing the optimal path to construct the actual alignment.
+        </p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e621"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
                 <span class="quote">“<span class="quote">On the theory of dynamic programming.</span>”</span>
             <span class="citetitle"><em class="citetitle">Proceedings of the National Academy of Sciences</em></span> 38(8):716–19.
                 <a class="link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/" target="_top">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/</a></p></div><div class="bibliomixed"><a id="bellman_1954"/><p class="bibliomixed">[Bellman 1954] Bellman, Richard E. <span class="quote">“<span class="quote">The
@@ -430,7 +469,13 @@
         </p></div><div class="bibliomixed"><a id="intertextual_dante"/><p class="bibliomixed">[Intertextual Dante] 
             <span class="quote">“<span class="quote">Intertextual Dante.</span>”</span>
             <a class="link" href="https://digitaldante.columbia.edu/intertexual-dante-vanpeteghem/" target="_top">https://digitaldante.columbia.edu/intertexual-dante-vanpeteghem/</a>
-        </p></div><div class="bibliomixed"><a id="juxta"/><p class="bibliomixed">[Juxta] Juxta. <a class="link" href="https://www.juxtasoftware.org/" target="_top">https://www.juxtasoftware.org/</a></p></div><div class="bibliomixed"><a id="msa"/><p class="bibliomixed">[Multiple sequence alignment (Wikipedia)] Multiple
+        </p></div><div class="bibliomixed"><a id="juxta"/><p class="bibliomixed">[Juxta] Juxta. <a class="link" href="https://www.juxtasoftware.org/" target="_top">https://www.juxtasoftware.org/</a></p></div><div class="bibliomixed"><a id="muhamad"/><p class="bibliomixed">[Muhamad et al. 2018] FN Muhamad, F. N., R. B.
+            Ahmad, S. M.Asi, and M. N. Murad. 2018. <span class="quote">“<span class="quote">Performance analysis Of Needleman-Wunsch
+                algorithm (global) and Smith-Waterman algorithm (local) In reducing search space and
+                time for DNA sequence Alignment.</span>”</span>
+            <span class="citetitle"><em class="citetitle">Journal of Physics: Conf. Series 1019 012085.</em></span>
+            doi:10.1088/1742-6596/1019/1/012085. <a class="link" href="https://iopscience.iop.org/article/10.1088/1742-6596/1019/1/012085/pdf" target="_top">https://iopscience.iop.org/article/10.1088/1742-6596/1019/1/012085/pdf</a>
+        </p></div><div class="bibliomixed"><a id="msa"/><p class="bibliomixed">[Multiple sequence alignment (Wikipedia)] Multiple
             sequence alignment (Wikipedia). Accessed 2019-11-03. <a class="link" href="https://en.wikipedia.org/wiki/Multiple_sequence_alignment" target="_top">https://en.wikipedia.org/wiki/Multiple_sequence_alignment</a></p></div><div class="bibliomixed"><a id="naveed_2005"/><p class="bibliomixed">[Naveed et al, 2005] Naveed, Tahir,Imitaz Saeed
             Siddiqui, Shaftab Ahmed. 2005. <span class="quote">“<span class="quote">Parallel Needleman-Wunsch algorithm for
                 grid.</span>”</span> Proceedings of the PAK-US International Symposium on High Capacity
@@ -476,4 +521,20 @@
                         the information needed to process an entire diagonal is available
                         simultaneously from only the two preceding diagonals, without any dependency
                         on earlier ones. This property contributes to the scalability of our
-                        implementation in ways that will be discussed below.</p></div></div></div></body></html>
+                        implementation in ways that will be discussed below.</p></div><div id="ftn.d5e457" class="footnote"><p><a href="#d5e457" class="para"><sup class="para">[8] </sup></a>Needleman Wunsch poses scalability challenges because the dynamic
+                        programming algorithm requires computing a value for every pairwise
+                        combination of items in the two sequences, which grows quadratically.
+                        Attempts at improved performance typically leverage parallelization (as we
+                        do in a modest way with <code class="sgmltag-element">&lt;xsl:for-each saxon:threads="10"&gt;</code>)
+                        or employ heuristics (which may sacrifice accuracy for efficiency). These
+                        considerations are largely out of scope for this report; for further
+                        information see <a class="xref" href="#boes_2014">Boes 2014</a>, as well as <a class="xref" href="#muhamad">Muhamad et al. 2018</a>.</p></div><div id="ftn.d5e462" class="footnote"><p><a href="#d5e462" class="para"><sup class="para">[9] </sup></a>(This is not the case consistently with later editions, which deviate more
+                        substantially from one another.) </p></div><div id="ftn.d5e607" class="footnote"><p><a href="#d5e607" class="para"><sup class="para">[10] </sup></a>With respect to storage, processing stores only a constant three diagonals
+                        at a time, and the length of a diagonal is linear with respect to the sum of
+                        the lengths of the sequences being compared. The lengths of the full paths
+                        that are accumulated on the cells grow linearly with respect to the number
+                        of diagonals, which also enjoys a linear relatinship with the lengths of the
+                        two sequences being aligned. The number of cells on a diagonal grows, levels
+                        off, and then shrinks linearly with respect to the number of tokens in the
+                        two sequences being compared; the first and last diagonal each contain a
+                        single cell.</p></div></div></div></body></html>
