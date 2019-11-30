@@ -772,7 +772,7 @@
         <section>
             <title>Performance</title>
             <para>We implemented the method described above using vanilla XSLT 3.0 of the sort that
-                can be executed in <application>Saxon HE</application> without using any proprietary
+                can be executed in <application>Saxon HE</application> without any proprietary
                 extensions. As a small optimization, because each cell is used an average of three
                 times to compute new cell values (once each as diagonal, left, and upper), and the
                 left and upper behaviors are the same (sum the score of the cell and the gap
@@ -805,18 +805,19 @@
                             default attributes on elements that do not undergo validation are typed
                             as <tag class="attvalue">xs:untypedAtomic</tag>, and without our
                             explicit typing we had to convert them explicitly to numerical values on
-                            some accasions we needed to operate with them.<footnote>
+                            some occasions when we needed to operate with them. Typing them as they
+                            are created and preserving the typing removes the need to cast them
+                            explicitly as numbers later.<footnote>
                                 <para>For example, we use keys to retrieve cells by row and column
                                     number, the values of which we compute, and the type of the
                                     value used to retrieve an item with a key must match the type of
                                     the value used to index it originally. Typing the row and column
                                     number as integers when they are created removes the need to
                                     cast them as numerical types for query and retrieval.</para>
-                            </footnote> Typing them as they are created and preserving the typing
-                            removes the need to cast them explicitly as numbers later. The reduction
-                            in processing that results from not having to perform explicit casting
-                            must be balanced against the overhead of performing schema validation
-                            (or, perhaps more accurately, type validation).</para>
+                            </footnote> The reduction in processing that results from not having to
+                            perform explicit casting must be balanced against the overhead of
+                            performing schema validation (or, perhaps more accurately, type
+                            validation).</para>
                     </listitem>
                 </itemizedlist></para>
             <para>To explore the performance and scalability of the implementations we conducted
@@ -831,14 +832,15 @@
                 consistently with later editions, which deviate more substantially from one
                 another.) This means that we can scale the quantity of text while always working
                 with a natural comparison by specifying the number of paragraphs (rather than the
-                number of words) to compare. We ran the Saxon EE (v. 9.9.1.5J) and HE (v. 9.9.1.4J)
-                transformations from the command line with the following commands, respectively:
-                    <code>java -jar saxon9ee.jar -sa -it -repeat:10 -o:/dev/null nw_ee.xsl</code>
-                and <code>java -jar saxon9he.jar -it -repeat:10 -o:/dev/null nw_he.xsl</code>. These
-                instructions cause Saxon to perform the specified transformation 10 times and report
-                the average execution time of the last 6 runs. The testing platform was a mid-2018
-                MacBook Pro with a 2.9 GHz Intel Core i9 processor (6 physical and 12 logical cores)
-                and 32 GB 2400 MHz DDR4 RAM. Times are in milliseconds.</para>
+                number of words) to compare. We ran the <application>Saxon EE</application> (v.
+                9.9.1.5J) and <application>HE</application> (v. 9.9.1.4J) transformations from the
+                command line with the following commands, respectively: <code>java -jar saxon9ee.jar
+                    -sa -it -repeat:10 -o:/dev/null nw_ee.xsl</code> and <code>java -jar
+                    saxon9he.jar -it -repeat:10 -o:/dev/null nw_he.xsl</code>. These instructions
+                cause Saxon to perform the specified transformation 10 times and report the average
+                execution time of the last 6 runs. The testing platform was a mid-2018 MacBook Pro
+                with a 2.9 GHz Intel Core i9 processor (6 physical and 12 logical cores) and 32 GB
+                2400 MHz DDR4 RAM. Times are in milliseconds.</para>
             <para>
                 <table>
                     <title>EE and HE performance</title>
@@ -1043,11 +1045,11 @@
                     programming languages to XSLT. [<xref linkend="tennison_2007b"/>]</para>
             </blockquote></para>
         <para>The XSLT 3.0 <tag>&lt;xsl:iterate&gt;</tag> element provides a robust method to
-            iterate reliably that was not available to Tennison in 2007. Beyond that, we extend
+            iterate reliably that was not available to Tennison in 2007. Beyond that, as we extend
             Tennison’s XSLT-idiomatic implementation of a Levenshtein distance algorithm to the
-            closely related domain of Needleman Wunsch sequence alignment, with attention to the
-            additional requirement of traversing the optimal path to construct the actual alignment.
-        </para>
+            closely related domain of Needleman Wunsch sequence alignment, we avoid the need to
+            maintain and traverse the entire grid that is part of the standard description of the
+            algorithm, thus reducing the storage requirement from quadratic to linear.</para>
     </section>
     <bibliography>
         <title>Works cited</title>
