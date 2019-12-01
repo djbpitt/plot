@@ -28,7 +28,7 @@
     <!--   alignment table                                         -->
     <!--   default = false                                         -->
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <xsl:param name="output_grid" static="yes" as="xs:boolean" select="true()"/>
+    <xsl:param name="output_grid" static="yes" as="xs:boolean" select="false()"/>
 
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- stylesheet variables                                      -->
@@ -367,7 +367,8 @@
                         <xsl:variable name="current_score" as="xs:integer"
                             select="$winners_sorted[1]/@score"/>
                         <xsl:if test="$output_grid">
-                            <xsl:attribute name="match" type="xs:integer" select="$current_match"/>
+                            <xsl:attribute name="data-match" type="xs:integer"
+                                select="$current_match"/>
                         </xsl:if>
                         <xsl:attribute name="score" type="xs:integer" select="$current_score"/>
                         <xsl:attribute name="gap_score" type="xs:integer"
@@ -397,51 +398,49 @@
         </xsl:iterate>
     </xsl:function>
 
-    <xsl:function name="djb:grid_to_html" as="element(html:html)">
+    <xsl:function name="djb:grid_to_html" as="element(html:table)">
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- djb:grid_to_html()                                        -->
         <!-- outputs alignment grid as HTML table                      -->
         <!-- parameters:                                               -->
-        <!--   in as element(cell)+                                    -->
+        <!--   cells as element(cell)+                                 -->
         <!-- returns:                                                  -->
         <!--   HTML document                                           -->
         <!-- note: diagnostic only; not used in production             -->
         <!--   to use, set iterator to return $cumulative              -->
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-        <xsl:param name="in" as="element(cell)+"/>
+        <xsl:param name="cells" as="element(cell)+"/>
         <xsl:param name="top" as="xs:string+"/>
         <xsl:param name="left" as="xs:string+"/>
-        <html xmlns="http://www.w3.org/1999/xhtml">
-            <head>
-                <title>test</title>
-            </head>
-            <body>
-                <table border="1">
-                    <tr>
-                        <td>&#xa0;</td>
-                        <td>&#xa0;</td>
-                        <xsl:for-each select="$left">
-                            <td>
-                                <xsl:sequence select="."/>
-                            </td>
-                        </xsl:for-each>
-                    </tr>
-                    <xsl:for-each select="distinct-values($in/@row)">
-                        <xsl:sort/>
-                        <xsl:variable name="row" as="xs:integer" select="."/>
-                        <tr>
-                            <xsl:sequence select="($top[$row], '&#xa0;')[1]"/>
-                            <xsl:for-each select="$in[@row = $row]">
-                                <xsl:sort select="@col"/>
-                                <td>
-                                    <xsl:value-of select="@score, @path"/>
-                                </td>
-                            </xsl:for-each>
-                        </tr>
+        <table id="alignment_grid" xmlns="http://www.w3.org/1999/xhtml">
+            <tr>
+                <td>&#xa0;</td>
+                <td>&#xa0;</td>
+                <xsl:for-each select="$left">
+                    <th>
+                        <xsl:sequence select="."/>
+                    </th>
+                </xsl:for-each>
+            </tr>
+            <xsl:for-each select="distinct-values($cells/@row)">
+                <xsl:sort/>
+                <xsl:variable name="row" as="xs:integer" select="."/>
+                <tr>
+                    <th>
+                        <xsl:sequence select="($top[$row], '&#xa0;')[1]"/>
+                    </th>
+                    <xsl:for-each select="$cells[@row = $row]">
+                        <xsl:sort select="@col"/>
+                        <td>
+                            <xsl:if test="$output_grid">
+                                <xsl:copy-of select="@data-match"/>
+                            </xsl:if>
+                            <xsl:value-of select="@score"/>
+                        </td>
                     </xsl:for-each>
-                </table>
-            </body>
-        </html>
+                </tr>
+            </xsl:for-each>
+        </table>
     </xsl:function>
 
     <xsl:function name="djb:create_alignment_table" as="element(html:table)">
@@ -559,7 +558,7 @@
         <!-- choose input (for testing)                             -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
 
-        <!--<xsl:variable name="darwin_1859_xml" as="document-node(element(ch))"
+        <xsl:variable name="darwin_1859_xml" as="document-node(element(ch))"
             select="doc('texts/darwin_1859_01.xml')"/>
         <xsl:variable name="darwin_1860_xml" as="document-node(element(ch))"
             select="doc('texts/darwin_1860_01.xml')"/>
@@ -567,9 +566,10 @@
         <xsl:variable name="left" as="xs:string+"
             select="string-join($darwin_1859_xml//p[position() le $paragraph_count], ' ')"/>
         <xsl:variable name="top" as="xs:string+"
-            select="string-join($darwin_1860_xml//p[position() le $paragraph_count], ' ')"/>-->
-        <xsl:variable name="left" as="xs:string" select="'kitten'"/>
-        <xsl:variable name="top" as="xs:string" select="'sitting'"/>
+            select="string-join($darwin_1860_xml//p[position() le $paragraph_count], ' ')"/>
+
+        <!--<xsl:variable name="left" as="xs:string" select="'kitten'"/>
+        <xsl:variable name="top" as="xs:string" select="'sitting'"/>-->
 
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- tokenize inputs and count                              -->
@@ -598,6 +598,9 @@
                 <title>Needleman Wunsch alignnment</title>
                 <link rel="stylesheet" type="text/css" href="http://www.obdurodon.org/css/style.css"/>
                 <style type="text/css">
+                    #alignment_grid td {
+                        text-align: right;
+                    }
                     td[data-match = "1"] {
                         background-color: palegreen;
                     }
