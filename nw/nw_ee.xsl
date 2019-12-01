@@ -28,7 +28,7 @@
     <!--   alignment table                                         -->
     <!--   default = false                                         -->
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
-    <xsl:param name="output_grid" static="yes" as="xs:boolean" select="false()"/>
+    <xsl:param name="output_grid" static="yes" as="xs:boolean" select="true()"/>
 
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- stylesheet variables                                      -->
@@ -586,13 +586,13 @@
         <!-- uncomment to generate full table; must also change djb:find_path() output to cumulative -->
         <!--<xsl:sequence
             select="djb:grid_to_html(djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens), $left_tokens, $top_tokens)"/>-->
-        <xsl:sequence
-            select="djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens)"/>
+        <!--<xsl:sequence
+            select="djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens)"/>-->
 
-<!--        <xsl:variable name="final_path" as="element(html:table)+"
-            select="
-                djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens) =>
-                djb:create_alignment_table($left_tokens, $top_tokens)"/>
+        <xsl:variable name="grid_data" as="element(result)"
+            select="djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens)"/>
+        <xsl:variable name="alignment_table" as="element(html:table)+"
+            select="djb:create_alignment_table($grid_data//path, $left_tokens, $top_tokens)"/>
         <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <title>Needleman Wunsch alignnment</title>
@@ -620,9 +620,14 @@
                     </li>
                 </ul>
                 <h2>Alignment table</h2>
-                <xsl:sequence select="$final_path"/>
+                <xsl:sequence select="$alignment_table"/>
+                <xsl:if test="$output_grid">
+                    <h2>Alignment grid</h2>
+                    <xsl:sequence
+                        select="djb:grid_to_html($grid_data//cell, $left_tokens, $top_tokens)"/>
+                </xsl:if>
             </body>
-        </html>-->
+        </html>
 
     </xsl:template>
 
