@@ -844,7 +844,7 @@
                 execution time of the last 6 runs. The testing platform was a mid-2018 MacBook Pro
                 with a 2.9 GHz Intel Core i9 processor (6 physical and 12 logical cores) and 32 GB
                 2400 MHz DDR4 RAM. Times are in milliseconds. The <quote>N/A</quote> values in the
-                table below reflect p   rocessing that crashed with Java memory errors; see below for
+                table below reflect processing that crashed with Java memory errors; see below for
                 discussion.</para>
             <para>
                 <table>
