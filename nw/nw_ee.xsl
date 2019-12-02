@@ -10,7 +10,7 @@
     <!-- https://github.com/djbpitt/xstuff/nw                       -->
     <!--                                                            -->
     <!-- Needleman Wunsch alignment in XSLT 3.0                     -->
-    <!-- Returns path to last cell                                  -->
+    <!-- Outputs alignment table and optional grid as html          -->
     <!--                                                            -->
     <!-- See:                                                       -->
     <!--   https://www.cs.sjsu.edu/~aid/cs152/NeedlemanWunsch.pdf   -->
@@ -23,12 +23,22 @@
 
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- stylesheet parameters                                     -->
-    <!--                                                           -->
-    <!-- $output_grid as xs:boolean outputs full grid as well as   -->
-    <!--   alignment table                                         -->
-    <!--   default = false                                         -->
+    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+
+    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- $output_grid                                              -->
+    <!--   type: xs:boolean                                        -->
+    <!--   default: false                                          -->
+    <!--   effect: outputs full grid as well as alignment table    -->
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <xsl:param name="output_grid" static="yes" as="xs:boolean" select="false()"/>
+
+    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <!-- $paragraph_count                                          -->
+    <!--   type: xs:integer                                        -->
+    <!--   default: 1                                              -->
+    <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
+    <xsl:param name="paragraph_count" static="yes" as="xs:integer" select="1"/>
 
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- stylesheet variables                                      -->
@@ -316,10 +326,13 @@
             </xsl:variable>
             <xsl:variable name="current" as="element(cell)+">
                 <xsl:for-each select="$current_diag/cell" saxon:threads="10">
-                    <!-- is the current cell a match? -->
+                    <!-- 
+                        is the current cell a match? 
+                        [current()/number(@row)] is faster than [position() eq current()/@row]
+                    -->
                     <xsl:variable name="current_match" as="xs:integer"
                         select="
-                            if ($left_tokens[position() eq current()/@row] eq $top_tokens[position() eq current()/@col]) then
+                            if ($left_tokens[current()/number(@row)] eq $top_tokens[current()/number(@col)]) then
                                 1
                             else
                                 -1"/>
@@ -422,14 +435,14 @@
                     </th>
                 </xsl:for-each>
             </tr>
-            <xsl:for-each select="distinct-values($cells/@row)">
+            <xsl:for-each select="distinct-values($cells/@row)" saxon:threads="10">
                 <xsl:sort/>
                 <xsl:variable name="row" as="xs:integer" select="."/>
                 <tr>
                     <th>
                         <xsl:sequence select="($top[$row], '&#xa0;')[1]"/>
                     </th>
-                    <xsl:for-each select="$cells[@row = $row]">
+                    <xsl:for-each select="$cells[@row = $row]" saxon:threads="10">
                         <xsl:sort select="@col"/>
                         <td>
                             <xsl:if test="$output_grid">
@@ -556,18 +569,27 @@
     <xsl:template name="xsl:initial-template">
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <!-- choose input (for testing)                             -->
+        <!--                                                        -->
+        <!-- number of paragraphs to align is supplied by static    -->
+        <!--   $paragraph_count parameter (defaults to 1)           -->
         <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
 
         <xsl:variable name="darwin_1859_xml" as="document-node(element(ch))"
             select="doc('texts/darwin_1859_01.xml')"/>
         <xsl:variable name="darwin_1860_xml" as="document-node(element(ch))"
             select="doc('texts/darwin_1860_01.xml')"/>
-        <xsl:variable name="paragraph_count" as="xs:integer" select="1"/>
         <xsl:variable name="left" as="xs:string+"
             select="string-join($darwin_1859_xml//p[position() le $paragraph_count], ' ')"/>
         <xsl:variable name="top" as="xs:string+"
             select="string-join($darwin_1860_xml//p[position() le $paragraph_count], ' ')"/>
+        <xsl:variable name="total_ps" as="xs:integer" select="count($darwin_1859_xml//p)"/>
+        <xsl:if test="$paragraph_count gt $total_ps">
+            <xsl:message
+                select="'You asked for', $paragraph_count, 'paragraph(s) and the source contains', $total_ps"
+            />
+        </xsl:if>
 
+        <!-- short single strings for testing -->
         <!--<xsl:variable name="left" as="xs:string" select="'kitten'"/>
         <xsl:variable name="top" as="xs:string" select="'sitting'"/>-->
 
@@ -582,12 +604,6 @@
         <xsl:variable name="left_len" as="xs:integer" select="count($left_tokens)"/>
         <xsl:variable name="input_type" as="xs:string" select="$tokenized_input('type')"/>
         <xsl:variable name="diag_count" as="xs:integer" select="$top_len + $left_len - 1"/>
-
-        <!-- uncomment to generate full table; must also change djb:find_path() output to cumulative -->
-        <!--<xsl:sequence
-            select="djb:grid_to_html(djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens), $left_tokens, $top_tokens)"/>-->
-        <!--<xsl:sequence
-            select="djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens)"/>-->
 
         <xsl:variable name="grid_data" as="element(result)"
             select="djb:find_path($diag_count, $left_len, $top_len, $left_tokens, $top_tokens)"/>
