@@ -10,6 +10,7 @@
     -->
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
     <xsl:function name="djb:explode" as="xs:string+">
+        <!-- split string into sequence of single characters -->
         <xsl:param name="in" as="xs:string"/>
         <xsl:sequence
             select="
@@ -20,6 +21,8 @@
     </xsl:function>
     <xsl:function name="djb:get_offset" as="xs:integer">
         <!--
+            find character from input string to add to alignment, if not omitted for indel
+            
             $path is list of d, l, and u values
             $pos is position in list currently being evaluated
             $direction is whether to consider d + l or d + u            
@@ -38,9 +41,13 @@
                 "
         />
     </xsl:function>
+
+    <!-- input variables -->
     <xsl:variable name="top" as="xs:string+" select="djb:explode('serafim')"/>
     <xsl:variable name="left" as="xs:string+" select="djb:explode('perfume')"/>
     <xsl:variable name="path" as="xs:string+" select="djb:explode('dddldddu')"/>
+
+    <!-- main -->
     <xsl:template name="xsl:initial-template">
         <html>
             <head>
