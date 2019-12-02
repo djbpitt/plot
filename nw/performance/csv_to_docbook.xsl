@@ -12,11 +12,11 @@
     <xsl:variable name="csv" select="unparsed-text-lines('timings.csv')"/>
     <xsl:template name="xsl:initial-template">
         <table>
-            <title>EE and HE performance</title>
+            <title>Comparison of EE and HE performance</title>
             <tgroup cols="{count(tokenize($csv[1], ','))}">
                 <thead>
                     <row>
-                        <xsl:for-each select="tokenize($csv[1], ',')">
+                        <xsl:for-each select="tokenize($csv[2], ',')">
                             <entry align="center">
                                 <xsl:value-of select="."/>
                             </entry>
@@ -24,7 +24,7 @@
                     </row>
                 </thead>
                 <tbody>
-                    <xsl:for-each select="$csv[position() gt 1]">
+                    <xsl:for-each select="$csv[position() gt 2]">
                         <row>
                             <xsl:for-each select="tokenize(current(), ',')">
                                 <entry align="right">

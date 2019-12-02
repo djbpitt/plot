@@ -23,21 +23,21 @@
             6273"/>
     <xsl:variable name="ee_times" as="xs:double+"
         select="
-            579.78,
-            726.72,
-            4909.34,
-            6649.46,
-            7113.30,
-            9839.23,
-            16045.75,
-            22128.54,
-            30649.80,
-            34737.72,
-            45419.14,
-            67714.14,
-            96157.29,
-            126676.50,
-            145853.59"/>
+            575.88,
+            815.85,
+            5168.32,
+            6951.44,
+            7167.14,
+            10713.25,
+            17335.59,
+            22864.69,
+            32278.29,
+            35299.10,
+            46784.96,
+            67131.61,
+            98211.20,
+            130544.14,
+            155857.44"/>
     <xsl:variable name="he_times" as="xs:double+"
         select="
             456.13,
@@ -67,8 +67,8 @@
                     stroke-width="1" stroke-linecap="square"/>
                 <line x1="0" y1="0" x2="0" y2="-{$maxY * $yScale}" stroke="lightgray"
                     stroke-width="1" stroke-linecap="square"/>
-                <text x="250" y="30" color="black" font-size="8pt" text-anchor="middle">Total
-                    number of items in both sequences</text>
+                <text x="250" y="30" color="black" font-size="8pt" text-anchor="middle">Total number
+                    of items in both sequences</text>
                 <text x="-40" y="-250" fill="red" font-size="10px" text-anchor="middle"
                     writing-mode="tb">EE time in mSec</text>
                 <text x="540" y="-250" fill="blue" font-size="10px" text-anchor="middle"

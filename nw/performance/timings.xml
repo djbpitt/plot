@@ -1,0 +1,217 @@
+<table>
+   <title>Comparison of EE and HE performance</title>
+   <tgroup cols="11">
+      <thead>
+         <row>
+            <entry align="center">Paragraphs</entry>
+            <entry align="center">1859 tokens</entry>
+            <entry align="center">1860 tokens</entry>
+            <entry align="center">total tokens</entry>
+            <entry align="center">time</entry>
+            <entry align="center">ms per token</entry>
+            <entry align="center">time grid</entry>
+            <entry align="center">ms per token grid</entry>
+            <entry align="center">grid cost</entry>
+            <entry align="center">time</entry>
+            <entry align="center">EE vs HE</entry>
+         </row>
+      </thead>
+      <tbody>
+         <row>
+            <entry align="right">1</entry>
+            <entry align="right">193</entry>
+            <entry align="right">194</entry>
+            <entry align="right">387</entry>
+            <entry align="right">576</entry>
+            <entry align="right">1.49</entry>
+            <entry align="right">880</entry>
+            <entry align="right">2.27</entry>
+            <entry align="right">153%</entry>
+            <entry align="right">456</entry>
+            <entry align="right">126.26%</entry>
+         </row>
+         <row>
+            <entry align="right">2</entry>
+            <entry align="right">232</entry>
+            <entry align="right">233</entry>
+            <entry align="right">465</entry>
+            <entry align="right">816</entry>
+            <entry align="right">1.75</entry>
+            <entry align="right">1218</entry>
+            <entry align="right">2.62</entry>
+            <entry align="right">149%</entry>
+            <entry align="right">593</entry>
+            <entry align="right">137.55%</entry>
+         </row>
+         <row>
+            <entry align="right">3</entry>
+            <entry align="right">679</entry>
+            <entry align="right">683</entry>
+            <entry align="right">1362</entry>
+            <entry align="right">5168</entry>
+            <entry align="right">3.79</entry>
+            <entry align="right">11029</entry>
+            <entry align="right">8.10</entry>
+            <entry align="right">213%</entry>
+            <entry align="right">5577</entry>
+            <entry align="right">92.68%</entry>
+         </row>
+         <row>
+            <entry align="right">4</entry>
+            <entry align="right">772</entry>
+            <entry align="right">777</entry>
+            <entry align="right">1549</entry>
+            <entry align="right">6951</entry>
+            <entry align="right">4.49</entry>
+            <entry align="right">14859</entry>
+            <entry align="right">9.59</entry>
+            <entry align="right">214%</entry>
+            <entry align="right">7907</entry>
+            <entry align="right">87.91%</entry>
+         </row>
+         <row>
+            <entry align="right">5</entry>
+            <entry align="right">810</entry>
+            <entry align="right">815</entry>
+            <entry align="right">1625</entry>
+            <entry align="right">7167</entry>
+            <entry align="right">4.41</entry>
+            <entry align="right">16416</entry>
+            <entry align="right">10.10</entry>
+            <entry align="right">229%</entry>
+            <entry align="right">7935</entry>
+            <entry align="right">90.32%</entry>
+         </row>
+         <row>
+            <entry align="right">6</entry>
+            <entry align="right">942</entry>
+            <entry align="right">947</entry>
+            <entry align="right">1889</entry>
+            <entry align="right">10713</entry>
+            <entry align="right">5.67</entry>
+            <entry align="right">24060</entry>
+            <entry align="right">12.74</entry>
+            <entry align="right">225%</entry>
+            <entry align="right">10877</entry>
+            <entry align="right">98.49%</entry>
+         </row>
+         <row>
+            <entry align="right">7</entry>
+            <entry align="right">1187</entry>
+            <entry align="right">1193</entry>
+            <entry align="right">2380</entry>
+            <entry align="right">17336</entry>
+            <entry align="right">7.28</entry>
+            <entry align="right">39805</entry>
+            <entry align="right">16.72</entry>
+            <entry align="right">230%</entry>
+            <entry align="right">18488</entry>
+            <entry align="right">93.77%</entry>
+         </row>
+         <row>
+            <entry align="right">8</entry>
+            <entry align="right">1363</entry>
+            <entry align="right">1369</entry>
+            <entry align="right">2732</entry>
+            <entry align="right">22865</entry>
+            <entry align="right">8.37</entry>
+            <entry align="right">51227</entry>
+            <entry align="right">18.75</entry>
+            <entry align="right">224%</entry>
+            <entry align="right">25355</entry>
+            <entry align="right">90.18%</entry>
+         </row>
+         <row>
+            <entry align="right">9</entry>
+            <entry align="right">1583</entry>
+            <entry align="right">1589</entry>
+            <entry align="right">3172</entry>
+            <entry align="right">32278</entry>
+            <entry align="right">10.18</entry>
+            <entry align="right">80369</entry>
+            <entry align="right">25.34</entry>
+            <entry align="right">249%</entry>
+            <entry align="right">36942</entry>
+            <entry align="right">87.38%</entry>
+         </row>
+         <row>
+            <entry align="right">10</entry>
+            <entry align="right">1676</entry>
+            <entry align="right">1682</entry>
+            <entry align="right">3358</entry>
+            <entry align="right">35299</entry>
+            <entry align="right">10.51</entry>
+            <entry align="right">81848</entry>
+            <entry align="right">24.37</entry>
+            <entry align="right">232%</entry>
+            <entry align="right">39241</entry>
+            <entry align="right">89.96%</entry>
+         </row>
+         <row>
+            <entry align="right">11</entry>
+            <entry align="right">1908</entry>
+            <entry align="right">1912</entry>
+            <entry align="right">3820</entry>
+            <entry align="right">46785</entry>
+            <entry align="right">12.25</entry>
+            <entry align="right">106004</entry>
+            <entry align="right">27.75</entry>
+            <entry align="right">227%</entry>
+            <entry align="right">53597</entry>
+            <entry align="right">87.29%</entry>
+         </row>
+         <row>
+            <entry align="right">12</entry>
+            <entry align="right">2233</entry>
+            <entry align="right">2239</entry>
+            <entry align="right">4472</entry>
+            <entry align="right">67132</entry>
+            <entry align="right">15.01</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">70821</entry>
+            <entry align="right">94.79%</entry>
+         </row>
+         <row>
+            <entry align="right">13</entry>
+            <entry align="right">2659</entry>
+            <entry align="right">2663</entry>
+            <entry align="right">5322</entry>
+            <entry align="right">98211</entry>
+            <entry align="right">18.45</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">103138</entry>
+            <entry align="right">95.22%</entry>
+         </row>
+         <row>
+            <entry align="right">14</entry>
+            <entry align="right">2966</entry>
+            <entry align="right">2974</entry>
+            <entry align="right">5940</entry>
+            <entry align="right">130544</entry>
+            <entry align="right">21.98</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">138080</entry>
+            <entry align="right">94.54%</entry>
+         </row>
+         <row>
+            <entry align="right">15</entry>
+            <entry align="right">3147</entry>
+            <entry align="right">3126</entry>
+            <entry align="right">6273</entry>
+            <entry align="right">155857</entry>
+            <entry align="right">24.85</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">N/A</entry>
+            <entry align="right">146488</entry>
+            <entry align="right">106.40%</entry>
+         </row>
+      </tbody>
+   </tgroup>
+</table>
