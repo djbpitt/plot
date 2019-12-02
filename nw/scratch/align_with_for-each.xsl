@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml"
     xmlns:html="http://www.w3.org/1999/xhtml" xmlns:djb="http://www.obdurodon.org"
     xmlns:saxon="http://saxon.sf.net/" xmlns:math="http://www.w3.org/2005/xpath-functions/math"
@@ -58,8 +58,6 @@
                                 <xsl:variable name="top_whereami" as="xs:integer"
                                     select="position()"/>
                                 <td>
-                                    <xsl:message
-                                        select="current(), current() ! position(), $top_whereami"/>
                                     <xsl:sequence
                                         select="
                                             if (current() = ('d', 'l')) then
