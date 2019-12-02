@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml"
     xmlns:html="http://www.w3.org/1999/xhtml" xmlns:djb="http://www.obdurodon.org"
     xmlns:saxon="http://saxon.sf.net/" xmlns:math="http://www.w3.org/2005/xpath-functions/math"
@@ -9,6 +9,15 @@
         http://rna.informatik.uni-freiburg.de/Teaching/index.jsp?toolName=Needleman-Wunsch
     -->
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
+    <xsl:function name="djb:explode" as="xs:string+">
+        <xsl:param name="in" as="xs:string"/>
+        <xsl:sequence
+            select="
+                reverse(for $c in string-to-codepoints($in)
+                return
+                    codepoints-to-string($c))"
+        />
+    </xsl:function>
     <xsl:function name="djb:get_offset" as="xs:integer">
         <!--
             $path is list of d, l, and u values
@@ -29,21 +38,9 @@
                 "
         />
     </xsl:function>
-    <xsl:variable name="top" as="xs:string+"
-        select="
-            reverse(for $c in string-to-codepoints('serafim')
-            return
-                codepoints-to-string($c))"/>
-    <xsl:variable name="left" as="xs:string+"
-        select="
-            reverse(for $c in string-to-codepoints('perfume')
-            return
-                codepoints-to-string($c))"/>
-    <xsl:variable name="path" as="xs:string+"
-        select="
-            reverse(for $c in string-to-codepoints('dddldddu')
-            return
-                codepoints-to-string($c))"/>
+    <xsl:variable name="top" as="xs:string+" select="djb:explode('serafim')"/>
+    <xsl:variable name="left" as="xs:string+" select="djb:explode('perfume')"/>
+    <xsl:variable name="path" as="xs:string+" select="djb:explode('dddldddu')"/>
     <xsl:template name="xsl:initial-template">
         <html>
             <head>
