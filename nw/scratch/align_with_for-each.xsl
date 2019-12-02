@@ -1,23 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:html="http://www.w3.org/1999/xhtml"
-    xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
-    version="3.0">
+    xmlns:html="http://www.w3.org/1999/xhtml" xmlns:djb="http://www.obdurodon.org"
+    xmlns:saxon="http://saxon.sf.net/" xmlns:math="http://www.w3.org/2005/xpath-functions/math"
+    exclude-result-prefixes="#all" version="3.0">
+    <!--
+        The following link is helpful for verification:
+        http://rna.informatik.uni-freiburg.de/Teaching/index.jsp?toolName=Needleman-Wunsch
+    -->
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
+    <xsl:function name="djb:get_offset" as="xs:integer">
+        <!--
+            $path is list of d, l, and u values
+            $pos is position in list currently being evaluated
+            $direction is whether to consider d + l or d + u            
+        -->
+        <xsl:param name="path" as="xs:string+"/>
+        <xsl:param name="pos" as="xs:integer"/>
+        <xsl:param name="direction" as="xs:string"/>
+        <xsl:sequence
+            select="
+                count(
+                (
+                index-of($path[position() le $pos], 'd'),
+                index-of($path[position() le $pos], $direction)
+                )
+                )
+                "
+        />
+    </xsl:function>
     <xsl:variable name="top" as="xs:string+"
         select="
-            reverse(for $c in string-to-codepoints('koala')
+            reverse(for $c in string-to-codepoints('serafim')
             return
                 codepoints-to-string($c))"/>
     <xsl:variable name="left" as="xs:string+"
         select="
-            reverse(for $c in string-to-codepoints('cola')
+            reverse(for $c in string-to-codepoints('perfume')
             return
                 codepoints-to-string($c))"/>
     <xsl:variable name="path" as="xs:string+"
         select="
-            reverse(for $c in string-to-codepoints('ddldd')
+            reverse(for $c in string-to-codepoints('dddldddu')
             return
                 codepoints-to-string($c))"/>
     <xsl:template name="xsl:initial-template">
@@ -30,22 +54,16 @@
                     <tr>
                         <th>Top</th>
                         <xsl:variable name="top_tds" as="element(html:td)+">
-                            <xsl:for-each select="$path">
+                            <xsl:for-each select="$path" saxon:threads="10">
                                 <xsl:variable name="top_whereami" as="xs:integer"
                                     select="position()"/>
-                                <xsl:variable name="top_offset" as="xs:integer"
-                                    select="
-                                        count(
-                                        (
-                                        index-of($path[position() le $top_whereami], 'd'),
-                                        index-of($path[position() le $top_whereami], 'l')
-                                        )
-                                        )"/>
                                 <td>
+                                    <xsl:message
+                                        select="current(), current() ! position(), $top_whereami"/>
                                     <xsl:sequence
                                         select="
                                             if (current() = ('d', 'l')) then
-                                                $top[$top_offset]
+                                                $top[djb:get_offset($path, $top_whereami, 'l')]
                                             else
                                                 '&#xa0;'"
                                     />
@@ -57,22 +75,14 @@
                     <tr>
                         <th>Left</th>
                         <xsl:variable name="left_tds" as="element(html:td)+">
-                            <xsl:for-each select="$path">
+                            <xsl:for-each select="$path" saxon:threads="10">
                                 <xsl:variable name="left_whereami" as="xs:integer"
                                     select="position()"/>
-                                <xsl:variable name="left_offset" as="xs:integer"
-                                    select="
-                                        count(
-                                        (
-                                        index-of($path[position() le $left_whereami], 'd'),
-                                        index-of($path[position() le $left_whereami], 'u')
-                                        )
-                                        )"/>
                                 <td>
                                     <xsl:sequence
                                         select="
                                             if (current() = ('d', 'u')) then
-                                                $left[$left_offset]
+                                                $left[djb:get_offset($path, $left_whereami, 'u')]
                                             else
                                                 ()"
                                     />
