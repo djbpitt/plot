@@ -1915,8 +1915,10 @@
         <xsl:iterate select="1 to $diag_count">
             <!-- $ult and $penult hold the preceding two diags, with modification -->
             <xsl:param name="ult" as="element(cell)+">
+                <!--<cell row="1" col="0" score="{$gap_score ! number()}"
+                    gap_score="{$gap_score ! number() * 2}" source="u" path="u"/>-->
                 <cell row="1" col="0" score="{$gap_score ! number()}"
-                    gap_score="{$gap_score ! number() * 2}" source="u" path="u"/>
+                    gap_score="{$gap_score ! number() * 2}" path="u"/>
                 <cell row="0" col="1" score="{$gap_score}" gap_score="{$gap_score * 2}" source="l"
                     path="l"/>
             </xsl:param>
@@ -1985,10 +1987,10 @@
                         -->
                         <xsl:variable name="current_score" as="xs:integer"
                             select="$winners_sorted[1]/@score"/>
-                        <xsl:attribute name="match" select="$current_match"/>
+                        <!--<xsl:attribute name="match" select="$current_match"/>-->
                         <xsl:attribute name="score" select="$current_score"/>
                         <xsl:attribute name="gap_score" select="$current_score + $gap_score"/>
-                        <xsl:attribute name="source" select="$winners_sorted[1]/@name"/>
+                        <!--<xsl:attribute name="source" select="$winners_sorted[1]/@name"/>-->
                         <xsl:attribute name="path"
                             select="string-join(($winners_sorted[1]/@path, $winners_sorted[1]/@name))"
                         />
@@ -2132,7 +2134,7 @@
             select="doc('texts/darwin_1859_01.xml')"/>
         <xsl:variable name="darwin_1860_xml" as="document-node(element(ch))"
             select="doc('texts/darwin_1860_01.xml')"/>
-        <xsl:variable name="paragraph_count" as="xs:integer" select="15"/>
+        <xsl:variable name="paragraph_count" as="xs:integer" select="5"/>
         <xsl:variable name="left" as="xs:string+"
             select="string-join($darwin_1859_xml//p[position() le $paragraph_count], ' ')"/>
         <xsl:variable name="top" as="xs:string+"
