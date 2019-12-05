@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:djb="http://www.obdurodon.org"
-    xmlns:html="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/"
-    exclude-result-prefixes="#all" version="3.0">
+    xmlns:html="http://www.w3.org/1999/xhtml" exclude-result-prefixes="#all" version="3.0">
 
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- David J. Birnbaum (djbpitt@gmail.com)                      -->
@@ -19,7 +18,7 @@
     <!-- -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
 
     <xsl:output method="xml" indent="yes"/>
-    <xsl:key name="cellByRowCol" match="cell" use="@row, @col" composite="yes"/>
+    <xsl:key name="cellByRowCol" match="cell" use="number(@row), number(@col)" composite="yes"/>
 
     <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
     <!-- stylesheet parameters                                     -->
@@ -188,34 +187,20 @@
                     0"/>
         <xsl:variable name="row_start" as="xs:integer" select="1 + $shift"/>
         <xsl:variable name="row_end" as="xs:integer" select="min(($diag, $left_len))"/>
-        <diag xsl:validation="preserve" xsl:default-validation="preserve">
-            <xsl:attribute name="n" type="xs:integer" select="$diag"/>
-            <xsl:for-each select="$row_start to $row_end" saxon:threads="10">
-                <cell>
-                    <xsl:attribute name="row" type="xs:integer" select="."/>
-                    <xsl:attribute name="col" type="xs:integer" select="$diag - . + 1"/>
-                </cell>
+        <diag n="{$diag}">
+            <xsl:for-each select="$row_start to $row_end">
+                <cell row="{.}" col="{$diag - . + 1}"/>
             </xsl:for-each>
             <!-- create row and column 0 where needed -->
             <xsl:if test="$diag lt $top_len">
                 <xsl:variable name="tmp" as="xs:integer" select="$diag + 1"/>
-                <cell>
-                    <xsl:attribute name="row" type="xs:integer" select="0"/>
-                    <xsl:attribute name="col" type="xs:integer" select="$tmp"/>
-                    <xsl:attribute name="score" type="xs:integer" select="$tmp"/>
-                    <xsl:attribute name="gap_score" type="xs:integer" select="$tmp * $gap_score"/>
-                    <xsl:attribute name="source" type="xs:string" select="'l'"/>
-                </cell>
+                <cell row="0" col="{$tmp}" score="{$tmp}" gap_score="$tmp * $gap_score" source="'l'"
+                />
             </xsl:if>
             <xsl:if test="$diag lt $left_len">
                 <xsl:variable name="tmp" as="xs:integer" select="$diag + 1"/>
-                <cell>
-                    <xsl:attribute name="row" type="xs:integer" select="$tmp"/>
-                    <xsl:attribute name="col" type="xs:integer" select="0"/>
-                    <xsl:attribute name="score" type="xs:integer" select="$tmp"/>
-                    <xsl:attribute name="gap_score" type="xs:integer" select="$tmp * $gap_score"/>
-                    <xsl:attribute name="source" type="xs:string" select="'u'"/>
-                </cell>
+                <cell row="{$tmp}" col="0" score="{$tmp}" gap_score="{$tmp * $gap_score}"
+                    source="'u'"/>
             </xsl:if>
         </diag>
     </xsl:function>
@@ -240,7 +225,7 @@
                 select="'$left_len and $top_len must both be positive integers'"/>
         </xsl:if>
         <xsl:variable name="diag_count" as="xs:integer" select="$top_len + $left_len - 1"/>
-        <xsl:for-each select="1 to $diag_count" saxon:threads="10" default-validation="preserve">
+        <xsl:for-each select="1 to $diag_count">
             <xsl:sequence select="djb:get_diag_cells(., $left_len, $top_len)"/>
         </xsl:for-each>
     </xsl:function>
@@ -268,36 +253,22 @@
         <xsl:param name="top_len" as="xs:integer"/>
         <xsl:param name="left_tokens" as="xs:string+"/>
         <xsl:param name="top_tokens" as="xs:string+"/>
-        <xsl:iterate select="1 to $diag_count" default-validation="preserve">
+        <xsl:iterate select="1 to $diag_count">
             <!-- $ult and $penult hold the preceding two diags, with modification -->
             <xsl:param name="ult" as="element(cell)+">
-                <cell>
-                    <xsl:attribute name="row" type="xs:integer" select="1"/>
-                    <xsl:attribute name="col" type="xs:integer" select="0"/>
-                    <xsl:attribute name="score" type="xs:integer" select="$gap_score"/>
-                    <xsl:attribute name="gap_score" type="xs:integer" select="$gap_score * 2"/>
+                <cell row="1" col="0" score="{$gap_score}" gap_score="{$gap_score * 2}" path="u">
                     <xsl:if test="$output_grid">
-                        <xsl:attribute name="source" type="xs:string" select="'u'"/>
+                        <xsl:attribute name="source" select="'u'"/>
                     </xsl:if>
-                    <xsl:attribute name="path" type="xs:string" select="'u'"/>
                 </cell>
-                <cell>
-                    <xsl:attribute name="row" type="xs:integer" select="0"/>
-                    <xsl:attribute name="col" type="xs:integer" select="1"/>
-                    <xsl:attribute name="score" type="xs:integer" select="$gap_score"/>
-                    <xsl:attribute name="gap_score" type="xs:integer" select="$gap_score * 2"/>
+                <cell row="0" col="1" score="{$gap_score}" gap_score="{$gap_score * 2}" path="l">
                     <xsl:if test="$output_grid">
-                        <xsl:attribute name="source" type="xs:string" select="'l'"/>
+                        <xsl:attribute name="source" select="'l'"/>
                     </xsl:if>
-                    <xsl:attribute name="path" type="xs:string" select="'l'"/>
                 </cell>
             </xsl:param>
             <xsl:param name="penult" as="element(cell)+">
-                <cell>
-                    <xsl:attribute name="row" type="xs:integer" select="0"/>
-                    <xsl:attribute name="col" type="xs:integer" select="0"/>
-                    <xsl:attribute name="score" type="xs:integer" select="0"/>
-                </cell>
+                <cell row="0" col="0" score="0"/>
             </xsl:param>
             <!-- this will be allowed to accumulate only if $output_grid is true -->
             <xsl:param name="cumulative" as="element(cell)*" select="$penult | $ult"/>
@@ -325,7 +296,7 @@
                 </xsl:document>
             </xsl:variable>
             <xsl:variable name="current" as="element(cell)+">
-                <xsl:for-each select="$current_diag/cell" saxon:threads="10">
+                <xsl:for-each select="$current_diag/cell">
                     <!-- 
                         is the current cell a match? 
                         [current()/number(@row)] is faster than [position() eq current()/@row]
@@ -338,40 +309,26 @@
                                 -1"/>
                     <!-- get three values, mapped to sources, sort by score, then source -->
                     <xsl:variable name="d_cell" as="element(cell)?"
-                        select="key('cellByRowCol', (@row - 1, @col - 1), $search_space)"/>
+                        select="key('cellByRowCol', (number(@row) - 1, number(@col) - 1), $search_space)"/>
                     <xsl:variable name="l_cell" as="element(cell)?"
-                        select="key('cellByRowCol', (@row, @col - 1), $search_space)"/>
+                        select="key('cellByRowCol', (number(@row), number(@col) - 1), $search_space)"/>
                     <xsl:variable name="u_cell" as="element(cell)?"
-                        select="key('cellByRowCol', (@row - 1, @col), $search_space)"/>
+                        select="key('cellByRowCol', (number(@row) - 1, number(@col)), $search_space)"/>
                     <xsl:variable name="winners" as="element(winner)+">
                         <xsl:if test="$d_cell">
-                            <winner>
-                                <xsl:attribute name="name" type="xs:string" select="'d'"/>
-                                <xsl:attribute name="score" type="xs:integer"
-                                    select="$d_cell/@score + $current_match"/>
-                                <xsl:attribute name="path" type="xs:string" select="$d_cell/@path"/>
-                            </winner>
+                            <winner name="d" score="{$d_cell/number(@score) + $current_match}"
+                                path="{$d_cell/@path}"/>
                         </xsl:if>
                         <xsl:if test="$l_cell">
-                            <winner>
-                                <xsl:attribute name="name" type="xs:string" select="'l'"/>
-                                <xsl:attribute name="score" type="xs:integer"
-                                    select="$l_cell/@gap_score"/>
-                                <xsl:attribute name="path" type="xs:string" select="$l_cell/@path"/>
-                            </winner>
+                            <winner name="l" score="{$l_cell/@gap_score}" path="{$l_cell/@path}"/>
                         </xsl:if>
                         <xsl:if test="$u_cell">
-                            <winner>
-                                <xsl:attribute name="name" type="xs:string" select="'u'"/>
-                                <xsl:attribute name="score" type="xs:integer"
-                                    select="$u_cell/@gap_score"/>
-                                <xsl:attribute name="path" type="xs:string" select="$u_cell/@path"/>
-                            </winner>
+                            <winner name="u" score="{$u_cell/@gap_score}" path="{$u_cell/@path}"/>
                         </xsl:if>
                     </xsl:variable>
                     <xsl:variable name="winners_sorted" as="element(winner)+">
                         <xsl:perform-sort select="$winners">
-                            <xsl:sort select="@score" order="descending"/>
+                            <xsl:sort select="number(@score)" order="descending"/>
                             <xsl:sort select="@name"/>
                         </xsl:perform-sort>
                     </xsl:variable>
@@ -380,17 +337,14 @@
                         <xsl:variable name="current_score" as="xs:integer"
                             select="$winners_sorted[1]/@score"/>
                         <xsl:if test="$output_grid">
-                            <xsl:attribute name="data-match" type="xs:integer"
-                                select="$current_match"/>
+                            <xsl:attribute name="data-match" select="$current_match"/>
                         </xsl:if>
-                        <xsl:attribute name="score" type="xs:integer" select="$current_score"/>
-                        <xsl:attribute name="gap_score" type="xs:integer"
-                            select="$current_score + $gap_score"/>
+                        <xsl:attribute name="score" select="$current_score"/>
+                        <xsl:attribute name="gap_score" select="$current_score + number($gap_score)"/>
                         <xsl:if test="$output_grid">
-                            <xsl:attribute name="source" type="xs:string"
-                                select="$winners_sorted[1]/@name"/>
+                            <xsl:attribute name="source" select="$winners_sorted[1]/@name"/>
                         </xsl:if>
-                        <xsl:attribute name="path" type="xs:string"
+                        <xsl:attribute name="path"
                             select="string-join(($winners_sorted[1]/@path, $winners_sorted[1]/@name))"
                         />
                     </xsl:copy>
@@ -419,8 +373,7 @@
         <!--   cells as element(cell)+                                 -->
         <!-- returns:                                                  -->
         <!--   HTML document                                           -->
-        <!-- note: diagnostic only; not used in production             -->
-        <!--   to use, set iterator to return $cumulative              -->
+        <!-- note: to use, set iterator to return $cumulative          -->
         <!-- *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* -->
         <xsl:param name="cells" as="element(cell)+"/>
         <xsl:param name="top" as="xs:string+"/>
@@ -435,15 +388,15 @@
                     </th>
                 </xsl:for-each>
             </tr>
-            <xsl:for-each select="distinct-values($cells/@row)" saxon:threads="10">
+            <xsl:for-each select="distinct-values($cells/xs:integer(@row))">
                 <xsl:sort/>
                 <xsl:variable name="row" as="xs:integer" select="."/>
                 <tr>
                     <th>
                         <xsl:sequence select="($top[$row], '&#xa0;')[1]"/>
                     </th>
-                    <xsl:for-each select="$cells[@row = $row]" saxon:threads="10">
-                        <xsl:sort select="@col"/>
+                    <xsl:for-each select="$cells[number(@row) = $row]">
+                        <xsl:sort select="number(@col)"/>
                         <td>
                             <xsl:if test="$output_grid">
                                 <xsl:copy-of select="@data-match"/>
