@@ -4,7 +4,7 @@
     xml:lang="en">
     <title>Sequence alignment in XSLT 3.0</title>
     <info>
-        <author>
+        <!--<author>
             <personname>
                 <firstname>David</firstname>
                 <othername>J.</othername>
@@ -29,6 +29,9 @@
             </affiliation>
             <email>djbpitt@gmail.com</email>
             <uri>http://www.obdurodon.org</uri>
+        </author>-->
+        <author>
+            <personname>[Author’s name and affiliation redacted]</personname>
         </author>
         <keywordset>
             <keyword>sequence alignment</keyword>
@@ -1126,7 +1129,7 @@
                 1912 tokens, 3648096 cells), but crashes with 12 paragraphs (2233 * 2239 tokens,
                 4999687 cells). If the entire grid is an output requirement, then, it is probably
                 best stored incrementally and assembled later. Fortunately, as this implementation
-                demonstrates, aligning the sequences does not require simultaneous  access to the
+                demonstrates, aligning the sequences does not require simultaneous access to the
                 entire grid.</para>
         </section>
     </section>
