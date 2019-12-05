@@ -8,6 +8,17 @@
         The following link is helpful for verification:
         http://rna.informatik.uni-freiburg.de/Teaching/index.jsp?toolName=Needleman-Wunsch
     -->
+    <!--
+        Alternatives:
+        
+        Single pass, tag for top or bottom, then predicate to select? Same amount of
+        computation (twice per path step), only one traversal of full path, but then
+        two filtering operations
+        
+        Recursion
+        
+        Iteration
+    -->
     <xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
     <xsl:function name="djb:explode" as="xs:string+">
         <!-- split string into sequence of single characters -->
