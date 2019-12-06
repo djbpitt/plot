@@ -40,21 +40,22 @@
             155857.44"/>
     <xsl:variable name="he_times" as="xs:double+"
         select="
-            456.13,
-            593.15,
-            5576.78,
-            7907.39,
-            7934.86,
-            10877.44,
-            18487.85,
-            25354.76,
-            36941.59,
-            39240.80,
-            53596.64,
-            70821.35,
-            103138.17,
-            138079.87,
-            146487.75"/>
+            563.56,
+            726.98,
+            5477.15,
+            7597.70,
+            8834.71,
+            11359.34,
+            19368.71,
+            26814.94,
+            35741.63,
+            41576.45,
+            51614.11,
+            73093.07,
+            107409.36,
+            135885.33,
+            147289.67
+            "/>
     <xsl:template name="xsl:initial-template">
         <xsl:variable name="maxX" as="xs:double" select="max($total_tokens)"/>
         <xsl:variable name="maxY" as="xs:double" select="max(($ee_times, $he_times))"/>
