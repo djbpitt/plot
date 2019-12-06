@@ -204,9 +204,8 @@
                     <listitem>
                         <para>An item in one sequence has no corresponding item in the other
                             sequence. This is called a <emphasis>gap</emphasis> or an
-                                <emphasis>indel</emphasis> (a correspondence of an item in one
-                            sequence to no item in the other, which can be interpreted as either an
-                                <emphasis>in</emphasis>sertion in one sequence or a
+                                <emphasis>indel</emphasis> (because it can be interpreted as either
+                            an <emphasis>in</emphasis>sertion in one sequence or a
                                 <emphasis>del</emphasis>etion from the other). Gaps are inevitable
                             where the sequences are of different lengths, so that, for example.
                             given <quote>The gray koala</quote> and <quote>The koala</quote>, the
@@ -614,12 +613,12 @@
                 recursion, cycling the newly updated value into each recursive call. The challenge
                 to this approach is that deep recursion can consume enough memory to overflow the
                 available stack space and crash the operation. XSLT processors can work around this
-                limitation with <emphasis>tail recursion optimization</emphasis>, which enables the
+                limitation with <emphasis>tail call optimization</emphasis>, which enables the
                 processor to reduce the consumption of stack space by recognizing when stack values
-                do not have to be preserved. Tail recursion is finicky, however, first because not
-                all processors support it, second because functions have to be written in a
-                particular way to make it possible, and third because some operations that can be
-                understood as tail recursive may not look that way to the processor, and may
+                do not have to be preserved. Tail call optimization is finicky, however, first
+                because not all processors support it, second because functions have to be written
+                in a particular way to make it possible, and third because some operations that can
+                be understood as tail recursive may not look that way to the processor, and may
                 therefore fail to be optimized.</para>
             <para>The important insight with respect to recursion in Tennison’s second engagement
                 with the Levenshtein problem (<xref linkend="tennison_2007b"/>) is that it is
@@ -635,7 +634,7 @@
                         implementation in ways that will be discussed below.</para>
                 </footnote> The absence of dependencies within a diagonal means that Tennison can
                 use <tag>&lt;xsl:for-each&gt;</tag>, instead of recursion, to compute all of the
-                values on each diagonal, and recur only as she moves to a new diagonal. The
+                values within each diagonal, and recur only as she moves to a new diagonal. The
                 computational complexity of populating the grid remains <emphasis>O(mn)</emphasis>
                 (that is, essentially quadratic), since it is still necessary to calculate values
                 for each cell individually, and the total number of cells is the product of the
@@ -805,7 +804,7 @@
                                 class="element">&lt;cell&gt;</tag> attributes that are used in
                             computation, which means principally the <tag class="attribute"
                                 >@row</tag> and <tag class="attribute">@col</tag> (column)
-                            attributes, which we typed as <tag class="attvalue">xs:integer</tag>. By
+                            attributes, which we type as <tag class="attvalue">xs:integer</tag>. By
                             default attributes on elements that do not undergo validation are typed
                             as <tag class="attvalue">xs:untypedAtomic</tag>, and without our
                             explicit typing we had to convert them explicitly to numerical values on
@@ -815,9 +814,10 @@
                                 <para>For example, we use keys to retrieve cells by row and column
                                     number, the values of which we compute, and the type of the
                                     value used to retrieve an item with a key must match the type of
-                                    the value used to index it originally. Typing the row and column
-                                    number as integers when they are created removes the need to
-                                    cast them as numerical types for query and retrieval.</para>
+                                    the value used to index it originally (<xref linkend="kay_2008"
+                                    /> 813). Typing the row and column number as integers when they
+                                    are created removes the need to cast them as numerical types for
+                                    query and retrieval.</para>
                             </footnote> The reduction in processing that results from not having to
                             perform explicit casting must be balanced against the overhead of
                             performing schema validation (or, perhaps more accurately, type
@@ -841,18 +841,21 @@
                 command line with the following commands, respectively: <code>java -Xms24G -Xmx24G
                     -jar /Users/djb/bin/saxon_ee/saxon9ee.jar -sa -it -o:/dev/null -repeat:10
                     nw_ee.xsl</code> and <code>java -Xms24G -Xmx24G -jar
-                    /Users/djb/bin/saxon_ee/saxon9he.jar -it -repeat:10 -o:/dev/null
+                    /Users/djb/bin/saxon_he/saxon9he.jar -it -repeat:10 -o:/dev/null
                     nw_he.xsl</code>. These instructions make 24G of RAM available to Java and cause
                 Saxon to perform the specified transformation 10 times and report the average
                 execution time of the last 6 runs. The testing platform was a mid-2018 MacBook Pro
                 with a 2.9 GHz Intel Core i9 processor (6 physical and 12 logical cores) and 32 GB
                 2400 MHz DDR4 RAM. Times are in milliseconds. The <quote>N/A</quote> values in the
                 table below reflect processing that crashed with Java memory errors; see below for
-                discussion.</para>
+                discussion. The table below shows the EE and HE processing time (total and ms per
+                token); it reports on the time EE requires to output not just the alignment table,
+                but also the full alignment grid; and it compares the EE and HE times
+                directly.</para>
             <para>
                 <table>
                     <title>Comparison of EE and HE performance</title>
-                    <tgroup cols="11">
+                    <tgroup cols="12">
                         <colspec colnum="1" colname="col1" colwidth="1*"/>
                         <colspec colnum="2" colname="col2" colwidth="1*"/>
                         <colspec colnum="3" colname="col3" colwidth="1*"/>
@@ -864,14 +867,15 @@
                         <colspec colnum="9" colname="col9" colwidth="1*"/>
                         <colspec colnum="10" colname="col10" colwidth="1*"/>
                         <colspec colnum="11" colname="col11" colwidth="1*"/>
+                        <colspec colnum="12" colname="col12" colwidth="1*"/>
                         <thead>
                             <row>
-                                <entry namest="col1" nameend="col4" align="center">Data</entry>
+                                <entry namest="col1" nameend="col4" align="center">Tokens</entry>
                                 <entry namest="col5" nameend="col9" align="center">EE</entry>
-                                <entry namest="col10" nameend="col11" align="center">HE</entry>
+                                <entry namest="col10" nameend="col12" align="center">HE</entry>
                             </row>
                             <row>
-                                <entry align="center">Paragraphs</entry>
+                                <entry align="center">Paras</entry>
                                 <entry align="center">1859 tokens</entry>
                                 <entry align="center">1860 tokens</entry>
                                 <entry align="center">total tokens</entry>
@@ -881,6 +885,7 @@
                                 <entry align="center">ms per token with grid</entry>
                                 <entry align="center">grid cost</entry>
                                 <entry align="center">time</entry>
+                                <entry align="center">ms per token</entry>
                                 <entry align="center">EE vs HE</entry>
                             </row>
                         </thead>
@@ -891,12 +896,13 @@
                                 <entry align="right">194</entry>
                                 <entry align="right">387</entry>
                                 <entry align="right">576</entry>
-                                <entry align="right">1.49</entry>
+                                <entry align="right">1.5</entry>
                                 <entry align="right">880</entry>
-                                <entry align="right">2.27</entry>
+                                <entry align="right">2.3</entry>
                                 <entry align="right">153%</entry>
-                                <entry align="right">456</entry>
-                                <entry align="right">126.26%</entry>
+                                <entry align="right">564</entry>
+                                <entry align="right">1.5</entry>
+                                <entry align="right">102.2%</entry>
                             </row>
                             <row>
                                 <entry align="right">2</entry>
@@ -904,12 +910,13 @@
                                 <entry align="right">233</entry>
                                 <entry align="right">465</entry>
                                 <entry align="right">816</entry>
-                                <entry align="right">1.75</entry>
+                                <entry align="right">1.8</entry>
                                 <entry align="right">1218</entry>
-                                <entry align="right">2.62</entry>
+                                <entry align="right">2.6</entry>
                                 <entry align="right">149%</entry>
-                                <entry align="right">593</entry>
-                                <entry align="right">137.55%</entry>
+                                <entry align="right">727</entry>
+                                <entry align="right">1.6</entry>
+                                <entry align="right">112.2%</entry>
                             </row>
                             <row>
                                 <entry align="right">3</entry>
@@ -917,12 +924,13 @@
                                 <entry align="right">683</entry>
                                 <entry align="right">1362</entry>
                                 <entry align="right">5168</entry>
-                                <entry align="right">3.79</entry>
+                                <entry align="right">3.8</entry>
                                 <entry align="right">11029</entry>
-                                <entry align="right">8.10</entry>
+                                <entry align="right">8.1</entry>
                                 <entry align="right">213%</entry>
-                                <entry align="right">5577</entry>
-                                <entry align="right">92.68%</entry>
+                                <entry align="right">5477</entry>
+                                <entry align="right">4.0</entry>
+                                <entry align="right">94.4%</entry>
                             </row>
                             <row>
                                 <entry align="right">4</entry>
@@ -930,12 +938,13 @@
                                 <entry align="right">777</entry>
                                 <entry align="right">1549</entry>
                                 <entry align="right">6951</entry>
-                                <entry align="right">4.49</entry>
+                                <entry align="right">4.5</entry>
                                 <entry align="right">14859</entry>
-                                <entry align="right">9.59</entry>
+                                <entry align="right">9.6</entry>
                                 <entry align="right">214%</entry>
-                                <entry align="right">7907</entry>
-                                <entry align="right">87.91%</entry>
+                                <entry align="right">7598</entry>
+                                <entry align="right">4.9</entry>
+                                <entry align="right">91.5%</entry>
                             </row>
                             <row>
                                 <entry align="right">5</entry>
@@ -943,12 +952,13 @@
                                 <entry align="right">815</entry>
                                 <entry align="right">1625</entry>
                                 <entry align="right">7167</entry>
-                                <entry align="right">4.41</entry>
+                                <entry align="right">4.4</entry>
                                 <entry align="right">16416</entry>
-                                <entry align="right">10.10</entry>
+                                <entry align="right">10.1</entry>
                                 <entry align="right">229%</entry>
-                                <entry align="right">7935</entry>
-                                <entry align="right">90.32%</entry>
+                                <entry align="right">8835</entry>
+                                <entry align="right">5.4</entry>
+                                <entry align="right">81.1%</entry>
                             </row>
                             <row>
                                 <entry align="right">6</entry>
@@ -956,12 +966,13 @@
                                 <entry align="right">947</entry>
                                 <entry align="right">1889</entry>
                                 <entry align="right">10713</entry>
-                                <entry align="right">5.67</entry>
+                                <entry align="right">5.7</entry>
                                 <entry align="right">24060</entry>
-                                <entry align="right">12.74</entry>
+                                <entry align="right">12.7</entry>
                                 <entry align="right">225%</entry>
-                                <entry align="right">10877</entry>
-                                <entry align="right">98.49%</entry>
+                                <entry align="right">11359</entry>
+                                <entry align="right">6.0</entry>
+                                <entry align="right">94.3%</entry>
                             </row>
                             <row>
                                 <entry align="right">7</entry>
@@ -969,12 +980,13 @@
                                 <entry align="right">1193</entry>
                                 <entry align="right">2380</entry>
                                 <entry align="right">17336</entry>
-                                <entry align="right">7.28</entry>
+                                <entry align="right">7.3</entry>
                                 <entry align="right">39805</entry>
-                                <entry align="right">16.72</entry>
+                                <entry align="right">16.7</entry>
                                 <entry align="right">230%</entry>
-                                <entry align="right">18488</entry>
-                                <entry align="right">93.77%</entry>
+                                <entry align="right">19369</entry>
+                                <entry align="right">8.1</entry>
+                                <entry align="right">89.5%</entry>
                             </row>
                             <row>
                                 <entry align="right">8</entry>
@@ -982,12 +994,13 @@
                                 <entry align="right">1369</entry>
                                 <entry align="right">2732</entry>
                                 <entry align="right">22865</entry>
-                                <entry align="right">8.37</entry>
+                                <entry align="right">8.4</entry>
                                 <entry align="right">51227</entry>
-                                <entry align="right">18.75</entry>
+                                <entry align="right">18.8</entry>
                                 <entry align="right">224%</entry>
-                                <entry align="right">25355</entry>
-                                <entry align="right">90.18%</entry>
+                                <entry align="right">26815</entry>
+                                <entry align="right">9.8</entry>
+                                <entry align="right">85.3%</entry>
                             </row>
                             <row>
                                 <entry align="right">9</entry>
@@ -995,12 +1008,13 @@
                                 <entry align="right">1589</entry>
                                 <entry align="right">3172</entry>
                                 <entry align="right">32278</entry>
-                                <entry align="right">10.18</entry>
+                                <entry align="right">10.2</entry>
                                 <entry align="right">80369</entry>
-                                <entry align="right">25.34</entry>
+                                <entry align="right">25.3</entry>
                                 <entry align="right">249%</entry>
-                                <entry align="right">36942</entry>
-                                <entry align="right">87.38%</entry>
+                                <entry align="right">35742</entry>
+                                <entry align="right">11.3</entry>
+                                <entry align="right">90.3%</entry>
                             </row>
                             <row>
                                 <entry align="right">10</entry>
@@ -1008,12 +1022,13 @@
                                 <entry align="right">1682</entry>
                                 <entry align="right">3358</entry>
                                 <entry align="right">35299</entry>
-                                <entry align="right">10.51</entry>
+                                <entry align="right">10.5</entry>
                                 <entry align="right">81848</entry>
-                                <entry align="right">24.37</entry>
+                                <entry align="right">24.4</entry>
                                 <entry align="right">232%</entry>
-                                <entry align="right">39241</entry>
-                                <entry align="right">89.96%</entry>
+                                <entry align="right">41576</entry>
+                                <entry align="right">12.4</entry>
+                                <entry align="right">84.9%</entry>
                             </row>
                             <row>
                                 <entry align="right">11</entry>
@@ -1021,12 +1036,13 @@
                                 <entry align="right">1912</entry>
                                 <entry align="right">3820</entry>
                                 <entry align="right">46785</entry>
-                                <entry align="right">12.25</entry>
+                                <entry align="right">12.2</entry>
                                 <entry align="right">106004</entry>
-                                <entry align="right">27.75</entry>
+                                <entry align="right">27.7</entry>
                                 <entry align="right">227%</entry>
-                                <entry align="right">53597</entry>
-                                <entry align="right">87.29%</entry>
+                                <entry align="right">51614</entry>
+                                <entry align="right">13.5</entry>
+                                <entry align="right">90.6%</entry>
                             </row>
                             <row>
                                 <entry align="right">12</entry>
@@ -1034,12 +1050,13 @@
                                 <entry align="right">2239</entry>
                                 <entry align="right">4472</entry>
                                 <entry align="right">67132</entry>
-                                <entry align="right">15.01</entry>
+                                <entry align="right">15.0</entry>
                                 <entry align="right">N/A</entry>
                                 <entry align="right">N/A</entry>
                                 <entry align="right">N/A</entry>
-                                <entry align="right">70821</entry>
-                                <entry align="right">94.79%</entry>
+                                <entry align="right">73093</entry>
+                                <entry align="right">16.3</entry>
+                                <entry align="right">91.8%</entry>
                             </row>
                             <row>
                                 <entry align="right">13</entry>
@@ -1047,12 +1064,13 @@
                                 <entry align="right">2663</entry>
                                 <entry align="right">5322</entry>
                                 <entry align="right">98211</entry>
-                                <entry align="right">18.45</entry>
+                                <entry align="right">18.5</entry>
                                 <entry align="right">N/A</entry>
                                 <entry align="right">N/A</entry>
                                 <entry align="right">N/A</entry>
-                                <entry align="right">103138</entry>
-                                <entry align="right">95.22%</entry>
+                                <entry align="right">107409</entry>
+                                <entry align="right">20.2</entry>
+                                <entry align="right">91.4%</entry>
                             </row>
                             <row>
                                 <entry align="right">14</entry>
@@ -1060,12 +1078,13 @@
                                 <entry align="right">2974</entry>
                                 <entry align="right">5940</entry>
                                 <entry align="right">130544</entry>
-                                <entry align="right">21.98</entry>
+                                <entry align="right">22.0</entry>
                                 <entry align="right">N/A</entry>
                                 <entry align="right">N/A</entry>
                                 <entry align="right">N/A</entry>
-                                <entry align="right">138080</entry>
-                                <entry align="right">94.54%</entry>
+                                <entry align="right">135885</entry>
+                                <entry align="right">22.9</entry>
+                                <entry align="right">96.1%</entry>
                             </row>
                             <row>
                                 <entry align="right">15</entry>
@@ -1073,19 +1092,19 @@
                                 <entry align="right">3126</entry>
                                 <entry align="right">6273</entry>
                                 <entry align="right">155857</entry>
-                                <entry align="right">24.85</entry>
+                                <entry align="right">24.8</entry>
                                 <entry align="right">N/A</entry>
                                 <entry align="right">N/A</entry>
                                 <entry align="right">N/A</entry>
-                                <entry align="right">146488</entry>
-                                <entry align="right">106.40%</entry>
+                                <entry align="right">147290</entry>
+                                <entry align="right">23.5</entry>
+                                <entry align="right">105.8%</entry>
                             </row>
                         </tbody>
                     </tgroup>
                 </table>
             </para>
-            <para>The chart below shows EE and HE converging as both grow at a quadratic rate with
-                respect to the number of tokens being aligned:<figure>
+            <para>The chart below compares EE and HE performance.<figure>
                     <title>Performance with Saxon EE and HE</title>
                     <mediaobject>
                         <imageobject>
@@ -1095,17 +1114,16 @@
                     </mediaobject>
                 </figure></para>
             <para>Except with a very small number of tokens, EE runs the same operation as HE in
-                slightly less time, with the times converging as the number of tokens grows. The
-                small and asymptotically decreasing difference in time between the EE and HE
-                implementations is consistent with the fact that 1) the effect of parallelization,
-                which is the principal difference between the two implementations, is dependent on
-                the number of cores, which is both small and constant, and 2) the number of cells,
-                which is the same in both implementations, is the principal factor that determines
-                execution time, and it increases quadratically. The fact that the storage
-                requirement scales linearly (as long as we do not attempt to maintain the entire
-                grid) means that it is possible to align long sequences without overflowing the
-                available memory, but the quadratic execution time means that the alignment of long
-                sequences is not well suited for real-time interactive processing.<footnote>
+                approximately 10% less time. This small constant difference is consistent with the
+                fact that 1) the effect of parallelization, which is the principal difference
+                between the two implementations, is dependent on the number of cores, which is both
+                small and constant, and 2) the number of cells, which is the same in both
+                implementations, is the principal factor that determines execution time, and it
+                increases quadratically. The fact that the storage requirement scales linearly (as
+                long as we do not attempt to maintain the entire grid) means that it is possible to
+                align long sequences without overflowing the available memory, but the quadratic
+                execution time means that the alignment of long sequences is nonetheless not well
+                suited for real-time interactive processing.<footnote>
                     <para>With respect to storage, processing maintains only a constant three
                         diagonals at a time, and the length of a diagonal is linear with respect to
                         the sum of the lengths of the sequences being compared. The lengths of the
@@ -1135,7 +1153,7 @@
     </section>
     <section>
         <title>Conclusions</title>
-        <para>The code that implements our method is available at <link
+        <para>The code underlying this report is available at <link
                 xl:href="https://github.com/djbpitt/xstuff/tree/master/nw"/>, and has not been
             reproduced here. It is densely commented, and thus offers tutorial information about the
             method. Small exploratory stylesheets that were used to develop individual components of
@@ -1201,6 +1219,9 @@
         </bibliomixed>
         <bibliomixed xml:id="juxta" xreflabel="Juxta">Juxta. <link
                 xl:href="https://www.juxtasoftware.org/"/></bibliomixed>
+        <bibliomixed xml:id="kay_2008" xreflabel="Kay 2008">Kay, Michael. 2008. <citetitle>XSLT 2.0
+                and XPath 2.0 programmer’s reference.</citetitle> 4th edition. Indianapolis: Wiley
+            (Wrox).</bibliomixed>
         <!--<bibliomixed xml:id="muhamad" xreflabel="Muhamad et al. 2018">FN Muhamad, F. N., R. B.
             Ahmad, S. M.Asi, and M. N. Murad. 2018. <quote>Performance analysis Of Needleman-Wunsch
                 algorithm (global) and Smith-Waterman algorithm (local) In reducing search space and
