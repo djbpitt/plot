@@ -328,7 +328,7 @@
                     </xsl:variable>
                     <xsl:variable name="winners_sorted" as="element(winner)+">
                         <xsl:perform-sort select="$winners">
-                            <xsl:sort select="number(@score)" order="descending"/>
+                            <xsl:sort select="number(@score)" order="descending" stable="no"/>
                             <xsl:sort select="@name"/>
                         </xsl:perform-sort>
                     </xsl:variable>
@@ -389,14 +389,14 @@
                 </xsl:for-each>
             </tr>
             <xsl:for-each select="distinct-values($cells/xs:integer(@row))">
-                <xsl:sort/>
+                <xsl:sort stable="no"/>
                 <xsl:variable name="row" as="xs:integer" select="."/>
                 <tr>
                     <th>
                         <xsl:sequence select="($top[$row], '&#xa0;')[1]"/>
                     </th>
                     <xsl:for-each select="$cells[number(@row) = $row]">
-                        <xsl:sort select="number(@col)"/>
+                        <xsl:sort select="number(@col)" stable="no"/>
                         <td>
                             <xsl:if test="$output_grid">
                                 <xsl:copy-of select="@data-match"/>
