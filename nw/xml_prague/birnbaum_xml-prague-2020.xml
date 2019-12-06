@@ -167,8 +167,8 @@
                             alignment. While some approaches to multiple-witness alignment are
                             implemented as a progressive or iterative application of pairwise
                             alignment, these methods are subject to order effects. Ultimately,
-                            multiple-witness alignment is an NP hard problem with which the present
-                            report does not seek to engage.<footnote>
+                            order-independent multiple-witness alignment is an NP hard problem with
+                            which the present report does not seek to engage.<footnote>
                                 <para><xref linkend="msa"/> provides an overview of multiple
                                     sequence alignment, the term in bioinformatics for what
                                     philologists refer to as multiple-witness alignment.</para>
@@ -359,7 +359,7 @@
                 solution, but that it is <emphasis>not guaranteed</emphasis> to do so.</para>
             <para>Performing alignment according to the Needleman Wunsch dynamic programming
                 algorithm entails the following steps:<footnote>
-                    <para>For a clear and more detailed explanation see <xref linkend="snip"
+                    <para>For a more detailed tutorial introduction see <xref linkend="snip"
                         />.</para>
                 </footnote>
                 <orderedlist>
@@ -375,9 +375,9 @@
                     </listitem>
                     <listitem>
                         <para>Insert a row at the top, below the labels, with sequential numbers
-                            reflecting multiples of the gap score. For example, if the gap score
-                            value is <tag class="attvalue">-2</tag>, the values would be <tag
-                                class="attvalue">0</tag>, <tag class="attvalue">-2</tag>, <tag
+                            reflecting consecutive multiples of the gap score. For example, if the
+                            gap score value is <tag class="attvalue">-2</tag>, the cell values would
+                            be <tag class="attvalue">0</tag>, <tag class="attvalue">-2</tag>, <tag
                                 class="attvalue">-4</tag>, etc. Starting from the <tag
                                 class="attvalue">0</tag>, assign similar values to a column inserted
                             on the left, after the row labels. By this point the grid should look like:<table>
@@ -461,7 +461,8 @@
                                         the intersecting sequence items constitute a match or a
                                         mismatch.</para>
                                 </listitem>
-                            </itemizedlist> For example, the first cell is the intersection of the
+                            </itemizedlist></para>
+                        <para>For example, the first cell is the intersection of the
                                 <quote>k</quote> at the top with <quote>c</quote> at the left, which
                             is a mismatch, since they are different. The cell immediately above has
                             a value of <tag class="attvalue">-2</tag>, which, when augmented by the
@@ -470,9 +471,9 @@
                             to the left has a value of <tag class="attvalue">0</tag>, which, when
                             combined with the mismatch score, yields a value of <tag
                                 class="attvalue">-1</tag>. Since that is the highest value, write it
-                            into the cell. Proceed across the first row, then traverse the second
-                            row from left to right, etc., ending in the lower right. The completed
-                            grid should look like:<table>
+                            into the cell. Proceed similarly across the first row, then traverse the
+                            second row from left to right, etc., ending in the lower right. The
+                            completed grid should look like:<table>
                                 <title>Completed grid for Needleman Wunsch</title>
                                 <tgroup cols="7">
                                     <tbody>
