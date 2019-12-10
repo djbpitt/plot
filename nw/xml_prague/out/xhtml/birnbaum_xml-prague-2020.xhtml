@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html
   PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Sequence alignment in XSLT 3.0</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.2"/><meta name="description" content="The Needleman Wunsch algorithm, which this year celebrates its quinquagenary anniversary, has been proven to produce an optimal global pairwise sequence alignment. Because this dynamic programming algorithm requires the progressive updating of mutually dependent variables, it poses challenges for functional programming paradigms like the one underlying XSLT. The present report explores these challenges and provides an implementation of the Needleman Wunsch algorithm in XSLT 3.0."/><meta name="keywords" content="sequence alignment, xslt"/></head><body><div xml:lang="en" class="article"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1"/>Sequence alignment in XSLT 3.0</h2></div><div><div class="author"><h3 class="author">[Author’s name and affiliation redacted]</h3></div></div><div><div class="abstract"><p class="title"><strong>Abstract</strong></p><p>The Needleman Wunsch algorithm, which this year celebrates its quinquagenary
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Sequence alignment in XSLT 3.0</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.2"/><meta name="description" content="The Needleman Wunsch algorithm, which this year celebrates its quinquagenary anniversary, has been proven to produce an optimal global pairwise sequence alignment. Because this dynamic programming algorithm requires the progressive updating of mutually dependent variables, it poses challenges for functional programming paradigms like the one underlying XSLT. The present report explores these challenges and provides an implementation of the Needleman Wunsch algorithm in XSLT 3.0."/><meta name="keywords" content="sequence alignment, xslt"/></head><body><div xml:lang="en" class="article"><div class="titlepage"><div><div><h2 class="title"><a id="d5e1"/>Sequence alignment in XSLT 3.0</h2></div><div><div class="author"><h3 class="author"><span class="firstname">David</span> <span class="othername">J.</span> <span class="surname">Birnbaum</span></h3><div class="affiliation"><span class="jobtitle">Professor<br/></span><span class="orgname">Department of Slavic Languages and Literatures, University of Pittsburgh
+                    (US)<br/></span></div><code class="email">&lt;<a class="email" href="mailto:djbpitt@gmail.com">djbpitt@gmail.com</a>&gt;</code></div></div><div><div class="abstract"><p class="title"><strong>Abstract</strong></p><p>The Needleman Wunsch algorithm, which this year celebrates its quinquagenary
                 anniversary, has been proven to produce an optimal global pairwise sequence
                 alignment. Because this dynamic programming algorithm requires the progressive
                 updating of mutually dependent variables, it poses challenges for functional
                 programming paradigms like the one underlying XSLT. The present report explores
                 these challenges and provides an implementation of the Needleman Wunsch algorithm in
-                XSLT 3.0.</p></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#d5e11">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e13">Why sequence aligment matters</a></span></dt><dt><span class="section"><a href="#d5e23">Biological and textual alignment</a></span></dt><dt><span class="section"><a href="#d5e33">Global pairwise alignment</a></span></dt><dt><span class="section"><a href="#d5e54">Overview of this report</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e70">About sequence alignment</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e72">Alignment and scoring</a></span></dt><dt><span class="section"><a href="#d5e128">Sequence alignment algorithms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e137">Dynamic programming and the Needleman Wunsch algorithm</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e139">Dynamic programming</a></span></dt><dt><span class="section"><a href="#d5e159">The Needleman Wunsch algorithm</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e340">The challenges of dynamic programming and XSLT</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e352">Why recursion breaks</a></span></dt><dt><span class="section"><a href="#d5e366">Iteration to the rescue</a></span></dt><dt><span class="section"><a href="#d5e376">Processing the diagonal</a></span></dt><dt><span class="section"><a href="#d5e414">Save yourself a trip … and some space</a></span></dt><dt><span class="section"><a href="#d5e420">Performance</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e703">Conclusions</a></span></dt><dt><span class="bibliography"><a href="#d5e715">Works cited</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e11"/>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e13"/>Why sequence aligment matters</h3></div></div></div><p>Sequence alignment is a way of identifying and modeling similarities and
+                XSLT 3.0.</p></div></div></div><hr/></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#d5e23">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e25">Why sequence aligment matters</a></span></dt><dt><span class="section"><a href="#d5e35">Biological and textual alignment</a></span></dt><dt><span class="section"><a href="#d5e45">Global pairwise alignment</a></span></dt><dt><span class="section"><a href="#d5e66">Overview of this report</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e82">About sequence alignment</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e84">Alignment and scoring</a></span></dt><dt><span class="section"><a href="#d5e140">Sequence alignment algorithms</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e149">Dynamic programming and the Needleman Wunsch algorithm</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e151">Dynamic programming</a></span></dt><dt><span class="section"><a href="#d5e171">The Needleman Wunsch algorithm</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e352">The challenges of dynamic programming and XSLT</a></span></dt><dd><dl><dt><span class="section"><a href="#d5e364">Why recursion breaks</a></span></dt><dt><span class="section"><a href="#d5e388">Iteration to the rescue</a></span></dt><dt><span class="section"><a href="#d5e398">Processing the anti-diagonal</a></span></dt><dt><span class="section"><a href="#d5e434">Save yourself a trip … and some space</a></span></dt><dt><span class="section"><a href="#d5e440">Performance</a></span></dt></dl></dd><dt><span class="section"><a href="#d5e723">Conclusions</a></span></dt><dt><span class="bibliography"><a href="#d5e735">Works cited</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e23"/>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e25"/>Why sequence aligment matters</h3></div></div></div><p>Sequence alignment is a way of identifying and modeling similarities and
                 differences in sequences of items, and has proven insightful and productive for
                 research in both the natural sciences (especially in biology and medicine, where it
                 is applied to genetic sequences) and the humanities (especially in text-critical
                 scholarship, where it is applied to sequences of words in variant versions of a
                 text). In textual scholarship, which is the domain in which the present report was
                 developed, sequence alignment assists the philologist in identifying locations where
-                manuscript witnesses agree and where they disagree.<a href="#ftn.d5e16" class="footnote" id="d5e16"><sup class="footnote">[1]</sup></a> These agreements and disagreements, in turn, provide evidence about
+                manuscript witnesses agree and where they disagree.<a href="#ftn.d5e28" class="footnote" id="d5e28"><sup class="footnote">[1]</sup></a> These agreements and disagreements, in turn, provide evidence about
                 probable (or, at least, candidate) moments of shared transmission among textual
                 witnesses, and thus serve as evidence to construct and support a philological
-                argument about the history of a text.<a href="#ftn.d5e20" class="footnote" id="d5e20"><sup class="footnote">[2]</sup></a></p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e23"/>Biological and textual alignment</h3></div></div></div><p>Insofar as biomedical research enjoys a larger scientific community and richer
+                argument about the history of a text.<a href="#ftn.d5e32" class="footnote" id="d5e32"><sup class="footnote">[2]</sup></a></p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e35"/>Biological and textual alignment</h3></div></div></div><p>Insofar as biomedical research enjoys a larger scientific community and richer
                 funding resources than textual humanities scholarship, it is not surprising that the
                 literature about sequence alignment, and the science reported in that literature, is
                 quantitatively greater in the natural sciences than in the humanities. Furthermore,
@@ -41,7 +42,7 @@
                 domains involving data at a substantially smaller scale? Although the present report
                 does not engage with this question, it remains part of the context within which
                 solutions to alignment tasks in different disciplines ultimately should be
-                assessed.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e33"/>Global pairwise alignment</h3></div></div></div><p>The following two distinctions—not between biological and textual alignment, but
+                assessed.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e45"/>Global pairwise alignment</h3></div></div></div><p>The following two distinctions—not between biological and textual alignment, but
                 within both domains—are also relevant to the present report:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Both genetic and textual alignment tasks can be divided into
                                 <span class="emphasis"><em>global</em></span> and <span class="emphasis"><em>local</em></span>
                             alignment. The goal of global alignment is to find the best alignment of
@@ -61,7 +62,7 @@
                 identify all optimal global pairwise alignments of two sequences, and it is
                 especially well suited to alignment tasks where the two texts are of comparable size
                 and are substantially similar to each other. The present report does not address
-                either local alignment or multiple (witness) alignment.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e54"/>Overview of this report</h3></div></div></div><p>This report begins by introducing the use of dynamic programming methods in the
+                either local alignment or multiple (witness) alignment.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e66"/>Overview of this report</h3></div></div></div><p>This report begins by introducing the use of dynamic programming methods in the
                 Needleman Wunsch algorithm to ascertain all optimal global alignments of two
                 sequences. It then identifies challenges to implementing this algorithm in XSLT and
                 discusses those challenges in the context of developing such an implementation.
@@ -80,7 +81,7 @@
                             implemented as a progressive or iterative application of pairwise
                             alignment, these methods are subject to order effects. Ultimately,
                             order-independent multiple-witness alignment is an NP hard problem with
-                            which the present report does not seek to engage.<a href="#ftn.d5e67" class="footnote" id="d5e67"><sup class="footnote">[3]</sup></a></p></li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e70"/>About sequence alignment</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e72"/>Alignment and scoring</h3></div></div></div><p>An optimal alignment can be defined as an alignment that yields the best
+                            which the present report does not seek to engage.<a href="#ftn.d5e79" class="footnote" id="d5e79"><sup class="footnote">[3]</sup></a></p></li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e82"/>About sequence alignment</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e84"/>Alignment and scoring</h3></div></div></div><p>An optimal alignment can be defined as an alignment that yields the best
                     <span class="emphasis"><em>score</em></span>, where the researcher is responsible for identifying
                 an appropriate <span class="emphasis"><em>scoring method</em></span>. Relationships involving
                 individual aligned items from a sequence can be categorized as belonging to three
@@ -105,7 +106,7 @@
                             example, if we align <span class="quote">“<span class="quote">The brown koala lives in Australia</span>”</span>
                             with <span class="quote">“<span class="quote">The koala lives in South Australia</span>”</span>, both sequences
                             contain six words, but the most natural alignment, with a length of
-                            seven items and one gap in each sequence, is: </p><div class="table"><a id="d5e99"/><p class="title"><strong>Table 1. Alignment example with gaps</strong></p><div class="table-contents"><table class="table" summary="Alignment example with gaps" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td>The</td><td>brown</td><td>koala</td><td>lives</td><td>in</td><td> </td><td>Australia</td></tr><tr><td>The</td><td> </td><td>koala</td><td>lives</td><td>in</td><td>South</td><td>Australia</td></tr></tbody></table></div></div><p><br class="table-break"/>
+                            seven items and one gap in each sequence, is: </p><div class="table"><a id="d5e111"/><p class="title"><strong>Table 1. Alignment example with gaps</strong></p><div class="table-contents"><table class="table" summary="Alignment example with gaps" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td>The</td><td>brown</td><td>koala</td><td>lives</td><td>in</td><td> </td><td>Australia</td></tr><tr><td>The</td><td> </td><td>koala</td><td>lives</td><td>in</td><td>South</td><td>Australia</td></tr></tbody></table></div></div><p><br class="table-break"/>
                         </p></li></ul></div><p>A common scoring method is to assign a value of <code class="sgmltag-attvalue">1</code> to
                 matches, <code class="sgmltag-attvalue">-1</code> to mismatches, and <code class="sgmltag-attvalue">-1</code> to gaps. These values prefer alignments with as many matches as
                 possible, and with as few mismatches and gaps as possible. But alternative scoring
@@ -118,7 +119,7 @@
                 correspondences and non-correspondences that are meaningful for identifying textual
                 moments to be compared. In the examples below we have assigned a score of <code class="sgmltag-attvalue">1</code> for matches, <code class="sgmltag-attvalue">-1</code> for
                 mistmatches, and <code class="sgmltag-attvalue">-2</code> for gaps. This scoring system
-                prefers mismatches to gaps, and scores gaps in a linear (not affine) way.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e128"/>Sequence alignment algorithms</h3></div></div></div><p>A naïve, brute-force approach to sequence alignment would construct all possible
+                prefers mismatches to gaps, and scores gaps in a linear (not affine) way.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e140"/>Sequence alignment algorithms</h3></div></div></div><p>A naïve, brute-force approach to sequence alignment would construct all possible
                 alignments, score them, and select the ones with the best scores. This method has
                 exponential complexity, which makes it unrealistic even for relatively small
                 real-world alignment tasks. [<a class="xref" href="#bellman_1954">Bellman 1954</a> 2] Alternatives must
@@ -138,9 +139,9 @@
                 explain how it is employed in the Needleman Wunsch algorithm. These explanations are
                 preparatory to exploring the complications that dynamic programming, both in general
                 and in the context of Needleman Wunsch, pose for XSLT and how they can be
-                resolved.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e137"/>Dynamic programming and the Needleman Wunsch algorithm</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e139"/>Dynamic programming</h3></div></div></div><p>Dynamic programming, a paradigm developed by Richard Bellman at the Rand
+                resolved.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e149"/>Dynamic programming and the Needleman Wunsch algorithm</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e151"/>Dynamic programming</h3></div></div></div><p>Dynamic programming, a paradigm developed by Richard Bellman at the Rand
                 Corporation in the early 1950s, makes it possible to express complex computational
-                tasks as a combination of smaller, more tractable, overlapping ones.<a href="#ftn.d5e142" class="footnote" id="d5e142"><sup class="footnote">[4]</sup></a> A commonly cited example of a task that is amenable to dynamic
+                tasks as a combination of smaller, more tractable, overlapping ones.<a href="#ftn.d5e154" class="footnote" id="d5e154"><sup class="footnote">[4]</sup></a> A commonly cited example of a task that is amenable to dynamic
                 programming is the computation of a Fibonacci number. Insofar as every Fibonacci
                 number beyond the first two can be expressed as a function of the two immediately
                 preceding Fibonacci numbers, a naïve top-down approach to computing the value of the
@@ -149,7 +150,7 @@
                 computing all of their preceding values, which requires computing their preceding
                 values, etc., which ultimately leads to computing the same values repeatedly. A
                 dynamic bottom-up computation, on the other hand, would calculate each smaller
-                number only once and then use those values to move up to larger numbers.<a href="#ftn.d5e148" class="footnote" id="d5e148"><sup class="footnote">[5]</sup></a></p><p>Sequence alignment meets the two requirements for a problem to be amenable to
+                number only once and then use those values to move up to larger numbers.<a href="#ftn.d5e160" class="footnote" id="d5e160"><sup class="footnote">[5]</sup></a></p><p>Sequence alignment meets the two requirements for a problem to be amenable to
                 dynamic programming.[<a class="xref" href="#grimson">Grimson and Guttag</a>] First, it satisfies
                     <span class="emphasis"><em>optimal substructure</em></span>, which means that an optimal solution
                 to a problem can be reached by determining optimal solutions to its subproblems.
@@ -163,7 +164,7 @@
                 algorithm, discussed below, observes both optimal substructure (an optimal alignment
                 is found by finding optimal alignments of subsequences) and overlapping subproblems
                 (the same properties of these subsequences are reused to solve multiple
-                subproblems).</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e159"/>The Needleman Wunsch algorithm</h3></div></div></div><p>The history of the Needleman Wunsch algorithm is described by Boes as
+                subproblems).</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e171"/>The Needleman Wunsch algorithm</h3></div></div></div><p>The history of the Needleman Wunsch algorithm is described by Boes as
                 follows:</p><div class="blockquote"><blockquote class="blockquote"><p>We will begin with the scoring system most commonly used when introducing the
                     Needleman-Wunsch algorithm: substitution scores for matched residues and linear
                     gap penalties. Although Needleman and Wunsch already discussed this scoring
@@ -185,14 +186,14 @@
                     …</span>”</span> [<a class="xref" href="#boes_2014">Boes 2014</a> 13] <span class="quote">“<span class="quote">Non-optimal</span>”</span> here means
                 not that the method is <span class="emphasis"><em>incapable</em></span> of arriving at an optimal
                 solution, but that it is <span class="emphasis"><em>not guaranteed</em></span> to do so.</p><p>Performing alignment according to the Needleman Wunsch dynamic programming
-                algorithm entails the following steps:<a href="#ftn.d5e178" class="footnote" id="d5e178"><sup class="footnote">[6]</sup></a>
+                algorithm entails the following steps:<a href="#ftn.d5e190" class="footnote" id="d5e190"><sup class="footnote">[6]</sup></a>
                 </p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Construct a grid with one of the sequences to be aligned along the
                             top, labeling the columns, and the other along the left, labeling the
                             rows.</p></li><li class="listitem"><p>Determine a scoring system. Here we score matches as <code class="sgmltag-attvalue">1</code>, mismatches as <code class="sgmltag-attvalue">-1</code>, and gaps as <code class="sgmltag-attvalue">-2</code>.</p></li><li class="listitem"><p>Insert a row at the top, below the labels, with sequential numbers
                             reflecting consecutive multiples of the gap score. For example, if the
                             gap score value is <code class="sgmltag-attvalue">-2</code>, the cell values would
                             be <code class="sgmltag-attvalue">0</code>, <code class="sgmltag-attvalue">-2</code>, <code class="sgmltag-attvalue">-4</code>, etc. Starting from the <code class="sgmltag-attvalue">0</code>, assign similar values to a column inserted
-                            on the left, after the row labels. By this point the grid should look like:</p><div class="table"><a id="d5e196"/><p class="title"><strong>Table 2. Initial grid for Needleman Wunsch</strong></p><div class="table-contents"><table class="table" summary="Initial grid for Needleman Wunsch" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td> </td><td> </td><td align="center">k</td><td align="center">o</td><td align="center">a</td><td align="center">l</td><td align="center">a</td></tr><tr><td> </td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td><td align="right">-8</td><td align="right">-10</td></tr><tr><td>c</td><td align="right">-2</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>o</td><td align="right">-4</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>l</td><td align="right">-6</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>a</td><td align="right">-8</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr></tbody></table></div></div><p><br class="table-break"/></p></li><li class="listitem"><p>Starting in the upper left of the table body, where the first items of
+                            on the left, after the row labels. By this point the grid should look like:</p><div class="table"><a id="d5e208"/><p class="title"><strong>Table 2. Initial grid for Needleman Wunsch</strong></p><div class="table-contents"><table class="table" summary="Initial grid for Needleman Wunsch" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td> </td><td> </td><td align="center">k</td><td align="center">o</td><td align="center">a</td><td align="center">l</td><td align="center">a</td></tr><tr><td> </td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td><td align="right">-8</td><td align="right">-10</td></tr><tr><td>c</td><td align="right">-2</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>o</td><td align="right">-4</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>l</td><td align="right">-6</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr><tr><td>a</td><td align="right">-8</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr></tbody></table></div></div><p><br class="table-break"/></p></li><li class="listitem"><p>Starting in the upper left of the table body, where the first items of
                             the two sequences intersect, and proceeding across each row in turn,
                             from top to bottom, write a value into each cell. That value should be
                             the highest of the following three candidate values:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>The value in the cell immediately above plus the gap
@@ -210,7 +211,7 @@
                             combined with the mismatch score, yields a value of <code class="sgmltag-attvalue">-1</code>. Since that is the highest value, write it
                             into the cell. Proceed similarly across the first row, then traverse the
                             second row from left to right, etc., ending in the lower right. The
-                            completed grid should look like:</p><div class="table"><a id="d5e264"/><p class="title"><strong>Table 3. Completed grid for Needleman Wunsch</strong></p><div class="table-contents"><table class="table" summary="Completed grid for Needleman Wunsch" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td> </td><td> </td><td align="center">k</td><td align="center">o</td><td align="center">a</td><td align="center">l</td><td align="center">a</td></tr><tr><td> </td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td><td align="right">-8</td><td align="right">-10</td></tr><tr><td>c</td><td align="right">-2</td><td align="right">-1</td><td align="right">-3</td><td align="right">-5</td><td align="right">-7</td><td align="right">-9</td></tr><tr><td>o</td><td align="right">-4</td><td align="right">-3</td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td></tr><tr><td>l</td><td align="right">-6</td><td align="right">-5</td><td align="right">-2</td><td align="right">-1</td><td align="right">-1</td><td align="right">-3</td></tr><tr><td>a</td><td align="right">-8</td><td align="right">-7</td><td align="right">-4</td><td align="right">-1</td><td align="right">-2</td><td align="right">0</td></tr></tbody></table></div></div><p><br class="table-break"/> We fill the cells in the specified order because each cell
+                            completed grid should look like:</p><div class="table"><a id="d5e276"/><p class="title"><strong>Table 3. Completed grid for Needleman Wunsch</strong></p><div class="table-contents"><table class="table" summary="Completed grid for Needleman Wunsch" border="1"><colgroup><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><td> </td><td> </td><td align="center">k</td><td align="center">o</td><td align="center">a</td><td align="center">l</td><td align="center">a</td></tr><tr><td> </td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td><td align="right">-8</td><td align="right">-10</td></tr><tr><td>c</td><td align="right">-2</td><td align="right">-1</td><td align="right">-3</td><td align="right">-5</td><td align="right">-7</td><td align="right">-9</td></tr><tr><td>o</td><td align="right">-4</td><td align="right">-3</td><td align="right">0</td><td align="right">-2</td><td align="right">-4</td><td align="right">-6</td></tr><tr><td>l</td><td align="right">-6</td><td align="right">-5</td><td align="right">-2</td><td align="right">-1</td><td align="right">-1</td><td align="right">-3</td></tr><tr><td>a</td><td align="right">-8</td><td align="right">-7</td><td align="right">-4</td><td align="right">-1</td><td align="right">-2</td><td align="right">0</td></tr></tbody></table></div></div><p><br class="table-break"/> We fill the cells in the specified order because each cell
                             depends on two values from the row above (the cell immediately above and
                             the one diagonally above and to the left) and the preceding cell of the
                             same row. Filling in the cells from left to right and top to bottom
@@ -226,14 +227,14 @@
                                 (<code class="sgmltag-attvalue">-2</code> plus the gap score of <code class="sgmltag-attvalue">-2</code> yields <code class="sgmltag-attvalue">-4</code>). In
                             the following image we have 1) added arrows indicating the source of
                             each value entered into the grid and 2) shaded match cells green and
-                            mismatch cells pink: </p><div class="figure"><a id="d5e328"/><p class="title"><strong>Figure 1. Completed alignment grid</strong></p><div class="figure-contents"><div class="mediaobject"><img src="../../images/completed_grid.png" alt="Completed alignment grid"/></div></div></div><p><br class="figure-break"/></p></li><li class="listitem"><p>At each step along this traceback path, starting from the lower right,
+                            mismatch cells pink: </p><div class="figure"><a id="d5e340"/><p class="title"><strong>Figure 1. Completed alignment grid</strong></p><div class="figure-contents"><div class="mediaobject"><img src="../../images/completed_grid.png" alt="Completed alignment grid"/></div></div></div><p><br class="figure-break"/></p></li><li class="listitem"><p>At each step along this traceback path, starting from the lower right,
                             if the step is diagonal and up, align one item from the end of each
                             sequence. If the step is to the left, align an item from the sequence at
                             the top with a gap (that is, do not select an item from the sequence at
                             the left). If the step is up, align an item from the sequence at the
                             left with a gap. In case of ties, the choices with the highest value are
                             all optimal and can be pursued as alternatives. In the present case,
-                            this process produces the following single optimal alignment: </p><div class="figure"><a id="d5e335"/><p class="title"><strong>Figure 2. Alignment table</strong></p><div class="figure-contents"><div class="mediaobject"><img src="../../images/completed_alignment.png" alt="Alignment table"/></div></div></div><p><br class="figure-break"/></p></li></ol></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e340"/>The challenges of dynamic programming and XSLT</h2></div></div></div><p>XSLT, at least before version 3.0, plays poorly with dynamic programming because each
+                            this process produces the following single optimal alignment: </p><div class="figure"><a id="d5e347"/><p class="title"><strong>Figure 2. Alignment table</strong></p><div class="figure-contents"><div class="mediaobject"><img src="../../images/completed_alignment.png" alt="Alignment table"/></div></div></div><p><br class="figure-break"/></p></li></ol></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e352"/>The challenges of dynamic programming and XSLT</h2></div></div></div><p>XSLT, at least before version 3.0, plays poorly with dynamic programming because each
             step in a dynamic programming algorithm depends on values calculated at preceding steps.
             Functional programming of the sort supported by XSLT <code class="sgmltag-element">&lt;xsl:for-each&gt;</code>
             does not have access to these incremental values; if we try to run
@@ -250,7 +251,7 @@
             constructing the grid, the algorithms for Levenshtein and Needleman Wunsch are
             analogous. The principal difference is that Levenshtein cares only about the value of
             the lower right cell, and therefore does not require the traceback steps that Needleman
-            Wunsch uses to perform the alignment of actual sequence items.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e352"/>Why recursion breaks</h3></div></div></div><p>The traditional way to mimic updating a variable incrementally in XSLT is with
+            Wunsch uses to perform the alignment of actual sequence items.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e364"/>Why recursion breaks</h3></div></div></div><p>The traditional way to mimic updating a variable incrementally in XSLT is with
                 recursion, cycling the newly updated value into each recursive call. The challenge
                 to this approach is that deep recursion can consume enough memory to overflow the
                 available stack space and crash the operation. XSLT processors can work around this
@@ -264,33 +265,37 @@
                 with the Levenshtein problem (<a class="xref" href="#tennison_2007b">Tennison 2007b</a>) is that it is
                 possible to construct the grid values for Levenshtein (and therefore also for
                 Needleman Wunsch) without recurring on every cell. By writing values into the grid
-                on the diagonal, instead of across each row in turn, as is traditional, Tennison is
-                able to calculate all values on an individual diagonal at the same time, since the
-                cells on diagonals that run from top right to bottom left have no mutual dependencies.<a href="#ftn.d5e358" class="footnote" id="d5e358"><sup class="footnote">[7]</sup></a> The absence of dependencies within a diagonal means that Tennison can
-                use <code class="sgmltag-element">&lt;xsl:for-each&gt;</code>, instead of recursion, to compute all of the
-                values within each diagonal, and recur only as she moves to a new diagonal. The
-                computational complexity of populating the grid remains <span class="emphasis"><em>O(mn)</em></span>
-                (that is, essentially quadratic), since it is still necessary to calculate values
-                for each cell individually, and the total number of cells is the product of the
-                lengths of the two sequences, but Tennison’s implementation reduces the recursion
-                from the number of cells to the number of diagonals, which is <span class="emphasis"><em>n + m -
-                    1</em></span>, that is, linear with respect to the total number of items in the
-                two sequences. This implementation also reduces the storage complexity; because each
-                diagonal depends only on the two immediately preceding ones, the recursive steps do
-                not have to pass forward the entire state of the grid. The substantial improvement
-                in computational efficiency that results from an implementation <span class="quote">“<span class="quote">on the
-                    diagonal</span>”</span> was identified initially by <a class="xref" href="#wang_2002">Wang 2002</a> (8) and
-                then explored further by <a class="xref" href="#naveed_2005">Naveed et al. 2005</a> (3–4), but although Wang
-                first reported that items on the diagonal could be processed in parallel, it was
-                Tennison who recognized that this observation could also be used to reduce the depth
-                of recursion in XSLT.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e366"/>Iteration to the rescue</h3></div></div></div><p>Tennison’s diagonal implementation reduces the depth of recursion, but does not
-                eliminate recursion entirely: because the values in each diagonal continue to depend
-                on the values in the two immediately preceding diagonals, it nonetheless requires
-                recursion on each new diagonal. The reduction in the depth of recursion from
-                quadratic to linear scales impressively; for example, with two 20-item sequences and
-                400 cells, the traditional method would have recurred 400 times, while the diagonal
-                method makes only 39 function calls. In XSLT 3.0, however, it is possible to use
-                    <code class="sgmltag-element">&lt;xsl:iterate&gt;</code> to avoid recursive coding entirely:</p><div class="blockquote"><blockquote class="blockquote"><p>[xsl:iterate] is similar to xsl:for-each, except that the items in the
+                on the anti-diagonal (diagonals that run from bottom left to top right), instead of
+                across each row in turn, as is traditional, Tennison is able to calculate all values
+                on an individual anti-diagonal at the same time, since the cells on any single
+                anti-diagonal have no mutual dependencies.<a href="#ftn.d5e370" class="footnote" id="d5e370"><sup class="footnote">[7]</sup></a> The absence of dependencies within an anti-diagonal means that Tennison
+                can use <code class="sgmltag-element">&lt;xsl:for-each&gt;</code>, instead of recursion, to compute all of the
+                values within each anti-diagonal, and recur only as she moves to a new
+                anti-diagonal. The computational complexity of populating the grid remains
+                    <span class="emphasis"><em>O(mn)</em></span> (that is, essentially quadratic), since it is still
+                necessary to calculate values for each cell individually, and the total number of
+                cells is the product of the lengths of the two sequences, but Tennison’s
+                implementation reduces the recursion from the number of cells to the number of
+                anti-diagonals, which is <span class="emphasis"><em>n + m - 1</em></span>, that is, linear with
+                respect to the total number of items in the two sequences. This implementation also
+                reduces the storage complexity; because each anti-diagonal depends only on the two
+                immediately preceding ones, the recursive steps do not have to pass forward the
+                entire state of the grid.</p><p>The substantial improvement in computational efficiency that results from
+                parallelization in an implementation <span class="quote">“<span class="quote">on the diagonal</span>”</span> was identified
+                initially by <a class="xref" href="#muraoka_1971">Muraoka 1971</a> (160), who used the term <span class="quote">“<span class="quote">wave
+                    front</span>”</span> to describe the sequential processing of anti-diagonals, and then
+                explored further by <a class="xref" href="#wang_2002">Wang 2002</a> (8) and <a class="xref" href="#naveed_2005">Naveed et al. 2005</a> (3–4).<a href="#ftn.d5e381" class="footnote" id="d5e381"><sup class="footnote">[8]</sup></a> Although these earlier researchers had previously reported that items on
+                the anti-diagonal could be processed in parallel, it was Tennison who recognized
+                that this observation could also be used to reduce the depth of recursion in
+                XSLT.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e388"/>Iteration to the rescue</h3></div></div></div><p>Tennison’s anti-diagonal implementation reduces the depth of recursion, but does
+                not eliminate recursion entirely: because the values in each anti-diagonal continue
+                to depend on the values in the two immediately preceding anti-diagonals, it
+                nonetheless requires recursion on each new anti-diagonal. The reduction in the depth
+                of recursion from quadratic to linear scales impressively; for example, with two
+                20-item sequences and 400 cells, the traditional method would have recurred 400
+                times, while the anti-diagonal method makes only 39 function calls. In XSLT 3.0,
+                however, it is possible to use <code class="sgmltag-element">&lt;xsl:iterate&gt;</code> to avoid recursive
+                coding entirely:</p><div class="blockquote"><blockquote class="blockquote"><p>[xsl:iterate] is similar to xsl:for-each, except that the items in the
                         input sequence are processed sequentially, and after processing each item in
                         the input sequence it is possible to set parameters for use in the next
                         iteration. It can therefore be used to solve problems that in XSLT 2.0
@@ -298,18 +303,18 @@
                 XSLT 2.0 that was available to Tennison in 2007, in place of the recursion that she
                 was forced to retain thus observes her wise recommendation to <span class="quote">“<span class="quote">try to iterate
                     rather than recurse whenever you can</span>”</span> (<a class="xref" href="#tennison_2007b">Tennison 2007b</a>).
-            </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e376"/>Processing the diagonal</h3></div></div></div><p>The classic description of Needleman Wunsch differs from Levenshtein by requiring
+            </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e398"/>Processing the anti-diagonal</h3></div></div></div><p>The classic description of Needleman Wunsch differs from Levenshtein by requiring
                 that the entire grid be available at the end of its construction so that it can be
                 traversed backwards to perform the actual item alignment (Levenshtein cares only
                 about the final value), but the two algorithms agree in the fact that cells on each
-                consecutive diagonal can be constructed using information from only the two
-                immediately preceding diagonals. Within our <code class="code">&lt;xsl:iterate&gt;</code>
-                instruction we return these two preceding diagonals as parameters called
+                consecutive anti-diagonal can be constructed using information from only the two
+                immediately preceding anti-diagonals. Within our <code class="code">&lt;xsl:iterate&gt;</code>
+                instruction we return these two preceding anti-diagonals as parameters called
                     <code class="code">$ult</code> (immediately preceding) and <code class="code">$penult</code> (preceding
                     <code class="code">$ult</code>), promoting the previous <code class="code">$ult</code> to the new
-                    <code class="code">$penult</code> on each iteration and adding the current diagonal as the
-                new <code class="code">$ult</code>. We improve the retrieval of these preceding cells while
-                computing new values by using <code class="sgmltag-element">&lt;xsl:key&gt;</code> with a composite <code class="sgmltag-attribute">@use</code> attribute that indexes the two diagonals that
+                    <code class="code">$penult</code> on each iteration and adding the current anti-diagonal as
+                the new <code class="code">$ult</code>. We improve the retrieval of these preceding cells while
+                computing new values by using <code class="sgmltag-element">&lt;xsl:key&gt;</code> with a composite <code class="sgmltag-attribute">@use</code> attribute that indexes the two anti-diagonals that
                 constitute the search space according to the <code class="sgmltag-attribute">@row</code> and
                     <code class="sgmltag-attribute">@col</code> attribute values of each cell. At a minimum,
                 each new cell holds information, in attributes, about its row, column, and score
@@ -322,9 +327,9 @@
                 alignments, we record only one optimal path to each cell, resolving ties by
                 arbitrarily favoring diagonal, then left, and only then upper sources. There is,
                 however, nothing about the method that would prohibit recording and later processing
-                multiple paths, and thus identifying all optimal alignments.</p><p>In the Needleman Wunsch (and also Levenshtein) context, as <a class="xref" href="#wang_2002">Wang 2002</a> and <a class="xref" href="#naveed_2005">Naveed et al. 2005</a> point out, all values on
-                the same diagonal can be calculated in parallel, and Tennison’s use of
-                    <code class="sgmltag-element">&lt;xsl:for-each&gt;</code> in her improved code, in <a class="xref" href="#tennison_2007b">Tennison 2007b</a>, to process the diagonal is compatible with this
+                multiple paths, and thus identifying all optimal alignments.</p><p>In the Needleman Wunsch (and also Levenshtein) context, then, all values on the
+                same anti-diagonal can be calculated in parallel, and Tennison’s use of
+                    <code class="sgmltag-element">&lt;xsl:for-each&gt;</code> in her improved code, in <a class="xref" href="#tennison_2007b">Tennison 2007b</a>, to process the anti-diagonal is compatible with this
                 observation because <code class="sgmltag-element">&lt;xsl:for-each&gt;</code> can be parallelized. Whether it
                     <span class="emphasis"><em>is</em></span> executed in parallel, however, is often unpredictable,
                 since standard XSLT 3.0 does not give the programmer explicit control over processes
@@ -346,22 +351,22 @@
                         works best when the body of the xsl:for-each instruction performs a large
                         amount of computation but produces a small amount of output. (<a class="xref" href="#saxon_threads">Saxon saxon:threads</a>)</p></blockquote></div><p>The computation of a cell score produces a small amount of output, but it also
                 involves only a small amount of computation (compared to read/write memory
-                operations).</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e414"/>Save yourself a trip … and some space</h3></div></div></div><p>The process of constructing the scoring grid for Needleman Wunsch on the diagonal
-                is identical to that of constructing the grid for Levenshtein, but, as was noted
-                above, the key difference is what happens next: Levenshtein cares only about the
-                value of the lower right cell, and therefore does not need to walk back through the
-                grid the way Needleman Wunsch does to align the actual sequences. This means that a
-                diagonal implementation for a Levenshtein distance calculation can throw away each
-                diagonal once it is no longer needed, and the one-cell diagonal at the lower right
-                will contain the one piece of information the function is expected to return: the
-                distance between the two sequences. An implementation of Needleman Wunsch according
-                to the classic description of the method, however, cannot economize on space in this
-                way, which means that although Needleman Wunsch and Levenshtein have comparable
-                    <span class="emphasis"><em>computational</em></span> complexity, classic Needleman Wunsch has
-                quadratic <span class="emphasis"><em>storage</em></span> complexity because it preserves and passes
-                along the entire grid, while Tennison’s diagonal Levenshtein implementation has
-                linear storage complexity because it throws away diagonals as soon as it no longer
-                needs them.</p><p>The storage requirements of Needleman Wunsch are quadratic, however, only as long
+                operations).</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e434"/>Save yourself a trip … and some space</h3></div></div></div><p>The process of constructing the scoring grid for Needleman Wunsch on the
+                anti-diagonal is identical to that of constructing the grid for Levenshtein, but, as
+                was noted above, the key difference is what happens next: Levenshtein cares only
+                about the value of the lower right cell, and therefore does not need to walk back
+                through the grid the way Needleman Wunsch does to align the actual sequences. This
+                means that an anti-diagonal implementation for a Levenshtein distance calculation
+                can throw away each anti-diagonal once it is no longer needed, and the single-cell
+                anti-diagonal at the lower right will contain the one piece of information the
+                function is expected to return: the distance between the two sequences. An
+                implementation of Needleman Wunsch according to the classic description of the
+                method, however, cannot economize on space in this way, which means that although
+                Needleman Wunsch and Levenshtein have comparable <span class="emphasis"><em>computational</em></span>
+                complexity, classic Needleman Wunsch has quadratic <span class="emphasis"><em>storage</em></span>
+                complexity because it preserves and passes along the entire grid, while Tennison’s
+                anti-diagonal Levenshtein implementation has linear storage complexity because it
+                throws away anti-diagonals as soon as it no longer needs them.</p><p>The storage requirements of Needleman Wunsch are quadratic, however, only as long
                 as the entire grid must be preserved for backward traversal at the end of the
                 construction process, and the only information needed for that traversal is the
                 direction (diagonal, left, up) of the optimal path steps. At each step along that
@@ -378,8 +383,9 @@
                 right cell for the final traversal. In compensation for storing that additional
                 information in the cells, though, we no longer need to pass the entire cumulative
                 grid through the iterations, so the additional paths must be stored only for the
-                three-diagonal life cycle of each cell. The section below documents the improvement
-                this produces with respect to both execution time and memory requirements.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e420"/>Performance</h3></div></div></div><p>We implemented the method described above using vanilla XSLT 3.0 of the sort that
+                three-anti-diagonal life cycle of each cell. The section below documents the
+                improvement this produces with respect to both execution time and memory
+                requirements.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d5e440"/>Performance</h3></div></div></div><p>We implemented the method described above using vanilla XSLT 3.0 of the sort that
                 can be executed in <span class="application">Saxon HE</span> without any proprietary
                 extensions. As a small optimization, because each cell is used an average of three
                 times to compute new cell values (once each as diagonal, left, and upper), and the
@@ -404,7 +410,7 @@
                             explicit typing we had to convert them explicitly to numerical values on
                             some occasions when we needed to operate with them. Typing them as they
                             are created and preserving the typing removes the need to cast them
-                            explicitly as numbers later.<a href="#ftn.d5e443" class="footnote" id="d5e443"><sup class="footnote">[8]</sup></a> The reduction in processing that results from not having to
+                            explicitly as numbers later.<a href="#ftn.d5e463" class="footnote" id="d5e463"><sup class="footnote">[9]</sup></a> The reduction in processing that results from not having to
                             perform explicit casting must be balanced against the overhead of
                             performing schema validation (or, perhaps more accurately, type
                             validation).</p></li></ul></div><p>To explore the performance and scalability of the implementations we conducted
@@ -435,8 +441,8 @@
                 token); it reports on the time EE requires to output not just the alignment table,
                 but also the full alignment grid; and it compares the EE and HE times
                 directly.</p><p>
-                </p><div class="table"><a id="d5e456"/><p class="title"><strong>Table 4. Comparison of EE and HE performance</strong></p><div class="table-contents"><table class="table" summary="Comparison of EE and HE performance" border="1"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/><col class="col5"/><col class="col6"/><col class="col7"/><col class="col8"/><col class="col9"/><col class="col10"/><col class="col11"/><col class="col12"/></colgroup><thead><tr><th colspan="4" align="center">Tokens</th><th colspan="5" align="center">EE</th><th colspan="3" align="center">HE</th></tr><tr><th align="center">Paras</th><th align="center">1859 tokens</th><th align="center">1860 tokens</th><th align="center">total tokens</th><th align="center">time</th><th align="center">ms per token</th><th align="center">time with grid</th><th align="center">ms per token with grid</th><th align="center">grid cost</th><th align="center">time</th><th align="center">ms per token</th><th align="center">EE vs HE</th></tr></thead><tbody><tr><td align="right">1</td><td align="right">193</td><td align="right">194</td><td align="right">387</td><td align="right">567</td><td align="right">1.5</td><td align="right">880</td><td align="right">2.3</td><td align="right">155%</td><td align="right">669</td><td align="right">1.7</td><td align="right">84.8%</td></tr><tr><td align="right">2</td><td align="right">232</td><td align="right">233</td><td align="right">465</td><td align="right">751</td><td align="right">1.6</td><td align="right">1221</td><td align="right">2.6</td><td align="right">163%</td><td align="right">641</td><td align="right">1.4</td><td align="right">117.1%</td></tr><tr><td align="right">3</td><td align="right">679</td><td align="right">683</td><td align="right">1362</td><td align="right">4740</td><td align="right">3.5</td><td align="right">11898</td><td align="right">8.7</td><td align="right">251%</td><td align="right">5498</td><td align="right">4.0</td><td align="right">86.2%</td></tr><tr><td align="right">4</td><td align="right">772</td><td align="right">777</td><td align="right">1549</td><td align="right">6464</td><td align="right">4.2</td><td align="right">14903</td><td align="right">9.6</td><td align="right">231%</td><td align="right">6627</td><td align="right">4.3</td><td align="right">97.5%</td></tr><tr><td align="right">5</td><td align="right">810</td><td align="right">815</td><td align="right">1625</td><td align="right">7082</td><td align="right">4.4</td><td align="right">15031</td><td align="right">9.2</td><td align="right">212%</td><td align="right">7389</td><td align="right">4.5</td><td align="right">95.8%</td></tr><tr><td align="right">6</td><td align="right">942</td><td align="right">947</td><td align="right">1889</td><td align="right">9573</td><td align="right">5.1</td><td align="right">20599</td><td align="right">10.9</td><td align="right">215%</td><td align="right">9963</td><td align="right">5.3</td><td align="right">96.1%</td></tr><tr><td align="right">7</td><td align="right">1187</td><td align="right">1193</td><td align="right">2380</td><td align="right">15437</td><td align="right">6.5</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">17501</td><td align="right">7.4</td><td align="right">88.2%</td></tr><tr><td align="right">8</td><td align="right">1363</td><td align="right">1369</td><td align="right">2732</td><td align="right">22007</td><td align="right">8.1</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">26263</td><td align="right">9.6</td><td align="right">83.8%</td></tr><tr><td align="right">9</td><td align="right">1583</td><td align="right">1589</td><td align="right">3172</td><td align="right">29636</td><td align="right">9.3</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">36266</td><td align="right">11.4</td><td align="right">81.7%</td></tr><tr><td align="right">10</td><td align="right">1676</td><td align="right">1682</td><td align="right">3358</td><td align="right">32570</td><td align="right">9.7</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">41517</td><td align="right">12.4</td><td align="right">78.5%</td></tr><tr><td align="right">11</td><td align="right">1908</td><td align="right">1912</td><td align="right">3820</td><td align="right">44568</td><td align="right">11.7</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">54075</td><td align="right">14.2</td><td align="right">82.4%</td></tr><tr><td align="right">12</td><td align="right">2233</td><td align="right">2239</td><td align="right">4472</td><td align="right">63820</td><td align="right">14.3</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">67932</td><td align="right">15.2</td><td align="right">93.9%</td></tr><tr><td align="right">13</td><td align="right">2659</td><td align="right">2663</td><td align="right">5322</td><td align="right">96120</td><td align="right">18.1</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">98069</td><td align="right">18.4</td><td align="right">98.0%</td></tr><tr><td align="right">14</td><td align="right">2966</td><td align="right">2974</td><td align="right">5940</td><td align="right">120520</td><td align="right">20.3</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">124798</td><td align="right">21.0</td><td align="right">96.6%</td></tr><tr><td align="right">15</td><td align="right">3147</td><td align="right">3126</td><td align="right">6273</td><td align="right">134375</td><td align="right">21.4</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">138405</td><td align="right">22.1</td><td align="right">97.1%</td></tr></tbody></table></div></div><p><br class="table-break"/>
-            </p><p>The chart below compares EE and HE performance.</p><div class="figure"><a id="d5e686"/><p class="title"><strong>Figure 3. Performance with Saxon EE and HE</strong></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="100%"><tr><td><img src="../../images/performance.png" width="540" alt="Performance with Saxon EE and HE"/></td></tr></table></div></div></div><p><br class="figure-break"/></p><p>Except with a very small number of tokens, EE runs the same operation as HE more
+                </p><div class="table"><a id="d5e476"/><p class="title"><strong>Table 4. Comparison of EE and HE performance</strong></p><div class="table-contents"><table class="table" summary="Comparison of EE and HE performance" border="1"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/><col class="col5"/><col class="col6"/><col class="col7"/><col class="col8"/><col class="col9"/><col class="col10"/><col class="col11"/><col class="col12"/></colgroup><thead><tr><th colspan="4" align="center">Tokens</th><th colspan="5" align="center">EE</th><th colspan="3" align="center">HE</th></tr><tr><th align="center">Paras</th><th align="center">1859 tokens</th><th align="center">1860 tokens</th><th align="center">total tokens</th><th align="center">time</th><th align="center">ms per token</th><th align="center">time with grid</th><th align="center">ms per token with grid</th><th align="center">grid cost</th><th align="center">time</th><th align="center">ms per token</th><th align="center">EE vs HE</th></tr></thead><tbody><tr><td align="right">1</td><td align="right">193</td><td align="right">194</td><td align="right">387</td><td align="right">567</td><td align="right">1.5</td><td align="right">880</td><td align="right">2.3</td><td align="right">155%</td><td align="right">669</td><td align="right">1.7</td><td align="right">84.8%</td></tr><tr><td align="right">2</td><td align="right">232</td><td align="right">233</td><td align="right">465</td><td align="right">751</td><td align="right">1.6</td><td align="right">1221</td><td align="right">2.6</td><td align="right">163%</td><td align="right">641</td><td align="right">1.4</td><td align="right">117.1%</td></tr><tr><td align="right">3</td><td align="right">679</td><td align="right">683</td><td align="right">1362</td><td align="right">4740</td><td align="right">3.5</td><td align="right">11898</td><td align="right">8.7</td><td align="right">251%</td><td align="right">5498</td><td align="right">4.0</td><td align="right">86.2%</td></tr><tr><td align="right">4</td><td align="right">772</td><td align="right">777</td><td align="right">1549</td><td align="right">6464</td><td align="right">4.2</td><td align="right">14903</td><td align="right">9.6</td><td align="right">231%</td><td align="right">6627</td><td align="right">4.3</td><td align="right">97.5%</td></tr><tr><td align="right">5</td><td align="right">810</td><td align="right">815</td><td align="right">1625</td><td align="right">7082</td><td align="right">4.4</td><td align="right">15031</td><td align="right">9.2</td><td align="right">212%</td><td align="right">7389</td><td align="right">4.5</td><td align="right">95.8%</td></tr><tr><td align="right">6</td><td align="right">942</td><td align="right">947</td><td align="right">1889</td><td align="right">9573</td><td align="right">5.1</td><td align="right">20599</td><td align="right">10.9</td><td align="right">215%</td><td align="right">9963</td><td align="right">5.3</td><td align="right">96.1%</td></tr><tr><td align="right">7</td><td align="right">1187</td><td align="right">1193</td><td align="right">2380</td><td align="right">15437</td><td align="right">6.5</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">17501</td><td align="right">7.4</td><td align="right">88.2%</td></tr><tr><td align="right">8</td><td align="right">1363</td><td align="right">1369</td><td align="right">2732</td><td align="right">22007</td><td align="right">8.1</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">26263</td><td align="right">9.6</td><td align="right">83.8%</td></tr><tr><td align="right">9</td><td align="right">1583</td><td align="right">1589</td><td align="right">3172</td><td align="right">29636</td><td align="right">9.3</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">36266</td><td align="right">11.4</td><td align="right">81.7%</td></tr><tr><td align="right">10</td><td align="right">1676</td><td align="right">1682</td><td align="right">3358</td><td align="right">32570</td><td align="right">9.7</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">41517</td><td align="right">12.4</td><td align="right">78.5%</td></tr><tr><td align="right">11</td><td align="right">1908</td><td align="right">1912</td><td align="right">3820</td><td align="right">44568</td><td align="right">11.7</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">54075</td><td align="right">14.2</td><td align="right">82.4%</td></tr><tr><td align="right">12</td><td align="right">2233</td><td align="right">2239</td><td align="right">4472</td><td align="right">63820</td><td align="right">14.3</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">67932</td><td align="right">15.2</td><td align="right">93.9%</td></tr><tr><td align="right">13</td><td align="right">2659</td><td align="right">2663</td><td align="right">5322</td><td align="right">96120</td><td align="right">18.1</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">98069</td><td align="right">18.4</td><td align="right">98.0%</td></tr><tr><td align="right">14</td><td align="right">2966</td><td align="right">2974</td><td align="right">5940</td><td align="right">120520</td><td align="right">20.3</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">124798</td><td align="right">21.0</td><td align="right">96.6%</td></tr><tr><td align="right">15</td><td align="right">3147</td><td align="right">3126</td><td align="right">6273</td><td align="right">134375</td><td align="right">21.4</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">N/A</td><td align="right">138405</td><td align="right">22.1</td><td align="right">97.1%</td></tr></tbody></table></div></div><p><br class="table-break"/>
+            </p><p>The chart below compares EE and HE performance.</p><div class="figure"><a id="d5e706"/><p class="title"><strong>Figure 3. Performance with Saxon EE and HE</strong></p><div class="figure-contents"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="100%"><tr><td><img src="../../images/performance.png" width="540" alt="Performance with Saxon EE and HE"/></td></tr></table></div></div></div><p><br class="figure-break"/></p><p>Except with a very small number of tokens, EE runs the same operation as HE more
                 quickly, but the effect of the relative difference in execution time diminishes as
                 the volume of input grows. This behavior is consistent with the fact that 1) the
                 effect of parallelization, which is the principal difference between the two
@@ -451,18 +457,18 @@
                 requirement scales linearly (as long as we do not attempt to maintain the entire
                 grid) means that it is possible to align long sequences without overflowing the
                 available memory, but the quadratic execution time means that the alignment of long
-                sequences is nonetheless not well suited for real-time interactive processing.<a href="#ftn.d5e696" class="footnote" id="d5e696"><sup class="footnote">[9]</sup></a></p><p>The traditional Needleman Wunsch method requires composing the entire grid in
+                sequences is nonetheless not well suited for real-time interactive processing.<a href="#ftn.d5e716" class="footnote" id="d5e716"><sup class="footnote">[10]</sup></a></p><p>The traditional Needleman Wunsch method requires composing the entire grid in
                 order to traverse it backwards to perform the alignment. Because the size of the
                 grid grows quadratically, this scales poorly, and the poor scaling, which is
                 primarily an inconvenience with respect to processing time, quickly turns fatal with
                 respect to storage. When asked to compose and maintain the entire grid (instead of
-                just the alignment that can be computed on the diagonal), <span class="application">Saxon
+                just the alignment that can be computed on the anti-diagonal), <span class="application">Saxon
                     EE</span> eventually crashed with a Java memory error, which a larger
                 Java <code class="code">-Xmx</code> parameter could forestall, but not prevent. If the entire
                 grid is an output requirement with a large amount of data, then, it will have to be
                 output in a way that does not require it to be stored in memory in its entirety.
                 Fortunately, as this implementation demonstrates, aligning the sequences does not
-                require simultaneous access to the entire grid.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e703"/>Conclusions</h2></div></div></div><p>The code underlying this report is available at <a class="link" href="https://github.com/djbpitt/xstuff/tree/master/nw" target="_top">https://github.com/djbpitt/xstuff/tree/master/nw</a>, and has not been
+                require simultaneous access to the entire grid.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="d5e723"/>Conclusions</h2></div></div></div><p>The code underlying this report is available at <a class="link" href="https://github.com/djbpitt/xstuff/tree/master/nw" target="_top">https://github.com/djbpitt/xstuff/tree/master/nw</a>, and has not been
             reproduced here. It is densely commented, and thus offers tutorial information about the
             method. Small exploratory stylesheets that were used to develop individual components of
             the code have been retained in a <span class="emphasis"><em>scratch</em></span> subdirectory.</p><p>Tennison concludes her second, improved computation of Levenshtein distance by writing
@@ -473,7 +479,7 @@
             Tennison’s XSLT-idiomatic implementation of a Levenshtein distance algorithm to the
             closely related domain of Needleman Wunsch sequence alignment, we avoid the need to
             maintain and traverse the entire grid that is part of the standard description of the
-            algorithm, thus reducing the storage requirement from quadratic to linear.</p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e715"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
+            algorithm, thus reducing the storage requirement from quadratic to linear.</p></div><div class="bibliography"><div class="titlepage"><div><div><h2 class="title"><a id="d5e735"/>Works cited</h2></div></div></div><div class="bibliomixed"><a id="bellman_1952"/><p class="bibliomixed">[Bellman 1952] Bellman, Richard E. 1952.
                 <span class="quote">“<span class="quote">On the theory of dynamic programming.</span>”</span>
             <span class="citetitle"><em class="citetitle">Proceedings of the National Academy of Sciences</em></span> 38(8):716–19.
                 <a class="link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/" target="_top">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1063639/</a></p></div><div class="bibliomixed"><a id="bellman_1954"/><p class="bibliomixed">[Bellman 1954] Bellman, Richard E. <span class="quote">“<span class="quote">The
@@ -498,8 +504,14 @@
             <a class="link" href="https://digitaldante.columbia.edu/intertexual-dante-vanpeteghem/" target="_top">https://digitaldante.columbia.edu/intertexual-dante-vanpeteghem/</a>
         </p></div><div class="bibliomixed"><a id="juxta"/><p class="bibliomixed">[Juxta] Juxta. <a class="link" href="https://www.juxtasoftware.org/" target="_top">https://www.juxtasoftware.org/</a></p></div><div class="bibliomixed"><a id="kay_2008"/><p class="bibliomixed">[Kay 2008] Kay, Michael. 2008. <span class="citetitle"><em class="citetitle">XSLT 2.0
                 and XPath 2.0 programmer’s reference.</em></span> 4th edition. Indianapolis: Wiley
-            (Wrox).</p></div><div class="bibliomixed"><a id="msa"/><p class="bibliomixed">[Multiple sequence alignment (Wikipedia)] Multiple
-            sequence alignment (Wikipedia). Accessed 2019-11-03. <a class="link" href="https://en.wikipedia.org/wiki/Multiple_sequence_alignment" target="_top">https://en.wikipedia.org/wiki/Multiple_sequence_alignment</a></p></div><div class="bibliomixed"><a id="naveed_2005"/><p class="bibliomixed">[Naveed et al. 2005] Naveed, Tahir, Imitaz Saeed
+            (Wrox).</p></div><div class="bibliomixed"><a id="maleki_2014"/><p class="bibliomixed">[Maleki et al. 2014] Maleki, Saeed, Madanlal
+            Musuvathi, and Todd Mytkowicz. 2014. <span class="citetitle"><em class="citetitle">Parallelizing dynamic programming
+                through rank convergence.</em></span> Proceedings of the 19th ACM SIGPLAN symposium
+            on Principles and practice of parallel programming (PPoPP ’14), February 15–19, 2014.
+            Pp. 219–32. <a class="link" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/ppopp163-maleki.pdf" target="_top">https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/ppopp163-maleki.pdf</a></p></div><div class="bibliomixed"><a id="msa"/><p class="bibliomixed">[Multiple sequence alignment (Wikipedia)] Multiple
+            sequence alignment (Wikipedia). Accessed 2019-11-03. <a class="link" href="https://en.wikipedia.org/wiki/Multiple_sequence_alignment" target="_top">https://en.wikipedia.org/wiki/Multiple_sequence_alignment</a></p></div><div class="bibliomixed"><a id="muraoka_1971"/><p class="bibliomixed">[Muraoka 1971] Muraoka, Yoici. 1971.
+                <span class="quote">“<span class="quote">Parallelism exposure and exploitation in programs.</span>”</span> PhD dissertation,
+            University of Illinois Urbana-Champaign. <a class="link" href="https://catalog.hathitrust.org/Record/100700411" target="_top">https://catalog.hathitrust.org/Record/100700411</a></p></div><div class="bibliomixed"><a id="naveed_2005"/><p class="bibliomixed">[Naveed et al. 2005] Naveed, Tahir, Imitaz Saeed
             Siddiqui, and Shaftab Ahmed. 2005. <span class="quote">“<span class="quote">Parallel Needleman-Wunsch algorithm for
                 grid.</span>”</span> Proceedings of the PAK-US International Symposium on High Capacity
             Optical Networks and Enabling Technologies (HONET 2005), Islamabad, Pakistan, Dec 19–21,
@@ -530,26 +542,29 @@
             <span class="citetitle"><em class="citetitle">Cybernetics</em></span> 4(1):52–57.</p></div><div class="bibliomixed"><a id="wang_2002"/><p class="bibliomixed">[Wang 2002] Wang, Bin. 2002. <span class="quote">“<span class="quote">Implementation
                 of a dynamic programming algorithm for DNA sequence alignment on the cell matrix
                 architecture. MA thesis, Utah State University.</span>”</span>
-            <a class="link" href="https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf" target="_top">https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf</a></p></div></div><div class="footnotes"><br/><hr style="width:100; text-align:left;margin-left: 0"/><div id="ftn.d5e16" class="footnote"><p><a href="#d5e16" class="para"><sup class="para">[1] </sup></a><span class="emphasis"><em>Witness</em></span>, sometimes expanded as <span class="emphasis"><em>manuscript
+            <a class="link" href="https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf" target="_top">https://www.cellmatrix.com/entryway/products/pub/wang2002.pdf</a></p></div></div><div class="footnotes"><br/><hr style="width:100; text-align:left;margin-left: 0"/><div id="ftn.d5e28" class="footnote"><p><a href="#d5e28" class="para"><sup class="para">[1] </sup></a><span class="emphasis"><em>Witness</em></span>, sometimes expanded as <span class="emphasis"><em>manuscript
                             witness</em></span>, is a technical term in text-critical scholarship for
-                        a manuscript that provides evidence of the history of a text.</p></div><div id="ftn.d5e20" class="footnote"><p><a href="#d5e20" class="para"><sup class="para">[2] </sup></a>For an introduction to the evaluation of shared and divergent readings as
-                        a component of textual criticism see <a class="xref" href="#trovato_2014">Trovato 2014</a>.</p></div><div id="ftn.d5e67" class="footnote"><p><a href="#d5e67" class="para"><sup class="para">[3] </sup></a><a class="xref" href="#msa">Multiple sequence alignment (Wikipedia)</a> provides an overview of multiple
+                        a manuscript that provides evidence of the history of a text.</p></div><div id="ftn.d5e32" class="footnote"><p><a href="#d5e32" class="para"><sup class="para">[2] </sup></a>For an introduction to the evaluation of shared and divergent readings as
+                        a component of textual criticism see <a class="xref" href="#trovato_2014">Trovato 2014</a>.</p></div><div id="ftn.d5e79" class="footnote"><p><a href="#d5e79" class="para"><sup class="para">[3] </sup></a><a class="xref" href="#msa">Multiple sequence alignment (Wikipedia)</a> provides an overview of multiple
                                     sequence alignment, the term in bioinformatics for what
-                                    philologists refer to as multiple-witness alignment.</p></div><div id="ftn.d5e142" class="footnote"><p><a href="#d5e142" class="para"><sup class="para">[4] </sup></a>For more information about dynamic programming see <a class="xref" href="#bellman_1952">Bellman 1952</a> and <a class="xref" href="#bellman_1954">Bellman 1954</a>.</p></div><div id="ftn.d5e148" class="footnote"><p><a href="#d5e148" class="para"><sup class="para">[5] </sup></a>The implementation of dynamic programming according to a bottom-up
+                                    philologists refer to as multiple-witness alignment.</p></div><div id="ftn.d5e154" class="footnote"><p><a href="#d5e154" class="para"><sup class="para">[4] </sup></a>For more information about dynamic programming see <a class="xref" href="#bellman_1952">Bellman 1952</a> and <a class="xref" href="#bellman_1954">Bellman 1954</a>.</p></div><div id="ftn.d5e160" class="footnote"><p><a href="#d5e160" class="para"><sup class="para">[5] </sup></a>The implementation of dynamic programming according to a bottom-up
                         organization is called <span class="emphasis"><em>tabulation</em></span>. A top-down dynamic
                         approach would perform all of the recursive computation at the beginning,
                         but <span class="emphasis"><em>memoize</em></span> (that is, store and index) the
                         sub-calculations, so that they could be looked up and reused, without having
-                        to be recomputed, when needed at lower levels.</p></div><div id="ftn.d5e178" class="footnote"><p><a href="#d5e178" class="para"><sup class="para">[6] </sup></a>For a more detailed tutorial introduction see <a class="xref" href="#snip">Global alignment</a>.</p></div><div id="ftn.d5e358" class="footnote"><p><a href="#d5e358" class="para"><sup class="para">[7] </sup></a>Not only are there no mutual dependencies within a diagonal, but all of
-                        the information needed to process an entire diagonal is available
-                        simultaneously from only the two preceding diagonals, without any dependency
-                        on earlier ones. This property contributes to the scalability of our
-                        implementation in ways that will be discussed below.</p></div><div id="ftn.d5e443" class="footnote"><p><a href="#d5e443" class="para"><sup class="para">[8] </sup></a>For example, we use keys to retrieve cells by row and column
+                        to be recomputed, when needed at lower levels.</p></div><div id="ftn.d5e190" class="footnote"><p><a href="#d5e190" class="para"><sup class="para">[6] </sup></a>For a more detailed tutorial introduction see <a class="xref" href="#snip">Global alignment</a>.</p></div><div id="ftn.d5e370" class="footnote"><p><a href="#d5e370" class="para"><sup class="para">[7] </sup></a>Not only are there no mutual dependencies within an anti-diagonal, but all
+                        of the information needed to process an entire anti-diagonal is available
+                        simultaneously from only the two preceding anti-diagonals, without any
+                        dependency on earlier ones. This property contributes to the scalability of
+                        our implementation in ways that will be discussed below.</p></div><div id="ftn.d5e381" class="footnote"><p><a href="#d5e381" class="para"><sup class="para">[8] </sup></a><a class="xref" href="#wang_2002">Wang 2002</a> also uses the term <span class="quote">“<span class="quote">wave front</span>”</span>
+                        (two words), as introduced by Muraoka; <a class="xref" href="#maleki_2014">Maleki et al. 2014</a> modify
+                        this as <span class="quote">“<span class="quote">wavefront</span>”</span> and introduce the term <span class="quote">“<span class="quote">stage</span>”</span>
+                        to refer to the individual anti-diagonals.</p></div><div id="ftn.d5e463" class="footnote"><p><a href="#d5e463" class="para"><sup class="para">[9] </sup></a>For example, we use keys to retrieve cells by row and column
                                     number, the values of which we compute, and the type of the
                                     value used to retrieve an item with a key must match the type of
                                     the value used to index it originally (<a class="xref" href="#kay_2008">Kay 2008</a> 813). Typing the row and column number as integers when they
                                     are created removes the need to cast them as numerical types for
-                                    query and retrieval.</p></div><div id="ftn.d5e696" class="footnote"><p><a href="#d5e696" class="para"><sup class="para">[9] </sup></a>As a test of larger capacity, we aligned the entire first chapter of the
+                                    query and retrieval.</p></div><div id="ftn.d5e716" class="footnote"><p><a href="#d5e716" class="para"><sup class="para">[10] </sup></a>As a test of larger capacity, we aligned the entire first chapter of the
                         1859 and 1860 editions of <em class="citetitle">On the origin of species</em>.
                         The 49 paragraphs of the 1859 and 1860 editions contain 11590 and 11632 word
                         tokens, respectively. The total number of word tokens in the two editions is
@@ -557,11 +572,11 @@
                         using EE and the default Java memory allocation, reported real time of
                         64m43.159s, user time of 538m5.128s, and sys time of 13m25.910s. Real time
                         is lower than user time plus sys time because of parallel execution.</p><p>With respect to storage, processing maintains only a constant three
-                        diagonals at a time, and the length of a diagonal is linear with respect to
-                        the sum of the lengths of the sequences being compared. The lengths of the
-                        full paths that are accumulated on the cells grow linearly with respect to
-                        the number of diagonals, which also enjoys a linear relationship with the
-                        lengths of the two sequences being aligned. The number of cells on a
-                        diagonal grows, levels off, and then shrinks linearly with respect to the
-                        number of tokens in the two sequences being compared; the first and last
-                        diagonal each contain a single cell.</p></div></div></div></body></html>
+                        anti-diagonals at a time, and the length of an antidiagonal is linear with
+                        respect to the sum of the lengths of the sequences being compared. The
+                        lengths of the full paths that are accumulated on the cells grow linearly
+                        with respect to the number of anti-diagonals, which also enjoys a linear
+                        relationship with the lengths of the two sequences being aligned. The number
+                        of cells on an anti-diagonal grows, levels off, and then shrinks linearly
+                        with respect to the number of tokens in the two sequences being compared;
+                        the first and last anti-diagonal each contain a single cell.</p></div></div></div></body></html>

@@ -4,7 +4,7 @@
     xml:lang="en">
     <title>Sequence alignment in XSLT 3.0</title>
     <info>
-        <!--<author>
+        <author>
             <personname>
                 <firstname>David</firstname>
                 <othername>J.</othername>
@@ -29,10 +29,10 @@
             </affiliation>
             <email>djbpitt@gmail.com</email>
             <uri>http://www.obdurodon.org</uri>
-        </author>-->
-        <author>
-            <personname>[Author’s name and affiliation redacted]</personname>
         </author>
+        <!--<author>
+            <personname>[Author’s name and affiliation redacted]</personname>
+        </author>-->
         <keywordset>
             <keyword>sequence alignment</keyword>
             <keyword>xslt</keyword>
@@ -625,43 +625,54 @@
                 with the Levenshtein problem (<xref linkend="tennison_2007b"/>) is that it is
                 possible to construct the grid values for Levenshtein (and therefore also for
                 Needleman Wunsch) without recurring on every cell. By writing values into the grid
-                on the diagonal, instead of across each row in turn, as is traditional, Tennison is
-                able to calculate all values on an individual diagonal at the same time, since the
-                cells on diagonals that run from top right to bottom left have no mutual dependencies.<footnote>
-                    <para>Not only are there no mutual dependencies within a diagonal, but all of
-                        the information needed to process an entire diagonal is available
-                        simultaneously from only the two preceding diagonals, without any dependency
-                        on earlier ones. This property contributes to the scalability of our
-                        implementation in ways that will be discussed below.</para>
-                </footnote> The absence of dependencies within a diagonal means that Tennison can
-                use <tag>&lt;xsl:for-each&gt;</tag>, instead of recursion, to compute all of the
-                values within each diagonal, and recur only as she moves to a new diagonal. The
-                computational complexity of populating the grid remains <emphasis>O(mn)</emphasis>
-                (that is, essentially quadratic), since it is still necessary to calculate values
-                for each cell individually, and the total number of cells is the product of the
-                lengths of the two sequences, but Tennison’s implementation reduces the recursion
-                from the number of cells to the number of diagonals, which is <emphasis>n + m -
-                    1</emphasis>, that is, linear with respect to the total number of items in the
-                two sequences. This implementation also reduces the storage complexity; because each
-                diagonal depends only on the two immediately preceding ones, the recursive steps do
-                not have to pass forward the entire state of the grid. The substantial improvement
-                in computational efficiency that results from an implementation <quote>on the
-                    diagonal</quote> was identified initially by <xref linkend="wang_2002"/> (8) and
-                then explored further by <xref linkend="naveed_2005"/> (3–4), but although Wang
-                first reported that items on the diagonal could be processed in parallel, it was
-                Tennison who recognized that this observation could also be used to reduce the depth
-                of recursion in XSLT.</para>
+                on the anti-diagonal (diagonals that run from bottom left to top right), instead of
+                across each row in turn, as is traditional, Tennison is able to calculate all values
+                on an individual anti-diagonal at the same time, since the cells on any single
+                anti-diagonal have no mutual dependencies.<footnote>
+                    <para>Not only are there no mutual dependencies within an anti-diagonal, but all
+                        of the information needed to process an entire anti-diagonal is available
+                        simultaneously from only the two preceding anti-diagonals, without any
+                        dependency on earlier ones. This property contributes to the scalability of
+                        our implementation in ways that will be discussed below.</para>
+                </footnote> The absence of dependencies within an anti-diagonal means that Tennison
+                can use <tag>&lt;xsl:for-each&gt;</tag>, instead of recursion, to compute all of the
+                values within each anti-diagonal, and recur only as she moves to a new
+                anti-diagonal. The computational complexity of populating the grid remains
+                    <emphasis>O(mn)</emphasis> (that is, essentially quadratic), since it is still
+                necessary to calculate values for each cell individually, and the total number of
+                cells is the product of the lengths of the two sequences, but Tennison’s
+                implementation reduces the recursion from the number of cells to the number of
+                anti-diagonals, which is <emphasis>n + m - 1</emphasis>, that is, linear with
+                respect to the total number of items in the two sequences. This implementation also
+                reduces the storage complexity; because each anti-diagonal depends only on the two
+                immediately preceding ones, the recursive steps do not have to pass forward the
+                entire state of the grid.</para>
+            <para>The substantial improvement in computational efficiency that results from
+                parallelization in an implementation <quote>on the diagonal</quote> was identified
+                initially by <xref linkend="muraoka_1971"/> (160), who used the term <quote>wave
+                    front</quote> to describe the sequential processing of anti-diagonals, and then
+                explored further by <xref linkend="wang_2002"/> (8) and <xref linkend="naveed_2005"
+                /> (3–4).<footnote>
+                    <para><xref linkend="wang_2002"/> also uses the term <quote>wave front</quote>
+                        (two words), as introduced by Muraoka; <xref linkend="maleki_2014"/> modify
+                        this as <quote>wavefront</quote> and introduce the term <quote>stage</quote>
+                        to refer to the individual anti-diagonals.</para>
+                </footnote> Although these earlier researchers had previously reported that items on
+                the anti-diagonal could be processed in parallel, it was Tennison who recognized
+                that this observation could also be used to reduce the depth of recursion in
+                XSLT.</para>
         </section>
         <section>
             <title>Iteration to the rescue</title>
-            <para>Tennison’s diagonal implementation reduces the depth of recursion, but does not
-                eliminate recursion entirely: because the values in each diagonal continue to depend
-                on the values in the two immediately preceding diagonals, it nonetheless requires
-                recursion on each new diagonal. The reduction in the depth of recursion from
-                quadratic to linear scales impressively; for example, with two 20-item sequences and
-                400 cells, the traditional method would have recurred 400 times, while the diagonal
-                method makes only 39 function calls. In XSLT 3.0, however, it is possible to use
-                    <tag>&lt;xsl:iterate&gt;</tag> to avoid recursive coding entirely:<blockquote>
+            <para>Tennison’s anti-diagonal implementation reduces the depth of recursion, but does
+                not eliminate recursion entirely: because the values in each anti-diagonal continue
+                to depend on the values in the two immediately preceding anti-diagonals, it
+                nonetheless requires recursion on each new anti-diagonal. The reduction in the depth
+                of recursion from quadratic to linear scales impressively; for example, with two
+                20-item sequences and 400 cells, the traditional method would have recurred 400
+                times, while the anti-diagonal method makes only 39 function calls. In XSLT 3.0,
+                however, it is possible to use <tag>&lt;xsl:iterate&gt;</tag> to avoid recursive
+                coding entirely:<blockquote>
                     <para>[xsl:iterate] is similar to xsl:for-each, except that the items in the
                         input sequence are processed sequentially, and after processing each item in
                         the input sequence it is possible to set parameters for use in the next
@@ -675,20 +686,20 @@
             </para>
         </section>
         <section>
-            <title>Processing the diagonal</title>
+            <title>Processing the anti-diagonal</title>
             <para>The classic description of Needleman Wunsch differs from Levenshtein by requiring
                 that the entire grid be available at the end of its construction so that it can be
                 traversed backwards to perform the actual item alignment (Levenshtein cares only
                 about the final value), but the two algorithms agree in the fact that cells on each
-                consecutive diagonal can be constructed using information from only the two
-                immediately preceding diagonals. Within our <code>&lt;xsl:iterate&gt;</code>
-                instruction we return these two preceding diagonals as parameters called
+                consecutive anti-diagonal can be constructed using information from only the two
+                immediately preceding anti-diagonals. Within our <code>&lt;xsl:iterate&gt;</code>
+                instruction we return these two preceding anti-diagonals as parameters called
                     <code>$ult</code> (immediately preceding) and <code>$penult</code> (preceding
                     <code>$ult</code>), promoting the previous <code>$ult</code> to the new
-                    <code>$penult</code> on each iteration and adding the current diagonal as the
-                new <code>$ult</code>. We improve the retrieval of these preceding cells while
+                    <code>$penult</code> on each iteration and adding the current anti-diagonal as
+                the new <code>$ult</code>. We improve the retrieval of these preceding cells while
                 computing new values by using <tag>&lt;xsl:key&gt;</tag> with a composite <tag
-                    class="attribute">@use</tag> attribute that indexes the two diagonals that
+                    class="attribute">@use</tag> attribute that indexes the two anti-diagonals that
                 constitute the search space according to the <tag class="attribute">@row</tag> and
                     <tag class="attribute">@col</tag> attribute values of each cell. At a minimum,
                 each new cell holds information, in attributes, about its row, column, and score
@@ -703,11 +714,10 @@
                 arbitrarily favoring diagonal, then left, and only then upper sources. There is,
                 however, nothing about the method that would prohibit recording and later processing
                 multiple paths, and thus identifying all optimal alignments.</para>
-            <para>In the Needleman Wunsch (and also Levenshtein) context, as <xref
-                    linkend="wang_2002"/> and <xref linkend="naveed_2005"/> point out, all values on
-                the same diagonal can be calculated in parallel, and Tennison’s use of
+            <para>In the Needleman Wunsch (and also Levenshtein) context, then, all values on the
+                same anti-diagonal can be calculated in parallel, and Tennison’s use of
                     <tag>&lt;xsl:for-each&gt;</tag> in her improved code, in <xref
-                    linkend="tennison_2007b"/>, to process the diagonal is compatible with this
+                    linkend="tennison_2007b"/>, to process the anti-diagonal is compatible with this
                 observation because <tag>&lt;xsl:for-each&gt;</tag> can be parallelized. Whether it
                     <emphasis>is</emphasis> executed in parallel, however, is often unpredictable,
                 since standard XSLT 3.0 does not give the programmer explicit control over processes
@@ -740,22 +750,22 @@
         </section>
         <section>
             <title>Save yourself a trip … and some space</title>
-            <para>The process of constructing the scoring grid for Needleman Wunsch on the diagonal
-                is identical to that of constructing the grid for Levenshtein, but, as was noted
-                above, the key difference is what happens next: Levenshtein cares only about the
-                value of the lower right cell, and therefore does not need to walk back through the
-                grid the way Needleman Wunsch does to align the actual sequences. This means that a
-                diagonal implementation for a Levenshtein distance calculation can throw away each
-                diagonal once it is no longer needed, and the one-cell diagonal at the lower right
-                will contain the one piece of information the function is expected to return: the
-                distance between the two sequences. An implementation of Needleman Wunsch according
-                to the classic description of the method, however, cannot economize on space in this
-                way, which means that although Needleman Wunsch and Levenshtein have comparable
-                    <emphasis>computational</emphasis> complexity, classic Needleman Wunsch has
-                quadratic <emphasis>storage</emphasis> complexity because it preserves and passes
-                along the entire grid, while Tennison’s diagonal Levenshtein implementation has
-                linear storage complexity because it throws away diagonals as soon as it no longer
-                needs them.</para>
+            <para>The process of constructing the scoring grid for Needleman Wunsch on the
+                anti-diagonal is identical to that of constructing the grid for Levenshtein, but, as
+                was noted above, the key difference is what happens next: Levenshtein cares only
+                about the value of the lower right cell, and therefore does not need to walk back
+                through the grid the way Needleman Wunsch does to align the actual sequences. This
+                means that an anti-diagonal implementation for a Levenshtein distance calculation
+                can throw away each anti-diagonal once it is no longer needed, and the single-cell
+                anti-diagonal at the lower right will contain the one piece of information the
+                function is expected to return: the distance between the two sequences. An
+                implementation of Needleman Wunsch according to the classic description of the
+                method, however, cannot economize on space in this way, which means that although
+                Needleman Wunsch and Levenshtein have comparable <emphasis>computational</emphasis>
+                complexity, classic Needleman Wunsch has quadratic <emphasis>storage</emphasis>
+                complexity because it preserves and passes along the entire grid, while Tennison’s
+                anti-diagonal Levenshtein implementation has linear storage complexity because it
+                throws away anti-diagonals as soon as it no longer needs them.</para>
             <para>The storage requirements of Needleman Wunsch are quadratic, however, only as long
                 as the entire grid must be preserved for backward traversal at the end of the
                 construction process, and the only information needed for that traversal is the
@@ -773,8 +783,9 @@
                 right cell for the final traversal. In compensation for storing that additional
                 information in the cells, though, we no longer need to pass the entire cumulative
                 grid through the iterations, so the additional paths must be stored only for the
-                three-diagonal life cycle of each cell. The section below documents the improvement
-                this produces with respect to both execution time and memory requirements.</para>
+                three-anti-diagonal life cycle of each cell. The section below documents the
+                improvement this produces with respect to both execution time and memory
+                requirements.</para>
         </section>
         <section>
             <title>Performance</title>
@@ -1142,21 +1153,21 @@
                         64m43.159s, user time of 538m5.128s, and sys time of 13m25.910s. Real time
                         is lower than user time plus sys time because of parallel execution.</para>
                     <para>With respect to storage, processing maintains only a constant three
-                        diagonals at a time, and the length of a diagonal is linear with respect to
-                        the sum of the lengths of the sequences being compared. The lengths of the
-                        full paths that are accumulated on the cells grow linearly with respect to
-                        the number of diagonals, which also enjoys a linear relationship with the
-                        lengths of the two sequences being aligned. The number of cells on a
-                        diagonal grows, levels off, and then shrinks linearly with respect to the
-                        number of tokens in the two sequences being compared; the first and last
-                        diagonal each contain a single cell.</para>
+                        anti-diagonals at a time, and the length of an antidiagonal is linear with
+                        respect to the sum of the lengths of the sequences being compared. The
+                        lengths of the full paths that are accumulated on the cells grow linearly
+                        with respect to the number of anti-diagonals, which also enjoys a linear
+                        relationship with the lengths of the two sequences being aligned. The number
+                        of cells on an anti-diagonal grows, levels off, and then shrinks linearly
+                        with respect to the number of tokens in the two sequences being compared;
+                        the first and last anti-diagonal each contain a single cell.</para>
                 </footnote></para>
             <para>The traditional Needleman Wunsch method requires composing the entire grid in
                 order to traverse it backwards to perform the alignment. Because the size of the
                 grid grows quadratically, this scales poorly, and the poor scaling, which is
                 primarily an inconvenience with respect to processing time, quickly turns fatal with
                 respect to storage. When asked to compose and maintain the entire grid (instead of
-                just the alignment that can be computed on the diagonal), <application>Saxon
+                just the alignment that can be computed on the anti-diagonal), <application>Saxon
                     EE</application> eventually crashed with a Java memory error, which a larger
                 Java <code>-Xmx</code> parameter could forestall, but not prevent. If the entire
                 grid is an output requirement with a large amount of data, then, it will have to be
@@ -1236,6 +1247,13 @@
         <bibliomixed xml:id="kay_2008" xreflabel="Kay 2008">Kay, Michael. 2008. <citetitle>XSLT 2.0
                 and XPath 2.0 programmer’s reference.</citetitle> 4th edition. Indianapolis: Wiley
             (Wrox).</bibliomixed>
+        <bibliomixed xml:id="maleki_2014" xreflabel="Maleki et al. 2014">Maleki, Saeed, Madanlal
+            Musuvathi, and Todd Mytkowicz. 2014. <citetitle>Parallelizing dynamic programming
+                through rank convergence.</citetitle> Proceedings of the 19th ACM SIGPLAN symposium
+            on Principles and practice of parallel programming (PPoPP ’14), February 15–19, 2014.
+            Pp. 219–32. <link
+                xl:href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/ppopp163-maleki.pdf"
+            /></bibliomixed>
         <!--<bibliomixed xml:id="muhamad" xreflabel="Muhamad et al. 2018">FN Muhamad, F. N., R. B.
             Ahmad, S. M.Asi, and M. N. Murad. 2018. <quote>Performance analysis Of Needleman-Wunsch
                 algorithm (global) and Smith-Waterman algorithm (local) In reducing search space and
@@ -1247,6 +1265,10 @@
         <bibliomixed xml:id="msa" xreflabel="Multiple sequence alignment (Wikipedia)">Multiple
             sequence alignment (Wikipedia). Accessed 2019-11-03. <link
                 xl:href="https://en.wikipedia.org/wiki/Multiple_sequence_alignment"/></bibliomixed>
+        <bibliomixed xml:id="muraoka_1971" xreflabel="Muraoka 1971">Muraoka, Yoici. 1971.
+                <quote>Parallelism exposure and exploitation in programs.</quote> PhD dissertation,
+            University of Illinois Urbana-Champaign. <link
+                xl:href="https://catalog.hathitrust.org/Record/100700411"/></bibliomixed>
         <bibliomixed xml:id="naveed_2005" xreflabel="Naveed et al. 2005">Naveed, Tahir, Imitaz Saeed
             Siddiqui, and Shaftab Ahmed. 2005. <quote>Parallel Needleman-Wunsch algorithm for
                 grid.</quote> Proceedings of the PAK-US International Symposium on High Capacity
