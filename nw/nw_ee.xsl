@@ -328,14 +328,16 @@
                 <xsl:for-each select="$current_diag/cell" saxon:threads="10">
                     <!-- 
                         is the current cell a match? 
-                        [current()/number(@row)] is faster than [position() eq current()/@row]
+                        need to atomize explicitly; otherwise it does a node test and returns True 
+                        [current()/data(@row)] or [current()/number(@row)] is 
+                            faster than [position() eq current()/@row]
                     -->
                     <xsl:variable name="current_match" as="xs:integer"
                         select="
-                            if ($left_tokens[current()/number(@row)] eq $top_tokens[current()/number(@col)]) then
-                                1
+                            if ($left_tokens[current()/data(@row)] eq $top_tokens[current()/data(@col)]) then
+                                $match_score
                             else
-                                -1"/>
+                                $mismatch_score"/>
                     <!-- get three values, mapped to sources, sort by score, then source -->
                     <xsl:variable name="d_cell" as="element(cell)?"
                         select="key('cellByRowCol', (@row - 1, @col - 1), $search_space)"/>
