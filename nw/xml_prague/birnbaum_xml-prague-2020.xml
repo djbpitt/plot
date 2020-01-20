@@ -2,7 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="balisage-proceedings-html.xsl"?>
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0"
     xml:lang="en">
-    <title>Sequence alignment in XSLT 3.0</title>
+    <title>Sequence alignment in XSLT 3.0<footnote>
+            <para>I am grateful to Ronald Haentjens Dekker for comments and suggestions.</para>
+        </footnote></title>
     <info>
         <author>
             <personname>
@@ -590,17 +592,18 @@
         <title>The challenges of dynamic programming and XSLT</title>
         <para>XSLT, at least before version 3.0, plays poorly with dynamic programming because each
             step in a dynamic programming algorithm depends on values calculated at preceding steps.
-            Functional programming of the sort supported by XSLT <tag>&lt;xsl:for-each&gt;</tag>
-            does not have access to these incremental values; if we try to run
-                <tag>&lt;xsl:for-each&gt;</tag> over all of the cells and populate them according to
-            the values before and above them, those neighboring values will be the values in place
-            initially, that is, null. The reason is that <tag>&lt;xsl:for-each&gt;</tag> is not an
-            iterative instruction: it <emphasis>orders the output</emphasis> according to the input
-            sequence, but it does not necessarily <emphasis>perform the computation</emphasis> in
-            that order. This is a feature because it means that such instructions can be
-            parallelized, since no step is dependent on the output of any other step. But it also
-            means that populating the Needleman Wunsch grid in XSLT requires an alternative to
-                <tag>&lt;xsl:for-each&gt;</tag>.</para>
+            Functional programming of the sort supported by XSLT <tag class="element"
+                >&lt;xsl:for-each&gt;</tag> does not have access to these incremental values; if we
+            try to run <tag class="element">&lt;xsl:for-each&gt;</tag> over all of the cells and
+            populate them according to the values before and above them, those neighboring values
+            will be the values in place initially, that is, null. The reason is that <tag
+                class="element">&lt;xsl:for-each&gt;</tag> is not an iterative instruction: it
+                <emphasis>orders the output</emphasis> according to the input sequence, but it does
+            not necessarily <emphasis>perform the computation</emphasis> in that order. This is a
+            feature because it means that such instructions can be parallelized, since no step is
+            dependent on the output of any other step. But it also means that populating the
+            Needleman Wunsch grid in XSLT requires an alternative to <tag class="element"
+                >&lt;xsl:for-each&gt;</tag>.</para>
         <para>Tennison draws our attention to this issue in her XSLT 2.0 implementations of a
             dynamic programming algorithm to calculate Levenshtein distance (<xref
                 linkend="tennison_2007a"/>, <xref linkend="tennison_2007b"/>), and with respect to
@@ -635,9 +638,9 @@
                         dependency on earlier ones. This property contributes to the scalability of
                         our implementation in ways that will be discussed below.</para>
                 </footnote> The absence of dependencies within an anti-diagonal means that Tennison
-                can use <tag>&lt;xsl:for-each&gt;</tag>, instead of recursion, to compute all of the
-                values within each anti-diagonal, and recur only as she moves to a new
-                anti-diagonal. The computational complexity of populating the grid remains
+                can use <tag class="element">&lt;xsl:for-each&gt;</tag>, instead of recursion, to
+                compute all of the values within each anti-diagonal, and recur only as she moves to
+                a new anti-diagonal. The computational complexity of populating the grid remains
                     <emphasis>O(mn)</emphasis> (that is, essentially quadratic), since it is still
                 necessary to calculate values for each cell individually, and the total number of
                 cells is the product of the lengths of the two sequences, but Tennison’s
@@ -671,19 +674,19 @@
                 of recursion from quadratic to linear scales impressively; for example, with two
                 20-item sequences and 400 cells, the traditional method would have recurred 400
                 times, while the anti-diagonal method makes only 39 function calls. In XSLT 3.0,
-                however, it is possible to use <tag>&lt;xsl:iterate&gt;</tag> to avoid recursive
-                coding entirely:<blockquote>
+                however, it is possible to use <tag class="element">&lt;xsl:iterate&gt;</tag> to
+                avoid recursive coding entirely:<blockquote>
                     <para>[xsl:iterate] is similar to xsl:for-each, except that the items in the
                         input sequence are processed sequentially, and after processing each item in
                         the input sequence it is possible to set parameters for use in the next
                         iteration. It can therefore be used to solve problems that in XSLT 2.0
                         require recursive functions or templates. (<xref linkend="saxon_iterate"
                         />)</para>
-                </blockquote> The use of <tag>&lt;xsl:iterate&gt;</tag>, which was not part of the
-                XSLT 2.0 that was available to Tennison in 2007, in place of the recursion that she
-                was forced to retain thus observes her wise recommendation to <quote>try to iterate
-                    rather than recurse whenever you can</quote> (<xref linkend="tennison_2007b"/>).
-            </para>
+                </blockquote> The use of <tag class="element">&lt;xsl:iterate&gt;</tag>, which was
+                not part of the XSLT 2.0 that was available to Tennison in 2007, in place of the
+                recursion that she was forced to retain thus observes her wise recommendation to
+                    <quote>try to iterate rather than recurse whenever you can</quote> (<xref
+                    linkend="tennison_2007b"/>). </para>
         </section>
         <section>
             <title>Processing the anti-diagonal</title>
@@ -698,15 +701,15 @@
                     <code>$ult</code>), promoting the previous <code>$ult</code> to the new
                     <code>$penult</code> on each iteration and adding the current anti-diagonal as
                 the new <code>$ult</code>. We improve the retrieval of these preceding cells while
-                computing new values by using <tag>&lt;xsl:key&gt;</tag> with a composite <tag
-                    class="attribute">@use</tag> attribute that indexes the two anti-diagonals that
-                constitute the search space according to the <tag class="attribute">@row</tag> and
-                    <tag class="attribute">@col</tag> attribute values of each cell. At a minimum,
-                each new cell holds information, in attributes, about its row, column, and score
-                (all used to compute the values of subsequent cells) and the prior cell that was
-                used to determine that score (diagonal, up, or left; used for the backward tracing
-                of the path once construction has been completed); we also store some additional
-                values, which we discuss below.</para>
+                computing new values by using <tag class="element">&lt;xsl:key&gt;</tag> with a
+                composite <tag class="attribute">@use</tag> attribute that indexes the two
+                anti-diagonals that constitute the search space according to the <tag
+                    class="attribute">@row</tag> and <tag class="attribute">@col</tag> attribute
+                values of each cell. At a minimum, each new cell holds information, in attributes,
+                about its row, column, and score (all used to compute the values of subsequent
+                cells) and the prior cell that was used to determine that score (diagonal, up, or
+                left; used for the backward tracing of the path once construction has been
+                completed); we also store some additional values, which we discuss below.</para>
             <para>It is possible for more than one neighboring cell to tie for highest value, and
                 because the task that motivated this development required only
                     <emphasis>an</emphasis> optimal alignment, and not <emphasis>all</emphasis> such
@@ -715,19 +718,19 @@
                 however, nothing about the method that would prohibit recording and later processing
                 multiple paths, and thus identifying all optimal alignments.</para>
             <para>In the Needleman Wunsch (and also Levenshtein) context, then, all values on the
-                same anti-diagonal can be calculated in parallel, and Tennison’s use of
-                    <tag>&lt;xsl:for-each&gt;</tag> in her improved code, in <xref
+                same anti-diagonal can be calculated in parallel, and Tennison’s use of <tag
+                    class="element">&lt;xsl:for-each&gt;</tag> in her improved code, in <xref
                     linkend="tennison_2007b"/>, to process the anti-diagonal is compatible with this
-                observation because <tag>&lt;xsl:for-each&gt;</tag> can be parallelized. Whether it
-                    <emphasis>is</emphasis> executed in parallel, however, is often unpredictable,
-                since standard XSLT 3.0 does not give the programmer explicit control over processes
-                or threads in the same way as other languages (cf. Python’s
+                observation because <tag class="element">&lt;xsl:for-each&gt;</tag> can be
+                parallelized. Whether it <emphasis>is</emphasis> executed in parallel, however, is
+                often unpredictable, since standard XSLT 3.0 does not give the programmer explicit
+                control over processes or threads in the same way as other languages (cf. Python’s
                     <code>multiprocessing</code> module). However, <application>Saxon
                     EE</application> (although not <application>PE</application> or
                     <application>HE</application>) provides a custom <tag class="attribute"
                     >@saxon:threads</tag> attribute that allows the developer to specify that an
-                    <tag>&lt;xsl:for-each&gt;</tag> element should be processed in parallel. The
-                documentation explains that: <blockquote>
+                    <tag class="element">&lt;xsl:for-each&gt;</tag> element should be processed in
+                parallel. The documentation explains that: <blockquote>
                     <para>This attribute may be set on the xsl:for-each instruction. The value must
                         be an integer. When this attribute is used with Saxon-EE, the items selected
                         by the select expression of the instruction are processed in parallel, using
@@ -765,7 +768,8 @@
                 complexity, classic Needleman Wunsch has quadratic <emphasis>storage</emphasis>
                 complexity because it preserves and passes along the entire grid, while Tennison’s
                 anti-diagonal Levenshtein implementation has linear storage complexity because it
-                throws away anti-diagonals as soon as it no longer needs them.</para>
+                throws away anti-diagonals as soon as it no longer needs them, and the length of the
+                diagonal is linear with respect to the lengths of the input sequences.</para>
             <para>The storage requirements of Needleman Wunsch are quadratic, however, only as long
                 as the entire grid must be preserved for backward traversal at the end of the
                 construction process, and the only information needed for that traversal is the
@@ -795,23 +799,25 @@
                 times to compute new cell values (once each as diagonal, left, and upper), and the
                 left and upper behaviors are the same (sum the score of the cell and the gap
                 penalty), we perform that sum operation just once and store it when the cell is
-                created, instead of computing it twice on the two occasions when it is used.</para>
+                created, instead of computing it twice on the two occasions when it is used.<footnote>
+                    <para>See <xref linkend="space-time"/>.</para>
+                </footnote></para>
             <para>We then revised the code for <application>Saxon EE</application> with two further
                 types of modification: <itemizedlist>
                     <listitem>
                         <para>We use the <tag class="attribute">@saxon:threads</tag> attribute with
-                            a somewhat arbitrary value of <tag class="attvalue">10</tag> on our <tag
-                                class="element">xsl:for-each</tag> elements. This ensures that the
-                            body of the <tag class="element">xsl:for-each</tag> element will be
-                            parallelized (although regardless of the value of the <tag
+                            an arbitrary value of <tag class="attvalue">10</tag> on our <tag
+                                class="element">&lt;xsl:for-each></tag> elements. This ensures that
+                            the body of the <tag class="element">&lt;xsl:for-each></tag> element
+                            will be parallelized, although 1) regardless of the value of the <tag
                                 class="attribute">@saxon:threads</tag> attribute, the number of
                             computations that can actually be performed simultaneously depends on
                             the number of cores provided by the CPU and on other demands on CPU
-                            resources). We expect this modification, which takes advantage of
-                            multiprocessing, to reduce wall time by a constant factor, where the
-                            extent of the performance improvement depends on the amount of time the
-                            program spends executing the <tag>&lt;xsl:for-each
-                                saxon:threads="10"&gt;</tag> instruction.</para>
+                            resources, and 2) parallelization improves performance only when the
+                            benefit of parallel executation is greater than the overhead of managing
+                            it. In practice, the use of <tag class="attribute">@saxon:threads</tag>
+                            produced no reliable improvement in performance; see the discussion
+                            below.</para>
                     </listitem>
                     <listitem>
                         <para>We use schema-aware processing with type annotations (using the <tag
@@ -1124,26 +1130,46 @@
                     <mediaobject>
                         <imageobject>
                             <imagedata fileref="images/performance.png" format="PNG" scalefit="1"
-                                width="100%" contentwidth="100%"/>
+                                width="100%" contentwidth="80%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
             <para>Except with a very small number of tokens, EE runs the same operation as HE more
                 quickly, but the effect of the relative difference in execution time diminishes as
-                the volume of input grows. This behavior is consistent with the fact that 1) the
-                effect of parallelization, which is the principal difference between the two
-                implementations, is dependent on the number of cores, which is both small and
-                constant; 2) parallelization of <tag class="element">&lt;xsl:for-each&gt;</tag>
-                satisfies the <quote>small amount of output</quote> condition for optimal use of the
-                    <tag class="attribute">@saxon:threads</tag> attribute, but not the <quote>large
-                    amount of computation</quote> one; and 3) the number of cells, which is the same
-                in both implementations, is the principal factor that determines execution time, and
-                it increases quadratically, asymptotically minimizing any constant benefit provided
-                by the limited opportunity for parallelization. The fact that the storage
-                requirement scales linearly (as long as we do not attempt to maintain the entire
-                grid) means that it is possible to align long sequences without overflowing the
-                available memory, but the quadratic execution time means that the alignment of long
-                sequences is nonetheless not well suited for real-time interactive processing.<footnote>
+                the volume of input grows. We had anticipated that there would be at least a small
+                improvement in performance because EE let us parallelize <tag class="element"
+                    >&lt;xsl:for-each></tag> operations, but when we tested the parallelization with
+                thread counts ranging from 1 to 10, the results were small, inconsistent and
+                contradictory, which led us to suspect that the better performance by EE was because
+                it incorporates more sophisticated optimization in general, and not specifically
+                because of our use of <tag class="attribute">@saxon:threads</tag>. In the graph
+                below, the difference (across 1 to 10 threads) between best and worst performance is
+                never greater than 12%, and it is neither uniformly monotonic nor consistent across
+                different text quantities. For example, additional threads lead to largely monotonic
+                improvement with 5 paragraphs, but largly monotonically worse performance with 4,
+                and with 3 paragraphs, the best performance is with 10 threads but the worst is with 9:<figure>
+                    <title>Effect of threading <tag class="element">&lt;xsl:for-each&gt;</tag> on
+                        total execution time</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/threads.png" format="PNG" scalefit="1"
+                                width="100%" contentwidth="40%"/>
+                        </imageobject>
+                    </mediaobject>
+                </figure></para>
+            <para>If we recall that parallelization of the <tag class="element"
+                    >&lt;xsl:for-each&gt;</tag> instances in this project satisfies the <quote>small
+                    amount of output</quote> condition for optimal use of the <tag class="attribute"
+                    >@saxon:threads</tag> attribute, but not the <quote>large amount of
+                    computation</quote> one, it may be that this particular computation might be
+                considered <emphasis>embarrassingly unparallel</emphasis>.<footnote>
+                    <para>See <xref linkend="embarrassingly_parallel"/>.</para>
+                </footnote></para>
+            <para>The fact that the storage requirement scales linearly (as long as we do not
+                attempt to maintain the entire grid) means that it is possible to align long
+                sequences without overflowing the available memory, but the quadratic execution time
+                means that the alignment of long sequences is nonetheless not well suited for
+                real-time interactive processing.<footnote>
                     <para>As a test of larger capacity, we aligned the entire first chapter of the
                         1859 and 1860 editions of <citetitle>On the origin of species</citetitle>.
                         The 49 paragraphs of the 1859 and 1860 editions contain 11590 and 11632 word
@@ -1182,7 +1208,9 @@
                 xl:href="https://github.com/djbpitt/xstuff/tree/master/nw"/>, and has not been
             reproduced here. It is densely commented, and thus offers tutorial information about the
             method. Small exploratory stylesheets that were used to develop individual components of
-            the code have been retained in a <emphasis>scratch</emphasis> subdirectory.</para>
+            the code have been retained in a <emphasis>scratch</emphasis> subdirectory. Performance
+            testing code and results are in the <emphasis>performance</emphasis> and
+                <emphasis>threads</emphasis> subdirectories.</para>
         <para>Tennison concludes her second, improved computation of Levenshtein distance by writing
             that:</para>
         <para><blockquote>
@@ -1190,11 +1218,11 @@
                     whenever you can and (b) don’t blindly adapt algorithms designed for procedural
                     programming languages to XSLT. [<xref linkend="tennison_2007b"/>]</para>
             </blockquote></para>
-        <para>The XSLT 3.0 <tag>&lt;xsl:iterate&gt;</tag> element provides a robust method to
-            iterate reliably that was not available to Tennison in 2007. Beyond that, as we extend
-            Tennison’s XSLT-idiomatic implementation of a Levenshtein distance algorithm to the
-            closely related domain of Needleman Wunsch sequence alignment, we avoid the need to
-            maintain and traverse the entire grid that is part of the standard description of the
+        <para>The XSLT 3.0 <tag class="element">&lt;xsl:iterate&gt;</tag> element provides a robust
+            method to iterate reliably that was not available to Tennison in 2007. Beyond that, as
+            we extend Tennison’s XSLT-idiomatic implementation of a Levenshtein distance algorithm
+            to the closely related domain of Needleman Wunsch sequence alignment, we avoid the need
+            to maintain and traverse the entire grid that is part of the standard description of the
             algorithm, thus reducing the storage requirement from quadratic to linear.</para>
     </section>
     <bibliography>
@@ -1213,6 +1241,9 @@
             /></bibliomixed>
         <bibliomixed xml:id="collatex" xreflabel="CollateX">CollateX—software for collating textual
             sources. <link xl:href="https://collatex.net/"/></bibliomixed>
+        <bibliomixed xml:id="embarrassingly_parallel" xreflabel="Embarrassingly parallel"
+            >Embarrassingly parallel. <link
+                xl:href="https://en.wikipedia.org/wiki/Embarrassingly_parallel"/>.</bibliomixed>
         <bibliomixed xml:id="fv_reader" xreflabel="Frankenstein variorum reader"><quote>Mary
                 Shelley’s Frankenstein. A digital variorum edition.</quote>
             <link xl:href="http://frankensteinvariorum.library.cmu.edu/viewer/"/>. See also the
@@ -1307,6 +1338,8 @@
             <citetitle>Journal of molecular evolution</citetitle>, 18(1):38–46. <link
                 xl:href="https://www.researchgate.net/publication/15863628_Comparative_biosequence_metrics"
             /></bibliomixed>
+        <bibliomixed xml:id="space-time" xreflabel="Space–time tradeoff">Space–time tradeoff. <link
+                xl:href="https://en.wikipedia.org/wiki/Space%E2%80%93time_tradeoff"/></bibliomixed>
         <bibliomixed xml:id="tennison_2007a" xreflabel="Tennison 2007a">Tennison, Jeni. 2007.
                 <quote>Levenshtein distance in XSLT 2.0.</quote> Posted to <citetitle>Jeni’s
                 musings</citetitle>, 2007-05-03. <link
