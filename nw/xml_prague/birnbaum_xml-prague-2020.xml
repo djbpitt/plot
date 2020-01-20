@@ -186,8 +186,8 @@
             <para>An optimal alignment can be defined as an alignment that yields the best
                     <emphasis>score</emphasis>, where the researcher is responsible for identifying
                 an appropriate <emphasis>scoring method</emphasis>. Relationships involving
-                individual aligned items from a sequence can be categorized as belonging to three
-                possible types for scoring purposes:<itemizedlist>
+                individual aligned items from a pair of sequences can be categorized as belonging to
+                three possible types for scoring purposes:<itemizedlist>
                     <listitem>
                         <para>Items from both sequences are aligned and are the same. This is called
                             a <emphasis>match</emphasis>. If the two entire sequences are identical,
@@ -271,7 +271,7 @@
                 to exclude from consideration in advance all alignments that
                     <emphasis>cannot</emphasis> be optimal. Where this is not possible, a
                     <emphasis>heuristic</emphasis> method excludes from consideration in advance
-                alignments that <emphasis>are unlikely</emphasis> to be optimal. Heuristic methods
+                alignments that are <emphasis>unlikely</emphasis> to be optimal. Heuristic methods
                 entail a risk of inadvertently excluding an optimal alignment, but in the case of
                 some computationally complex problems, a heuristic approach may be the only
                 realistic way of reducing the complexity sufficiently to make the problem
@@ -684,7 +684,7 @@
                         />)</para>
                 </blockquote> The use of <tag class="element">&lt;xsl:iterate&gt;</tag>, which was
                 not part of the XSLT 2.0 that was available to Tennison in 2007, in place of the
-                recursion that she was forced to retain thus observes her wise recommendation to
+                recursion that she was forced to retain, thus observes her wise recommendation to
                     <quote>try to iterate rather than recurse whenever you can</quote> (<xref
                     linkend="tennison_2007b"/>). </para>
         </section>
@@ -719,7 +719,7 @@
                 multiple paths, and thus identifying all optimal alignments.</para>
             <para>In the Needleman Wunsch (and also Levenshtein) context, then, all values on the
                 same anti-diagonal can be calculated in parallel, and Tennison’s use of <tag
-                    class="element">&lt;xsl:for-each&gt;</tag> in her improved code, in <xref
+                    class="element">&lt;xsl:for-each&gt;</tag> in her improved code in <xref
                     linkend="tennison_2007b"/>, to process the anti-diagonal is compatible with this
                 observation because <tag class="element">&lt;xsl:for-each&gt;</tag> can be
                 parallelized. Whether it <emphasis>is</emphasis> executed in parallel, however, is
@@ -749,7 +749,8 @@
                 </blockquote></para>
             <para>The computation of a cell score produces a small amount of output, but it also
                 involves only a small amount of computation (compared to read/write memory
-                operations).</para>
+                operations). As we discuss below, in this case parallelization did not lead to
+                reliably improved performance.</para>
         </section>
         <section>
             <title>Save yourself a trip … and some space</title>
@@ -1139,7 +1140,7 @@
                 the volume of input grows. We had anticipated that there would be at least a small
                 improvement in performance because EE let us parallelize <tag class="element"
                     >&lt;xsl:for-each></tag> operations, but when we tested the parallelization with
-                thread counts ranging from 1 to 10, the results were small, inconsistent and
+                thread counts ranging from 1 to 10, the results were small, inconsistent, and
                 contradictory, which led us to suspect that the better performance by EE was because
                 it incorporates more sophisticated optimization in general, and not specifically
                 because of our use of <tag class="attribute">@saxon:threads</tag>. In the graph
@@ -1147,7 +1148,11 @@
                 never greater than 12%, and it is neither uniformly monotonic nor consistent across
                 different text quantities. For example, additional threads lead to largely monotonic
                 improvement with 5 paragraphs, but largly monotonically worse performance with 4,
-                and with 3 paragraphs, the best performance is with 10 threads but the worst is with 9:<figure>
+                and with 3 paragraphs, the best performance is with 10 threads but the worst is with 9:<footnote>
+                    <para>Tests were performed with the same settings as above, except that we
+                        processed each combination of threads (1 to 10) and paragraphs (1 to 5) six
+                        times, and Saxon EE reported the average of the last four iterations.</para>
+                </footnote><figure>
                     <title>Effect of threading <tag class="element">&lt;xsl:for-each&gt;</tag> on
                         total execution time</title>
                     <mediaobject>
