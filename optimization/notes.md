@@ -6,6 +6,7 @@ Store path (d, l, u) as numbers, rather than letters
 Is computing faster than reading and writing?
 Number of cores (Amdahl's Law)
 Tuples (tuple types to support optimizing for the compiler, which knows the length)
+Memo functions (`@saxon:memo-function` in PE and EE)
 
 Kay: comparing integers is faster then comparing strings:
 <`https://archive.xmlprague.cz/2015/files/xmlprague-2015-proceedings.pdf>
