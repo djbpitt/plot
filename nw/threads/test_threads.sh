@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-for j in {14..15}
+for j in {15..15}
 do
     for i in {1..10}
         do

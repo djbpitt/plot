@@ -1143,22 +1143,23 @@
                 thread counts ranging from 1 to 10, the results were small, inconsistent, and
                 contradictory, which led us to suspect that the better performance by EE was because
                 it incorporates more sophisticated optimization in general, and not specifically
-                because of our use of <tag class="attribute">@saxon:threads</tag>. In the graph
+                because of our use of <tag class="attribute">@saxon:threads</tag>. In the chart
                 below, the difference (across 1 to 10 threads) between best and worst performance is
-                never greater than 12%, and it is neither uniformly monotonic nor consistent across
-                different text quantities. For example, additional threads lead to largely monotonic
-                improvement with 5 paragraphs, but largly monotonically worse performance with 4,
-                and with 3 paragraphs, the best performance is with 10 threads but the worst is with 9:<footnote>
-                    <para>Tests were performed with the same settings as above, except that we
-                        processed each combination of threads (1 to 10) and paragraphs (1 to 5) six
-                        times, and Saxon EE reported the average of the last four iterations.</para>
+                never greater than 11%, and it is neither uniformly monotonic nor consistent across
+                different text quantities. The number to the left is the number of paragraphs, the
+                percentage to the right is the difference between the best and worst performance,
+                and the sparkline, from left to right, tracks the direction of changes in the timing
+                with 1 to 10 threads:<footnote>
+                    <para>Tests were performed with the same settings as above: we processed each
+                        combination of threads (1 to 10) and paragraphs (1 to 15) 10 times, and
+                        Saxon EE reported the average of the last 6 iterations.</para>
                 </footnote><figure>
                     <title>Effect of threading <tag class="element">&lt;xsl:for-each&gt;</tag> on
                         total execution time</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/threads.png" format="PNG" scalefit="1"
-                                width="100%" contentwidth="40%"/>
+                            <imagedata fileref="images/threads_sparkline.png" format="PNG"
+                                scalefit="1" width="100%" contentwidth="25%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
