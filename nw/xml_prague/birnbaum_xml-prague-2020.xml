@@ -259,7 +259,7 @@
                 moments to be compared. In the examples below we have assigned a score of <tag
                     class="attvalue">1</tag> for matches, <tag class="attvalue">-1</tag> for
                 mistmatches, and <tag class="attvalue">-2</tag> for gaps. This scoring system
-                prefers mismatches to gaps, and scores gaps in a linear (not affine) way.</para>
+                minimizes gaps.</para>
         </section>
         <section>
             <title>Sequence alignment algorithms</title>
@@ -650,7 +650,7 @@
                 reduces the storage complexity; because each anti-diagonal depends only on the two
                 immediately preceding ones, the recursive steps do not have to pass forward the
                 entire state of the grid.</para>
-            <para>The substantial improvement in computational efficiency that results from
+            <para>The potential improvement in computational efficiency that may result from
                 parallelization in an implementation <quote>on the diagonal</quote> was identified
                 initially by <xref linkend="muraoka_1971"/> (160), who used the term <quote>wave
                     front</quote> to describe the sequential processing of anti-diagonals, and then
@@ -673,9 +673,9 @@
                 nonetheless requires recursion on each new anti-diagonal. The reduction in the depth
                 of recursion from quadratic to linear scales impressively; for example, with two
                 20-item sequences and 400 cells, the traditional method would have recurred 400
-                times, while the anti-diagonal method makes only 39 function calls. In XSLT 3.0,
-                however, it is possible to use <tag class="element">&lt;xsl:iterate&gt;</tag> to
-                avoid recursive coding entirely:<blockquote>
+                times, while the anti-diagonal method makes only 39 recursive function calls. In
+                XSLT 3.0, however, it is possible to use <tag class="element"
+                    >&lt;xsl:iterate&gt;</tag> to avoid recursive coding entirely:<blockquote>
                     <para>[xsl:iterate] is similar to xsl:for-each, except that the items in the
                         input sequence are processed sequentially, and after processing each item in
                         the input sequence it is possible to set parameters for use in the next
@@ -700,9 +700,9 @@
                     <code>$ult</code> (immediately preceding) and <code>$penult</code> (preceding
                     <code>$ult</code>), promoting the previous <code>$ult</code> to the new
                     <code>$penult</code> on each iteration and adding the current anti-diagonal as
-                the new <code>$ult</code>. We improve the retrieval of these preceding cells while
-                computing new values by using <tag class="element">&lt;xsl:key&gt;</tag> with a
-                composite <tag class="attribute">@use</tag> attribute that indexes the two
+                the new <code>$ult</code>. We attempt to improve the retrieval of these preceding
+                cells while computing new values by using <tag class="element">&lt;xsl:key&gt;</tag>
+                with a composite <tag class="attribute">@use</tag> attribute that indexes the two
                 anti-diagonals that constitute the search space according to the <tag
                     class="attribute">@row</tag> and <tag class="attribute">@col</tag> attribute
                 values of each cell. At a minimum, each new cell holds information, in attributes,
@@ -720,7 +720,7 @@
             <para>In the Needleman Wunsch (and also Levenshtein) context, then, all values on the
                 same anti-diagonal can be calculated in parallel, and Tennison’s use of <tag
                     class="element">&lt;xsl:for-each&gt;</tag> in her improved code in <xref
-                    linkend="tennison_2007b"/>, to process the anti-diagonal is compatible with this
+                    linkend="tennison_2007b"/> to process the anti-diagonal is compatible with this
                 observation because <tag class="element">&lt;xsl:for-each&gt;</tag> can be
                 parallelized. Whether it <emphasis>is</emphasis> executed in parallel, however, is
                 often unpredictable, since standard XSLT 3.0 does not give the programmer explicit
@@ -782,15 +782,15 @@
                 will already contain information about the full path that led to it. We can then use
                 those directional path steps to construct an alignment table on the basis of the
                 original sequences, without further reference to the grid. Avoiding the backwards
-                trip through the grid comes at the cost of writing full path information into every
-                cell during the construction of the grid, which entails extra computation and
-                storage, even though we will ultimately use this information only from the one lower
-                right cell for the final traversal. In compensation for storing that additional
-                information in the cells, though, we no longer need to pass the entire cumulative
-                grid through the iterations, so the additional paths must be stored only for the
-                three-anti-diagonal life cycle of each cell. The section below documents the
-                improvement this produces with respect to both execution time and memory
-                requirements.</para>
+                trip through the grid after its completion comes at the expense of writing full path
+                information into every cell during the construction of the grid, which entails extra
+                computation and storage, even though we will ultimately use this information only
+                from the one lower right cell for the final alignment. In compensation for storing
+                that additional information in the cells, though, we no longer need to pass the
+                entire cumulative grid through the iterations, so the additional paths must be
+                stored only for the three-anti-diagonal life cycle of each cell. The section below
+                documents the improvement this produces with respect to both execution time and
+                memory requirements.</para>
         </section>
         <section>
             <title>Performance</title>
@@ -816,9 +816,9 @@
                             the number of cores provided by the CPU and on other demands on CPU
                             resources, and 2) parallelization improves performance only when the
                             benefit of parallel executation is greater than the overhead of managing
-                            it. In practice, the use of <tag class="attribute">@saxon:threads</tag>
-                            produced no reliable improvement in performance; see the discussion
-                            below.</para>
+                            it. In practice, in this case the use of <tag class="attribute"
+                                >@saxon:threads</tag> produced no reliable improvement in
+                            performance; see the discussion below.</para>
                     </listitem>
                     <listitem>
                         <para>We use schema-aware processing with type annotations (using the <tag
@@ -860,20 +860,26 @@
                 with a natural comparison by specifying the number of paragraphs (rather than the
                 number of words) to align. We ran the <application>Saxon EE</application> (v.
                 9.9.1.5J) and <application>HE</application> (v. 9.9.1.4J) transformations from the
-                command line with the following commands, respectively: <code>java -Xms24G -Xmx24G
-                    -jar /Users/djb/bin/saxon_ee/saxon9ee.jar -sa -it -o:/dev/null -repeat:10
-                    nw_ee.xsl</code> and <code>java -Xms24G -Xmx24G -jar
-                    /Users/djb/bin/saxon_he/saxon9he.jar -it -repeat:10 -o:/dev/null
-                    nw_he.xsl</code>. These instructions make 24G of RAM available to Java and cause
-                Saxon to perform the specified transformation 10 times and report the average
-                execution time of the last 6 runs. The testing platform was a mid-2018 MacBook Pro
-                with a 2.9 GHz Intel Core i9 processor (6 physical and 12 logical cores) and 32 GB
-                2400 MHz DDR4 RAM. Times are in milliseconds. The <quote>N/A</quote> values in the
-                table below reflect processing that crashed with Java memory errors; see below for
-                discussion. The table below shows the EE and HE processing time (total and ms per
-                token); it reports on the time EE requires to output not just the alignment table,
-                but also the full alignment grid; and it compares the EE and HE times
-                directly.</para>
+                command line with the following commands, respectively:</para>
+            <itemizedlist>
+                <listitem>
+                    <para><code>java -Xms24G -Xmx24G -jar /path/saxon9ee.jar -sa -it -o:/dev/null
+                            -repeat:10 nw_ee.xsl</code></para>
+                </listitem>
+                <listitem>
+                    <para><code>java -Xms24G -Xmx24G -jar /path/saxon9he.jar -it -o:/dev/null
+                            -repeat:10 nw_he.xsl</code></para>
+                </listitem>
+            </itemizedlist>
+            <para>These instructions make 24G of RAM available to Java and cause Saxon to perform
+                the specified transformation 10 times and report the average execution time of the
+                last 6 runs. The testing platform was a mid-2018 MacBook Pro with a 2.9 GHz Intel
+                Core i9 processor (6 physical and 12 logical cores) and 32 GB 2400 MHz DDR4 RAM.
+                Times are in milliseconds. The <quote>N/A</quote> values in the table below reflect
+                processing that crashed with Java memory errors; see below for discussion. The table
+                below shows the EE and HE processing time (total and ms per token); it reports on
+                the time EE requires to output not just the alignment table, but also the full
+                alignment grid; and it compares the EE and HE times directly.</para>
             <para>
                 <table>
                     <title>Comparison of EE and HE performance</title>
@@ -1148,8 +1154,8 @@
                 never greater than 11%, and it is neither uniformly monotonic nor consistent across
                 different text quantities. The number to the left is the number of paragraphs, the
                 percentage to the right is the difference between the best and worst performance,
-                and the sparkline, from left to right, tracks the direction of changes in the timing
-                with 1 to 10 threads:<footnote>
+                and the sparkline, from left to right, records the direction and relative degree of
+                change in the timing with 1 to 10 threads:<footnote>
                     <para>Tests were performed with the same settings as above: we processed each
                         combination of threads (1 to 10) and paragraphs (1 to 15) 10 times, and
                         Saxon EE reported the average of the last 6 iterations.</para>
@@ -1158,8 +1164,8 @@
                         total execution time</title>
                     <mediaobject>
                         <imageobject>
-                            <imagedata fileref="images/threads_sparkline.png" format="PNG"
-                                scalefit="1" width="100%" contentwidth="25%"/>
+                            <imagedata fileref="images/threads_sparkline_small.png" format="PNG"
+                                scalefit="1" width="100%" contentwidth="50%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -1180,10 +1186,11 @@
                         1859 and 1860 editions of <citetitle>On the origin of species</citetitle>.
                         The 49 paragraphs of the 1859 and 1860 editions contain 11590 and 11632 word
                         tokens, respectively. The total number of word tokens in the two editions is
-                        23222, and there are 134814880 cells in the complete grid. The alignment,
-                        using EE and the default Java memory allocation, reported real time of
-                        64m43.159s, user time of 538m5.128s, and sys time of 13m25.910s. Real time
-                        is lower than user time plus sys time because of parallel execution.</para>
+                        23222, and there are 134814880 (1.3481488e8) cells in the complete grid. The
+                        alignment, using EE and the default Java memory allocation, reported real
+                        time of 64m43.159s, user time of 538m5.128s, and sys time of 13m25.910s.
+                        Real time is lower than user time plus sys time because of parallel
+                        execution.</para>
                     <para>With respect to storage, processing maintains only a constant three
                         anti-diagonals at a time, and the length of an antidiagonal is linear with
                         respect to the sum of the lengths of the sequences being compared. The
@@ -1193,19 +1200,17 @@
                         of cells on an anti-diagonal grows, levels off, and then shrinks linearly
                         with respect to the number of tokens in the two sequences being compared;
                         the first and last anti-diagonal each contain a single cell.</para>
-                </footnote></para>
-            <para>The traditional Needleman Wunsch method requires composing the entire grid in
-                order to traverse it backwards to perform the alignment. Because the size of the
-                grid grows quadratically, this scales poorly, and the poor scaling, which is
-                primarily an inconvenience with respect to processing time, quickly turns fatal with
-                respect to storage. When asked to compose and maintain the entire grid (instead of
-                just the alignment that can be computed on the anti-diagonal), <application>Saxon
-                    EE</application> eventually crashed with a Java memory error, which a larger
-                Java <code>-Xmx</code> parameter could forestall, but not prevent. If the entire
-                grid is an output requirement with a large amount of data, then, it will have to be
-                output in a way that does not require it to be stored in memory in its entirety.
-                Fortunately, as this implementation demonstrates, aligning the sequences does not
-                require simultaneous access to the entire grid.</para>
+                </footnote> If we do attempt to maintain the entire grid, which grows quadratically,
+                the poor scaling, which is primarily an inconvenience with respect to processing
+                time, quickly turns fatal with respect to storage. When asked to compose and
+                maintain the entire grid (instead of just three anti-diagonals needed to compute the
+                alignment), <application>Saxon EE</application> eventually crashed with a Java
+                memory error, which a larger Java <code>-Xmx</code> parameter could forestall, but
+                not prevent. If the entire grid is an output requirement with a large amount of
+                data, then, it will have to be output in a way that does not require it to be stored
+                in memory in its entirety. Fortunately, as this implementation demonstrates,
+                aligning the sequences does not require simultaneous access to the entire
+                grid.</para>
         </section>
     </section>
     <section>
