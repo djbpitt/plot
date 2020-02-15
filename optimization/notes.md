@@ -11,3 +11,8 @@
 
 Kay: comparing integers is faster then comparing strings:
 <`https://archive.xmlprague.cz/2015/files/xmlprague-2015-proceedings.pdf>
+
+Comments on XML Prague paper:
+
+1. Michael Kay: Modifying arrays or maps might be more efficient than modifying nodes
+2. Accumulators (Michael Kay was skeptical)
