@@ -1,0 +1,56 @@
+# skyrim.rnc
+# Original verison by Jean Romanowski 2012-01-20.
+# Modified for use as an XSLT homework assignment by djb, gk, jec 2012-02-11.
+#
+start = skyrim
+skyrim = element skyrim { cast, cover, body }
+# 
+# Cast list header elements
+#
+cast = element cast { characterhead+, factionhead+ }
+characterhead = element character { id, loyalty, alignment }
+factionhead = element faction { id, alignment }
+id = attribute id { xsd:ID }
+loyalty = attribute loyalty { xsd:NMTOKENS }
+alignment = attribute alignment { "good" | "evil" | "neutral" }
+# 
+# Cover and body in-line elements
+# Some point to values of items in the cast list
+#
+character = element character { ref?, text }
+faction = element faction { ref, text }
+epithet =
+    element epithet {
+        ref,
+        mixed { (faction | location)* }
+    }
+ref = attribute ref { xsd:IDREFS }
+# 
+# Cover structure
+#
+cover = element cover { title, attribution, subtitle? }
+title = element title { text }
+attribution =
+    element attribution {
+        mixed { author }
+    }
+author = element author { text }
+subtitle =
+    element subtitle {
+        mixed { (character | QuestEvent)? }
+    }
+# 
+# Body structure
+#
+body = element body { paragraph+ }
+paragraph =
+    element paragraph {
+        mixed { (character | faction | location | epithet | QuestEvent | QuestItem)* }
+    }
+location = element location { type?, text }
+type = attribute type { "city" }
+QuestEvent =
+    element QuestEvent {
+        mixed { (character | faction | location | epithet | QuestItem)* }
+    }
+QuestItem = element QuestItem { text }
