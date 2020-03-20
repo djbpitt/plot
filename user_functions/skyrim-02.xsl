@@ -8,6 +8,15 @@
         <html>
             <head>
                 <title>Skyrim</title>
+                <style>
+                    table {
+                        border-collapse: collapse;
+                    }
+                    table,
+                    th,
+                    td {
+                        border: 1px solid black;
+                    }</style>
             </head>
             <body>
                 <h1>Skyrim</h1>
