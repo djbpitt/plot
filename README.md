@@ -5,6 +5,7 @@ Miscellaneous XML experimentation
 Project | Description
 ---- | ----
 alphanumeric_sort | Sort compound alphanumeric strings like “Proverbs 24” correctly
+bezier | smooth line graphs in SVG with cubic Bezier curves
 eXist-app | Learning how to create an eXist db app
 eo | Experimenting with Book 1 of *Eugene Onegin*
 hexify | Convert decimal Unicode value  to hex
