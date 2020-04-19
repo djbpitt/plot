@@ -1,5 +1,9 @@
 # Bézier curves in SVG
 
+## Synopsis
+
+Inspired by Giel Berkers’s <https://gielberkers.com/drawing-a-smooth-bezier-line-through-several-points/>, this library provides an XSLT library function that smooths a line graph by using cubic Bézier curves to round off the meeting points. It beings by porting Berkers’s PHP code to XSLT and then wrapping it in an XSLT function that accepts, as input, a polyline with points and line segments and a user-configurable length of the handles on the anchor points. That value defaults to the value suggested by Berkers, which is 20% of the length of the (outgoing) segment. 
+
 ## Use
 
 ### Signature
@@ -16,10 +20,6 @@ djb:bezier(
 ### Returns
 
 `<svg:polyline>` with cubic Bézier curves at the segment junctures.
-
-## Synopsis
-
-Inspired by Giel Berkers’s <https://gielberkers.com/drawing-a-smooth-bezier-line-through-several-points/>, this library provides an XSLT library function that smooths a line graph by using cubic Bézier curves to round off the meeting points. It beings by porting Berkers’s PHP code to XSLT and then wrapping it in an XSLT function that accepts, as input, a polyline with points and line segments and a user-configurable length of the handles on the anchor points. That value defaults to the value suggested by Berkers, which is 20% of the length of the (outgoing) segment. 
 
 ## The mathematics of Bézier curves
 
@@ -1250,7 +1250,7 @@ We revise the system of variables and output them as an HTML `<table>` element (
 </xsl:stylesheet>
 ```
 
-### 7. Get the lengths of the anchors and plot
+### 7. Get the lengths of the anchors and plot them
 
 #### SVG
 
@@ -1726,11 +1726,19 @@ We revise the system of variables and output them as an HTML `<table>` element (
 
 ### 8. Draw the curve
 
+#### SVG
 
+![8](images/sample-08.svg)
+
+#### XSLT
+
+```xslt
+```
 
 ## References
 
 * Berkers, Giel. “Drawing a smooth bezier line through several points”. <https://gielberkers.com/drawing-a-smooth-bezier-line-through-several-points/>
+* <https://stackoverflow.com/questions/5287559/calculating-control-points-for-a-shorthand-smooth-svg-path-bezier-curve>
 * Romain, François. “Smooth a Svg path with cubic bezier curves.” <https://medium.com/@francoisromain/smooth-a-svg-path-with-cubic-bezier-curves-e37b49d46c74>
 * Romain, François. “Smooth a Svg path with functional programming.” <https://medium.com/@francoisromain/smooth-a-svg-path-with-functional-programming-1b9876b8bf7e>
 * “The cubic Bézier curve commands.” *SVG 1.1 (Second edition) – 16 August 2011*, §8.3.6. <https://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathDataCubicBezierCommands>
