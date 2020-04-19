@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="500" viewBox="0 0 500, 300">
+    <g alignment-baseline="baseline">
+        <circle class="mainCircle" cx="50" cy="182" r="2"/>
+        <circle class="mainCircle" cx="100" cy="166" r="2"/>
+        <circle class="mainCircle" cx="150" cy="87" r="2"/>
+        <circle class="mainCircle" cx="200" cy="191" r="2"/>
+        <circle class="mainCircle" cx="250" cy="106" r="2"/>
+        <circle class="mainCircle" cx="300" cy="73" r="2"/>
+        <circle class="mainCircle" cx="350" cy="60" r="2"/>
+        <circle class="mainCircle" cx="400" cy="186" r="2"/>
+        <circle class="mainCircle" cx="450" cy="118" r="2"/>
+        <polyline class="mainLine"
+            points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118" fill="none"
+            stroke="silver" stroke-width="1"/>
+        <path d="M50,182 
+            C50,181 80,185 100,166 
+            C120,147 130,82 150,87
+            C170,92 180,187.2 200,191
+            C220,194.8 230,129.6 250,106
+            C270,82.4 280,82.2 300,73
+            C320,63.8 330,37.4 350,60
+            C370,82.6 380,174.4 400,186
+            C420,197.6 450,118 450, 118
+            
+            " 
+            stroke="black" stroke-width="1"
+        points="" fill="none"/>
+
+    </g>
+</svg>
