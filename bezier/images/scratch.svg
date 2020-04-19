@@ -13,7 +13,7 @@
         <circle class="mainCircle" cx="450" cy="118" r="2"/>
         <polyline class="mainLine"
             points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118" fill="none"
-            stroke="silver" stroke-width="1"/>
+            stroke="lightgray" stroke-width="1"/>
         <path d="M50,182 
             C50,181 80,185 100,166 
             C120,147 130,82 150,87

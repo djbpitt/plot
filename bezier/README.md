@@ -1726,6 +1726,22 @@ We revise the system of variables and output them as an HTML `<table>` element (
 
 ### 8. Draw the curve
 
+Draw a cubic Bézier curve with the SVG `<path>` element, setting the `@d` attribute value equal to a description of the path, as described below. Each `C` (curve from the current position to a new absolute position) requires four pieces of coordinate information, as follows:
+
+1. The **starting point of the curve segment** is implicit; it is the ending point of the immediately preceding `M` or `C` instruction.
+2. The **starting anchor point** is the *second* anchor point associated with the starting point, which pertains to the outgoing curve segment, the one currently being drawn. Because the first curve segment does not have an incoming anchor point (since there are no anchor points associated with the first point on the curve, which is the starting point for that first curve segment), use the coordinates of the first point of the curve instead.
+3. The **ending anchor point** is the *first* anchor point associated with the ending point, which pertains to the incoming curve segment, the one currently being drawn. Because the last curve segment does not have an outgoing anchor point (that is, there are no anchor points associated with the last point on the curve, which is the ending point of the last segment), use the coordinates of the last point of the curve instead.
+4. The ending point of the curve segment.
+
+The `@d` value is constructed as follows:
+
+1. Start with `MX,Y`, replacing `X` and `Y` with the numerical X and Y coordinates of the first point on the curve. `M` stands for *move to*.
+2. Draw a cubic Bézier curve segment to each new point with `CX1,Y1 X2,Y2 X,Y`, replacing the parts as follows:
+	3. `X1,Y1` The anchor point for the start of the curve segment. 
+	4. `X2,Y2` The anchor points at the end of the curve. 
+	5. `X,Y` The endpoint of the curve segment. (The starting point is not specified because it is automatically the endpoint of the previous segment.)
+
+
 #### SVG
 
 ![8](images/sample-08.svg)
@@ -1738,7 +1754,7 @@ We revise the system of variables and output them as an HTML `<table>` element (
 ## References
 
 * Berkers, Giel. “Drawing a smooth bezier line through several points”. <https://gielberkers.com/drawing-a-smooth-bezier-line-through-several-points/>
-* <https://stackoverflow.com/questions/5287559/calculating-control-points-for-a-shorthand-smooth-svg-path-bezier-curve>
+* “Calculating control points for a shorthand/smooth SVG path Bezier curve.” <https://stackoverflow.com/questions/5287559/calculating-control-points-for-a-shorthand-smooth-svg-path-bezier-curve>
 * Romain, François. “Smooth a Svg path with cubic bezier curves.” <https://medium.com/@francoisromain/smooth-a-svg-path-with-cubic-bezier-curves-e37b49d46c74>
 * Romain, François. “Smooth a Svg path with functional programming.” <https://medium.com/@francoisromain/smooth-a-svg-path-with-functional-programming-1b9876b8bf7e>
 * “The cubic Bézier curve commands.” *SVG 1.1 (Second edition) – 16 August 2011*, §8.3.6. <https://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathDataCubicBezierCommands>
