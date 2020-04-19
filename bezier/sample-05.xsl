@@ -35,7 +35,11 @@
     <!-- $connectingLineLengths as xs:double+ : formed by                  -->
     <!--   connecting alternate points                                     -->
     <!-- $unitXs as xs:double+ : X coordinates of unit vectors             -->
-    <!-- $unitYs as xs:double+ " Y coordinates of unit vectors             -->
+    <!-- $unitYs as xs:double+ : Y coordinates of unit vectors             -->
+    <!-- $normal1Xs as xs:double+ : X coordinates of endpoint 1 of normal  -->
+    <!-- $normal1Ys as xs:double+ : Y coordinates of endpoint 1 of normal  -->
+    <!-- $normal2Xs as xs:double+ : X coordinates of endpoint 2 of normal  -->
+    <!-- $normal2Ys as xs:double+ : Y coordinates of endpoint 2 of normal  -->
     <!-- ================================================================= -->
 
     <xsl:variable name="dirXs" as="xs:integer+">
@@ -68,6 +72,26 @@
     <xsl:variable name="unitYs" as="xs:double+">
         <xsl:for-each select="1 to count($points) - 2">
             <xsl:sequence select="$dirYs[current()] div $lengths[current()]"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="normal1Xs" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence select="-$unitYs[current()]"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="normal1Ys" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence select="$unitXs[current()]"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="normal2Xs" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence select="$unitYs[current()]"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="normal2Ys" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence select="-$unitXs[current()]"/>
         </xsl:for-each>
     </xsl:variable>
     <!-- ================================================================= -->
@@ -121,6 +145,8 @@
                     <th>length</th>
                     <th>unitX</th>
                     <th>unitY</th>
+                    <th>normal1</th>
+                    <th>normal2</th>
                 </tr>
                 <xsl:for-each select="1 to count($points) - 2">
                     <tr>
@@ -142,12 +168,33 @@
                         <td>
                             <xsl:sequence select="$unitYs[current()] ! format-number(., '0.00')"/>
                         </td>
-
+                        <td>
+                            <xsl:sequence
+                                select="
+                                    string-join(
+                                    (
+                                    $normal1Xs[current()] ! format-number(., '0.00'),
+                                    $normal1Ys[current()] ! format-number(., '0.00')
+                                    ),
+                                    ', ')"
+                            />
+                        </td>
+                        <td>
+                            <xsl:sequence
+                                select="
+                                    string-join(
+                                    (
+                                    $normal2Xs[current()] ! format-number(., '0.00'),
+                                    $normal2Ys[current()] ! format-number(., '0.00')
+                                    ),
+                                    ', ')"
+                            />
+                        </td>
                     </tr>
                 </xsl:for-each>
             </table>
         </xsl:result-document>
-        
+
         <!-- ============================================================= -->
         <!-- Now draw the SVG image                                        -->
         <!-- ============================================================= -->

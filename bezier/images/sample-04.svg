@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1000"
+     height="600"
+     viewBox="0 0 500 300">
+   <style type="text/css">
+            .mainLine {
+                fill: none;
+                stroke: black;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: black;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: blue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }</style>
+   <g>
+      <rect x="0"
+            y="0"
+            width="500"
+            height="300"
+            stroke="black"
+            stroke-width="1"
+            fill="papayawhip"/>
+      <circle class="mainCircle" cx="50" cy="182" r="2"/>
+      <circle class="mainCircle" cx="100" cy="166" r="2"/>
+      <circle class="mainCircle" cx="150" cy="87" r="2"/>
+      <circle class="mainCircle" cx="200" cy="191" r="2"/>
+      <circle class="mainCircle" cx="250" cy="106" r="2"/>
+      <circle class="mainCircle" cx="300" cy="73" r="2"/>
+      <circle class="mainCircle" cx="350" cy="60" r="2"/>
+      <circle class="mainCircle" cx="400" cy="186" r="2"/>
+      <circle class="mainCircle" cx="450" cy="118" r="2"/>
+      <polyline class="mainLine"
+                points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+      <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+      <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+   </g>
+</svg>

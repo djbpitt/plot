@@ -26,7 +26,6 @@
     </xsl:variable>
     <!-- ================================================================= -->
 
-
     <!-- ================================================================= -->
     <!-- Computed values                                                   -->
     <!--                                                                   -->
@@ -35,7 +34,17 @@
     <!-- $connectingLineLengths as xs:double+ : formed by                  -->
     <!--   connecting alternate points                                     -->
     <!-- $unitXs as xs:double+ : X coordinates of unit vectors             -->
-    <!-- $unitYs as xs:double+ " Y coordinates of unit vectors             -->
+    <!-- $unitYs as xs:double+ : Y coordinates of unit vectors             -->
+    <!-- $normal1Xs as xs:double+ : X coordinates of endpoint 1 of normal  -->
+    <!-- $normal1Ys as xs:double+ : Y coordinates of endpoint 1 of normal  -->
+    <!-- $normal2Xs as xs:double+ : X coordinates of endpoint 2 of normal  -->
+    <!-- $normal2Ys as xs:double+ : Y coordinates of endpoint 2 of normal  -->
+    <!-- $angle1s as xs:double+ : angle for normal1                        -->
+    <!-- $angle2s as xs:double+ : angle for normal2                        -->
+    <!-- $anchor1Xs as xs:double+ : X for endpoint 1 of anchor1            -->
+    <!-- $anchor1Ys as xs:double+ : Y for endpoint 1 of anchor1            -->
+    <!-- $anchor2Xs as xs:double+ : X for endpoint 1 of anchor2            -->
+    <!-- $anchor2Ys as xs:double+ : Y for endpoint 1 of anchor2            -->
     <!-- ================================================================= -->
 
     <xsl:variable name="dirXs" as="xs:integer+">
@@ -70,6 +79,68 @@
             <xsl:sequence select="$dirYs[current()] div $lengths[current()]"/>
         </xsl:for-each>
     </xsl:variable>
+    <xsl:variable name="normal1Xs" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence select="-$unitYs[current()]"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="normal1Ys" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence select="$unitXs[current()]"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="normal2Xs" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence select="$unitYs[current()]"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="normal2Ys" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence select="-$unitXs[current()]"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="angle1s" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="math:atan2($normal1Ys[current()], $normal1Xs[current()]) + math:pi() div 2"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="angle2s" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="math:atan2($normal2Ys[current()], $normal2Xs[current()]) + math:pi() div 2"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="anchor1Xs" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="$xPoints[current() + 1] + math:cos($angle1s[current()]) * ($lengths[current()] div 5)"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="anchor1Ys" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="$yPoints[current() + 1] + math:sin($angle1s[current()]) * ($lengths[current()] div 5)"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="anchor2Xs" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="$xPoints[current() + 1] + math:cos($angle2s[current()]) * ($lengths[current()] div 5)"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="anchor2Ys" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="$yPoints[current() + 1] + math:sin($angle2s[current()]) * ($lengths[current()] div 5)"
+            />
+        </xsl:for-each>
+    </xsl:variable>
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
@@ -79,6 +150,7 @@
     <!-- $svgHeight as xs:integer : height of viewport                     -->
     <!--   Note: halve these values in viewBox to scale up to 200%         -->
     <!-- $cRadius as xs:integer : radius of main and anchor points         -->
+    <!-- $bcColor as xs:string : background color                          -->
     <!-- $css as element(svg:style) : convenience variable                 -->
     <!-- ================================================================= -->
     <xsl:variable name="svgWidth" as="xs:integer" select="1000"/>
@@ -88,17 +160,31 @@
         <style type="text/css"><![CDATA[
             .mainLine {
                 fill: none;
-                stroke: black;
+                stroke: silver;
                 stroke-width: 1;
             }
             .mainCircle {
-                fill: black;
+                fill: silver;
             }
             .alternatingLine {
                 fill: none;
-                stroke: blue;
+                stroke: lightblue;
                 stroke-width: 1;
                 stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
             }]]></style>
     </xsl:variable>
     <!-- ================================================================= -->
@@ -121,6 +207,14 @@
                     <th>length</th>
                     <th>unitX</th>
                     <th>unitY</th>
+                    <th>normal1</th>
+                    <th>normal2</th>
+                    <th>angle1</th>
+                    <th>angle2</th>
+                    <th>anchor1X</th>
+                    <th>anchor1Y</th>
+                    <th>anchor2X</th>
+                    <th>anchor2Y</th>
                 </tr>
                 <xsl:for-each select="1 to count($points) - 2">
                     <tr>
@@ -142,12 +236,55 @@
                         <td>
                             <xsl:sequence select="$unitYs[current()] ! format-number(., '0.00')"/>
                         </td>
-
+                        <td>
+                            <xsl:sequence
+                                select="
+                                    string-join(
+                                    (
+                                    $normal1Xs[current()] ! format-number(., '0.00'),
+                                    $normal1Ys[current()] ! format-number(., '0.00')
+                                    ),
+                                    ', ')"
+                            />
+                        </td>
+                        <td>
+                            <xsl:sequence
+                                select="
+                                    string-join(
+                                    (
+                                    $normal2Xs[current()] ! format-number(., '0.00'),
+                                    $normal2Ys[current()] ! format-number(., '0.00')
+                                    ),
+                                    ', ')"
+                            />
+                        </td>
+                        <td>
+                            <xsl:sequence select="$angle1s[current()] ! format-number(., '0.00')"/>
+                        </td>
+                        <td>
+                            <xsl:sequence select="$angle2s[current()] ! format-number(., '0.00')"/>
+                        </td>
+                        <td>
+                            <xsl:sequence select="$anchor1Xs[current()] ! format-number(., '0.00')"
+                            />
+                        </td>
+                        <td>
+                            <xsl:sequence select="$anchor1Ys[current()] ! format-number(., '0.00')"
+                            />
+                        </td>
+                        <td>
+                            <xsl:sequence select="$anchor2Xs[current()] ! format-number(., '0.00')"
+                            />
+                        </td>
+                        <td>
+                            <xsl:sequence select="$anchor2Ys[current()] ! format-number(., '0.00')"
+                            />
+                        </td>
                     </tr>
                 </xsl:for-each>
             </table>
         </xsl:result-document>
-        
+
         <!-- ============================================================= -->
         <!-- Now draw the SVG image                                        -->
         <!-- ============================================================= -->
@@ -174,6 +311,18 @@
                 <xsl:for-each select="0, 1">
                     <polyline class="alternatingLine"
                         points="{$points[position() mod 2 eq current()]}"/>
+                </xsl:for-each>
+                <!-- ===================================================== -->
+                <!-- Anchor points and lines                               -->
+                <!-- ===================================================== -->
+                <xsl:for-each select="1 to count($points) - 2">
+                    <line class="anchorLine" x1="{$anchor1Xs[current()]}"
+                        y1="{$anchor1Ys[current()]}" x2="{$anchor2Xs[current()]}"
+                        y2="{$anchor2Ys[current()]}"/>
+                    <circle class="anchorCircle1" cx="{$anchor1Xs[current()]}"
+                        cy="{$anchor1Ys[current()]}" r="{$cRadius}"/>
+                    <circle class="anchorCircle2" cx="{$anchor2Xs[current()]}"
+                        cy="{$anchor2Ys[current()]}" r="{$cRadius}"/>
                 </xsl:for-each>
             </g>
         </svg>
