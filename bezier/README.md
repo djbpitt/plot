@@ -23,18 +23,26 @@ djb:bezier(
 
 ## The mathematics of Bézier curves
 
-Berkers’s method is as follows:
+Cubic Bézier curves are defined by four *control points*: a *starting point*, an *ending point*, and two *anchor points*. The curve passes through the starting and ending points, but typically not the anchor points (also called *handles*), which help determine the shape of the curve (see the links in the *References* section of this tutorial for more information about how they attract and shape the curve). Complex shapes with multiple curves in different directions, called *splines*, can be created by joining individual cubic Bézier curve segements. In order to ensure that these segments meet smoothly, without a visible *cusp*, the individual Bézier curve segments that make up a spline must have the following properties:
+
+1. Alternating points on the curve (e.g., the first and third, second and fourth, third and fifth, etc.) are connected by an imaginary *joining line*, which, with the point on the curve between the two endpoints of the joining line, form a triangle.
+2. An imaginary *control line* is drawn through the point opposite the imaginary joining line, and *parallel to it*; all points on the curve except the first and last have such a control line. The control line extends a certain distance to either side of that point and terminates in an anchor point, that is, a control point that is not an endpoint of the curve. In this tutorial the distance of each anchor point from the point on the curve through which the conrol line passes affects the shape of the curve; we set it initially at a uniform 20% of the length of the joining line.
+3. When the Bézier curve is drawn, it is defined by two adjacent points on the curve (the starting and ending points), the outgoing control point of the starting point, and the incoming control point of the ending point. The SVG `<path>` element describes the shape of the spline by recording the four control points for each Bézier curve segment that make up the spline.
+
+The challenge, then, is to determine the location and angle of each control line (location, angle) the length of its handles.
+
+Berkers’s method for plotting Bézier curves, which we implement in XSLT below, is as follows:
 
 1. Plot a line graph the connects the points with line segments.
-3. Superimpose secondary line graphs that connects alternating points, e.g., connecting *X<sub>0</sub>Y<sub>0</sub>* to *X<sub>2</sub>Y<sub>2</sub>*, *X<sub>1</sub>Y<sub>1</sub>* *X<sub>3</sub>Y<sub>3</sub>* etc.
-4. Get the lengths of these connecting lines. (Use the Pythagorean theorem, where the distances between the two X values and the two Y values of the endpoints are the lengths of the legs, that is, the sides adjacent to the right angle, and the line between the points is the hypotenuse.)
-5. Divide original distances between the X points and the Y points by the length of the hypotenuse to get the unit vectors. Call these `$unitX` and `$unitY`.
-6. The two normals (endpoints of a perpendicular) are `-$unitY, $unitX` and `$unitY, -$unitX`. See <https://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment> for how this works. (As one of the comments there explains, no division is involved, which removes any risk of division by zero.)
-7. The two angles for the two anchor points are `arctan(y, x) + pi / 2` of each of the endpoints.
-8. Set the lengths of the anchors (by default) to 20% of the length of the outgoing connecting line, which is `cos($angle) * ($length / 5)` for each of the two angles.
-9. Use the control points in an SVG `<path>` element, employing the `S` (absolute shorthand curve to) command to create a a *polybézier*.
+3. Superimpose secondary line graphs that connects alternating points, e.g., connecting *X<sub>0</sub>Y<sub>0</sub>* to *X<sub>2</sub>Y<sub>2</sub>*, *X<sub>1</sub>Y<sub>1</sub>* *X<sub>3</sub>Y<sub>3</sub>* etc. These are the joining lines described above.
+4. Get the lengths of the joining lines. (Use the Pythagorean theorem, where the distances between the two X values and the two Y values of the endpoints are the lengths of the legs, that is, the sides adjacent to the right angle, and the line between the points is the hypotenuse.)
+5. Divide the original distances between the X points and the Y points by the length of the hypotenuse to get the unit vectors. Call these `$unitX` and `$unitY`.
+6. The two normals (endpoints of a perpendicular unit vector) are `-$unitY, $unitX` and `$unitY, -$unitX`. See <https://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment> for how this works. (As one of the comments there explains, no division is involved, which removes the risk of division by zero.)
+7. Determine the angles of the two anchor points.
+8. Set the lengths of the handles (by default) to 20% of the length of the joining line.
+9. Use the control points in an SVG `<path>` element, employing the `C` (*curve to*) command to create a spline.
 
-Berkers’s visualizations are created in PHP. The ones below apply his method but use XSLT to create SVG.
+Berkers’s visualizations are created in PHP. The ones below apply his method but use XSLT to create the SVG.
 
 ## Step by step using XSLT
 
