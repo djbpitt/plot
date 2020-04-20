@@ -2184,9 +2184,16 @@ The construct and `M` and the first and last `C` in the `<path>` specially, and 
 </xsl:stylesheet>
 ```
 
-**[TODO]**
+### 9. Initial and final Bézier curves are different
 
-* Initial and final quadratic, rather than cubic
+Because the endpoints of the spline do not have handles, the initial and final Bézier curves have only one control point. Berkers plots them as cubic Bézier curves by repurposing the endpoint (knot) as the missing control point, while Embry plots them as quadratic Bézier curves, which only have one control point by design. In the image below the Berkers (fully cubic) implementation is in thin semi-transparent red and the one that Embry (using quadratic curves at the beginning and end of the spline) is in thin semi-transparent green. The difference in appearance is very slight, and you will have to zoom in on the image to see it clearly. 
+
+![9](images/sample-09.svg)
+
+We use the quadratic Bézier curves going forward.
+
+### 10. Handle length
+
 * Handle length is determined by congruent triangles
 * Scaling factor is user-defined (between 0.33 and 0.5; default to 0.33)
 
@@ -2202,5 +2209,5 @@ The construct and `M` and the first and last `C` in the `<path>` specially, and 
 * Romain, François. “Smooth a Svg path with functional programming.” <https://medium.com/@francoisromain/smooth-a-svg-path-with-functional-programming-1b9876b8bf7e>
 * “The cubic Bézier curve commands.” *SVG 1.1 (Second edition) – 16 August 2011*, §8.3.6. <https://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathDataCubicBezierCommands>
 
-The Wikipedia entry about Bézier curves at <https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Linear_B%C3%A9zier_curves> contains links to readings, tutorials, and animated descriptions of the geometry of Bézier curves.
+See also the Wikipedia entry about Bézier curves at <https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Linear_B%C3%A9zier_curves>.
 
