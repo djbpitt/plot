@@ -1,46 +1,56 @@
-# Bézier curves in SVG
+# Bézier curves in SVG using XSLT
 
 ## Synopsis
 
-Inspired by Giel Berkers’s <https://gielberkers.com/drawing-a-smooth-bezier-line-through-several-points/>, this library provides an XSLT library function that smooths a line graph by using cubic Bézier curves to round off the meeting points. It beings by porting Berkers’s PHP code to XSLT and then wrapping it in an XSLT function that accepts, as input, a polyline with points and line segments and a user-configurable length of the handles on the anchor points. That value defaults to the value suggested by Berkers, which is 20% of the length of the (outgoing) segment. 
+Inspired by Giel Berkers’s <https://gielberkers.com/drawing-a-smooth-bezier-line-through-several-points/>, this tutorial describes how we developed an XSLT library function that smooths a line graph by using Bézier curves to round off the meeting points. To use the function, import it and then pass it an SVG `<polyline>`, which defines a sequence of connected line segments (e.g., as seen in a line chart). The function returns an SVG `<path>` element that describes a smoothly curved line through the same points.
 
-## Use
-
-### Signature
+## Signature
 
 ```xpath
-djb:bezier(
-	$input as element(svg:polyline), 
-	$anchorLinePct as xs:double
-)
+djb:bezier($input as element(svg:polyline)) as element(svg:path)
 ```
 
-`$anchorLinePct` defaults to "20".
+## Terminology
 
-### Returns
-
-`<svg:polyline>` with cubic Bézier curves at the segment junctures.
+* **Bézier curve.** A smooth curve between two endpoints, with the shape of the curve determined by additional control points.
+* **Spline** or **polybézier.** A smoothly connected sequence of individual Bézier curves. Our function returns a spline, implemented as an SVG `<path>` element. We refer to the Bézier curves that make up a spline as **curve segments**, much as **line segments** make up a **polyline**.
+* **Knot.** A point on the spline. The first knot is the starting point of the first curve segment, the last knot is the ending point of the last curve segment, and each other knot is simultaneously the ending point of the incoming curve segment and the starting point of the outgoing one.
+* **Control point**, **anchor point**, or **handle**. A point not on the curve (except accidentally) that determines the shape of the curve between two knots (endpoints of a curve segment).
+* **Quadratic Bézier curve.** A Bézier curve with a single control point. We use quadratic Bézier curves as the first and last curve segments of our spline.
+* **Cubic Bézier curve.** A Bézier curve with two control points, one anchored at the starting knot and one at the ending knot. We use cubic Bézier curves for all curve segments of our spline except the first and last.
 
 ## The mathematics of Bézier curves
 
-Cubic Bézier curves are defined by four *control points*: a *starting point*, an *ending point*, and two *anchor points*. The curve passes through the starting and ending points, but typically not the anchor points (also called *handles*), which help determine the shape of the curve (see the links in the *References* section of this tutorial for more information about how they attract and shape the curve). Complex shapes with multiple curves in different directions, called *splines*, can be created by joining individual cubic Bézier curve segements. In order to ensure that these segments meet smoothly, without a visible *cusp*, the individual Bézier curve segments that make up a spline must have the following properties:
+**Cubic Bézier curves** are defined by four **points**. Two, located on the **spline**, are the **starting point** and **ending point** of the **curve segment**. The other two, called **control points** (also **anchor points** or **handles**), are typically not located on the curve (if they are, it is accidental), but nonetheless control its shape. Complex continuous shapes with multiple curves in different directions, called **splines**, can be created by joining individual Bézier curve segements at **knots**, that is, points on the spline where two curve segments meet. In order to ensure that these segments meet smoothly, without a visible **cusp** (angle), the individual cubic Bézier curves that make up a spline must have the following properties:
 
-1. Alternating points on the curve (e.g., the first and third, second and fourth, third and fifth, etc.) are connected by an imaginary *joining line*, which, with the point on the curve between the two endpoints of the joining line, form a triangle.
-2. An imaginary *control line* is drawn through the point opposite the imaginary joining line, and *parallel to it*; all points on the curve except the first and last have such a control line. The control line extends a certain distance to either side of that point and terminates in an anchor point, that is, a control point that is not an endpoint of the curve. In this tutorial the distance of each anchor point from the point on the curve through which the conrol line passes affects the shape of the curve; we set it initially at a uniform 20% of the length of the joining line.
-3. When the Bézier curve is drawn, it is defined by two adjacent points on the curve (the starting and ending points), the outgoing control point of the starting point, and the incoming control point of the ending point. The SVG `<path>` element describes the shape of the spline by recording the four control points for each Bézier curve segment that make up the spline.
+1. Alternating points on the curve (e.g., the first and third, second and fourth, third and fifth, etc.) are connected by an imaginary **joining line**, which, with the point on the curve between the two endpoints of the joining line, form a triangle, where the intermediate point is opposite the joining line.
+2. An imaginary **control line** is drawn through the point opposite the imaginary joining line, and *parallel to it*; all points on the curve except the first and last have such a control line. The control line extends a certain distance to either side of that point and terminates in a **control point**. The distance of each control point from the point on the curve through which the control line passes affects the shape of the curve; we set that distance initially at a uniform 20% of the length of the joining line and fine-tune it later.
+3. When a cubic Bézier curve is drawn, then, it is defined by two adjacent points on the curve (the starting and ending points), the outgoing control point of the starting point, and the incoming control point of the ending point. The shape of a quadratic Bézier is determined by a single control point.
+4. The first and last points on the spline do not have control points, which means that their shape is determined only by the control point at the other end of the curve segment. The first curve has a control point associated only with its ending point, which is the second point on the spline; the last curve has a control point associated only with its starting point, which is the penultimate point on the spline. We draw the first and last curve segments initially as cubic Bézier curves with an approximate additional control point; we then refine our implementation by replacing them with quadratic Bézier curves, as is more appropriate where there is only a single control point.
 
-The challenge, then, is to determine the location and angle of each control line (location, angle) the length of its handles.
+The SVG `<path>` element describes the shape of the spline by recording the four control points for each cubic Bézier curve segment (and the three for each quadratic Bézier curve segment) that make up the spline. The challenge, then, is to place the control points, that is, to determine their location, angle, and length. The result looks as follows:
 
-Berkers’s method for plotting Bézier curves, which we implement in XSLT below, is as follows:
+**[INSERT IMAGE]**
+
+**[EXPLICATE IMAGE]**
+
+## Berkers’s method and Embry’s adjustments
+
+Berkers’s method for plotting Bézier curves, which is that starting point for our implementation in XSLT below, is as follows:
 
 1. Plot a line graph the connects the points with line segments.
-3. Superimpose secondary line graphs that connects alternating points, e.g., connecting *X<sub>0</sub>Y<sub>0</sub>* to *X<sub>2</sub>Y<sub>2</sub>*, *X<sub>1</sub>Y<sub>1</sub>* *X<sub>3</sub>Y<sub>3</sub>* etc. These are the joining lines described above.
+3. Superimpose secondary line graphs that connect alternating points, e.g., connecting *X<sub>1</sub>Y<sub>1</sub>* to *X<sub>3</sub>Y<sub>3</sub>*, *X<sub>2</sub>Y<sub>2</sub>* to *X<sub>4</sub>Y<sub>4</sub>* etc. (we use one-based counting, as is appropriate for XPath). These are the joining lines described above.
 4. Get the lengths of the joining lines. (Use the Pythagorean theorem, where the distances between the two X values and the two Y values of the endpoints are the lengths of the legs, that is, the sides adjacent to the right angle, and the line between the points is the hypotenuse.)
 5. Divide the original distances between the X points and the Y points by the length of the hypotenuse to get the unit vectors. Call these `$unitX` and `$unitY`.
-6. The two normals (endpoints of a perpendicular unit vector) are `-$unitY, $unitX` and `$unitY, -$unitX`. See <https://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment> for how this works. (As one of the comments there explains, no division is involved, which removes the risk of division by zero.)
+6. The two normals (endpoints of a perpendicular unit vector) are `-$unitY, $unitX` and `$unitY, -$unitX`, which rotates the unit vector around its center by 90º. See <https://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment> for how this works. (As one of the comments there explains, no division is involved, which removes the risk of division by zero.)
 7. Determine the angles of the two anchor points.
 8. Set the lengths of the handles (by default) to 20% of the length of the joining line.
 9. Use the control points in an SVG `<path>` element, employing the `C` (*curve to*) command to create a spline.
+
+We then make two modifications to Berkers’s method, taken from Embry’s video tutorial (see the link below):
+
+1. Berkers uses the `C` command to create a sequence of cubic Bézier curves from the first knot to the last. Because the first and last curves on the spline have only a single control point, Embry uses the `Q` command to create them as quadratic Bézier curves, using cubic curves for all of the other spline segments.
+1. Berkers sets the lengths of the anchors arbitrarily at 20% of the length of the imaginary joining line, so that both anchors coming out of a single knot are the same length. Embry explains how to set them at different lengths in a way that provides a smoother curve. 
 
 Berkers’s visualizations are created in PHP. The ones below apply his method but use XSLT to create the SVG.
 
@@ -1763,6 +1773,7 @@ The `@d` value is constructed as follows:
 
 * Berkers, Giel. “Drawing a smooth bezier line through several points”. <https://gielberkers.com/drawing-a-smooth-bezier-line-through-several-points/>
 * “Calculating control points for a shorthand/smooth SVG path Bezier curve.” <https://stackoverflow.com/questions/5287559/calculating-control-points-for-a-shorthand-smooth-svg-path-bezier-curve>
+* Embry, Coty. “Spline Interpolation With Cubic Bezier Curves Using SVG and Path (make lines curvy).” <https://www.youtube.com/watch?v=o9tY9eQ0DgU>
 * Romain, François. “Smooth a Svg path with cubic bezier curves.” <https://medium.com/@francoisromain/smooth-a-svg-path-with-cubic-bezier-curves-e37b49d46c74>
 * Romain, François. “Smooth a Svg path with functional programming.” <https://medium.com/@francoisromain/smooth-a-svg-path-with-functional-programming-1b9876b8bf7e>
 * “The cubic Bézier curve commands.” *SVG 1.1 (Second edition) – 16 August 2011*, §8.3.6. <https://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathDataCubicBezierCommands>
