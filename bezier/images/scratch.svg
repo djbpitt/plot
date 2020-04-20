@@ -14,7 +14,9 @@
         <polyline class="mainLine"
             points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118" fill="none"
             stroke="lightgray" stroke-width="1"/>
-        <path d="M50,182 
+        <!-- hand drawn -->
+        <path
+            d="M50,182 
             C50,182 80,185 100,166 
             C120,147 130,82 150,87
             C170,92 180,187.2 200,191
@@ -23,10 +25,7 @@
             C320,63.8 330,37.4 350,60
             C370,82.6 380,174.4 400,186
             C420,197.6 450,118 450, 118
-            
-            " 
-            stroke="black" stroke-width="1"
-        points="" fill="none"/>
-
+            "
+            stroke="black" stroke-width="1" fill="none"/>
     </g>
 </svg>
