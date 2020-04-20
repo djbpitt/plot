@@ -1,0 +1,130 @@
+<table style="text-align: right;">
+   <tr style="text-align: center;">
+      <th>#</th>
+      <th>dirX</th>
+      <th>dirY</th>
+      <th>length</th>
+      <th>unitX</th>
+      <th>unitY</th>
+      <th>normal1</th>
+      <th>normal2</th>
+      <th>angle1</th>
+      <th>angle2</th>
+      <th>anchor1X</th>
+      <th>anchor1Y</th>
+      <th>anchor2X</th>
+      <th>anchor2Y</th>
+   </tr>
+   <tr>
+      <td>1</td>
+      <td>100</td>
+      <td>-95</td>
+      <td>137.93</td>
+      <td>0.72</td>
+      <td>-0.69</td>
+      <td>0.69, 0.72</td>
+      <td>-0.69, -0.72</td>
+      <td>2.38</td>
+      <td>-0.76</td>
+      <td>80.00</td>
+      <td>185.00</td>
+      <td>120.00</td>
+      <td>147.00</td>
+   </tr>
+   <tr>
+      <td>2</td>
+      <td>100</td>
+      <td>25</td>
+      <td>103.08</td>
+      <td>0.97</td>
+      <td>0.24</td>
+      <td>-0.24, 0.97</td>
+      <td>0.24, -0.97</td>
+      <td>3.39</td>
+      <td>0.24</td>
+      <td>130.00</td>
+      <td>82.00</td>
+      <td>170.00</td>
+      <td>92.00</td>
+   </tr>
+   <tr>
+      <td>3</td>
+      <td>100</td>
+      <td>19</td>
+      <td>101.79</td>
+      <td>0.98</td>
+      <td>0.19</td>
+      <td>-0.19, 0.98</td>
+      <td>0.19, -0.98</td>
+      <td>3.33</td>
+      <td>0.19</td>
+      <td>180.00</td>
+      <td>187.20</td>
+      <td>220.00</td>
+      <td>194.80</td>
+   </tr>
+   <tr>
+      <td>4</td>
+      <td>100</td>
+      <td>-118</td>
+      <td>154.67</td>
+      <td>0.65</td>
+      <td>-0.76</td>
+      <td>0.76, 0.65</td>
+      <td>-0.76, -0.65</td>
+      <td>2.27</td>
+      <td>-0.87</td>
+      <td>230.00</td>
+      <td>129.60</td>
+      <td>270.00</td>
+      <td>82.40</td>
+   </tr>
+   <tr>
+      <td>5</td>
+      <td>100</td>
+      <td>-46</td>
+      <td>110.07</td>
+      <td>0.91</td>
+      <td>-0.42</td>
+      <td>0.42, 0.91</td>
+      <td>-0.42, -0.91</td>
+      <td>2.71</td>
+      <td>-0.43</td>
+      <td>280.00</td>
+      <td>82.20</td>
+      <td>320.00</td>
+      <td>63.80</td>
+   </tr>
+   <tr>
+      <td>6</td>
+      <td>100</td>
+      <td>113</td>
+      <td>150.89</td>
+      <td>0.66</td>
+      <td>0.75</td>
+      <td>-0.75, 0.66</td>
+      <td>0.75, -0.66</td>
+      <td>3.99</td>
+      <td>0.85</td>
+      <td>330.00</td>
+      <td>37.40</td>
+      <td>370.00</td>
+      <td>82.60</td>
+   </tr>
+   <tr>
+      <td>7</td>
+      <td>100</td>
+      <td>58</td>
+      <td>115.60</td>
+      <td>0.87</td>
+      <td>0.50</td>
+      <td>-0.50, 0.87</td>
+      <td>0.50, -0.87</td>
+      <td>3.67</td>
+      <td>0.53</td>
+      <td>380.00</td>
+      <td>174.40</td>
+      <td>420.00</td>
+      <td>197.60</td>
+   </tr>
+</table>
