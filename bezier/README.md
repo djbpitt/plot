@@ -1776,11 +1776,13 @@ Draw a cubic Bézier curve with the SVG `<path>` element, setting the `@d` attri
 
 The `@d` value is constructed as follows:
 
-1. Start with `MX,Y`, replacing `X` and `Y` with the numerical X and Y coordinates of the first point on the spline. `M` stands for *move to*.
-2. Draw a cubic Bézier curve segment to each new point with `CX1,Y1 X2,Y2 X,Y`, replacing the parts as follows:
-   1. `X1,Y1` The anchor point for the start of the curve segment. 
-   1. `X2,Y2` The anchor points at the end of the curve. 
-   1. `X,Y` The endpoint of the curve segment. (The starting point is not specified because it is automatically the endpoint of the previous segment.)
+<ol>
+<li>Start with `MX,Y`, replacing `X` and `Y` with the numerical X and Y coordinates of the first point on the spline. `M` stands for *move to*.</li>
+<li>Draw a cubic Bézier curve segment to each new point with `CX1,Y1 X2,Y2 X,Y`, replacing the parts as follows:<ol type="a">
+   <li>`X1,Y1` The anchor point for the start of the curve segment.</li>
+   <li>`X2,Y2` The anchor points at the end of the curve.</li>
+   <li>`X,Y` The endpoint of the curve segment. (The starting point is not specified because it is automatically the endpoint of the previous segment.)</li></ol></li>
+</ol>
 
 
 #### SVG
