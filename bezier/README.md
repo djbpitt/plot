@@ -1791,7 +1791,7 @@ The `@d` value is constructed as follows:
 
 #### XSLT
 
-The construct and `M` and the first and last `C` in the `<path>` specially, and use a loop to create the intermediary `C` statements.
+Construct and `M` and the first and last `C` in the `<path>` individually, using a loop to create the intermediary `C` statements.
 
 ```xslt
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2191,9 +2191,9 @@ The construct and `M` and the first and last `C` in the `<path>` specially, and 
 
 ### 9. Initial and final Bézier curves are different
 
-Because the endpoints of the spline do not have handles, the initial and final Bézier curves have only one control point. Berkers plots them as cubic Bézier curves by repurposing the endpoint (knot) as the missing control point, while Embry plots them as quadratic Bézier curves, which only have one control point by design. A quadratic Bézier path step is described with `QX1,Y1 X,Y`, where `X1,Y1` are the coordinators of the single control point and `X,Y` are the coordinates of the ending point. As with cubic Bézier curves, the starting point is automatically the ending point of the immediately preceding preceding path instruction.
+Because the endpoints of the spline do not have handles, the initial and final Bézier curves have only one control point. Berkers plots them as cubic Bézier curves by repurposing the starting or ending point of the curve as the missing control point, while Embry plots them as quadratic Bézier curves, which only have one control point by design. A quadratic Bézier path step is described with `QX1,Y1 X,Y`, where `X1,Y1` are the coordinators of the single control point and `X,Y` are the coordinates of the ending point. As with cubic Bézier curves, the starting point is automatically the ending point of the immediately preceding preceding path instruction.
 
-In the image below the Berkers (fully cubic) implementation is in thin semi-transparent red and the one that Embry (using quadratic curves at the beginning and end of the spline) is in thin semi-transparent green. The difference in appearance is very slight, and you will have to zoom in on the image to see it clearly. 
+In the image below, Berkers’s (fully cubic) implementation is in thin semi-transparent red and Embry’s (using quadratic curves at the beginning and end of the spline) is in thin semi-transparent green. The difference in appearance is very slight, and you will have to zoom in the first or last curve segments of the spline to see it. Where there is overlap (all curve segments except the first and last), the colors blend into a dark gold tone. 
 
 ![9](images/sample-09.svg)
 
@@ -2203,7 +2203,7 @@ We use the quadratic Bézier curves going forward.
 
 In Berkers’s implementation all handle lengths are set as 20% of the opposite joining line, which means that the two handles that share a control line are of the same length. One consequence of this simplification is that the curve, although smoothly joined, may bulge in situations where the distance between points varies by a large amount. This type of artifact can be seen in the bulge on the right side of the sixth Bézier curve segment in this example.
 
-Embry sets the handle length in a way that is proportional to the distances between the points, with shorter handles controlling shorter curves and vice versa, which reduces the bulging. For example, if the control line passes through point B in an imaginary triangle formed by segments AB, BC (consecutive knots), and AC (imaginary joining line), the ratio of the distance between the control points on either side of point B is AB:BC. Initially we set the total distance to 40% of the length of joining line (following Berkers’s recommendation), but instead of extending for 20% on each side, we distribute the 40% according to the AB:BC ratio. This is within Embry’s recommended scaling range of 33–50%, which we explore in more detail below.
+Embry sets the handle length in a way that is proportional to the distances between the points, with shorter handles controlling shorter curves and vice versa, which reduces the bulging. For example, if the control line passes through point B in an imaginary triangle formed by segments AB, BC (lines between consecutive knots), and AC (imaginary joining line), in Embry’s implementation the ratio of the distance between the control points on either side of point B is AB:BC. Initially we set the total distance to 40% of the length of joining line (following Berkers’s recommendation), but instead of extending for 20% on each side, we distribute the 40% according to the AB:BC ratio. This is within Embry’s recommended scaling range of 33–50%, which we explore in more detail below.
 
 #### SVG
 
@@ -2213,7 +2213,7 @@ Embry sets the handle length in a way that is proportional to the distances betw
 
 
 
-* Scaling factor is user-defined (between 0.33 and 0.5; default to 0.33)
+* Scaling factor is user-defined (recommended between 0.33 and 0.5)
 
 ```xslt
 ```
