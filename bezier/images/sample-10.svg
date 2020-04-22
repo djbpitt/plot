@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1000"
+     height="600"
+     viewBox="0 0 500 300">
+   <style type="text/css">
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+   <g>
+      <rect x="0"
+            y="0"
+            width="500"
+            height="300"
+            stroke="black"
+            stroke-width="1"
+            fill="papayawhip"/>
+      <circle class="mainCircle" cx="50" cy="182" r="2"/>
+      <circle class="mainCircle" cx="100" cy="166" r="2"/>
+      <circle class="mainCircle" cx="150" cy="87" r="2"/>
+      <circle class="mainCircle" cx="200" cy="191" r="2"/>
+      <circle class="mainCircle" cx="250" cy="106" r="2"/>
+      <circle class="mainCircle" cx="300" cy="73" r="2"/>
+      <circle class="mainCircle" cx="350" cy="60" r="2"/>
+      <circle class="mainCircle" cx="400" cy="186" r="2"/>
+      <circle class="mainCircle" cx="450" cy="118" r="2"/>
+      <polyline class="mainLine"
+                points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+      <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+      <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+      <line class="anchorLine" x1="80" y1="185" x2="120" y2="147"/>
+      <circle class="anchorCircle1" cx="80" cy="185" r="2"/>
+      <circle class="anchorCircle2" cx="120" cy="147" r="2"/>
+      <line class="anchorLine" x1="130" y1="82" x2="170" y2="92"/>
+      <circle class="anchorCircle1" cx="130" cy="82" r="2"/>
+      <circle class="anchorCircle2" cx="170" cy="92" r="2"/>
+      <line class="anchorLine" x1="180" y1="187.2" x2="220" y2="194.8"/>
+      <circle class="anchorCircle1" cx="180" cy="187.2" r="2"/>
+      <circle class="anchorCircle2" cx="220" cy="194.8" r="2"/>
+      <line class="anchorLine" x1="230" y1="129.6" x2="270" y2="82.4"/>
+      <circle class="anchorCircle1" cx="230" cy="129.6" r="2"/>
+      <circle class="anchorCircle2" cx="270" cy="82.4" r="2"/>
+      <line class="anchorLine" x1="280" y1="82.2" x2="320" y2="63.8"/>
+      <circle class="anchorCircle1" cx="280" cy="82.2" r="2"/>
+      <circle class="anchorCircle2" cx="320" cy="63.8" r="2"/>
+      <line class="anchorLine"
+            x1="330"
+            y1="37.400000000000006"
+            x2="370"
+            y2="82.6"/>
+      <circle class="anchorCircle1" cx="330" cy="37.400000000000006" r="2"/>
+      <circle class="anchorCircle2" cx="370" cy="82.6" r="2"/>
+      <line class="anchorLine" x1="380" y1="174.4" x2="420" y2="197.6"/>
+      <circle class="anchorCircle1" cx="380" cy="174.4" r="2"/>
+      <circle class="anchorCircle2" cx="420" cy="197.6" r="2"/>
+      <path d="M50,182 Q80,185 100,166 C120,147 130,82 150,87 C170,92 180,187.2 200,191 C220,194.8 230,129.6 250,106 C270,82.4 280,82.2 300,73 C320,63.8 330,37.400000000000006 350,60 C370,82.6 380,174.4 400,186 Q420,197.6 450,118"
+            stroke="black"
+            stroke-width="1"
+            fill="none"/>
+   </g>
+</svg>

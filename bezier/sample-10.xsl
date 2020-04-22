@@ -164,17 +164,68 @@
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
+    <!-- One more than count of inner knots                                -->
+    <!--                                                                   -->
+    <!-- $xLengths as xs:double+ : x distance between adjacent points      -->
+    <!-- $yLengths as xs:double+ : y distance between adjacent points      -->
+    <!-- $segLengths as xs:double+ :                                       -->
+    <!--   diagonal distance between adjacent points                       -->
+    <!-- ================================================================= -->
+    <xsl:variable name="xLengths" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 1">
+            <xsl:sequence select="$xPoints[current() + 1] - $xPoints[current()]"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="yLengths" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 1">
+            <xsl:sequence select="$yPoints[current() + 1] - $yPoints[current()]"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="segLengths" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 1">
+            <xsl:sequence
+                select="(math:pow($xLengths[current()], 2) + math:pow($yLengths[current()], 2)) => math:sqrt()"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <!-- ================================================================= -->
+
+    <!-- ================================================================= -->
+    <!-- $inSegLengths as xs:double+ : length of incoming segment          -->
+    <!-- $outSegLengths as xs:double+ : length of outgoing segment         -->
     <!-- $anchor1length as xs:double+ : length of incoming handle          -->
     <!-- $anchor2length as xs:double+ : length of outgoing handle          -->
     <!-- ================================================================= -->
-    <xsl:variable name="anchorLength1" as="xs:double+">
+    <xsl:variable name="inSegLengths" as="xs:double+">
         <xsl:for-each select="1 to count($points) - 2">
-            <xsl:sequence select="1"/>
+            <xsl:sequence select="$segLengths[current()]"/>
         </xsl:for-each>
     </xsl:variable>
-    <xsl:variable name="anchorLength2" as="xs:double+">
+    <xsl:variable name="outSegLengths" as="xs:double+">
         <xsl:for-each select="1 to count($points) - 2">
-            <xsl:sequence select="1"/>
+            <xsl:sequence select="$segLengths[current() + 1]"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="anchor1Lengths" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="
+                    $scaling *
+                    $lengths[current()] *
+                    $inSegLengths[current()] div
+                    ($inSegLengths[current()] + $outSegLengths[current()])"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="anchor2Lengths" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="
+                    $scaling *
+                    $lengths[current()] *
+                    $outSegLengths[current()] div
+                    ($inSegLengths[current()] + $outSegLengths[current()])"
+            />
         </xsl:for-each>
     </xsl:variable>
     <!-- ================================================================= -->
@@ -234,91 +285,138 @@
         <!--                                                               -->
         <!-- $dirXs, $dirYs, $connectingLineLengths                        -->
         <!-- ============================================================= -->
-        <xsl:result-document href="diagnostics.xml" omit-xml-declaration="yes" indent="yes">
-            <table xmlns="" style="text-align: right;">
-                <tr style="text-align: center;">
-                    <th>#</th>
-                    <th>dirX</th>
-                    <th>dirY</th>
-                    <th>length</th>
-                    <th>unitX</th>
-                    <th>unitY</th>
-                    <th>normal1</th>
-                    <th>normal2</th>
-                    <th>angle1</th>
-                    <th>angle2</th>
-                    <th>anchor1X</th>
-                    <th>anchor1Y</th>
-                    <th>anchor2X</th>
-                    <th>anchor2Y</th>
-                </tr>
-                <xsl:for-each select="1 to count($points) - 2">
-                    <tr>
-                        <td>
-                            <xsl:sequence select="."/>
-                        </td>
-                        <td>
-                            <xsl:sequence select="$dirXs[current()]"/>
-                        </td>
-                        <td>
-                            <xsl:sequence select="$dirYs[current()]"/>
-                        </td>
-                        <td>
-                            <xsl:sequence select="$lengths[current()] ! format-number(., '#.00')"/>
-                        </td>
-                        <td>
-                            <xsl:sequence select="$unitXs[current()] ! format-number(., '0.00')"/>
-                        </td>
-                        <td>
-                            <xsl:sequence select="$unitYs[current()] ! format-number(., '0.00')"/>
-                        </td>
-                        <td>
-                            <xsl:sequence
-                                select="
-                                    string-join(
-                                    (
-                                    $normal1Xs[current()] ! format-number(., '0.00'),
-                                    $normal1Ys[current()] ! format-number(., '0.00')
-                                    ),
-                                    ', ')"
-                            />
-                        </td>
-                        <td>
-                            <xsl:sequence
-                                select="
-                                    string-join(
-                                    (
-                                    $normal2Xs[current()] ! format-number(., '0.00'),
-                                    $normal2Ys[current()] ! format-number(., '0.00')
-                                    ),
-                                    ', ')"
-                            />
-                        </td>
-                        <td>
-                            <xsl:sequence select="$angle1s[current()] ! format-number(., '0.00')"/>
-                        </td>
-                        <td>
-                            <xsl:sequence select="$angle2s[current()] ! format-number(., '0.00')"/>
-                        </td>
-                        <td>
-                            <xsl:sequence select="$anchor1Xs[current()] ! format-number(., '0.00')"
-                            />
-                        </td>
-                        <td>
-                            <xsl:sequence select="$anchor1Ys[current()] ! format-number(., '0.00')"
-                            />
-                        </td>
-                        <td>
-                            <xsl:sequence select="$anchor2Xs[current()] ! format-number(., '0.00')"
-                            />
-                        </td>
-                        <td>
-                            <xsl:sequence select="$anchor2Ys[current()] ! format-number(., '0.00')"
-                            />
-                        </td>
-                    </tr>
-                </xsl:for-each>
-            </table>
+        <xsl:result-document href="diagnostics.xhtml" omit-xml-declaration="yes" indent="yes"
+            doctype-system="about:legacy-compat" method="xml">
+            <html xmlns="http://www.w3.org/1999/xhtml">
+                <head>
+                    <title>Diagnostics</title>
+                    <style type="text/css">
+                        table,
+                        tr,
+                        th,
+                        td {
+                            border: 1px black solid;
+                        }
+                        table {
+                            border-collapse: collapse;
+                        }
+                        tr:nth-child(even) {
+                            background-color: lightgray;
+                        }
+                        th,
+                        td {
+                            padding: 4px;
+                        }</style>
+                </head>
+                <body>
+                    <table style="text-align: right;">
+                        <tr style="text-align: center;">
+                            <th>#</th>
+                            <th>dirX</th>
+                            <th>dirY</th>
+                            <th>length</th>
+                            <th>unitX</th>
+                            <th>unitY</th>
+                            <th>normal1</th>
+                            <th>normal2</th>
+                            <th>angle1</th>
+                            <th>angle2</th>
+                            <th>anchor1X</th>
+                            <th>anchor1Y</th>
+                            <th>anchor2X</th>
+                            <th>anchor2Y</th>
+                            <th>joiningLength</th>
+                            <th>anchorLength1</th>
+                            <th>anchorLength2</th>
+                        </tr>
+                        <xsl:for-each select="1 to count($points) - 2">
+                            <tr>
+                                <td>
+                                    <xsl:sequence select="."/>
+                                </td>
+                                <td>
+                                    <xsl:sequence select="$dirXs[current()]"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence select="$dirYs[current()]"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$lengths[current()] ! format-number(., '#.00')"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$unitXs[current()] ! format-number(., '0.00')"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$unitYs[current()] ! format-number(., '0.00')"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="
+                                            string-join(
+                                            (
+                                            $normal1Xs[current()] ! format-number(., '0.00'),
+                                            $normal1Ys[current()] ! format-number(., '0.00')
+                                            ),
+                                            ', ')"
+                                    />
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="
+                                            string-join(
+                                            (
+                                            $normal2Xs[current()] ! format-number(., '0.00'),
+                                            $normal2Ys[current()] ! format-number(., '0.00')
+                                            ),
+                                            ', ')"
+                                    />
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$angle1s[current()] ! format-number(., '0.00')"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$angle2s[current()] ! format-number(., '0.00')"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$anchor1Xs[current()] ! format-number(., '0.00')"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$anchor1Ys[current()] ! format-number(., '0.00')"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$anchor2Xs[current()] ! format-number(., '0.00')"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$anchor2Ys[current()] ! format-number(., '0.00')"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$lengths[current()] ! format-number(., '0.00')"/>
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$anchor1Lengths[current()] ! format-number(., '0.00')"
+                                    />
+                                </td>
+                                <td>
+                                    <xsl:sequence
+                                        select="$anchor2Lengths[current()] ! format-number(., '0.00')"
+                                    />
+                                </td>
+                            </tr>
+                        </xsl:for-each>
+                    </table>
+                </body>
+            </html>
         </xsl:result-document>
 
         <!-- ============================================================= -->
