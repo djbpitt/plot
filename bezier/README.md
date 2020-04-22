@@ -2209,11 +2209,34 @@ Embry sets the handle length in a way that is proportional to the distances betw
 
 ![10](images/sample-10.svg)
 
+```xslt
+```
+
 ### 11. User-controlled scaling factor
 
+Add a variable for a scaling factor, which will be changed to a function parameter with the code is refactored as an importable package in the next step. At this stage we fix the value of the variable at "0.4", so that the distance between the control points is 40% of the length of the imaginary joining line.
 
+```xslt
+```
 
-* Scaling factor is user-defined (recommended between 0.33 and 0.5)
+#### SVG
+
+![11](images/sample-11.svg)
+
+#### XSLT
+
+```xslt
+```
+
+### 12. Convert to package with function
+
+In addition to refactoring the code as a package with an importable function, we convert the scaling factor from a preset variable to a user-supplied parameter. Legal values range between "0" and "1"; values less than 0 or greater than 1 are automatically converted to "0" or "1". Recommended values, following Embry, range from "0.33" to "0.5".
+
+#### SVG
+
+![12](images/samples-12.svg)
+
+#### XSLT
 
 ```xslt
 ```
@@ -2227,5 +2250,5 @@ Embry sets the handle length in a way that is proportional to the distances betw
 * Romain, François. “Smooth a Svg path with functional programming.” <https://medium.com/@francoisromain/smooth-a-svg-path-with-functional-programming-1b9876b8bf7e>
 * “The cubic Bézier curve commands.” *SVG 1.1 (Second edition) – 16 August 2011*, §8.3.6. <https://www.w3.org/TR/2011/REC-SVG11-20110816/paths.html#PathDataCubicBezierCommands>
 
-See also the Wikipedia entry about Bézier curves at <https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Linear_B%C3%A9zier_curves>.
+See also the Wikipedia entry about Bézier curves, and the links at the bottom to external tutorials and other information, at <https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Linear_B%C3%A9zier_curves>.
 
