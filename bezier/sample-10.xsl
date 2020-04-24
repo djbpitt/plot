@@ -25,7 +25,7 @@
             </xsl:element>
         </xsl:for-each>
     </xsl:variable>
-    <xsl:variable name="scaling" as="xs:double" select="0.4"/>
+    <xsl:variable name="scaling" as="xs:double" select=".4"/>
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
@@ -128,42 +128,6 @@
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- $anchor1Xs as xs:double+ : X for endpoint 1 of anchor1            -->
-    <!-- $anchor1Ys as xs:double+ : Y for endpoint 1 of anchor1            -->
-    <!-- $anchor2Xs as xs:double+ : X for endpoint 1 of anchor2            -->
-    <!-- $anchor2Ys as xs:double+ : Y for endpoint 1 of anchor2            -->
-    <!-- ================================================================= -->
-    <xsl:variable name="anchor1Xs" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 2">
-            <xsl:sequence
-                select="$xPoints[current() + 1] + math:cos($angle1s[current()]) * ($lengths[current()] div 5)"
-            />
-        </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="anchor1Ys" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 2">
-            <xsl:sequence
-                select="$yPoints[current() + 1] + math:sin($angle1s[current()]) * ($lengths[current()] div 5)"
-            />
-        </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="anchor2Xs" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 2">
-            <xsl:sequence
-                select="$xPoints[current() + 1] + math:cos($angle2s[current()]) * ($lengths[current()] div 5)"
-            />
-        </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="anchor2Ys" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 2">
-            <xsl:sequence
-                select="$yPoints[current() + 1] + math:sin($angle2s[current()]) * ($lengths[current()] div 5)"
-            />
-        </xsl:for-each>
-    </xsl:variable>
-    <!-- ================================================================= -->
-
-    <!-- ================================================================= -->
     <!-- One more than count of inner knots                                -->
     <!--                                                                   -->
     <!-- $xLengths as xs:double+ : x distance between adjacent points      -->
@@ -191,40 +155,68 @@
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- $inSegLengths as xs:double+ : length of incoming segment          -->
-    <!-- $outSegLengths as xs:double+ : length of outgoing segment         -->
-    <!-- $anchor1length as xs:double+ : length of incoming handle          -->
-    <!-- $anchor2length as xs:double+ : length of outgoing handle          -->
+    <!-- $totalAnchorLengths as xs:double : length of control line         -->
+    <!-- $inAnchorLengths as xs:double+ : length of incoming handles       -->
+    <!-- $outAnchorLengths as xs:double+ : length of outgoing handles      -->
     <!-- ================================================================= -->
-    <xsl:variable name="inSegLengths" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 2">
-            <xsl:sequence select="$segLengths[current()]"/>
+    <xsl:variable name="totalAnchorLengths" as="xs:double+">
+        <xsl:for-each select="1 to count($lengths)">
+            <xsl:sequence select="$scaling * $lengths[current()]"/>
         </xsl:for-each>
     </xsl:variable>
-    <xsl:variable name="outSegLengths" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 2">
-            <xsl:sequence select="$segLengths[current() + 1]"/>
-        </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="anchor1Lengths" as="xs:double+">
+    <xsl:variable name="inAnchorLengths" as="xs:double+">
         <xsl:for-each select="1 to count($points) - 2">
             <xsl:sequence
                 select="
-                    $scaling *
-                    $lengths[current()] *
-                    $inSegLengths[current()] div
-                    ($inSegLengths[current()] + $outSegLengths[current()])"
+                    $totalAnchorLengths[current()] *
+                    $segLengths[current()] div
+                    ($segLengths[current()] + $segLengths[current() + 1])"
             />
         </xsl:for-each>
     </xsl:variable>
-    <xsl:variable name="anchor2Lengths" as="xs:double+">
+    <xsl:variable name="outAnchorLengths" as="xs:double+">
         <xsl:for-each select="1 to count($points) - 2">
             <xsl:sequence
                 select="
-                    $scaling *
-                    $lengths[current()] *
-                    $outSegLengths[current()] div
-                    ($inSegLengths[current()] + $outSegLengths[current()])"
+                    $totalAnchorLengths[current()] *
+                    $segLengths[current() + 1] div
+                    ($segLengths[current()] + $segLengths[current() + 1])"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <!-- ================================================================= -->
+
+    <!-- ================================================================= -->
+    <!-- $anchor1Xs as xs:double+ : X for endpoint 1 of anchor1            -->
+    <!-- $anchor1Ys as xs:double+ : Y for endpoint 1 of anchor1            -->
+    <!-- $anchor2Xs as xs:double+ : X for endpoint 1 of anchor2            -->
+    <!-- $anchor2Ys as xs:double+ : Y for endpoint 1 of anchor2            -->
+    <!-- ================================================================= -->
+    <xsl:variable name="anchor1Xs" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="$xPoints[current() + 1] + math:cos($angle1s[current()]) * ($inAnchorLengths[current()])"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="anchor1Ys" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="$yPoints[current() + 1] + math:sin($angle1s[current()]) * ($inAnchorLengths[current()])"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="anchor2Xs" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="$xPoints[current() + 1] + math:cos($angle2s[current()]) * ($outAnchorLengths[current()])"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="anchor2Ys" as="xs:double+">
+        <xsl:for-each select="1 to count($points) - 2">
+            <xsl:sequence
+                select="$yPoints[current() + 1] + math:sin($angle2s[current()]) * ($outAnchorLengths[current()])"
             />
         </xsl:for-each>
     </xsl:variable>
@@ -314,7 +306,7 @@
                             <th>#</th>
                             <th>dirX</th>
                             <th>dirY</th>
-                            <th>length</th>
+                            <th>joining<br/>length</th>
                             <th>unitX</th>
                             <th>unitY</th>
                             <th>normal1</th>
@@ -325,33 +317,41 @@
                             <th>anchor1Y</th>
                             <th>anchor2X</th>
                             <th>anchor2Y</th>
-                            <th>joiningLength</th>
-                            <th>anchorLength1</th>
-                            <th>anchorLength2</th>
+                            <th>scaling<br/>(constant)</th>
+                            <th>total anchor<br/>length</th>
+                            <th>anchorLength1<br/>(in)</th>
+                            <th>anchorLength2<br/>(out)</th>
                         </tr>
                         <xsl:for-each select="1 to count($points) - 2">
                             <tr>
+                                <!-- Bézier number -->
                                 <td>
                                     <xsl:sequence select="."/>
                                 </td>
+                                <!-- dir X -->
                                 <td>
                                     <xsl:sequence select="$dirXs[current()]"/>
                                 </td>
+                                <!-- dir Y -->
                                 <td>
                                     <xsl:sequence select="$dirYs[current()]"/>
                                 </td>
+                                <!-- length of joining line -->
                                 <td>
                                     <xsl:sequence
                                         select="$lengths[current()] ! format-number(., '#.00')"/>
                                 </td>
+                                <!-- unit X -->
                                 <td>
                                     <xsl:sequence
                                         select="$unitXs[current()] ! format-number(., '0.00')"/>
                                 </td>
+                                <!-- unit Y -->
                                 <td>
                                     <xsl:sequence
                                         select="$unitYs[current()] ! format-number(., '0.00')"/>
                                 </td>
+                                <!-- normal 1 -->
                                 <td>
                                     <xsl:sequence
                                         select="
@@ -363,6 +363,7 @@
                                             ', ')"
                                     />
                                 </td>
+                                <!-- normal 2 -->
                                 <td>
                                     <xsl:sequence
                                         select="
@@ -374,42 +375,56 @@
                                             ', ')"
                                     />
                                 </td>
+                                <!-- angle 1 -->
                                 <td>
                                     <xsl:sequence
                                         select="$angle1s[current()] ! format-number(., '0.00')"/>
                                 </td>
+                                <!-- angle 2 -->
                                 <td>
                                     <xsl:sequence
                                         select="$angle2s[current()] ! format-number(., '0.00')"/>
                                 </td>
+                                <!-- anchor 1 X -->
                                 <td>
                                     <xsl:sequence
                                         select="$anchor1Xs[current()] ! format-number(., '0.00')"/>
                                 </td>
+                                <!-- anchor 1 Y-->
                                 <td>
                                     <xsl:sequence
                                         select="$anchor1Ys[current()] ! format-number(., '0.00')"/>
                                 </td>
+                                <!-- anchor 2 X -->
                                 <td>
                                     <xsl:sequence
                                         select="$anchor2Xs[current()] ! format-number(., '0.00')"/>
                                 </td>
+                                <!-- anchor 2 Y -->
                                 <td>
                                     <xsl:sequence
                                         select="$anchor2Ys[current()] ! format-number(., '0.00')"/>
                                 </td>
+                                <!-- scaling factor (constant) -->
                                 <td>
-                                    <xsl:sequence
-                                        select="$lengths[current()] ! format-number(., '0.00')"/>
+                                    <xsl:sequence select="$scaling"/>
                                 </td>
+                                <!-- total length of control line -->
                                 <td>
                                     <xsl:sequence
-                                        select="$anchor1Lengths[current()] ! format-number(., '0.00')"
+                                        select="$totalAnchorLengths[current()] ! format-number(., '0.00')"
                                     />
                                 </td>
+                                <!-- in handle length -->
                                 <td>
                                     <xsl:sequence
-                                        select="$anchor2Lengths[current()] ! format-number(., '0.00')"
+                                        select="$inAnchorLengths[current()] ! format-number(., '0.00')"
+                                    />
+                                </td>
+                                <!-- out handle length -->
+                                <td>
+                                    <xsl:sequence
+                                        select="$outAnchorLengths[current()] ! format-number(., '0.00')"
                                     />
                                 </td>
                             </tr>
