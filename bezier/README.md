@@ -2,15 +2,43 @@
 
 ## Synopsis
 
-Inspired by Giel Berkers’s [Drawing a smooth bezier line through several points](https://gielberkers.com/drawing-a-smooth-bezier-line-through-several-points/) and Coty Embry’s [Spline interpolation with cubic Bezier curves using SVG and path (make lines curvy)](https://www.youtube.com/watch?v=o9tY9eQ0DgU), this tutorial describes how we developed an XSLT library function that smooths a line graph by using Bézier curves to round off the meeting points. To use the function, import it and then pass it two arguments: 1) an SVG `<polyline>`, which defines a sequence of connected line segments (e.g., as seen in a line chart), and 2) a scaling value, which controls how curvy the spline is. The function returns an SVG `<path>` element that describes a smoothly curved line through the same points.
+Inspired by Giel Berkers’s [Drawing a smooth bezier line through several points](https://gielberkers.com/drawing-a-smooth-bezier-line-through-several-points/) and Coty Embry’s [Spline interpolation with cubic Bezier curves using SVG and path (make lines curvy)](https://www.youtube.com/watch?v=o9tY9eQ0DgU), this tutorial describes how we developed an XSLT library function that smooths a line graph by using Bézier curves to round off the meeting points. 
+
+The file that contains the function is `bezier.xsl`. To use it, either import or include the file (with `<xsl:import>` or `<xsl:include>`) or access it with `<xsl:use-package>`. There are three versions for the function, with different arities, about which see below.
+
+This tutorial is long because it include the full XSLT code for each step of the development, but the prose descriptions and illustrative SVG output can be read on their own, skipping over the XSLT code, by those who are not interested in how intemediate stages were implemented. It is not necessary to read the tutorial to use the function, but it might prove insightful for those who do not already know how Bézier curves work.
 
 ## Signature
 
+### Arity 3
+
 ```xpath
-djb:bezier($input as element(svg:polyline), $scaling as xs:double) as element(svg:path)
+djb:bezier($input as xs:string, $scaling as xs:double, $debug as xs:boolean) as element(svg:g)
 ```
 
-`$scaling`, which controls the curviness of the spline, gives the best results when it ranges between "0.33" and "0.5". Values smaller than "0" or greater than "1" are illegal, and are automatically converted to "0" and "1", respectively.
+Used only for debugging, since it outputs diagnostic information as part of the SVG. This version of the function also writes additional diagnostic information, as an XHTML file, to *diagnostic.xhtml*.
+
+### Arity 2
+
+```xpath
+djb:bezier($input as xs:string, $scaling as xs:double) as element(svg:g)
+```
+
+### Arity 1
+
+```xpath
+djb:bezier($input as xs:string) as element(svg:g)
+```
+
+### Arguments and results
+
+Argument | Type | Default | Meaning
+----|----|----|----
+`$points` | xs:string | (required) | A string that conforms to the syntax of the `@points` attribute of an SVG `<polyline>`, that is, a whitespace-delimited sequence of `X,Y` coordinates, where the `X` and `Y` values are separated by a comma without intervening whitespace. (For example, `50,182 100,166 150,87 200,191 250,106` describes five points). The function raises a fatal error if `$points` does not match this pattern or if it includes fewer than three points.
+`$scaling` | xs:double? | 0.4 | If present, must be a number between 0 and 1. The function raises a fatal error if the value is not within this range. Embry tells us that `$scaling`, which controls the curviness of the spline, gives the best results when it ranges between "0.33" and "0.5". A value of "0" creates a `<polyline>`, that is, a line graph with straight segments. If absent, a default value of "0.4" is supplied automatically.
+`$debug` | xs:boolean? | False | If True, it causes the rendering to include not only the spline (curved connected sequence of points), but also the illustrative artifacts used in this tutorial. A True value also causes an XHTML file with diagnostic information (filename *diagnostic.xhtml*) to be written to `stderr`. A False value, which is the default, outputs only the spline.
+*Result* | `element(svg:g)` | (none) | An SVG `<g>` element that contains an SVG `<path>` element that describes the spline. If `$debug` is True, the `<g>` also contains diagnostic SVG artifacts.
+*Result* | `element(html:html)?` | (none) | If `$debug` is True, numeric diagnostic information as an XHTML document is written to a file called *diagnostic.xhtml*.
 
 ## Terminology
 
@@ -2201,9 +2229,11 @@ We use the quadratic Bézier curves going forward.
 
 ### 10. Handle length
 
-In Berkers’s implementation all handle lengths are set as 20% of the opposite joining line, which means that the two handles that share a control line are of the same length. One consequence of this simplification is that the curve, although smoothly joined, may bulge in situations where the distance between points varies by a large amount. This type of artifact can be seen in the bulge on the right side of the sixth Bézier curve segment in this example.
+In Berkers’s implementation all handle lengths are set as 20% of the opposite joining line, which means that the two handles that share a control line are of the same length. One consequence of this simplification is that the curve, although smoothly joined, may bulge in situations where the distance between points varies by a large amount. This type of artifact can be seen in the bulge on the right side of the sixth Bézier curve segment in the image above.
 
 Embry sets the handle length in a way that is proportional to the distances between the points, with shorter handles controlling shorter curves and vice versa, which reduces the bulging. For example, if the control line passes through point B in an imaginary triangle formed by segments AB, BC (lines between consecutive knots), and AC (imaginary joining line), in Embry’s implementation the ratio of the distance between the control points on either side of point B is AB:BC. Initially we set the total distance to 40% of the length of joining line (following Berkers’s recommendation), but instead of extending for 20% on each side, we distribute the 40% according to the AB:BC ratio. This is within Embry’s recommended scaling range of 33–50%, which we explore in more detail below.
+
+The scaling is set as variable `$scaling`, which is a number that ranges between 0 and 1. It is fixed at "0.4" (that is, 40%) currently, but we can convert the variable to a parameter and let the user supply the scaling value when we refactor the code as a callable function.
 
 #### SVG
 
@@ -2212,34 +2242,67 @@ Embry sets the handle length in a way that is proportional to the distances betw
 ```xslt
 ```
 
-### 11. User-controlled scaling factor
-
-Add a variable for a scaling factor, which will be changed to a function parameter with the code is refactored as an importable package in the next step. At this stage we fix the value of the variable at "0.4", so that the distance between the control points is 40% of the length of the imaginary joining line.
-
-```xslt
-```
-
-#### SVG
-
-![11](images/sample-11.svg)
+#### Diagnostic information
 
 #### XSLT
 
 ```xslt
 ```
 
-### 12. Convert to package with function
+### 11. Convert to a function
 
-In addition to refactoring the code as a package with an importable function, we convert the scaling factor from a preset variable to a user-supplied parameter. Legal values range between "0" and "1"; values less than 0 or greater than 1 are automatically converted to "0" or "1". Recommended values, following Embry, range from "0.33" to "0.5".
+Up to this point the XSLT has used hard-coded values as points. At this stage we refactor it as two functions that can be made available with `<xsl:import>` or `<xsl:include>`. The core code is called with:
+
+```xpath
+djb:bezier($points as xs:string, $scaling as xs:double)
+```
+
+and a one-argument version sets the scaling at 0.4 and is called with:
+
+```xpath
+djb:bezier($points as xs:string)
+```
+
+The value of `$points` must be a string that can serve as the value of the `@points` attribute of an SVG `<polyline>`. This means that it is a whitespace-delimited sequence of X,Y coordinates, where the X and Y values are separated by a comma without intervening whitespace. The function raises a fatal error if `$points` does not conform to this pattern. 
+
+The value of `$scaling`, if present, must be a number between 0 and 1. The function raises a fatal error if the value is not within this range.
+
+The output is an SVG `<g>` element that contains an SVG `<path>` element that describes the spline, plus the other illustrative SVG components used in this tutorial. (We make everything except the `<path>` optional below.)
+
+We illustrate the function call and the effect of the `$scaling` parameter with a driver XSLT that imports the function and creates small multiples of the SVG with `$scaling` values that range from 0 to 1 by multiples of 0.1. A `$scaling` value of 0 produces a `<polyline>` because the values of the control points match those of the knots.
 
 #### SVG
 
-![12](images/samples-12.svg)
+#### XSLT (function)
 
-#### XSLT
+#### XSLT (driver)
+
+### 12. Isolate debugging output
+
+So far the visualization has included illustrative information, such as a polyline connecting the points, the joining lines, the control lines, and the control points, and it also writes a table of computed numerical values as a separate XHTML document. At this stage the user is able to control whether that diagnostic information is output by setting a stylesheet `$debug as xs:boolean` parameter. The default is False. If True, the SVG includes the other SVG objects, and the XHTML table is written to stderr. If False, the `<g>` element contains only the `<path>`.
+
+We again output small multiples, this time with and without the diagnostic SVG artifacts, using `$scaling` values that range from 0.25 to 0.5 by multiples of 0.05.
+
+#### SVG
+
+#### XSLT (function)
+
+#### XSLT (driver)
+
+### 13. Convert to package
+
+Blah blah blah
+
+#### SVG
+
+![13](images/samples-12.svg)
+
+#### XSLT (package)
 
 ```xslt
 ```
+
+#### XSLT (driver)
 
 ## References
 
