@@ -13,7 +13,7 @@ This tutorial is long because it include the full XSLT code for each step of the
 ### Arity 3
 
 ```xpath
-djb:bezier($input as xs:string, $scaling as xs:double, $debug as xs:boolean) as element(svg:g)
+djb:bezier($points as xs:string, $scaling as xs:double, $debug as xs:boolean) as element(svg:g)
 ```
 
 Used only for debugging, since it outputs diagnostic information as part of the SVG. This version of the function also writes additional diagnostic information, as an XHTML file, to *diagnostic.xhtml*.
@@ -21,24 +21,24 @@ Used only for debugging, since it outputs diagnostic information as part of the 
 ### Arity 2
 
 ```xpath
-djb:bezier($input as xs:string, $scaling as xs:double) as element(svg:g)
+djb:bezier($points as xs:string, $scaling as xs:double) as element(svg:g)
 ```
 
 ### Arity 1
 
 ```xpath
-djb:bezier($input as xs:string) as element(svg:g)
+djb:bezier($points as xs:string) as element(svg:g)
 ```
 
 ### Arguments and results
 
 Argument | Type | Default | Meaning
 ----|----|----|----
-`$points` | xs:string | (required) | A string that conforms to the syntax of the `@points` attribute of an SVG `<polyline>`, that is, a whitespace-delimited sequence of `X,Y` coordinates, where the `X` and `Y` values are separated by a comma without intervening whitespace. (For example, `50,182 100,166 150,87 200,191 250,106` describes five points). The function raises a fatal error if `$points` does not match this pattern or if it includes fewer than three points.
-`$scaling` | xs:double? | 0.4 | If present, must be a number between 0 and 1. The function raises a fatal error if the value is not within this range. Embry tells us that `$scaling`, which controls the curviness of the spline, gives the best results when it ranges between "0.33" and "0.5". A value of "0" creates a `<polyline>`, that is, a line graph with straight segments. If absent, a default value of "0.4" is supplied automatically.
-`$debug` | xs:boolean? | False | If True, it causes the rendering to include not only the spline (curved connected sequence of points), but also the illustrative artifacts used in this tutorial. A True value also causes an XHTML file with diagnostic information (filename *diagnostic.xhtml*) to be written to `stderr`. A False value, which is the default, outputs only the spline.
+`$points` | xs:string | (required) | A string that conforms to a subset of the syntax of the `@points` attribute of an SVG `<polyline>`, specifically, a whitespace-delimited sequence of `X,Y` coordinates, where the `X` and `Y` values are separated by a comma without intervening whitespace. (For example, `50,182 100,166 150,87 200,191 250,106` describes five points. The syntax of the `$points` argument to our function is stricter than the syntax of the `@points` attribute for an SVG `<polyline>`, about which see <https://www.w3.org/TR/SVG11/shapes.html#PointsBNF>.) The function raises a fatal error if `$points` does not match this pattern or if it includes fewer than three points.
+`$scaling` | xs:double? | 0.4 | If present, must be a number between 0 and 1. The function raises a fatal error if the value is not within this range. Embry tells us that `$scaling`, which controls the curviness of the spline, gives the best results when it ranges between "0.33" and "0.5". A value of "0" creates a `<polyline>`, that is, a line graph with straight segments. If `$scaling is not supplied`, a default value of "0.4" is used.
+`$debug` | xs:boolean? | False | A True of `$debug` causes the rendering to include not only the spline (curved connected sequence of points), but also the illustrative artifacts (other lines and circles) used in this tutorial. A True value also causes an XHTML file with diagnostic information, as an HTML `<table>`, to be written to a file called *diagnostic.xhtml*. A False value, which is the default, outputs only the spline.
 *Result* | `element(svg:g)` | (none) | An SVG `<g>` element that contains an SVG `<path>` element that describes the spline. If `$debug` is True, the `<g>` also contains diagnostic SVG artifacts.
-*Result* | `element(html:html)?` | (none) | If `$debug` is True, numeric diagnostic information as an XHTML document is written to a file called *diagnostic.xhtml*.
+*Result* | `element(html:html)?` | (none) | If `$debug` is True, numeric diagnostic information as an XHTML document is written to a file called *diagnostic.xhtml* as an HTML `<table>`.
 
 ## Terminology
 
@@ -121,7 +121,7 @@ Berkers’s visualizations are created in PHP and Embry’s in JavaScript. The i
 
 ### 1. Plot a line graph that connects the points with line segments
 
-X values are evenly spaced; Y values are random.
+X values are evenly spaced; Y values are random. We use the same points throughout this tutorial.
 
 #### Output
 
@@ -383,7 +383,7 @@ bezierLength 7: 115.60
 
 As the number of variables grows, we switch to outputting them as an HTML `<table>` element (instead of as an `<xsl:message>`), for insertion into this tutorial. 
 
-*Note:* We will raise a division-by-zero error if the length of the hypotenuse is 0, which can happen only if the two endpoints of a joining lineare the same point, that is, have the same X and Y coordinates. Because we do not anticipate needing to process a graph of this shape, we do not trap this error.
+*Note:* We will raise a division-by-zero error if the length of the hypotenuse is 0, which can happen only if the two endpoints of a joining line are the same point, that is, have the same X and Y coordinates. Because we do not anticipate needing to process a graph of this shape (in line and spline graphs, positions on the independent axis normally increase or decrease monotonically), we do not trap this error.
 
 #### Output
 
@@ -1331,7 +1331,9 @@ As the number of variables grows, we switch to outputting them as an HTML `<tabl
 </xsl:stylesheet>
 ```
 
-### 7. Get the lengths of the anchors and plot them
+### 7. Get the lengths of the handles and plot them
+
+We initially set the length of each handle to 20% of the length of the joining line, so that the length of the entire control line is 40% of the joining line. In a subsequent refinement we adjust the relationship of the length of the handles in a way that creates smoother curves.
 
 #### SVG
 
@@ -1807,12 +1809,12 @@ As the number of variables grows, we switch to outputting them as an HTML `<tabl
 
 ### 8. Draw the curve
 
-Draw a cubic Bézier curve with the SVG `<path>` element, setting the `@d` attribute value equal to the path of the spline, as described below. Each `C` (cubic Bézier curve from the current position to a new absolute position) requires four pieces of coordinate information, as follows:
+Draw a cubic Bézier curve with the SVG `<path>` element, setting the `@d` (“path data”) attribute value equal to the path of the spline, as described below. Each `C` (cubic Bézier curve from the current position to a new absolute position) requires four pieces of coordinate information, as follows:
 
-1. The **starting point of the curve segment** is implicit; it is the ending point of the immediately preceding `M` or `C` instruction.
+1. The **starting point of the curve segment** is not specified because it is implicit; it is the ending point of the immediately preceding `M` or `C` instruction.
 2. The **starting anchor point** is the *second* anchor point associated with the starting point, which pertains to the outgoing curve segment, the one currently being drawn. Because the first curve segment in the spline does not have this anchor point (since there are no anchor points associated with the first point on the spline, which is the starting point for that first curve segment), reuse the coordinates of the first point of the spline instead.
 3. The **ending anchor point** is the *first* anchor point associated with the ending point, which pertains to the incoming curve segment, the one currently being drawn. Because the last curve segment does not have this anchor point (that is, there are no anchor points associated with the last point on the spline, which is the ending point of the last segment), reuse the coordinates of the last point of the spline instead.
-4. The ending point of the curve segment.
+4. The **ending point of the curve segment.**
 
 The `@d` value is constructed as follows:
 
@@ -2231,21 +2233,29 @@ Construct and `M` and the first and last `C` in the `<path>` individually, using
 
 ### 9. Initial and final Bézier curves are different
 
-Because the endpoints of the spline do not have handles, the initial and final Bézier curves have only one control point. Berkers plots them as cubic Bézier curves by repurposing the starting or ending point of the curve as the missing control point, while Embry plots them as quadratic Bézier curves, which only have one control point by design. A quadratic Bézier path step is described with `QX1,Y1 X,Y`, where `X1,Y1` are the coordinators of the single control point and `X,Y` are the coordinates of the ending point. As with cubic Bézier curves, the starting point is automatically the ending point of the immediately preceding preceding path instruction.
+Because the endpoints of the spline do not have handles, the initial and final Bézier curves have only one control point. Berkers plots them as cubic Bézier curves by repurposing the starting or ending point of the curve as the missing control point, while Embry plots them as quadratic Bézier curves, which only have one control point by design. A quadratic Bézier path step is described with `QX1,Y1 X,Y`, where `X1,Y1` are the coordinators of the single control point and `X,Y` are the coordinates of the ending point. As with cubic Bézier curves, the starting point is automatically the ending point of the immediately preceding path instruction.
 
-In the image below, Berkers’s (fully cubic) implementation is in thin semi-transparent red and Embry’s (using quadratic curves at the beginning and end of the spline) is in thin semi-transparent green. The difference in appearance is very slight, and you will have to zoom in the first or last curve segments of the spline to see it. Where there is overlap (all curve segments except the first and last), the colors blend into a dark gold tone. 
-
-![9](images/sample-09.svg)
+In the image below, Berkers’s (fully cubic) implementation is in thin semi-transparent red and Embry’s (using quadratic curves at the beginning and end of the spline) is in thin semi-transparent green. The difference in appearance is very slight, and you will have to zoom in the first or last curve segments of the spline to see it. Where there is overlap (all curve segments except the first and last), the colors blend into a medium brown tone. 
 
 We use the quadratic Bézier curves going forward.
 
+#### SVG
+
+![9](images/sample-09.svg)
+
+#### XSLT
+
+```xslt
+[ADD XSLT]
+```
+
 ### 10. Handle length
 
-In Berkers’s implementation all handle lengths are set as 20% of the opposite joining line, which means that the two handles that share a control line are of the same length. One consequence of this simplification is that the curve, although smoothly joined, may bulge in situations where the distance between points varies by a large amount. This type of artifact can be seen in the bulge on the right side of the sixth Bézier curve segment in the image above.
+In Berkers’s implementation all handle lengths are set as 20% of the opposite joining line, which means that the two handles that share a control line are of the same length. One consequence of this simplification is that the curve, although smoothly joined, may bulge in situations where the distances between points vary by large amounts. This type of artifact can be seen in the bulge on the right side of the sixth Bézier curve segment in the image above.
 
-Embry sets the handle length in a way that is proportional to the distances between the points, with shorter handles controlling shorter curves and vice versa, which reduces the bulging. For example, if the control line passes through point B in an imaginary triangle formed by segments AB, BC (lines between consecutive knots), and AC (imaginary joining line), in Embry’s implementation the ratio of the distance between the control points on either side of point B is AB:BC. Initially we set the total distance to 40% of the length of joining line (following Berkers’s recommendation), but instead of extending for 20% on each side, we distribute the 40% according to the AB:BC ratio. This is within Embry’s recommended scaling range of 33–50%, which we explore in more detail below.
+Embry sets the handle length in a way that is proportional to the distances between the points, with shorter handles controlling shorter curves and vice versa, which reduces the bulging. For example, if the control line passes through point B in an imaginary triangle formed by segments AB, BC (lines between consecutive knots), and AC (imaginary joining line), in Embry’s implementation the ratio of the distance between the control points on either side of point B is AB:BC. Initially we set the total length of the control line 40% of the length of joining line (following Berkers’s recommendation), but instead of extending for 20% on each side, we distribute the 40% according to the AB:BC ratio. The total length is within Embry’s recommended scaling range of 33–50%, which we explore in more detail below.
 
-The scaling is set as variable `$scaling`, which is a number that ranges between 0 and 1. It is fixed at "0.4" (that is, 40%) currently, but we can convert the variable to a parameter and let the user supply the scaling value when we refactor the code as a callable function.
+The scaling is set as variable `$scaling`, which is a number that ranges between 0 and 1. It is fixed at "0.4" (that is, 40%) currently, but we can convert the variable to a parameter and let the user supply the scaling value when we refactor the code as a callable function. Supplying a value less than 0 or greater than 1 raises a fatal error.
 
 #### SVG
 
@@ -2263,35 +2273,51 @@ The scaling is set as variable `$scaling`, which is a number that ranges between
 
 ### 11. Convert to a function
 
-Up to this point the XSLT has used hard-coded values as points. At this stage we refactor it as two functions that can be made available with `<xsl:import>` or `<xsl:include>`. The core code is called with:
+Up to this point the XSLT has used hard-coded values as points. We are building toward refactoring the code as three functions (all called `djb:bezier()`, with arities of 1, 2, and 3) that can be made available with `<xsl:import>` or `<xsl:include>`:
+
+Arity 3 (user specifies point, scaling, and debug value:
+
+```xpath
+djb:bezier($points as xs:string, $scaling as xs:double, $debug as xs:boolean)
+```
+
+Arity 2 (user specifies points and scaling, no debug output):
 
 ```xpath
 djb:bezier($points as xs:string, $scaling as xs:double)
 ```
 
-and a one-argument version sets the scaling at 0.4 and is called with:
+Arity 1 (user specifies points, scaling defaults to 0.4, no debug outputå:
 
 ```xpath
 djb:bezier($points as xs:string)
 ```
 
-The value of `$points` must be a string that can serve as the value of the `@points` attribute of an SVG `<polyline>`. This means that it is a whitespace-delimited sequence of X,Y coordinates, where the X and Y values are separated by a comma without intervening whitespace. The function raises a fatal error if `$points` does not conform to this pattern. 
+The value of `$points` is a string that conforms to a subset of the syntax of the `@points` attribute of an SVG `<polyline>`, specifically, a whitespace-delimited sequence of `X,Y` coordinates, where the `X` and `Y` values are separated by a comma without intervening whitespace. (For example, `50,182 100,166 150,87 200,191 250,106` describes five points. The syntax of the `$points` argument to our function is stricter than the syntax of the `@points` attribute for an SVG `<polyline>`, about which see <https://www.w3.org/TR/SVG11/shapes.html#PointsBNF>.) The function raises a fatal error if `$points` does not match this pattern or if it includes fewer than three points.
 
-The value of `$scaling`, if present, must be a number between 0 and 1. The function raises a fatal error if the value is not within this range.
+The value of `$scaling`, if present, must be a number between 0 and 1. The function raises a fatal error if the value is not within this range. Embry tells us that `$scaling`, which controls the curviness of the spline, gives the best results when it ranges between "0.33" and "0.5". A value of "0" creates a `<polyline>`, that is, a line graph with straight segments. If `$scaling `is not supplied, a default value of "0.4" is used.
 
-The output is an SVG `<g>` element that contains an SVG `<path>` element that describes the spline, plus the other illustrative SVG components used in this tutorial. (We make everything except the `<path>` optional below.)
+A True value of `$debug` causes the rendering to include not only the spline (SVG `<path>`), but also the illustrative artifacts (other lines and circles) used in this tutorial. A True value also causes an XHTML file with diagnostic information, as an HTML `<table>`, to be written to a file called *diagnostic.xhtml*. A False value, which is the default, outputs only the spline.
 
-We illustrate the function call and the effect of the `$scaling` parameter with a driver XSLT that imports the function and creates small multiples of the SVG with `$scaling` values that range from 0 to 1 by multiples of 0.1. A `$scaling` value of 0 produces a `<polyline>` because the values of the control points match those of the knots.
+The function always returns an SVG `<g>` element that contains an SVG `<path>` element that describes the spline. If `$debug` is True, the `<g>` also contains diagnostic SVG artifacts. Additionally, if `$debug` is True, numeric diagnostic information as an XHTML document is written to a file called *diagnostic.xhtml* as an HTML `<table>`.
+
+We illustrate the function call and the effect of the `$scaling` parameter with a driver XSLT stylesheet that imports the function and creates small multiples of the SVG with `$scaling` values that range from 0 to 1 by multiples of 0.1, and that includes diagnostic output. As noted above, a `$scaling` value of 0 produces a `<polyline>` because the values of the control points are the same as those of the knots.
 
 #### SVG
 
+**[INSERT SVG]**
+
 #### XSLT (function)
+
+**[INSERT XSLT]**
 
 #### XSLT (driver)
 
+**[INSERT XSLT DRIVER]**
+
 ### 12. Isolate debugging output
 
-So far the visualization has included illustrative information, such as a polyline connecting the points, the joining lines, the control lines, and the control points, and it also writes a table of computed numerical values as a separate XHTML document. At this stage the user is able to control whether that diagnostic information is output by setting a stylesheet `$debug as xs:boolean` parameter. The default is False. If True, the SVG includes the other SVG objects, and the XHTML table is written to stderr. If False, the `<g>` element contains only the `<path>`.
+So far the visualization has included illustrative information, such as a polyline connecting the points, the joining lines, the control lines, and the control points, and the function has also been writing a table of computed numerical values as a separate XHTML document. At this stage we use the arity-3 version of the function to control whether that diagnostic information is output by setting a stylesheet `$debug as xs:boolean` parameter. The default is False. If True, the SVG includes the other SVG objects, and the XHTML table is written to stderr. If False, the `<g>` element contains only the `<path>`.
 
 We again output small multiples, this time with and without the diagnostic SVG artifacts, using `$scaling` values that range from 0.25 to 0.5 by multiples of 0.05.
 
@@ -2306,8 +2332,6 @@ We again output small multiples, this time with and without the diagnostic SVG a
 Blah blah blah
 
 #### SVG
-
-![13](images/samples-12.svg)
 
 #### XSLT (package)
 
