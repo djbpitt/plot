@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:djb="http://www.obdurodon.org"
+          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          stylesheet="file:/Users/djb/repos/xstuff/bezier/sample-11.xsl"
+          date="2020-04-25T17:49:16.712-04:00"
+          xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+   <x:scenario id="scenario1"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function validate_points</x:label>
+      <x:call function="djb:validate_points"/>
+      <x:scenario id="scenario1-scenario1"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Point coordinates (X and Y) are doubles: good input</x:label>
+         <x:call>
+            <x:param name="split_points" select="('50,182.3', '.6,166.')"/>
+         </x:call>
+         <x:result select="xs:boolean('true')"/>
+         <x:test id="scenario1-scenario1-expect1" successful="true">
+            <x:label>Succeed if all X and Y are castable as xs:double</x:label>
+            <x:expect select="xs:boolean('true')"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario2"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Point coordinates (X and Y) are doubles: string</x:label>
+         <x:call>
+            <x:param name="split_points" select="'50,x'"/>
+         </x:call>
+         <x:result select="xs:boolean('false')"/>
+         <x:test id="scenario1-scenario2-expect1" successful="true">
+            <x:label>Fail if any X or Y contains an alphabetic</x:label>
+            <x:expect select="xs:boolean('false')"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario3"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Point coordinates (X and Y) are doubles: dot, but no digits</x:label>
+         <x:call>
+            <x:param name="split_points" select="'50,.'"/>
+         </x:call>
+         <x:result select="xs:boolean('false')"/>
+         <x:test id="scenario1-scenario3-expect1" successful="true">
+            <x:label>Fail if any X or Y contains a dot but not digits</x:label>
+            <x:expect select="xs:boolean('false')"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario4"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Point coordinates (X and Y) are doubles: missing value</x:label>
+         <x:call>
+            <x:param name="split_points" select="',50'"/>
+         </x:call>
+         <x:result select="xs:boolean('false')"/>
+         <x:test id="scenario1-scenario4-expect1" successful="true">
+            <x:label>Fail if any X or Y is missing</x:label>
+            <x:expect select="xs:boolean('false')"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario id="scenario2"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function split_points</x:label>
+      <x:call function="djb:split_points">
+         <x:param name="all_points"
+                  select="'50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118'"/>
+      </x:call>
+      <x:result select="'50,182', '100,166', '150,87', '200,191', '250,106', '300,73', '350,60', '400,186', '450,118'"/>
+      <x:test id="scenario2-expect1" successful="true">
+         <x:label>Tokenize string with all points into pairs of X,Y values</x:label>
+         <x:expect select="'50,182', '100,166', '150,87', '200,191', '250,106', '300,73', '350,60', '400,186', '450,118'"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario3"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function extract_xPoints</x:label>
+      <x:call function="djb:extract_xPoints">
+         <x:param name="pointPairs"
+                  select="('50,182', '100,166', '150,87', '200,191', '250,106', '300,73', '350,60', '400,186', '450,118')"/>
+      </x:call>
+      <x:result select="xs:double('50'), xs:double('100'), xs:double('150'), xs:double('200'), xs:double('250'), xs:double('300'), xs:double('350'), xs:double('400'), xs:double('450')"/>
+      <x:test id="scenario3-expect1" successful="true">
+         <x:label>Extract X values from point pairs</x:label>
+         <x:expect select="50, 100, 150, 200, 250, 300, 350, 400, 450"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario4"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function extract_yPoints</x:label>
+      <x:call function="djb:extract_yPoints">
+         <x:param name="pointPairs"
+                  select="('50,182', '100,166', '150,87', '200,191', '250,106', '300,73', '350,60', '400,186', '450,118')"/>
+      </x:call>
+      <x:result select="xs:double('182'), xs:double('166'), xs:double('87'), xs:double('191'), xs:double('106'), xs:double('73'), xs:double('60'), xs:double('186'), xs:double('118')"/>
+      <x:test id="scenario4-expect1" successful="true">
+         <x:label>Extract Y values from point pairs</x:label>
+         <x:expect select="182, 166, 87, 191, 106, 73, 60, 186, 118"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario5"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_dirX2</x:label>
+      <x:call function="djb:create_dirXs">
+         <x:param name="xPoints" select="(50, 100, 150, 200, 250, 300, 350, 400, 450)"/>
+      </x:call>
+      <x:result select="xs:double('100'), xs:double('100'), xs:double('100'), xs:double('100'), xs:double('100'), xs:double('100'), xs:double('100')"/>
+      <x:test id="scenario5-expect1" successful="true">
+         <x:label>Compute distance between alternating X values of input points</x:label>
+         <x:expect select="100, 100, 100, 100, 100, 100, 100"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario6"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_dirY2</x:label>
+      <x:call function="djb:create_dirYs">
+         <x:param name="xPoints" select="(182, 166, 87, 191, 106, 73, 60, 186, 118)"/>
+      </x:call>
+      <x:result select="xs:double('-95'), xs:double('25'), xs:double('19'), xs:double('-118'), xs:double('-46'), xs:double('113'), xs:double('58')"/>
+      <x:test id="scenario6-expect1" successful="true">
+         <x:label>Compute distance between alternating Y values of input points</x:label>
+         <x:expect select="-95, 25, 19, -118, -46, 113, 58"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario7"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_lengths</x:label>
+      <x:call function="djb:create_lengths">
+         <x:param name="dirXs" select="(100, 100, 100, 100, 100, 100, 100)"/>
+         <x:param name="dirYs" select="(-95, 25, 19, -118, -46, 113, 58)"/>
+      </x:call>
+      <x:result select="xs:double('137.93114224133723'), xs:double('103.07764064044152'), xs:double('101.78899744078434'), xs:double('154.67385040788247'), xs:double('110.07270324653611'), xs:double('150.89400253157845'), xs:double('115.6027681329474')"/>
+      <x:test id="scenario7-expect1" successful="true">
+         <x:label>Compute lengths of joining lines between alternating knots</x:label>
+         <x:expect select="xs:double('137.93114224133723'), xs:double('103.07764064044152'), xs:double('101.78899744078434'), xs:double('154.67385040788247'), xs:double('110.07270324653611'), xs:double('150.89400253157845'), xs:double('115.6027681329474')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario8"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_unitXs</x:label>
+      <x:call function="djb:create_unitXs">
+         <x:param name="dirXs" select="(100, 100, 100, 100, 100, 100, 100)"/>
+         <x:param name="lengths"
+                  select="                 xs:double('137.93114224133723'),                  xs:double('103.07764064044152'),                  xs:double('101.78899744078434'),                  xs:double('154.67385040788247'),                  xs:double('110.07270324653611'),                  xs:double('150.89400253157845'),                  xs:double('115.6027681329474')                             "/>
+      </x:call>
+      <x:result select="xs:double('0.7249994335944137'), xs:double('0.9701425001453319'), xs:double('0.9824244517014219'), xs:double('0.6465216954016153'), xs:double('0.9084904526785746'), xs:double('0.6627168629785165'), xs:double('0.8650311892618034')"/>
+      <x:test id="scenario8-expect1" successful="true">
+         <x:label>Compute unit value of Xs</x:label>
+         <x:expect select="xs:double('0.7249994335944137'), xs:double('0.9701425001453319'), xs:double('0.9824244517014219'), xs:double('0.6465216954016153'), xs:double('0.9084904526785746'), xs:double('0.6627168629785165'), xs:double('0.8650311892618034')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario9"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_unitYs</x:label>
+      <x:call function="djb:create_unitYs">
+         <x:param name="dirYs" select="(-95, 25, 19, -118, -46, 113, 58)"/>
+         <x:param name="lengths"
+                  select="                 xs:double('137.93114224133723'),                  xs:double('103.07764064044152'),                  xs:double('101.78899744078434'),                  xs:double('154.67385040788247'),                  xs:double('110.07270324653611'),                  xs:double('150.89400253157845'),                  xs:double('115.6027681329474')                             "/>
+      </x:call>
+      <x:result select="xs:double('-0.688749461914693'), xs:double('0.24253562503633297'), xs:double('0.18666064582327016'), xs:double('-0.762895600573906'), xs:double('-0.41790560823214434'), xs:double('0.7488700551657237'), xs:double('0.501718089771846')"/>
+      <x:test id="scenario9-expect1" successful="true">
+         <x:label>Compute unit value of Ys</x:label>
+         <x:expect select="xs:double('-0.688749461914693'), xs:double('0.24253562503633297'), xs:double('0.18666064582327016'), xs:double('-0.762895600573906'), xs:double('-0.41790560823214434'), xs:double('0.7488700551657237'), xs:double('0.501718089771846')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario10"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_normal1Xs</x:label>
+      <x:call function="djb:create_normal1Xs">
+         <x:param name="unitYs"
+                  select="                 xs:double('-0.688749461914693'),                  xs:double('0.24253562503633297'),                  xs:double('0.18666064582327016'),                  xs:double('-0.762895600573906'),                  xs:double('-0.41790560823214434'),                  xs:double('0.7488700551657237'),                  xs:double('0.501718089771846')                 "/>
+      </x:call>
+      <x:result select="xs:double('0.688749461914693'), xs:double('-0.24253562503633297'), xs:double('-0.18666064582327016'), xs:double('0.762895600573906'), xs:double('0.41790560823214434'), xs:double('-0.7488700551657237'), xs:double('-0.501718089771846')"/>
+      <x:test id="scenario10-expect1" successful="true">
+         <x:label>Compute X coordinates for endpoint 1 of normals</x:label>
+         <x:expect select="xs:double('0.688749461914693'), xs:double('-0.24253562503633297'), xs:double('-0.18666064582327016'), xs:double('0.762895600573906'), xs:double('0.41790560823214434'), xs:double('-0.7488700551657237'), xs:double('-0.501718089771846')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario11"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_normal1Ys</x:label>
+      <x:call function="djb:create_normal1Ys">
+         <x:param name="unitXs"
+                  select="                 xs:double('0.7249994335944137'),                  xs:double('0.9701425001453319'),                  xs:double('0.9824244517014219'),                  xs:double('0.6465216954016153'),                  xs:double('0.9084904526785746'),                  xs:double('0.6627168629785165'),                  xs:double('0.8650311892618034')                             "/>
+      </x:call>
+      <x:result select="xs:double('0.7249994335944137'), xs:double('0.9701425001453319'), xs:double('0.9824244517014219'), xs:double('0.6465216954016153'), xs:double('0.9084904526785746'), xs:double('0.6627168629785165'), xs:double('0.8650311892618034')"/>
+      <x:test id="scenario11-expect1" successful="true">
+         <x:label>Compute Y coordinates for endpoint 1 of normals</x:label>
+         <x:expect select="xs:double('0.7249994335944137'), xs:double('0.9701425001453319'), xs:double('0.9824244517014219'), xs:double('0.6465216954016153'), xs:double('0.9084904526785746'), xs:double('0.6627168629785165'), xs:double('0.8650311892618034')"/>
+      </x:test>
+   </x:scenario>
+</x:report>
