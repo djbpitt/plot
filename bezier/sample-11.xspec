@@ -530,6 +530,9 @@
         />
     </x:scenario>
 
+    <!-- ================================================================= -->
+    <!-- -create_anchor1Xs                                                 -->
+    <!-- ================================================================= -->
     <x:scenario label="Scenario for testing function create_anchor1Xs">
         <x:call function="djb:create_anchor1Xs">
             <x:param name="xPoints" select="(50, 100, 150, 200, 250, 300, 350, 400, 450)"/>
@@ -555,7 +558,7 @@
                 "
             />
         </x:call>
-        <x:expect label="Compute X coordinate of incoming handle"
+        <x:expect label="Compute X coordinates of incoming handles"
             select="
             xs:double('85.61619753753597'), 
             xs:double('132.09697333562383'), 
@@ -568,6 +571,9 @@
         />
     </x:scenario>
 
+    <!-- ================================================================= -->
+    <!-- -create_anchor1Ys                                                 -->
+    <!-- ================================================================= -->
     <x:scenario label="Scenario for testing function create_anchor1Ys">
         <x:call function="djb:create_anchor1Ys">
             <x:param name="yPoints" select="(182, 166, 87, 191, 106, 73, 60, 186, 118)"/>
@@ -593,7 +599,7 @@
                 "
             />
         </x:call>
-        <x:expect label="Compute Y coordinate of incoming handle"
+        <x:expect label="Compute Y coordinates of incoming handles"
             select="
             xs:double('179.66461233934083'), 
             xs:double('82.52424333390596'), 
@@ -602,6 +608,88 @@
             xs:double('82.87994830373725'), 
             xs:double('47.52733125961419'), 
             xs:double('171.70230529358534')
+            "
+        />
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- -create_anchor2Xs                                                 -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_anchor2Xs">
+        <x:call function="djb:create_anchor2Xs">
+            <x:param name="xPoints" select="50, 100, 150, 200, 250, 300, 350, 400, 450"/>
+            <x:param name="angle2s"
+                select="
+                xs:double('-0.759762754875771'), 
+                xs:double('0.244978663126864'), 
+                xs:double('0.18776194651359335'), 
+                xs:double('-0.8677800939891389'), 
+                xs:double('-0.4311387407187821'), 
+                xs:double('0.8463554134870224'), 
+                xs:double('0.5255837935516101')
+                "/>
+            <x:param name="outAnchorLengths"
+                select="
+                xs:double('35.33271386232066'), 
+                xs:double('22.77703876730852'), 
+                xs:double('18.761639107126033'), 
+                xs:double('23.381344334953123'), 
+                xs:double('20.387502652345116'), 
+                xs:double('43.702283238407354'), 
+                xs:double('17.743640253500995')                
+                "
+            />
+        </x:call>
+        <x:expect label="Compute X coordinates of outgoing handles"
+            select="
+            xs:double('125.61619753753597'), 
+            xs:double('172.09697333562383'), 
+            xs:double('218.43189301283826'), 
+            xs:double('265.11654638020286'), 
+            xs:double('318.52185151361465'), 
+            xs:double('378.96224005275593'), 
+            xs:double('415.34880223031956')
+            "
+        />
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- -create_anchor2Ys                                                 -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_anchor2Ys">
+        <x:call function="djb:create_anchor2Ys">
+            <x:param name="yPoints" select="182, 166, 87, 191, 106, 73, 60, 186, 118"/>
+            <x:param name="angle2s"
+                select="
+                xs:double('-0.759762754875771'), 
+                xs:double('0.244978663126864'), 
+                xs:double('0.18776194651359335'), 
+                xs:double('-0.8677800939891389'), 
+                xs:double('-0.4311387407187821'), 
+                xs:double('0.8463554134870224'), 
+                xs:double('0.5255837935516101')
+                "/>
+            <x:param name="outAnchorLengths"
+                select="
+                xs:double('35.33271386232066'), 
+                xs:double('22.77703876730852'), 
+                xs:double('18.761639107126033'), 
+                xs:double('23.381344334953123'), 
+                xs:double('20.387502652345116'), 
+                xs:double('43.702283238407354'), 
+                xs:double('17.743640253500995')                
+                "
+            />
+        </x:call>
+        <x:expect label="Compute Y coordinates of outgoing handles"
+            select="
+            xs:double('141.66461233934083'), 
+            xs:double('92.52424333390596'), 
+            xs:double('194.50205967243926'), 
+            xs:double('88.16247527136065'), 
+            xs:double('64.47994830373726'), 
+            xs:double('92.7273312596142'), 
+            xs:double('194.90230529358536')
             "
         />
     </x:scenario>

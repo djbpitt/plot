@@ -46,6 +46,8 @@
             <xsl:call-template name="x:scenario21"/>
             <xsl:call-template name="x:scenario22"/>
             <xsl:call-template name="x:scenario23"/>
+            <xsl:call-template name="x:scenario24"/>
+            <xsl:call-template name="x:scenario25"/>
          </x:report>
       </xsl:result-document>
    </xsl:template>
@@ -1234,19 +1236,19 @@
    </xsl:template>
    <xsl:template name="x:scenario22-expect1">
       <xsl:param name="x:result" required="yes"/>
-      <xsl:message>Compute X coordinate of incoming handle</xsl:message>
-      <xsl:variable name="impl:expect-d7e184"
+      <xsl:message>Compute X coordinates of incoming handles</xsl:message>
+      <xsl:variable name="impl:expect-d7e187"
                     select="             xs:double('85.61619753753597'),              xs:double('132.09697333562383'),              xs:double('178.43189301283823'),              xs:double('225.11654638020286'),              xs:double('278.52185151361465'),              xs:double('338.96224005275593'),              xs:double('375.34880223031956')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e184, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e187, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario22-expect1" successful="{$impl:successful}">
-         <x:label>Compute X coordinate of incoming handle</x:label>
+         <x:label>Compute X coordinates of incoming handles</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e184"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e187"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -1291,19 +1293,133 @@
    </xsl:template>
    <xsl:template name="x:scenario23-expect1">
       <xsl:param name="x:result" required="yes"/>
-      <xsl:message>Compute Y coordinate of incoming handle</xsl:message>
-      <xsl:variable name="impl:expect-d7e190"
+      <xsl:message>Compute Y coordinates of incoming handles</xsl:message>
+      <xsl:variable name="impl:expect-d7e196"
                     select="             xs:double('179.66461233934083'),              xs:double('82.52424333390596'),              xs:double('186.90205967243926'),              xs:double('135.36247527136064'),              xs:double('82.87994830373725'),              xs:double('47.52733125961419'),              xs:double('171.70230529358534')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e190, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e196, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario23-expect1" successful="{$impl:successful}">
-         <x:label>Compute Y coordinate of incoming handle</x:label>
+         <x:label>Compute Y coordinates of incoming handles</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e190"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e196"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="x:scenario24">
+      <xsl:message>Scenario for testing function create_anchor2Xs</xsl:message>
+      <x:scenario id="scenario24"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Scenario for testing function create_anchor2Xs</x:label>
+         <x:call>
+            <xsl:attribute name="function">djb:create_anchor2Xs</xsl:attribute>
+            <x:param>
+               <xsl:attribute name="name">xPoints</xsl:attribute>
+               <xsl:attribute name="select">50, 100, 150, 200, 250, 300, 350, 400, 450</xsl:attribute>
+            </x:param>
+            <x:param>
+               <xsl:attribute name="name">angle2s</xsl:attribute>
+               <xsl:attribute name="select">                 xs:double('-0.759762754875771'),                  xs:double('0.244978663126864'),                  xs:double('0.18776194651359335'),                  xs:double('-0.8677800939891389'),                  xs:double('-0.4311387407187821'),                  xs:double('0.8463554134870224'),                  xs:double('0.5255837935516101')                 </xsl:attribute>
+            </x:param>
+            <x:param>
+               <xsl:attribute name="name">outAnchorLengths</xsl:attribute>
+               <xsl:attribute name="select">                 xs:double('35.33271386232066'),                  xs:double('22.77703876730852'),                  xs:double('18.761639107126033'),                  xs:double('23.381344334953123'),                  xs:double('20.387502652345116'),                  xs:double('43.702283238407354'),                  xs:double('17.743640253500995')                                 </xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="x:result" as="item()*">
+            <xsl:variable name="xPoints" select="50, 100, 150, 200, 250, 300, 350, 400, 450"/>
+            <xsl:variable name="angle2s"
+                          select="                 xs:double('-0.759762754875771'),                  xs:double('0.244978663126864'),                  xs:double('0.18776194651359335'),                  xs:double('-0.8677800939891389'),                  xs:double('-0.4311387407187821'),                  xs:double('0.8463554134870224'),                  xs:double('0.5255837935516101')                 "/>
+            <xsl:variable name="outAnchorLengths"
+                          select="                 xs:double('35.33271386232066'),                  xs:double('22.77703876730852'),                  xs:double('18.761639107126033'),                  xs:double('23.381344334953123'),                  xs:double('20.387502652345116'),                  xs:double('43.702283238407354'),                  xs:double('17.743640253500995')                                 "/>
+            <xsl:sequence select="djb:create_anchor2Xs($xPoints, $angle2s, $outAnchorLengths)"/>
+         </xsl:variable>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$x:result"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <xsl:call-template name="x:scenario24-expect1">
+            <xsl:with-param name="x:result" select="$x:result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="x:scenario24-expect1">
+      <xsl:param name="x:result" required="yes"/>
+      <xsl:message>Compute X coordinates of outgoing handles</xsl:message>
+      <xsl:variable name="impl:expect-d7e206"
+                    select="             xs:double('125.61619753753597'),              xs:double('172.09697333562383'),              xs:double('218.43189301283826'),              xs:double('265.11654638020286'),              xs:double('318.52185151361465'),              xs:double('378.96224005275593'),              xs:double('415.34880223031956')             "/>
+      <xsl:variable name="impl:successful"
+                    as="xs:boolean"
+                    select="test:deep-equal($impl:expect-d7e206, $x:result, '')"/>
+      <xsl:if test="not($impl:successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario24-expect1" successful="{$impl:successful}">
+         <x:label>Compute X coordinates of outgoing handles</x:label>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$impl:expect-d7e206"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="x:scenario25">
+      <xsl:message>Scenario for testing function create_anchor2Ys</xsl:message>
+      <x:scenario id="scenario25"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Scenario for testing function create_anchor2Ys</x:label>
+         <x:call>
+            <xsl:attribute name="function">djb:create_anchor2Ys</xsl:attribute>
+            <x:param>
+               <xsl:attribute name="name">yPoints</xsl:attribute>
+               <xsl:attribute name="select">182, 166, 87, 191, 106, 73, 60, 186, 118</xsl:attribute>
+            </x:param>
+            <x:param>
+               <xsl:attribute name="name">angle2s</xsl:attribute>
+               <xsl:attribute name="select">                 xs:double('-0.759762754875771'),                  xs:double('0.244978663126864'),                  xs:double('0.18776194651359335'),                  xs:double('-0.8677800939891389'),                  xs:double('-0.4311387407187821'),                  xs:double('0.8463554134870224'),                  xs:double('0.5255837935516101')                 </xsl:attribute>
+            </x:param>
+            <x:param>
+               <xsl:attribute name="name">outAnchorLengths</xsl:attribute>
+               <xsl:attribute name="select">                 xs:double('35.33271386232066'),                  xs:double('22.77703876730852'),                  xs:double('18.761639107126033'),                  xs:double('23.381344334953123'),                  xs:double('20.387502652345116'),                  xs:double('43.702283238407354'),                  xs:double('17.743640253500995')                                 </xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="x:result" as="item()*">
+            <xsl:variable name="yPoints" select="182, 166, 87, 191, 106, 73, 60, 186, 118"/>
+            <xsl:variable name="angle2s"
+                          select="                 xs:double('-0.759762754875771'),                  xs:double('0.244978663126864'),                  xs:double('0.18776194651359335'),                  xs:double('-0.8677800939891389'),                  xs:double('-0.4311387407187821'),                  xs:double('0.8463554134870224'),                  xs:double('0.5255837935516101')                 "/>
+            <xsl:variable name="outAnchorLengths"
+                          select="                 xs:double('35.33271386232066'),                  xs:double('22.77703876730852'),                  xs:double('18.761639107126033'),                  xs:double('23.381344334953123'),                  xs:double('20.387502652345116'),                  xs:double('43.702283238407354'),                  xs:double('17.743640253500995')                                 "/>
+            <xsl:sequence select="djb:create_anchor2Ys($yPoints, $angle2s, $outAnchorLengths)"/>
+         </xsl:variable>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$x:result"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <xsl:call-template name="x:scenario25-expect1">
+            <xsl:with-param name="x:result" select="$x:result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="x:scenario25-expect1">
+      <xsl:param name="x:result" required="yes"/>
+      <xsl:message>Compute Y coordinates of outgoing handles</xsl:message>
+      <xsl:variable name="impl:expect-d7e215"
+                    select="             xs:double('141.66461233934083'),              xs:double('92.52424333390596'),              xs:double('194.50205967243926'),              xs:double('88.16247527136065'),              xs:double('64.47994830373726'),              xs:double('92.7273312596142'),              xs:double('194.90230529358536')             "/>
+      <xsl:variable name="impl:successful"
+                    as="xs:boolean"
+                    select="test:deep-equal($impl:expect-d7e215, $x:result, '')"/>
+      <xsl:if test="not($impl:successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario25-expect1" successful="{$impl:successful}">
+         <x:label>Compute Y coordinates of outgoing handles</x:label>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$impl:expect-d7e215"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>

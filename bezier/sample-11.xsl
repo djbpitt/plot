@@ -2,7 +2,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:djb="http://www.obdurodon.org"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
-    xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="3.0">
+    xmlns="http://www.w3.org/2000/svg" xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:svg="http://www.w3.org/2000/svg" version="3.0">
     <xsl:output method="xml" indent="yes"/>
 
     <!-- ================================================================= -->
@@ -316,22 +317,199 @@
     </xsl:function>
 
     <!-- ================================================================= -->
+    <!-- create_diagnostics : output diagnostics if $debug                 -->
+    <!-- ================================================================= -->
+    <xsl:function name="djb:create_diagnostics" as="element(html:html)">
+        <xsl:param name="dirXs" as="xs:double+"/>
+        <xsl:param name="dirYs" as="xs:double+"/>
+        <xsl:param name="lengths" as="xs:double+"/>
+        <xsl:param name="unitXs" as="xs:double+"/>
+        <xsl:param name="unitYs" as="xs:double+"/>
+        <xsl:param name="normal1Xs" as="xs:double+"/>
+        <xsl:param name="normal1Ys" as="xs:double+"/>
+        <xsl:param name="normal2Xs" as="xs:double+"/>
+        <xsl:param name="normal2Ys" as="xs:double+"/>
+        <xsl:param name="angle1s" as="xs:double+"/>
+        <xsl:param name="angle2s" as="xs:double+"/>
+        <xsl:param name="anchor1Xs" as="xs:double+"/>
+        <xsl:param name="anchor1Ys" as="xs:double+"/>
+        <xsl:param name="anchor2Xs" as="xs:double+"/>
+        <xsl:param name="anchor2Ys" as="xs:double+"/>
+        <xsl:param name="totalAnchorLengths" as="xs:double+"/>
+        <xsl:param name="inAnchorLengths" as="xs:double+"/>
+        <xsl:param name="outAnchorLengths" as="xs:double+"/>
+        <xsl:param name="scaling" as="xs:double"/>
+        <html xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+                <title>Diagnostics</title>
+                <style type="text/css">
+                    table,
+                    tr,
+                    th,
+                    td {
+                        border: 1px black solid;
+                    }
+                    table {
+                        border-collapse: collapse;
+                    }
+                    tr:nth-child(even) {
+                        background-color: lightgray;
+                    }
+                    th,
+                    td {
+                        padding: 4px;
+                    }</style>
+            </head>
+            <body>
+                <table style="text-align: right;">
+                    <tr style="text-align: center;">
+                        <th>#</th>
+                        <th>dirX</th>
+                        <th>dirY</th>
+                        <th>joining<br/>length</th>
+                        <th>unitX</th>
+                        <th>unitY</th>
+                        <th>normal1</th>
+                        <th>normal2</th>
+                        <th>angle1</th>
+                        <th>angle2</th>
+                        <th>anchor1X</th>
+                        <th>anchor1Y</th>
+                        <th>anchor2X</th>
+                        <th>anchor2Y</th>
+                        <th>scaling<br/>(constant)</th>
+                        <th>total anchor<br/>length</th>
+                        <th>anchorLength1<br/>(in)</th>
+                        <th>anchorLength2<br/>(out)</th>
+                    </tr>
+                    <xsl:for-each select="1 to count($dirXs) - 2">
+                        <tr>
+                            <!-- Bézier number -->
+                            <td>
+                                <xsl:sequence select="."/>
+                            </td>
+                            <!-- dir X -->
+                            <td>
+                                <xsl:sequence select="$dirXs[current()]"/>
+                            </td>
+                            <!-- dir Y -->
+                            <td>
+                                <xsl:sequence select="$dirYs[current()]"/>
+                            </td>
+                            <!-- length of joining line -->
+                            <td>
+                                <xsl:sequence
+                                    select="$lengths[current()] ! format-number(., '#.00')"/>
+                            </td>
+                            <!-- unit X -->
+                            <td>
+                                <xsl:sequence select="$unitXs[current()] ! format-number(., '0.00')"
+                                />
+                            </td>
+                            <!-- unit Y -->
+                            <td>
+                                <xsl:sequence select="$unitYs[current()] ! format-number(., '0.00')"
+                                />
+                            </td>
+                            <!-- normal 1 -->
+                            <td>
+                                <xsl:sequence
+                                    select="
+                                        string-join(
+                                        (
+                                        $normal1Xs[current()] ! format-number(., '0.00'),
+                                        $normal1Ys[current()] ! format-number(., '0.00')
+                                        ),
+                                        ', ')"
+                                />
+                            </td>
+                            <!-- normal 2 -->
+                            <td>
+                                <xsl:sequence
+                                    select="
+                                        string-join(
+                                        (
+                                        $normal2Xs[current()] ! format-number(., '0.00'),
+                                        $normal2Ys[current()] ! format-number(., '0.00')
+                                        ),
+                                        ', ')"
+                                />
+                            </td>
+                            <!-- angle 1 -->
+                            <td>
+                                <xsl:sequence
+                                    select="$angle1s[current()] ! format-number(., '0.00')"/>
+                            </td>
+                            <!-- angle 2 -->
+                            <td>
+                                <xsl:sequence
+                                    select="$angle2s[current()] ! format-number(., '0.00')"/>
+                            </td>
+                            <!-- anchor 1 X -->
+                            <td>
+                                <xsl:sequence
+                                    select="$anchor1Xs[current()] ! format-number(., '0.00')"/>
+                            </td>
+                            <!-- anchor 1 Y-->
+                            <td>
+                                <xsl:sequence
+                                    select="$anchor1Ys[current()] ! format-number(., '0.00')"/>
+                            </td>
+                            <!-- anchor 2 X -->
+                            <td>
+                                <xsl:sequence
+                                    select="$anchor2Xs[current()] ! format-number(., '0.00')"/>
+                            </td>
+                            <!-- anchor 2 Y -->
+                            <td>
+                                <xsl:sequence
+                                    select="$anchor2Ys[current()] ! format-number(., '0.00')"/>
+                            </td>
+                            <!-- scaling factor (constant) -->
+                            <td>
+                                <xsl:sequence select="$scaling"/>
+                            </td>
+                            <!-- total length of control line -->
+                            <td>
+                                <xsl:sequence
+                                    select="$totalAnchorLengths[current()] ! format-number(., '0.00')"
+                                />
+                            </td>
+                            <!-- in handle length -->
+                            <td>
+                                <xsl:sequence
+                                    select="$inAnchorLengths[current()] ! format-number(., '0.00')"
+                                />
+                            </td>
+                            <!-- out handle length -->
+                            <td>
+                                <xsl:sequence
+                                    select="$outAnchorLengths[current()] ! format-number(., '0.00')"
+                                />
+                            </td>
+                        </tr>
+                    </xsl:for-each>
+                </table>
+            </body>
+        </html>
+    </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- SVG constants                                                     -->
+    <!-- End of private functions                                          -->
+    <!-- ================================================================= -->
+
+    <!-- ================================================================= -->
+    <!-- SVG constants (public, may be overridden by caller)               -->
     <!--                                                                   -->
-    <!-- $svgWidth as xs:integer : width of viewport                       -->
-    <!-- $svgHeight as xs:integer : height of viewport                     -->
-    <!--   Note: halve these values in viewBox to scale up to 200%         -->
     <!-- $cRadius as xs:integer : radius of main and anchor points         -->
-    <!-- $bcColor as xs:string : background color                          -->
     <!-- $css as element(svg:style) : convenience variable                 -->
     <!-- ================================================================= -->
-    <!--    <xsl:variable name="svgWidth" as="xs:integer" select="1000"/>
-    <xsl:variable name="svgHeight" as="xs:integer" select="600"/>
-    <xsl:variable name="cRadius" as="xs:integer" select="2"/>
-    <xsl:variable name="css" as="element(svg:style)">
+    <xsl:variable name="cRadius" as="xs:integer" select="2" visibility="public"/>
+    <xsl:variable name="css" as="element(svg:style)" visibility="public">
         <style type="text/css"><![CDATA[
+            .backgroundColor {
+                fill: papayawhip;
+            }
             .mainLine {
                 fill: none;
                 stroke: silver;
@@ -360,268 +538,156 @@
                 stroke-width: 1;
                 fill: papayawhip;
             }]]></style>
-    </xsl:variable>-->
+    </xsl:variable>
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- Main                                                              -->
+    <!-- bezier                                                            -->
     <!-- ================================================================= -->
-    <!--    <xsl:template name="xsl:initial-template">
-        <!-\- ============================================================= -\->
-        <!-\- Diagnostics                                                   -\->
-        <!-\-                                                               -\->
-        <!-\- $dirXs, $dirYs, $connectingLineLengths                        -\->
-        <!-\- ============================================================= -\->
-        <xsl:result-document href="diagnostics.xhtml" omit-xml-declaration="yes" indent="yes"
-            doctype-system="about:legacy-compat" method="xml">
-            <html xmlns="http://www.w3.org/1999/xhtml">
-                <head>
-                    <title>Diagnostics</title>
-                    <style type="text/css">
-                        table,
-                        tr,
-                        th,
-                        td {
-                            border: 1px black solid;
-                        }
-                        table {
-                            border-collapse: collapse;
-                        }
-                        tr:nth-child(even) {
-                            background-color: lightgray;
-                        }
-                        th,
-                        td {
-                            padding: 4px;
-                        }</style>
-                </head>
-                <body>
-                    <table style="text-align: right;">
-                        <tr style="text-align: center;">
-                            <th>#</th>
-                            <th>dirX</th>
-                            <th>dirY</th>
-                            <th>joining<br/>length</th>
-                            <th>unitX</th>
-                            <th>unitY</th>
-                            <th>normal1</th>
-                            <th>normal2</th>
-                            <th>angle1</th>
-                            <th>angle2</th>
-                            <th>anchor1X</th>
-                            <th>anchor1Y</th>
-                            <th>anchor2X</th>
-                            <th>anchor2Y</th>
-                            <th>scaling<br/>(constant)</th>
-                            <th>total anchor<br/>length</th>
-                            <th>anchorLength1<br/>(in)</th>
-                            <th>anchorLength2<br/>(out)</th>
-                        </tr>
-                        <xsl:for-each select="1 to count($points) - 2">
-                            <tr>
-                                <!-\- Bézier number -\->
-                                <td>
-                                    <xsl:sequence select="."/>
-                                </td>
-                                <!-\- dir X -\->
-                                <td>
-                                    <xsl:sequence select="$dirXs[current()]"/>
-                                </td>
-                                <!-\- dir Y -\->
-                                <td>
-                                    <xsl:sequence select="$dirYs[current()]"/>
-                                </td>
-                                <!-\- length of joining line -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$lengths[current()] ! format-number(., '#.00')"/>
-                                </td>
-                                <!-\- unit X -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$unitXs[current()] ! format-number(., '0.00')"/>
-                                </td>
-                                <!-\- unit Y -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$unitYs[current()] ! format-number(., '0.00')"/>
-                                </td>
-                                <!-\- normal 1 -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="
-                                            string-join(
-                                            (
-                                            $normal1Xs[current()] ! format-number(., '0.00'),
-                                            $normal1Ys[current()] ! format-number(., '0.00')
-                                            ),
-                                            ', ')"
-                                    />
-                                </td>
-                                <!-\- normal 2 -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="
-                                            string-join(
-                                            (
-                                            $normal2Xs[current()] ! format-number(., '0.00'),
-                                            $normal2Ys[current()] ! format-number(., '0.00')
-                                            ),
-                                            ', ')"
-                                    />
-                                </td>
-                                <!-\- angle 1 -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$angle1s[current()] ! format-number(., '0.00')"/>
-                                </td>
-                                <!-\- angle 2 -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$angle2s[current()] ! format-number(., '0.00')"/>
-                                </td>
-                                <!-\- anchor 1 X -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$anchor1Xs[current()] ! format-number(., '0.00')"/>
-                                </td>
-                                <!-\- anchor 1 Y-\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$anchor1Ys[current()] ! format-number(., '0.00')"/>
-                                </td>
-                                <!-\- anchor 2 X -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$anchor2Xs[current()] ! format-number(., '0.00')"/>
-                                </td>
-                                <!-\- anchor 2 Y -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$anchor2Ys[current()] ! format-number(., '0.00')"/>
-                                </td>
-                                <!-\- scaling factor (constant) -\->
-                                <td>
-                                    <xsl:sequence select="$scaling"/>
-                                </td>
-                                <!-\- total length of control line -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$totalAnchorLengths[current()] ! format-number(., '0.00')"
-                                    />
-                                </td>
-                                <!-\- in handle length -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$inAnchorLengths[current()] ! format-number(., '0.00')"
-                                    />
-                                </td>
-                                <!-\- out handle length -\->
-                                <td>
-                                    <xsl:sequence
-                                        select="$outAnchorLengths[current()] ! format-number(., '0.00')"
-                                    />
-                                </td>
-                            </tr>
-                        </xsl:for-each>
-                    </table>
-                </body>
-            </html>
-        </xsl:result-document>
+    <xsl:function name="djb:bezier" as="element()+">
+        <!-- ============================================================= -->
+        <!-- Function is called with points, scaling, and debug values     -->
+        <!-- ============================================================= -->
+        <xsl:param name="inputPoints" as="xs:string"/>
+        <xsl:param name="scaling" as="xs:double"/>
+        <xsl:param name="debug" as="xs:boolean"/>
+        <!-- ============================================================= -->
+        <!-- Get point pairs and validate points and scaling               -->
+        <!-- ============================================================= -->
+        <xsl:variable name="pointPairs" as="xs:string+" select="djb:split_points($inputPoints)"/>
+        <xsl:if test="not(djb:validate_points($pointPairs))">
+            <xsl:message terminate="yes" select="'Invalid points: ' || $inputPoints"/>
+        </xsl:if>
+        <xsl:if test="not($scaling ge 0 and $scaling le 1 and $scaling castable as xs:double)">
+            <xsl:message terminate="yes" select="'Invalid scaling value: ' || $scaling"/>
+        </xsl:if>
 
-        <!-\- ============================================================= -\->
-        <!-\- Now draw the SVG image                                        -\->
-        <!-\- ============================================================= -\->
-        <svg width="{$svgWidth}" height="{$svgHeight}"
-            viewBox="0 0 {$svgWidth div 2} {$svgHeight div 2}">
+        <!-- ============================================================= -->
+        <!-- Helper functions compute variables from parameters            -->
+        <!-- ============================================================= -->
+        <xsl:variable name="xPoints" as="xs:double+" select="djb:extract_xPoints($pointPairs)"/>
+        <xsl:variable name="yPoints" as="xs:double+" select="djb:extract_yPoints($pointPairs)"/>
+        <xsl:variable name="dirXs" as="xs:double+" select="djb:create_dirXs($xPoints)"/>
+        <xsl:variable name="dirYs" as="xs:double+" select="djb:create_dirYs($yPoints)"/>
+        <xsl:variable name="lengths" as="xs:double+" select="djb:create_lengths($dirXs, $dirYs)"/>
+        <xsl:variable name="unitXs" as="xs:double+" select="djb:create_unitXs($dirXs, $lengths)"/>
+        <xsl:variable name="unitYs" as="xs:double+" select="djb:create_unitYs($dirYs, $lengths)"/>
+        <xsl:variable name="normal1Xs" as="xs:double+" select="djb:create_normal1Xs($unitYs)"/>
+        <xsl:variable name="normal1Ys" as="xs:double+" select="djb:create_normal1Ys($unitXs)"/>
+        <xsl:variable name="normal2Xs" as="xs:double+" select="djb:create_normal2Xs($unitYs)"/>
+        <xsl:variable name="normal2Ys" as="xs:double+" select="djb:create_normal2Ys($unitXs)"/>
+        <xsl:variable name="angle1s" as="xs:double+"
+            select="djb:create_angle1s($normal1Ys, $normal1Xs)"/>
+        <xsl:variable name="angle2s" as="xs:double+"
+            select="djb:create_angle2s($normal2Ys, $normal2Xs)"/>
+        <xsl:variable name="xLengths" as="xs:double+" select="djb:create_xLengths($xPoints)"/>
+        <xsl:variable name="yLengths" as="xs:double+" select="djb:create_yLengths($yPoints)"/>
+        <xsl:variable name="segLengths" as="xs:double+"
+            select="djb:create_segLengths($xLengths, $yLengths)"/>
+        <xsl:variable name="totalAnchorLengths" as="xs:double+"
+            select="djb:create_totalAnchorLengths($lengths, $scaling)"/>
+        <xsl:variable name="inAnchorLengths" as="xs:double+"
+            select="djb:create_inAnchorLengths($totalAnchorLengths, $segLengths)"/>
+        <xsl:variable name="outAnchorLengths" as="xs:double+"
+            select="djb:create_outAnchorLengths($totalAnchorLengths, $segLengths)"/>
+        <xsl:variable name="anchor1Xs" as="xs:double+"
+            select="djb:create_anchor1Xs($xPoints, $angle1s, $inAnchorLengths)"/>
+        <xsl:variable name="anchor1Ys" as="xs:double+"
+            select="djb:create_anchor1Ys($yPoints, $angle1s, $inAnchorLengths)"/>
+        <xsl:variable name="anchor2Xs" as="xs:double+"
+            select="djb:create_anchor2Xs($xPoints, $angle2s, $outAnchorLengths)"/>
+        <xsl:variable name="anchor2Ys" as="xs:double+"
+            select="djb:create_anchor2Ys($yPoints, $angle2s, $outAnchorLengths)"/>
+        <!-- ============================================================= -->
+        <!-- Draw the graph                                                -->
+        <!-- ============================================================= -->
+        <g>
+            <!-- ===================================================== -->
+            <!-- CSS (public variable, may be overridden)              -->
+            <!-- ===================================================== -->
             <xsl:sequence select="$css"/>
-            <g>
-                <!-\- ===================================================== -\->
-                <!-\- Background                                            -\->
-                <!-\- ===================================================== -\->
-                <rect x="0" y="0" width="500" height="300" stroke="black" stroke-width="1"
-                    fill="papayawhip"/>
-                <!-\- ===================================================== -\->
-                <!-\- Data points and connecting lines                      -\->
-                <!-\- ===================================================== -\->
-                <xsl:for-each select="1 to count($xPoints)">
-                    <circle class="mainCircle" cx="{$xPoints[current()]}" cy="{$yPoints[current()]}"
-                        r="{$cRadius}"/>
+            <!-- ===================================================== -->
+            <!-- Background                                            -->
+            <!-- ===================================================== -->
+            <rect x="0" y="0" width="500" height="300" stroke="black" stroke-width="1"
+                class="backgroundColor"/>
+            <!-- ===================================================== -->
+            <!-- Data points and connecting lines                      -->
+            <!-- ===================================================== -->
+            <xsl:for-each select="1 to count($xPoints)">
+                <circle class="mainCircle" cx="{$xPoints[current()]}" cy="{$yPoints[current()]}"
+                    r="{$cRadius}"/>
+            </xsl:for-each>
+            <polyline class="mainLine" points="{$inputPoints}"/>
+            <!-- ===================================================== -->
+            <!-- Alternating (hypotenuse) lines                        -->
+            <!-- ===================================================== -->
+            <xsl:for-each select="0, 1">
+                <polyline class="alternatingLine"
+                    points="{$pointPairs[position() mod 2 eq current()]}"/>
+            </xsl:for-each>
+            <!-- ===================================================== -->
+            <!-- Anchor points and lines                               -->
+            <!-- ===================================================== -->
+            <xsl:for-each select="1 to count($xPoints)">
+                <line class="anchorLine" x1="{$anchor1Xs[current()]}" y1="{$anchor1Ys[current()]}"
+                    x2="{$anchor2Xs[current()]}" y2="{$anchor2Ys[current()]}"/>
+                <circle class="anchorCircle1" cx="{$anchor1Xs[current()]}"
+                    cy="{$anchor1Ys[current()]}" r="{$cRadius}"/>
+                <circle class="anchorCircle2" cx="{$anchor2Xs[current()]}"
+                    cy="{$anchor2Ys[current()]}" r="{$cRadius}"/>
+            </xsl:for-each>
+            <!-- ===================================================== -->
+            <!-- Plot the spline                                       -->
+            <!-- ===================================================== -->
+            <xsl:variable name="bezierPath" as="xs:string+">
+                <!-- start at first point -->
+                <xsl:sequence
+                    select="
+                        concat(
+                        'M',
+                        $xPoints[1],
+                        ',',
+                        $yPoints[1])"/>
+                <!-- first curve has only one control point -->
+                <xsl:sequence
+                    select="
+                        concat(
+                        'Q',
+                        $anchor1Xs[1],
+                        ',',
+                        $anchor1Ys[1],
+                        ' ',
+                        $xPoints[2],
+                        ',',
+                        $yPoints[2])
+                        "/>
+                <!-- all but first and last curves have two control points -->
+                <xsl:for-each select="2 to (count($xPoints) - 2)">
+                    <xsl:variable name="c1" as="xs:string"
+                        select="$anchor2Xs[current() - 1] || ',' || $anchor2Ys[current() - 1]"/>
+                    <xsl:variable name="c2" as="xs:string"
+                        select="$anchor1Xs[current()] || ',' || $anchor1Ys[current()]"/>
+                    <xsl:variable name="endPoint" as="xs:string"
+                        select="$xPoints[current() + 1] || ',' || $yPoints[current() + 1]"/>
+                    <xsl:value-of select="'C' || string-join(($c1, $c2, $endPoint), ' ')"/>
                 </xsl:for-each>
-                <polyline class="mainLine" points="{string-join($points, ' ')}"/>
-                <!-\- ===================================================== -\->
-                <!-\- Alternating (hypotenuse) lines                        -\->
-                <!-\- ===================================================== -\->
-                <xsl:for-each select="0, 1">
-                    <polyline class="alternatingLine"
-                        points="{$points[position() mod 2 eq current()]}"/>
-                </xsl:for-each>
-                <!-\- ===================================================== -\->
-                <!-\- Anchor points and lines                               -\->
-                <!-\- ===================================================== -\->
-                <xsl:for-each select="1 to count($points) - 2">
-                    <line class="anchorLine" x1="{$anchor1Xs[current()]}"
-                        y1="{$anchor1Ys[current()]}" x2="{$anchor2Xs[current()]}"
-                        y2="{$anchor2Ys[current()]}"/>
-                    <circle class="anchorCircle1" cx="{$anchor1Xs[current()]}"
-                        cy="{$anchor1Ys[current()]}" r="{$cRadius}"/>
-                    <circle class="anchorCircle2" cx="{$anchor2Xs[current()]}"
-                        cy="{$anchor2Ys[current()]}" r="{$cRadius}"/>
-                </xsl:for-each>
-                <!-\- ===================================================== -\->
-                <!-\- Plot the spline                                       -\->
-                <!-\- ===================================================== -\->
-                <xsl:variable name="bezierPath" as="xs:string+">
-                    <!-\- start at first point -\->
-                    <xsl:sequence
-                        select="
-                            concat(
-                            'M',
-                            $xPoints[1],
-                            ',',
-                            $yPoints[1])"/>
-                    <!-\- first curve has only one control point -\->
-                    <xsl:sequence
-                        select="
-                            concat(
-                            'Q',
-                            $anchor1Xs[1],
-                            ',',
-                            $anchor1Ys[1],
-                            ' ',
-                            $xPoints[2],
-                            ',',
-                            $yPoints[2])
-                            "/>
-                    <!-\- all but first and last curves have two control points -\->
-                    <xsl:for-each select="2 to (count($points) - 2)">
-                        <xsl:variable name="c1" as="xs:string"
-                            select="$anchor2Xs[current() - 1] || ',' || $anchor2Ys[current() - 1]"/>
-                        <xsl:variable name="c2" as="xs:string"
-                            select="$anchor1Xs[current()] || ',' || $anchor1Ys[current()]"/>
-                        <xsl:variable name="endPoint" as="xs:string"
-                            select="$xPoints[current() + 1] || ',' || $yPoints[current() + 1]"/>
-                        <xsl:value-of select="'C' || string-join(($c1, $c2, $endPoint), ' ')"/>
-                    </xsl:for-each>
-                    <!-\- last curve has one control point-\->
-                    <xsl:sequence
-                        select="
-                            concat(
-                            'Q',
-                            $anchor2Xs[last()],
-                            ',',
-                            $anchor2Ys[last()],
-                            ' ',
-                            $xPoints[last()],
-                            ',',
-                            $yPoints[last()])
-                            "
-                    />
-                </xsl:variable>
-                <path d="{string-join($bezierPath, ' ')}" stroke="black" stroke-width="1"
-                    fill="none"/>
-            </g>
-        </svg>
-    </xsl:template>
--->
+                <!-- last curve has one control point-->
+                <xsl:sequence
+                    select="
+                        concat(
+                        'Q',
+                        $anchor2Xs[last()],
+                        ',',
+                        $anchor2Ys[last()],
+                        ' ',
+                        $xPoints[last()],
+                        ',',
+                        $yPoints[last()])
+                        "
+                />
+            </xsl:variable>
+            <path d="{string-join($bezierPath, ' ')}" stroke="black" stroke-width="1" fill="none"/>
+        </g>
+    </xsl:function>
 </xsl:stylesheet>
