@@ -130,46 +130,46 @@
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- $normal2Xs as xs:double+ : X coordinates of endpoint 2 of normal  -->
-    <!-- $normal2Ys as xs:double+ : Y coordinates of endpoint 2 of normal  -->
+    <!-- create_normal2Xs : X coordinates of endpoint 2 of normals         -->
     <!-- ================================================================= -->
-
-    <!--    <xsl:variable name="normal1Ys" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 2">
-            <xsl:sequence select="$unitXs[current()]"/>
-        </xsl:for-each>
-    </xsl:variable>-->
-    <!--    <xsl:variable name="normal2Xs" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 2">
-            <xsl:sequence select="$unitYs[current()]"/>
-        </xsl:for-each>
-    </xsl:variable> -->
-    <!--    <xsl:variable name="normal2Ys" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 2">
-            <xsl:sequence select="-$unitXs[current()]"/>
-        </xsl:for-each>
-    </xsl:variable>-->
-    <!-- ================================================================= -->
+    <xsl:function name="djb:create_normal2Xs" as="xs:double+">
+        <xsl:param name="unitYs" as="xs:double+"/>
+        <xsl:sequence select="$unitYs"/>
+    </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- $angle1s as xs:double+ : angle for normal1                        -->
-    <!-- $angle2s as xs:double+ : angle for normal2                        -->
+    <!-- create_normal2Ys : Y coordinates of endpoint 2 of normals         -->
     <!-- ================================================================= -->
-    <!--    <xsl:variable name="angle1s" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 2">
+    <xsl:function name="djb:create_normal2Ys" as="xs:double+">
+        <xsl:param name="unitXs" as="xs:double+"/>
+        <xsl:sequence select="$unitXs ! (-1 * .)"/>
+    </xsl:function>
+
+    <!-- ================================================================= -->
+    <!-- create_angle1s : angle for normal1                                -->
+    <!-- ================================================================= -->
+    <xsl:function name="djb:create_angle1s" as="xs:double+">
+        <xsl:param name="normal1Ys" as="xs:double+"/>
+        <xsl:param name="normal1Xs" as="xs:double+"/>
+        <xsl:for-each select="1 to count($normal1Ys)">
             <xsl:sequence
                 select="math:atan2($normal1Ys[current()], $normal1Xs[current()]) + math:pi() div 2"
             />
         </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="angle2s" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 2">
+    </xsl:function>
+
+    <!-- ================================================================= -->
+    <!-- create_angle2s : angle for normal2                                -->
+    <!-- ================================================================= -->
+    <xsl:function name="djb:create_angle2s" as="xs:double+">
+        <xsl:param name="normal2Ys" as="xs:double+"/>
+        <xsl:param name="normal2Xs" as="xs:double+"/>
+        <xsl:for-each select="1 to count($normal2Ys)">
             <xsl:sequence
                 select="math:atan2($normal2Ys[current()], $normal2Xs[current()]) + math:pi() div 2"
             />
         </xsl:for-each>
-    </xsl:variable>-->
-    <!-- ================================================================= -->
+    </xsl:function>
 
     <!-- ================================================================= -->
     <!-- One more than count of inner knots                                -->

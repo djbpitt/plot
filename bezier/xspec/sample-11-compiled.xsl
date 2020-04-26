@@ -34,6 +34,10 @@
             <xsl:call-template name="x:scenario9"/>
             <xsl:call-template name="x:scenario10"/>
             <xsl:call-template name="x:scenario11"/>
+            <xsl:call-template name="x:scenario12"/>
+            <xsl:call-template name="x:scenario13"/>
+            <xsl:call-template name="x:scenario14"/>
+            <xsl:call-template name="x:scenario15"/>
          </x:report>
       </xsl:result-document>
    </xsl:template>
@@ -688,6 +692,202 @@
          <x:label>Compute Y coordinates for endpoint 1 of normals</x:label>
          <xsl:call-template name="test:report-sequence">
             <xsl:with-param name="sequence" select="$impl:expect-d7e98"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="x:scenario12">
+      <xsl:message>Scenario for testing function create_normal2Xs</xsl:message>
+      <x:scenario id="scenario12"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Scenario for testing function create_normal2Xs</x:label>
+         <x:call>
+            <xsl:attribute name="function">djb:create_normal2Xs</xsl:attribute>
+            <x:param>
+               <xsl:attribute name="name">unitYs</xsl:attribute>
+               <xsl:attribute name="select">                 xs:double('-0.688749461914693'),                  xs:double('0.24253562503633297'),                  xs:double('0.18666064582327016'),                  xs:double('-0.762895600573906'),                  xs:double('-0.41790560823214434'),                  xs:double('0.7488700551657237'),                  xs:double('0.501718089771846')                 </xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="x:result" as="item()*">
+            <xsl:variable name="unitYs"
+                          select="                 xs:double('-0.688749461914693'),                  xs:double('0.24253562503633297'),                  xs:double('0.18666064582327016'),                  xs:double('-0.762895600573906'),                  xs:double('-0.41790560823214434'),                  xs:double('0.7488700551657237'),                  xs:double('0.501718089771846')                 "/>
+            <xsl:sequence select="djb:create_normal2Xs($unitYs)"/>
+         </xsl:variable>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$x:result"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <xsl:call-template name="x:scenario12-expect1">
+            <xsl:with-param name="x:result" select="$x:result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="x:scenario12-expect1">
+      <xsl:param name="x:result" required="yes"/>
+      <xsl:message>Compute X coordinates for endpoint 2 of normals</xsl:message>
+      <xsl:variable name="impl:expect-d7e106"
+                    select="             xs:double('-0.688749461914693'),              xs:double('0.24253562503633297'),              xs:double('0.18666064582327016'),              xs:double('-0.762895600573906'),              xs:double('-0.41790560823214434'),              xs:double('0.7488700551657237'),              xs:double('0.501718089771846')              "/>
+      <xsl:variable name="impl:successful"
+                    as="xs:boolean"
+                    select="test:deep-equal($impl:expect-d7e106, $x:result, '')"/>
+      <xsl:if test="not($impl:successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario12-expect1" successful="{$impl:successful}">
+         <x:label>Compute X coordinates for endpoint 2 of normals</x:label>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$impl:expect-d7e106"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="x:scenario13">
+      <xsl:message>Scenario for testing function create_normal2Ys</xsl:message>
+      <x:scenario id="scenario13"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Scenario for testing function create_normal2Ys</x:label>
+         <x:call>
+            <xsl:attribute name="function">djb:create_normal2Ys</xsl:attribute>
+            <x:param>
+               <xsl:attribute name="name">unitXs</xsl:attribute>
+               <xsl:attribute name="select">                 xs:double('0.7249994335944137'),                  xs:double('0.9701425001453319'),                  xs:double('0.9824244517014219'),                  xs:double('0.6465216954016153'),                  xs:double('0.9084904526785746'),                  xs:double('0.6627168629785165'),                  xs:double('0.8650311892618034')                             </xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="x:result" as="item()*">
+            <xsl:variable name="unitXs"
+                          select="                 xs:double('0.7249994335944137'),                  xs:double('0.9701425001453319'),                  xs:double('0.9824244517014219'),                  xs:double('0.6465216954016153'),                  xs:double('0.9084904526785746'),                  xs:double('0.6627168629785165'),                  xs:double('0.8650311892618034')                             "/>
+            <xsl:sequence select="djb:create_normal2Ys($unitXs)"/>
+         </xsl:variable>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$x:result"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <xsl:call-template name="x:scenario13-expect1">
+            <xsl:with-param name="x:result" select="$x:result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="x:scenario13-expect1">
+      <xsl:param name="x:result" required="yes"/>
+      <xsl:message>Compute Y coordinates for endpoint 2 of normals</xsl:message>
+      <xsl:variable name="impl:expect-d7e113"
+                    select="             xs:double('-0.7249994335944137'),              xs:double('-0.9701425001453319'),              xs:double('-0.9824244517014219'),              xs:double('-0.6465216954016153'),              xs:double('-0.9084904526785746'),              xs:double('-0.6627168629785165'),              xs:double('-0.8650311892618034')             "/>
+      <xsl:variable name="impl:successful"
+                    as="xs:boolean"
+                    select="test:deep-equal($impl:expect-d7e113, $x:result, '')"/>
+      <xsl:if test="not($impl:successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario13-expect1" successful="{$impl:successful}">
+         <x:label>Compute Y coordinates for endpoint 2 of normals</x:label>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$impl:expect-d7e113"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="x:scenario14">
+      <xsl:message>Scenario for testing function create_angle1s</xsl:message>
+      <x:scenario id="scenario14"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Scenario for testing function create_angle1s</x:label>
+         <x:call>
+            <xsl:attribute name="function">djb:create_angle1s</xsl:attribute>
+            <x:param>
+               <xsl:attribute name="name">normal1Ys</xsl:attribute>
+               <xsl:attribute name="select">                 xs:double('0.7249994335944137'),                  xs:double('0.9701425001453319'),                  xs:double('0.9824244517014219'),                  xs:double('0.6465216954016153'),                  xs:double('0.9084904526785746'),                  xs:double('0.6627168629785165'),                  xs:double('0.8650311892618034')                                </xsl:attribute>
+            </x:param>
+            <x:param>
+               <xsl:attribute name="name">normal1Xs</xsl:attribute>
+               <xsl:attribute name="select">                 xs:double('0.688749461914693'),                  xs:double('-0.24253562503633297'),                  xs:double('-0.18666064582327016'),                  xs:double('0.762895600573906'),                  xs:double('0.41790560823214434'),                  xs:double('-0.7488700551657237'),                  xs:double('-0.501718089771846')                 </xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="x:result" as="item()*">
+            <xsl:variable name="normal1Ys"
+                          select="                 xs:double('0.7249994335944137'),                  xs:double('0.9701425001453319'),                  xs:double('0.9824244517014219'),                  xs:double('0.6465216954016153'),                  xs:double('0.9084904526785746'),                  xs:double('0.6627168629785165'),                  xs:double('0.8650311892618034')                                "/>
+            <xsl:variable name="normal1Xs"
+                          select="                 xs:double('0.688749461914693'),                  xs:double('-0.24253562503633297'),                  xs:double('-0.18666064582327016'),                  xs:double('0.762895600573906'),                  xs:double('0.41790560823214434'),                  xs:double('-0.7488700551657237'),                  xs:double('-0.501718089771846')                 "/>
+            <xsl:sequence select="djb:create_angle1s($normal1Ys, $normal1Xs)"/>
+         </xsl:variable>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$x:result"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <xsl:call-template name="x:scenario14-expect1">
+            <xsl:with-param name="x:result" select="$x:result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="x:scenario14-expect1">
+      <xsl:param name="x:result" required="yes"/>
+      <xsl:message>Compute angle for normal 1</xsl:message>
+      <xsl:variable name="impl:expect-d7e121"
+                    select="             xs:double('2.381829898714022'),              xs:double('3.3865713167166573'),              xs:double('3.329354600103387'),              xs:double('2.273812559600654'),              xs:double('2.710453912871011'),              xs:double('3.9879480670768155'),              xs:double('3.6671764471414035')             "/>
+      <xsl:variable name="impl:successful"
+                    as="xs:boolean"
+                    select="test:deep-equal($impl:expect-d7e121, $x:result, '')"/>
+      <xsl:if test="not($impl:successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario14-expect1" successful="{$impl:successful}">
+         <x:label>Compute angle for normal 1</x:label>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$impl:expect-d7e121"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="x:scenario15">
+      <xsl:message>Scenario for testing function create_angle2s</xsl:message>
+      <x:scenario id="scenario15"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Scenario for testing function create_angle2s</x:label>
+         <x:call>
+            <xsl:attribute name="function">djb:create_angle2s</xsl:attribute>
+            <x:param>
+               <xsl:attribute name="name">normal2Ys</xsl:attribute>
+               <xsl:attribute name="select">                 xs:double('-0.7249994335944137'),                  xs:double('-0.9701425001453319'),                  xs:double('-0.9824244517014219'),                  xs:double('-0.6465216954016153'),                  xs:double('-0.9084904526785746'),                  xs:double('-0.6627168629785165'),                  xs:double('-0.8650311892618034')                 </xsl:attribute>
+            </x:param>
+            <x:param>
+               <xsl:attribute name="name">normal2Xs</xsl:attribute>
+               <xsl:attribute name="select">                 xs:double('-0.688749461914693'),                  xs:double('0.24253562503633297'),                  xs:double('0.18666064582327016'),                  xs:double('-0.762895600573906'),                  xs:double('-0.41790560823214434'),                  xs:double('0.7488700551657237'),                  xs:double('0.501718089771846')                  </xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="x:result" as="item()*">
+            <xsl:variable name="normal2Ys"
+                          select="                 xs:double('-0.7249994335944137'),                  xs:double('-0.9701425001453319'),                  xs:double('-0.9824244517014219'),                  xs:double('-0.6465216954016153'),                  xs:double('-0.9084904526785746'),                  xs:double('-0.6627168629785165'),                  xs:double('-0.8650311892618034')                 "/>
+            <xsl:variable name="normal2Xs"
+                          select="                 xs:double('-0.688749461914693'),                  xs:double('0.24253562503633297'),                  xs:double('0.18666064582327016'),                  xs:double('-0.762895600573906'),                  xs:double('-0.41790560823214434'),                  xs:double('0.7488700551657237'),                  xs:double('0.501718089771846')                  "/>
+            <xsl:sequence select="djb:create_angle2s($normal2Ys, $normal2Xs)"/>
+         </xsl:variable>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$x:result"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <xsl:call-template name="x:scenario15-expect1">
+            <xsl:with-param name="x:result" select="$x:result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="x:scenario15-expect1">
+      <xsl:param name="x:result" required="yes"/>
+      <xsl:message>Compute angle for normal 2</xsl:message>
+      <xsl:variable name="impl:expect-d7e130"
+                    select="             xs:double('-0.759762754875771'),              xs:double('0.244978663126864'),              xs:double('0.18776194651359335'),              xs:double('-0.8677800939891389'),              xs:double('-0.4311387407187821'),              xs:double('0.8463554134870224'),              xs:double('0.5255837935516101')             "/>
+      <xsl:variable name="impl:successful"
+                    as="xs:boolean"
+                    select="test:deep-equal($impl:expect-d7e130, $x:result, '')"/>
+      <xsl:if test="not($impl:successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario15-expect1" successful="{$impl:successful}">
+         <x:label>Compute angle for normal 2</x:label>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$impl:expect-d7e130"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>

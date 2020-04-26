@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:djb="http://www.obdurodon.org"
+    stylesheet="sample-11.xsl">
+    <!-- ================================================================= -->
+    <!-- validate_points                                                   -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function validate_points">
+        <x:call function="djb:validate_points"/>
+        <x:scenario label="Point coordinates (X and Y) are doubles: good input">
+            <x:call>
+                <x:param name="split_points" select="('50,182.3', '.6,166.')"/>
+            </x:call>
+            <x:expect label="Succeed if all X and Y are castable as xs:double"
+                select="xs:boolean('true')"/>
+        </x:scenario>
+        <x:scenario label="Point coordinates (X and Y) are doubles: string">
+            <x:call>
+                <x:param name="split_points" select="'50,x'"/>
+            </x:call>
+            <x:expect label="Fail if any X or Y contains an alphabetic" select="xs:boolean('false')"
+            />
+        </x:scenario>
+        <x:scenario label="Point coordinates (X and Y) are doubles: dot, but no digits">
+            <x:call>
+                <x:param name="split_points" select="'50,.'"/>
+            </x:call>
+            <x:expect label="Fail if any X or Y contains a dot but not digits"
+                select="xs:boolean('false')"/>
+        </x:scenario>
+        <x:scenario label="Point coordinates (X and Y) are doubles: missing value">
+            <x:call>
+                <x:param name="split_points" select="',50'"/>
+            </x:call>
+            <x:expect label="Fail if any X or Y is missing" select="xs:boolean('false')"/>
+        </x:scenario>
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- split_points                                                      -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function split_points">
+        <x:call function="djb:split_points">
+            <x:param name="all_points"
+                select="'50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118'"/>
+        </x:call>
+        <x:expect label="Tokenize string with all points into pairs of X,Y values"
+            select="'50,182', '100,166', '150,87', '200,191', '250,106', '300,73', '350,60', '400,186', '450,118'"
+        />
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- extract_xPoints                                                   -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function extract_xPoints">
+        <x:call function="djb:extract_xPoints">
+            <x:param name="pointPairs"
+                select="('50,182', '100,166', '150,87', '200,191', '250,106', '300,73', '350,60', '400,186', '450,118')"
+            />
+        </x:call>
+        <x:expect label="Extract X values from point pairs"
+            select="50, 100, 150, 200, 250, 300, 350, 400, 450"/>
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- extract_yPoints                                                   -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function extract_yPoints">
+        <x:call function="djb:extract_yPoints">
+            <x:param name="pointPairs"
+                select="('50,182', '100,166', '150,87', '200,191', '250,106', '300,73', '350,60', '400,186', '450,118')"
+            />
+        </x:call>
+        <x:expect label="Extract Y values from point pairs"
+            select="182, 166, 87, 191, 106, 73, 60, 186, 118"/>
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- create_dirXs                                                      -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_dirX2">
+        <x:call function="djb:create_dirXs">
+            <x:param name="xPoints" select="(50, 100, 150, 200, 250, 300, 350, 400, 450)"/>
+        </x:call>
+        <x:expect label="Compute distance between alternating X values of input points"
+            select="100, 100, 100, 100, 100, 100, 100"/>
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- create_dirYs                                                      -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_dirY2">
+        <x:call function="djb:create_dirYs">
+            <x:param name="xPoints" select="(182, 166, 87, 191, 106, 73, 60, 186, 118)"/>
+        </x:call>
+        <x:expect label="Compute distance between alternating Y values of input points"
+            select="-95, 25, 19, -118, -46, 113, 58"/>
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- create_lengths                                                    -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_lengths">
+        <x:call function="djb:create_lengths">
+            <x:param name="dirXs" select="(100, 100, 100, 100, 100, 100, 100)"/>
+            <x:param name="dirYs" select="(-95, 25, 19, -118, -46, 113, 58)"/>
+        </x:call>
+        <x:expect label="Compute lengths of joining lines between alternating knots"
+            select="
+            xs:double('137.93114224133723'), 
+            xs:double('103.07764064044152'), 
+            xs:double('101.78899744078434'), 
+            xs:double('154.67385040788247'), 
+            xs:double('110.07270324653611'), 
+            xs:double('150.89400253157845'), 
+            xs:double('115.6027681329474')            
+            "
+        />
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- create_unitXs                                                     -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_unitXs">
+        <x:call function="djb:create_unitXs">
+            <x:param name="dirXs" select="(100, 100, 100, 100, 100, 100, 100)"/>
+            <x:param name="lengths"
+                select="
+                xs:double('137.93114224133723'), 
+                xs:double('103.07764064044152'), 
+                xs:double('101.78899744078434'), 
+                xs:double('154.67385040788247'), 
+                xs:double('110.07270324653611'), 
+                xs:double('150.89400253157845'), 
+                xs:double('115.6027681329474')            
+                "
+            />
+        </x:call>
+        <x:expect label="Compute unit value of Xs"
+            select="
+            xs:double('0.7249994335944137'), 
+            xs:double('0.9701425001453319'), 
+            xs:double('0.9824244517014219'), 
+            xs:double('0.6465216954016153'), 
+            xs:double('0.9084904526785746'), 
+            xs:double('0.6627168629785165'), 
+            xs:double('0.8650311892618034')            
+            "
+        />
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- create_unitYs                                                     -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_unitYs">
+        <x:call function="djb:create_unitYs">
+            <x:param name="dirYs" select="(-95, 25, 19, -118, -46, 113, 58)"/>
+            <x:param name="lengths"
+                select="
+                xs:double('137.93114224133723'), 
+                xs:double('103.07764064044152'), 
+                xs:double('101.78899744078434'), 
+                xs:double('154.67385040788247'), 
+                xs:double('110.07270324653611'), 
+                xs:double('150.89400253157845'), 
+                xs:double('115.6027681329474')            
+                "
+            />
+        </x:call>
+        <x:expect label="Compute unit value of Ys"
+            select="
+            xs:double('-0.688749461914693'), 
+            xs:double('0.24253562503633297'), 
+            xs:double('0.18666064582327016'), 
+            xs:double('-0.762895600573906'), 
+            xs:double('-0.41790560823214434'), 
+            xs:double('0.7488700551657237'), 
+            xs:double('0.501718089771846')        
+            "
+        />
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- create_normal1Xs                                                  -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_normal1Xs">
+        <x:call function="djb:create_normal1Xs">
+            <x:param name="unitYs"
+                select="
+                xs:double('-0.688749461914693'), 
+                xs:double('0.24253562503633297'), 
+                xs:double('0.18666064582327016'), 
+                xs:double('-0.762895600573906'), 
+                xs:double('-0.41790560823214434'), 
+                xs:double('0.7488700551657237'), 
+                xs:double('0.501718089771846')
+                "
+            />
+        </x:call>
+        <x:expect label="Compute X coordinates for endpoint 1 of normals"
+            select="
+            xs:double('0.688749461914693'), 
+            xs:double('-0.24253562503633297'), 
+            xs:double('-0.18666064582327016'), 
+            xs:double('0.762895600573906'), 
+            xs:double('0.41790560823214434'), 
+            xs:double('-0.7488700551657237'), 
+            xs:double('-0.501718089771846') 
+            "
+        />
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- -create_normal1Ys                                                 -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_normal1Ys">
+        <x:call function="djb:create_normal1Ys">
+            <x:param name="unitXs"
+                select="
+                xs:double('0.7249994335944137'), 
+                xs:double('0.9701425001453319'), 
+                xs:double('0.9824244517014219'), 
+                xs:double('0.6465216954016153'), 
+                xs:double('0.9084904526785746'), 
+                xs:double('0.6627168629785165'), 
+                xs:double('0.8650311892618034')            
+                "
+            />
+        </x:call>
+        <x:expect label="Compute Y coordinates for endpoint 1 of normals"
+            select="
+            xs:double('0.7249994335944137'), 
+            xs:double('0.9701425001453319'), 
+            xs:double('0.9824244517014219'), 
+            xs:double('0.6465216954016153'), 
+            xs:double('0.9084904526785746'), 
+            xs:double('0.6627168629785165'), 
+            xs:double('0.8650311892618034')            
+            "
+        />
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- create_normal2Xs                                                  -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_normal2Xs">
+        <x:call function="djb:create_normal2Xs">
+            <x:param name="unitYs"
+                select="
+                xs:double('-0.688749461914693'), 
+                xs:double('0.24253562503633297'), 
+                xs:double('0.18666064582327016'), 
+                xs:double('-0.762895600573906'), 
+                xs:double('-0.41790560823214434'), 
+                xs:double('0.7488700551657237'), 
+                xs:double('0.501718089771846')
+                "
+            />
+        </x:call>
+        <x:expect label="Compute X coordinates for endpoint 2 of normals"
+            select="
+            xs:double('-0.688749461914693'), 
+            xs:double('0.24253562503633297'), 
+            xs:double('0.18666064582327016'), 
+            xs:double('-0.762895600573906'), 
+            xs:double('-0.41790560823214434'), 
+            xs:double('0.7488700551657237'), 
+            xs:double('0.501718089771846') 
+            "
+        />
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- -create_normal2Ys                                                 -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_normal2Ys">
+        <x:call function="djb:create_normal2Ys">
+            <x:param name="unitXs"
+                select="
+                xs:double('0.7249994335944137'), 
+                xs:double('0.9701425001453319'), 
+                xs:double('0.9824244517014219'), 
+                xs:double('0.6465216954016153'), 
+                xs:double('0.9084904526785746'), 
+                xs:double('0.6627168629785165'), 
+                xs:double('0.8650311892618034')            
+                "
+            />
+        </x:call>
+        <x:expect label="Compute Y coordinates for endpoint 2 of normals"
+            select="
+            xs:double('-0.7249994335944137'), 
+            xs:double('-0.9701425001453319'), 
+            xs:double('-0.9824244517014219'), 
+            xs:double('-0.6465216954016153'), 
+            xs:double('-0.9084904526785746'), 
+            xs:double('-0.6627168629785165'), 
+            xs:double('-0.8650311892618034')
+            "
+        />
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- -create_angle1s                                                   -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_angle1s">
+        <x:call function="djb:create_angle1s">
+            <x:param name="normal1Ys"
+                select="
+                xs:double('0.7249994335944137'), 
+                xs:double('0.9701425001453319'), 
+                xs:double('0.9824244517014219'), 
+                xs:double('0.6465216954016153'), 
+                xs:double('0.9084904526785746'), 
+                xs:double('0.6627168629785165'), 
+                xs:double('0.8650311892618034')               
+                "/>
+            <x:param name="normal1Xs"
+                select="
+                xs:double('0.688749461914693'), 
+                xs:double('-0.24253562503633297'), 
+                xs:double('-0.18666064582327016'), 
+                xs:double('0.762895600573906'), 
+                xs:double('0.41790560823214434'), 
+                xs:double('-0.7488700551657237'), 
+                xs:double('-0.501718089771846')
+                "
+            />
+        </x:call>
+        <x:expect label="Compute angle for normal 1"
+            select="
+            xs:double('2.381829898714022'), 
+            xs:double('3.3865713167166573'), 
+            xs:double('3.329354600103387'), 
+            xs:double('2.273812559600654'), 
+            xs:double('2.710453912871011'), 
+            xs:double('3.9879480670768155'), 
+            xs:double('3.6671764471414035')
+            "
+        />
+    </x:scenario>
+
+    <!-- ================================================================= -->
+    <!-- -create_angle2s                                                   -->
+    <!-- ================================================================= -->
+    <x:scenario label="Scenario for testing function create_angle2s">
+        <x:call function="djb:create_angle2s">
+            <x:param name="normal2Ys"
+                select="
+                xs:double('-0.7249994335944137'), 
+                xs:double('-0.9701425001453319'), 
+                xs:double('-0.9824244517014219'), 
+                xs:double('-0.6465216954016153'), 
+                xs:double('-0.9084904526785746'), 
+                xs:double('-0.6627168629785165'), 
+                xs:double('-0.8650311892618034')
+                "/>
+            <x:param name="normal2Xs"
+                select="
+                xs:double('-0.688749461914693'), 
+                xs:double('0.24253562503633297'), 
+                xs:double('0.18666064582327016'), 
+                xs:double('-0.762895600573906'), 
+                xs:double('-0.41790560823214434'), 
+                xs:double('0.7488700551657237'), 
+                xs:double('0.501718089771846') 
+                "
+            />
+        </x:call>
+        <x:expect label="Compute angle for normal 2"
+            select="
+            xs:double('-0.759762754875771'), 
+            xs:double('0.244978663126864'), 
+            xs:double('0.18776194651359335'), 
+            xs:double('-0.8677800939891389'), 
+            xs:double('-0.4311387407187821'), 
+            xs:double('0.8463554134870224'), 
+            xs:double('0.5255837935516101')
+            "
+        />
+    </x:scenario>
+
+</x:description>
