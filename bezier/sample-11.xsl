@@ -172,43 +172,58 @@
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- One more than count of inner knots                                -->
-
-    <!-- $xLengths as xs:double+ : x distance between adjacent points      -->
-    <!-- $yLengths as xs:double+ : y distance between adjacent points      -->
     <!-- $segLengths as xs:double+ :                                       -->
     <!--   diagonal distance between adjacent points                       -->
     <!-- ================================================================= -->
-    <!--    <xsl:variable name="xLengths" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 1">
+    <!-- ================================================================= -->
+    <!-- create_xLengths : x distance between adjacent knots               -->
+    <!-- ================================================================= -->
+    <xsl:function name="djb:create_xLengths" as="xs:double+">
+        <xsl:param name="xPoints" as="xs:double+"/>
+        <xsl:for-each select="1 to count($xPoints) - 1">
             <xsl:sequence select="$xPoints[current() + 1] - $xPoints[current()]"/>
         </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="yLengths" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 1">
+    </xsl:function>
+
+    <!-- ================================================================= -->
+    <!-- create_yLengths : y distance between adjacent knots               -->
+    <!-- ================================================================= -->
+    <xsl:function name="djb:create_yLengths" as="xs:double+">
+        <xsl:param name="yPoints" as="xs:double+"/>
+        <xsl:for-each select="1 to count($yPoints) - 1">
             <xsl:sequence select="$yPoints[current() + 1] - $yPoints[current()]"/>
         </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="segLengths" as="xs:double+">
-        <xsl:for-each select="1 to count($points) - 1">
+    </xsl:function>
+
+    <!-- ================================================================= -->
+    <!-- create_segLengths : diagonal distance between adjacent knots      -->
+    <!-- ================================================================= -->
+    <xsl:function name="djb:create_segLengths" as="xs:double+">
+        <xsl:param name="xLengths" as="xs:double+"/>
+        <xsl:param name="yLengths" as="xs:double+"/>
+        <xsl:for-each select="1 to count($xLengths)">
             <xsl:sequence
                 select="(math:pow($xLengths[current()], 2) + math:pow($yLengths[current()], 2)) => math:sqrt()"
             />
         </xsl:for-each>
-    </xsl:variable>-->
-    <!-- ================================================================= -->
+    </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- $totalAnchorLengths as xs:double : length of control line         -->
-    <!-- $inAnchorLengths as xs:double+ : length of incoming handles       -->
-    <!-- $outAnchorLengths as xs:double+ : length of outgoing handles      -->
+    <!-- create_totalAnchorLengths : length of control line                -->
     <!-- ================================================================= -->
-    <!--    <xsl:variable name="totalAnchorLengths" as="xs:double+">
+    <xsl:function name="djb:create_totalAnchorLengths" as="xs:double+">
+        <xsl:param name="lengths" as="xs:double+"/>
+        <xsl:param name="scaling" as="xs:double"/>
         <xsl:for-each select="1 to count($lengths)">
             <xsl:sequence select="$scaling * $lengths[current()]"/>
         </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="inAnchorLengths" as="xs:double+">
+    </xsl:function>
+
+    <!-- ================================================================= -->
+    <!-- $inAnchorLengths as xs:double+ : length of incoming handles       -->
+    <!-- $outAnchorLengths as xs:double+ : length of outgoing handles      -->
+    <!-- ================================================================= -->
+    <!--    <xsl:variable name="inAnchorLengths" as="xs:double+">
         <xsl:for-each select="1 to count($points) - 2">
             <xsl:sequence
                 select="
@@ -217,8 +232,8 @@
                     ($segLengths[current()] + $segLengths[current() + 1])"
             />
         </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="outAnchorLengths" as="xs:double+">
+    </xsl:variable>-->
+    <!--    <xsl:variable name="outAnchorLengths" as="xs:double+">
         <xsl:for-each select="1 to count($points) - 2">
             <xsl:sequence
                 select="
@@ -242,22 +257,22 @@
                 select="$xPoints[current() + 1] + math:cos($angle1s[current()]) * ($inAnchorLengths[current()])"
             />
         </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="anchor1Ys" as="xs:double+">
+    </xsl:variable>-->
+    <!--<xsl:variable name="anchor1Ys" as="xs:double+">
         <xsl:for-each select="1 to count($points) - 2">
             <xsl:sequence
                 select="$yPoints[current() + 1] + math:sin($angle1s[current()]) * ($inAnchorLengths[current()])"
             />
         </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="anchor2Xs" as="xs:double+">
+    </xsl:variable>-->
+    <!--    <xsl:variable name="anchor2Xs" as="xs:double+">
         <xsl:for-each select="1 to count($points) - 2">
             <xsl:sequence
                 select="$xPoints[current() + 1] + math:cos($angle2s[current()]) * ($outAnchorLengths[current()])"
             />
         </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="anchor2Ys" as="xs:double+">
+    </xsl:variable>-->
+    <!--    <xsl:variable name="anchor2Ys" as="xs:double+">
         <xsl:for-each select="1 to count($points) - 2">
             <xsl:sequence
                 select="$yPoints[current() + 1] + math:sin($angle2s[current()]) * ($outAnchorLengths[current()])"

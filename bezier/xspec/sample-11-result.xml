@@ -4,7 +4,7 @@
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           stylesheet="file:/Users/djb/repos/xstuff/bezier/sample-11.xsl"
-          date="2020-04-26T11:44:09.531-04:00"
+          date="2020-04-26T12:18:37.705-04:00"
           xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
    <x:scenario id="scenario1"
                xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
@@ -243,6 +243,57 @@
       <x:test id="scenario15-expect1" successful="true">
          <x:label>Compute angle for normal 2</x:label>
          <x:expect select="xs:double('-0.759762754875771'), xs:double('0.244978663126864'), xs:double('0.18776194651359335'), xs:double('-0.8677800939891389'), xs:double('-0.4311387407187821'), xs:double('0.8463554134870224'), xs:double('0.5255837935516101')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario16"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_xLengths</x:label>
+      <x:call function="djb:create_xLengths">
+         <x:param name="xPoints" select="(50, 100, 150, 200, 250, 300, 350, 400, 450)"/>
+      </x:call>
+      <x:result select="xs:double('50'), xs:double('50'), xs:double('50'), xs:double('50'), xs:double('50'), xs:double('50'), xs:double('50'), xs:double('50')"/>
+      <x:test id="scenario16-expect1" successful="true">
+         <x:label>Compute x distance between adjacent knots</x:label>
+         <x:expect select="50, 50, 50, 50, 50, 50, 50, 50"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario17"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_yLengths</x:label>
+      <x:call function="djb:create_yLengths">
+         <x:param name="yPoints" select="(182, 166, 87, 191, 106, 73, 60, 186, 118)"/>
+      </x:call>
+      <x:result select="xs:double('-16'), xs:double('-79'), xs:double('104'), xs:double('-85'), xs:double('-33'), xs:double('-13'), xs:double('126'), xs:double('-68')"/>
+      <x:test id="scenario17-expect1" successful="true">
+         <x:label>Compute y distance between adjacent knots</x:label>
+         <x:expect select="-16, -79, 104, -85, -33, -13, 126, -68"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario18"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_segLengths</x:label>
+      <x:call function="djb:create_segLengths">
+         <x:param name="xLengths" select="(50, 50, 50, 50, 50, 50, 50, 50)"/>
+         <x:param name="yLengths" select="(-16, -79, 104, -85, -33, -13, 126, -68)"/>
+      </x:call>
+      <x:result select="xs:double('52.49761899362675'), xs:double('93.49331526906082'), xs:double('115.39497389401325'), xs:double('98.6154146165801'), xs:double('59.90826320300064'), xs:double('51.66236541235796'), xs:double('135.55810562264435'), xs:double('84.40379138403677')"/>
+      <x:test id="scenario18-expect1" successful="true">
+         <x:label>Compute diagonal distance between adjacent knots</x:label>
+         <x:expect select="xs:double('52.49761899362675'), xs:double('93.49331526906082'), xs:double('115.39497389401325'), xs:double('98.6154146165801'), xs:double('59.90826320300064'), xs:double('51.66236541235796'), xs:double('135.55810562264435'), xs:double('84.40379138403677')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario19"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_totalAnchorLengths</x:label>
+      <x:call function="djb:create_totalAnchorLengths">
+         <x:param name="lengths"
+                  select="                 xs:double('137.93114224133723'),                  xs:double('103.07764064044152'),                  xs:double('101.78899744078434'),                  xs:double('154.67385040788247'),                  xs:double('110.07270324653611'),                  xs:double('150.89400253157845'),                  xs:double('115.6027681329474') "/>
+         <x:param name="scaling" select=".4"/>
+      </x:call>
+      <x:result select="xs:double('55.1724568965349'), xs:double('41.23105625617661'), xs:double('40.71559897631374'), xs:double('61.86954016315299'), xs:double('44.02908129861444'), xs:double('60.357601012631385'), xs:double('46.24110725317897')"/>
+      <x:test id="scenario19-expect1" successful="true">
+         <x:label>Compute total distance between control points</x:label>
+         <x:expect select="xs:double('55.1724568965349'), xs:double('41.23105625617661'), xs:double('40.71559897631374'), xs:double('61.86954016315299'), xs:double('44.02908129861444'), xs:double('60.357601012631385'), xs:double('46.24110725317897')"/>
       </x:test>
    </x:scenario>
 </x:report>

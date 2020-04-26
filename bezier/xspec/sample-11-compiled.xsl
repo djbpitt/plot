@@ -38,6 +38,10 @@
             <xsl:call-template name="x:scenario13"/>
             <xsl:call-template name="x:scenario14"/>
             <xsl:call-template name="x:scenario15"/>
+            <xsl:call-template name="x:scenario16"/>
+            <xsl:call-template name="x:scenario17"/>
+            <xsl:call-template name="x:scenario18"/>
+            <xsl:call-template name="x:scenario19"/>
          </x:report>
       </xsl:result-document>
    </xsl:template>
@@ -888,6 +892,196 @@
          <x:label>Compute angle for normal 2</x:label>
          <xsl:call-template name="test:report-sequence">
             <xsl:with-param name="sequence" select="$impl:expect-d7e130"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="x:scenario16">
+      <xsl:message>Scenario for testing function create_xLengths</xsl:message>
+      <x:scenario id="scenario16"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Scenario for testing function create_xLengths</x:label>
+         <x:call>
+            <xsl:attribute name="function">djb:create_xLengths</xsl:attribute>
+            <x:param>
+               <xsl:attribute name="name">xPoints</xsl:attribute>
+               <xsl:attribute name="select">(50, 100, 150, 200, 250, 300, 350, 400, 450)</xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="x:result" as="item()*">
+            <xsl:variable name="xPoints" select="(50, 100, 150, 200, 250, 300, 350, 400, 450)"/>
+            <xsl:sequence select="djb:create_xLengths($xPoints)"/>
+         </xsl:variable>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$x:result"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <xsl:call-template name="x:scenario16-expect1">
+            <xsl:with-param name="x:result" select="$x:result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="x:scenario16-expect1">
+      <xsl:param name="x:result" required="yes"/>
+      <xsl:message>Compute x distance between adjacent knots</xsl:message>
+      <xsl:variable name="impl:expect-d7e137" select="50, 50, 50, 50, 50, 50, 50, 50"/>
+      <xsl:variable name="impl:successful"
+                    as="xs:boolean"
+                    select="test:deep-equal($impl:expect-d7e137, $x:result, '')"/>
+      <xsl:if test="not($impl:successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario16-expect1" successful="{$impl:successful}">
+         <x:label>Compute x distance between adjacent knots</x:label>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$impl:expect-d7e137"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="x:scenario17">
+      <xsl:message>Scenario for testing function create_yLengths</xsl:message>
+      <x:scenario id="scenario17"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Scenario for testing function create_yLengths</x:label>
+         <x:call>
+            <xsl:attribute name="function">djb:create_yLengths</xsl:attribute>
+            <x:param>
+               <xsl:attribute name="name">yPoints</xsl:attribute>
+               <xsl:attribute name="select">(182, 166, 87, 191, 106, 73, 60, 186, 118)</xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="x:result" as="item()*">
+            <xsl:variable name="yPoints" select="(182, 166, 87, 191, 106, 73, 60, 186, 118)"/>
+            <xsl:sequence select="djb:create_yLengths($yPoints)"/>
+         </xsl:variable>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$x:result"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <xsl:call-template name="x:scenario17-expect1">
+            <xsl:with-param name="x:result" select="$x:result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="x:scenario17-expect1">
+      <xsl:param name="x:result" required="yes"/>
+      <xsl:message>Compute y distance between adjacent knots</xsl:message>
+      <xsl:variable name="impl:expect-d7e144"
+                    select="-16, -79, 104, -85, -33, -13, 126, -68"/>
+      <xsl:variable name="impl:successful"
+                    as="xs:boolean"
+                    select="test:deep-equal($impl:expect-d7e144, $x:result, '')"/>
+      <xsl:if test="not($impl:successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario17-expect1" successful="{$impl:successful}">
+         <x:label>Compute y distance between adjacent knots</x:label>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$impl:expect-d7e144"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="x:scenario18">
+      <xsl:message>Scenario for testing function create_segLengths</xsl:message>
+      <x:scenario id="scenario18"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Scenario for testing function create_segLengths</x:label>
+         <x:call>
+            <xsl:attribute name="function">djb:create_segLengths</xsl:attribute>
+            <x:param>
+               <xsl:attribute name="name">xLengths</xsl:attribute>
+               <xsl:attribute name="select">(50, 50, 50, 50, 50, 50, 50, 50)</xsl:attribute>
+            </x:param>
+            <x:param>
+               <xsl:attribute name="name">yLengths</xsl:attribute>
+               <xsl:attribute name="select">(-16, -79, 104, -85, -33, -13, 126, -68)</xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="x:result" as="item()*">
+            <xsl:variable name="xLengths" select="(50, 50, 50, 50, 50, 50, 50, 50)"/>
+            <xsl:variable name="yLengths" select="(-16, -79, 104, -85, -33, -13, 126, -68)"/>
+            <xsl:sequence select="djb:create_segLengths($xLengths, $yLengths)"/>
+         </xsl:variable>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$x:result"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <xsl:call-template name="x:scenario18-expect1">
+            <xsl:with-param name="x:result" select="$x:result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="x:scenario18-expect1">
+      <xsl:param name="x:result" required="yes"/>
+      <xsl:message>Compute diagonal distance between adjacent knots</xsl:message>
+      <xsl:variable name="impl:expect-d7e153"
+                    select="xs:double('52.49761899362675'),              xs:double('93.49331526906082'),              xs:double('115.39497389401325'),              xs:double('98.6154146165801'),              xs:double('59.90826320300064'),              xs:double('51.66236541235796'),              xs:double('135.55810562264435'),              xs:double('84.40379138403677')"/>
+      <xsl:variable name="impl:successful"
+                    as="xs:boolean"
+                    select="test:deep-equal($impl:expect-d7e153, $x:result, '')"/>
+      <xsl:if test="not($impl:successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario18-expect1" successful="{$impl:successful}">
+         <x:label>Compute diagonal distance between adjacent knots</x:label>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$impl:expect-d7e153"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="x:scenario19">
+      <xsl:message>Scenario for testing function create_totalAnchorLengths</xsl:message>
+      <x:scenario id="scenario19"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Scenario for testing function create_totalAnchorLengths</x:label>
+         <x:call>
+            <xsl:attribute name="function">djb:create_totalAnchorLengths</xsl:attribute>
+            <x:param>
+               <xsl:attribute name="name">lengths</xsl:attribute>
+               <xsl:attribute name="select">                 xs:double('137.93114224133723'),                  xs:double('103.07764064044152'),                  xs:double('101.78899744078434'),                  xs:double('154.67385040788247'),                  xs:double('110.07270324653611'),                  xs:double('150.89400253157845'),                  xs:double('115.6027681329474') </xsl:attribute>
+            </x:param>
+            <x:param>
+               <xsl:attribute name="name">scaling</xsl:attribute>
+               <xsl:attribute name="select">.4</xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="x:result" as="item()*">
+            <xsl:variable name="lengths"
+                          select="                 xs:double('137.93114224133723'),                  xs:double('103.07764064044152'),                  xs:double('101.78899744078434'),                  xs:double('154.67385040788247'),                  xs:double('110.07270324653611'),                  xs:double('150.89400253157845'),                  xs:double('115.6027681329474') "/>
+            <xsl:variable name="scaling" select=".4"/>
+            <xsl:sequence select="djb:create_totalAnchorLengths($lengths, $scaling)"/>
+         </xsl:variable>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$x:result"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <xsl:call-template name="x:scenario19-expect1">
+            <xsl:with-param name="x:result" select="$x:result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="x:scenario19-expect1">
+      <xsl:param name="x:result" required="yes"/>
+      <xsl:message>Compute total distance between control points</xsl:message>
+      <xsl:variable name="impl:expect-d7e161"
+                    select="             xs:double('55.1724568965349'),              xs:double('41.23105625617661'),              xs:double('40.71559897631374'),              xs:double('61.86954016315299'),              xs:double('44.02908129861444'),              xs:double('60.357601012631385'),              xs:double('46.24110725317897')             "/>
+      <xsl:variable name="impl:successful"
+                    as="xs:boolean"
+                    select="test:deep-equal($impl:expect-d7e161, $x:result, '')"/>
+      <xsl:if test="not($impl:successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario19-expect1" successful="{$impl:successful}">
+         <x:label>Compute total distance between control points</x:label>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$impl:expect-d7e161"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
