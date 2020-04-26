@@ -4,7 +4,7 @@
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           stylesheet="file:/Users/djb/repos/xstuff/bezier/sample-11.xsl"
-          date="2020-04-26T12:18:37.705-04:00"
+          date="2020-04-26T14:24:33.702-04:00"
           xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
    <x:scenario id="scenario1"
                xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
@@ -294,6 +294,68 @@
       <x:test id="scenario19-expect1" successful="true">
          <x:label>Compute total distance between control points</x:label>
          <x:expect select="xs:double('55.1724568965349'), xs:double('41.23105625617661'), xs:double('40.71559897631374'), xs:double('61.86954016315299'), xs:double('44.02908129861444'), xs:double('60.357601012631385'), xs:double('46.24110725317897')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario20"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_inAnchorLengths</x:label>
+      <x:call function="djb:create_inAnchorLengths">
+         <x:param name="totalAnchorLengths"
+                  select="xs:double('55.1724568965349'),                  xs:double('41.23105625617661'),                  xs:double('40.71559897631374'),                  xs:double('61.86954016315299'),                  xs:double('44.02908129861444'),                  xs:double('60.357601012631385'),                  xs:double('46.24110725317897')"/>
+         <x:param name="segLengths"
+                  select="                 xs:double('52.49761899362675'),                  xs:double('93.49331526906082'),                  xs:double('115.39497389401325'),                  xs:double('98.6154146165801'),                  xs:double('59.90826320300064'),                  xs:double('51.66236541235796'),                  xs:double('135.55810562264435'),                  xs:double('84.40379138403677')                                 "/>
+      </x:call>
+      <x:result select="xs:double('19.83974303421423'), xs:double('18.454017488868082'), xs:double('21.953959869187713'), xs:double('38.48819582819986'), xs:double('23.641578646269323'), xs:double('16.65531777422403'), xs:double('28.49746699967797')"/>
+      <x:test id="scenario20-expect1" successful="true">
+         <x:label>Compute length of incoming handle</x:label>
+         <x:expect select="xs:double('19.83974303421423'), xs:double('18.454017488868082'), xs:double('21.953959869187713'), xs:double('38.48819582819986'), xs:double('23.641578646269323'), xs:double('16.65531777422403'), xs:double('28.49746699967797')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario21"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_outAnchorLengths</x:label>
+      <x:call function="djb:create_outAnchorLengths">
+         <x:param name="totalAnchorLengths"
+                  select="xs:double('55.1724568965349'),                  xs:double('41.23105625617661'),                  xs:double('40.71559897631374'),                  xs:double('61.86954016315299'),                  xs:double('44.02908129861444'),                  xs:double('60.357601012631385'),                  xs:double('46.24110725317897')"/>
+         <x:param name="segLengths"
+                  select="                 xs:double('52.49761899362675'),                  xs:double('93.49331526906082'),                  xs:double('115.39497389401325'),                  xs:double('98.6154146165801'),                  xs:double('59.90826320300064'),                  xs:double('51.66236541235796'),                  xs:double('135.55810562264435'),                  xs:double('84.40379138403677')                                 "/>
+      </x:call>
+      <x:result select="xs:double('35.33271386232066'), xs:double('22.77703876730852'), xs:double('18.761639107126033'), xs:double('23.381344334953123'), xs:double('20.387502652345116'), xs:double('43.702283238407354'), xs:double('17.743640253500995')"/>
+      <x:test id="scenario21-expect1" successful="true">
+         <x:label>Compute length of outgoing handle</x:label>
+         <x:expect select="xs:double('35.33271386232066'), xs:double('22.77703876730852'), xs:double('18.761639107126033'), xs:double('23.381344334953123'), xs:double('20.387502652345116'), xs:double('43.702283238407354'), xs:double('17.743640253500995')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario22"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_anchor1Xs</x:label>
+      <x:call function="djb:create_anchor1Xs">
+         <x:param name="xPoints" select="(50, 100, 150, 200, 250, 300, 350, 400, 450)"/>
+         <x:param name="angle1s"
+                  select="                 xs:double('2.381829898714022'),                  xs:double('3.3865713167166573'),                  xs:double('3.329354600103387'),                  xs:double('2.273812559600654'),                  xs:double('2.710453912871011'),                  xs:double('3.9879480670768155'),                  xs:double('3.6671764471414035')                 "/>
+         <x:param name="inAnchorLengths"
+                  select="                 xs:double('19.83974303421423'),                  xs:double('18.454017488868082'),                  xs:double('21.953959869187713'),                  xs:double('38.48819582819986'),                  xs:double('23.641578646269323'),                  xs:double('16.65531777422403'),                  xs:double('28.49746699967797')                 "/>
+      </x:call>
+      <x:result select="xs:double('85.61619753753597'), xs:double('132.09697333562383'), xs:double('178.43189301283823'), xs:double('225.11654638020286'), xs:double('278.52185151361465'), xs:double('338.96224005275593'), xs:double('375.34880223031956')"/>
+      <x:test id="scenario22-expect1" successful="true">
+         <x:label>Compute X coordinate of incoming handle</x:label>
+         <x:expect select="xs:double('85.61619753753597'), xs:double('132.09697333562383'), xs:double('178.43189301283823'), xs:double('225.11654638020286'), xs:double('278.52185151361465'), xs:double('338.96224005275593'), xs:double('375.34880223031956')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario23"
+               xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+      <x:label>Scenario for testing function create_anchor1Ys</x:label>
+      <x:call function="djb:create_anchor1Ys">
+         <x:param name="yPoints" select="(182, 166, 87, 191, 106, 73, 60, 186, 118)"/>
+         <x:param name="angle1s"
+                  select="                 xs:double('2.381829898714022'),                  xs:double('3.3865713167166573'),                  xs:double('3.329354600103387'),                  xs:double('2.273812559600654'),                  xs:double('2.710453912871011'),                  xs:double('3.9879480670768155'),                  xs:double('3.6671764471414035')                 "/>
+         <x:param name="inAnchorLengths"
+                  select="                 xs:double('19.83974303421423'),                  xs:double('18.454017488868082'),                  xs:double('21.953959869187713'),                  xs:double('38.48819582819986'),                  xs:double('23.641578646269323'),                  xs:double('16.65531777422403'),                  xs:double('28.49746699967797')                 "/>
+      </x:call>
+      <x:result select="xs:double('179.66461233934083'), xs:double('82.52424333390596'), xs:double('186.90205967243926'), xs:double('135.36247527136064'), xs:double('82.87994830373725'), xs:double('47.52733125961419'), xs:double('171.70230529358534')"/>
+      <x:test id="scenario23-expect1" successful="true">
+         <x:label>Compute Y coordinate of incoming handle</x:label>
+         <x:expect select="xs:double('179.66461233934083'), xs:double('82.52424333390596'), xs:double('186.90205967243926'), xs:double('135.36247527136064'), xs:double('82.87994830373725'), xs:double('47.52733125961419'), xs:double('171.70230529358534')"/>
       </x:test>
    </x:scenario>
 </x:report>
