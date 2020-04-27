@@ -2305,7 +2305,7 @@ We illustrate the function call and the effect of the `$scaling` parameter with 
 
 #### SVG
 
-**[INSERT SVG]**
+![11a](images/sample-11.svg)
 
 #### XSLT (function)
 

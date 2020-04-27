@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg"
-     width="100"
-     height="600"
-     viewBox="0 0 1000 1800">
+     width="1000"
+     viewBox="0 0 1000 1500"
+     preserveAspectRatio="xMinYMin meet">
    <g transform="translate(0, 0)">
       <g>
          <style type="text/css">
