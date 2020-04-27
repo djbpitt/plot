@@ -1,0 +1,1631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1000"
+     viewBox="0 0 1000 1800"
+     preserveAspectRatio="xMinYMin meet">
+   <g transform="translate(0, 0)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <polyline class="mainLine"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+         <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+         <line class="anchorLine" x1="100" y1="166" x2="100" y2="166"/>
+         <circle class="anchorCircle1" cx="100" cy="166" r="2"/>
+         <circle class="anchorCircle2" cx="100" cy="166" r="2"/>
+         <line class="anchorLine" x1="150" y1="87" x2="150" y2="87"/>
+         <circle class="anchorCircle1" cx="150" cy="87" r="2"/>
+         <circle class="anchorCircle2" cx="150" cy="87" r="2"/>
+         <line class="anchorLine" x1="200" y1="191" x2="200" y2="191"/>
+         <circle class="anchorCircle1" cx="200" cy="191" r="2"/>
+         <circle class="anchorCircle2" cx="200" cy="191" r="2"/>
+         <line class="anchorLine" x1="250" y1="106" x2="250" y2="106"/>
+         <circle class="anchorCircle1" cx="250" cy="106" r="2"/>
+         <circle class="anchorCircle2" cx="250" cy="106" r="2"/>
+         <line class="anchorLine" x1="300" y1="73" x2="300" y2="73"/>
+         <circle class="anchorCircle1" cx="300" cy="73" r="2"/>
+         <circle class="anchorCircle2" cx="300" cy="73" r="2"/>
+         <line class="anchorLine" x1="350" y1="60" x2="350" y2="60"/>
+         <circle class="anchorCircle1" cx="350" cy="60" r="2"/>
+         <circle class="anchorCircle2" cx="350" cy="60" r="2"/>
+         <line class="anchorLine" x1="400" y1="186" x2="400" y2="186"/>
+         <circle class="anchorCircle1" cx="400" cy="186" r="2"/>
+         <circle class="anchorCircle2" cx="400" cy="186" r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <path d="M50,182 Q100,166 100,166 C100,166 150,87 150,87 C150,87 200,191 200,191 C200,191 250,106 250,106 C250,106 300,73 300,73 C300,73 350,60 350,60 C350,60 400,186 400,186 Q400,186 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#3, $scaling = 0 with debug</text>
+   </g>
+   <g transform="translate(500, 0)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <polyline class="mainLine"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+         <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+         <line class="anchorLine"
+               x1="96.404049384384"
+               y1="169.4161530848352"
+               x2="106.404049384384"
+               y2="159.9161530848352"/>
+         <circle class="anchorCircle1"
+                 cx="96.404049384384"
+                 cy="169.4161530848352"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="106.404049384384"
+                 cy="159.9161530848352"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="145.52424333390596"
+               y1="85.8810608334765"
+               x2="155.52424333390596"
+               y2="88.38106083347648"/>
+         <circle class="anchorCircle1"
+                 cx="145.52424333390596"
+                 cy="85.8810608334765"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="155.52424333390596"
+                 cy="88.38106083347648"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="194.60797325320956"
+               y1="189.9755149181098"
+               x2="204.60797325320956"
+               y2="191.87551491810981"/>
+         <circle class="anchorCircle1"
+                 cx="194.60797325320956"
+                 cy="189.9755149181098"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="204.60797325320956"
+                 cy="191.87551491810981"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="243.77913659505072"
+               y1="113.34061881784017"
+               x2="253.77913659505072"
+               y2="101.54061881784015"/>
+         <circle class="anchorCircle1"
+                 cx="243.77913659505072"
+                 cy="113.34061881784017"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="253.77913659505072"
+                 cy="101.54061881784015"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="294.63046287840365"
+               y1="75.46998707593431"
+               x2="304.63046287840365"
+               y2="70.86998707593432"/>
+         <circle class="anchorCircle1"
+                 cx="294.63046287840365"
+                 cy="75.46998707593431"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="304.63046287840365"
+                 cy="70.86998707593432"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="347.240560013189"
+               y1="56.88183281490355"
+               x2="357.240560013189"
+               y2="68.18183281490354"/>
+         <circle class="anchorCircle1"
+                 cx="347.240560013189"
+                 cy="56.88183281490355"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="357.240560013189"
+                 cy="68.18183281490354"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="393.8372005575799"
+               y1="182.42557632339634"
+               x2="403.8372005575799"
+               y2="188.22557632339633"/>
+         <circle class="anchorCircle1"
+                 cx="393.8372005575799"
+                 cy="182.42557632339634"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="403.8372005575799"
+                 cy="188.22557632339633"
+                 r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <path d="M50,182 Q96.404049384384,169.4161530848352 100,166 C106.404049384384,159.9161530848352 145.52424333390596,85.8810608334765 150,87 C155.52424333390596,88.38106083347648 194.60797325320956,189.9755149181098 200,191 C204.60797325320956,191.87551491810981 243.77913659505072,113.34061881784017 250,106 C253.77913659505072,101.54061881784015 294.63046287840365,75.46998707593431 300,73 C304.63046287840365,70.86998707593432 347.240560013189,56.88183281490355 350,60 C357.240560013189,68.18183281490354 393.8372005575799,182.42557632339634 400,186 Q403.8372005575799,188.22557632339633 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#3, $scaling = 0.1 with debug</text>
+   </g>
+   <g transform="translate(0, 300)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <polyline class="mainLine"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+         <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+         <line class="anchorLine"
+               x1="92.80809876876799"
+               y1="172.83230616967043"
+               x2="112.80809876876799"
+               y2="153.8323061696704"/>
+         <circle class="anchorCircle1"
+                 cx="92.80809876876799"
+                 cy="172.83230616967043"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="112.80809876876799"
+                 cy="153.8323061696704"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="141.04848666781191"
+               y1="84.76212166695298"
+               x2="161.04848666781191"
+               y2="89.76212166695298"/>
+         <circle class="anchorCircle1"
+                 cx="141.04848666781191"
+                 cy="84.76212166695298"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="161.04848666781191"
+                 cy="89.76212166695298"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="189.21594650641913"
+               y1="188.95102983621962"
+               x2="209.21594650641913"
+               y2="192.75102983621963"/>
+         <circle class="anchorCircle1"
+                 cx="189.21594650641913"
+                 cy="188.95102983621962"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="209.21594650641913"
+                 cy="192.75102983621963"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="237.55827319010143"
+               y1="120.68123763568032"
+               x2="257.55827319010143"
+               y2="97.08123763568032"/>
+         <circle class="anchorCircle1"
+                 cx="237.55827319010143"
+                 cy="120.68123763568032"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="257.55827319010143"
+                 cy="97.08123763568032"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="289.26092575680735"
+               y1="77.93997415186863"
+               x2="309.26092575680735"
+               y2="68.73997415186864"/>
+         <circle class="anchorCircle1"
+                 cx="289.26092575680735"
+                 cy="77.93997415186863"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="309.26092575680735"
+                 cy="68.73997415186864"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="344.48112002637794"
+               y1="53.76366562980709"
+               x2="364.481120026378"
+               y2="76.3636656298071"/>
+         <circle class="anchorCircle1"
+                 cx="344.48112002637794"
+                 cy="53.76366562980709"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="364.481120026378"
+                 cy="76.3636656298071"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="387.6744011151598"
+               y1="178.85115264679268"
+               x2="407.6744011151598"
+               y2="190.45115264679268"/>
+         <circle class="anchorCircle1"
+                 cx="387.6744011151598"
+                 cy="178.85115264679268"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="407.6744011151598"
+                 cy="190.45115264679268"
+                 r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <path d="M50,182 Q92.80809876876799,172.83230616967043 100,166 C112.80809876876799,153.8323061696704 141.04848666781191,84.76212166695298 150,87 C161.04848666781191,89.76212166695298 189.21594650641913,188.95102983621962 200,191 C209.21594650641913,192.75102983621963 237.55827319010143,120.68123763568032 250,106 C257.55827319010143,97.08123763568032 289.26092575680735,77.93997415186863 300,73 C309.26092575680735,68.73997415186864 344.48112002637794,53.76366562980709 350,60 C364.481120026378,76.3636656298071 387.6744011151598,178.85115264679268 400,186 Q407.6744011151598,190.45115264679268 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#3, $scaling = 0.2 with debug</text>
+   </g>
+   <g transform="translate(500, 300)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <polyline class="mainLine"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+         <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+         <line class="anchorLine"
+               x1="89.21214815315199"
+               y1="176.24845925450563"
+               x2="119.21214815315197"
+               y2="147.74845925450563"/>
+         <circle class="anchorCircle1"
+                 cx="89.21214815315199"
+                 cy="176.24845925450563"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="119.21214815315197"
+                 cy="147.74845925450563"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="136.57273000171787"
+               y1="83.64318250042948"
+               x2="166.57273000171787"
+               y2="91.14318250042948"/>
+         <circle class="anchorCircle1"
+                 cx="136.57273000171787"
+                 cy="83.64318250042948"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="166.57273000171787"
+                 cy="91.14318250042948"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="183.8239197596287"
+               y1="187.92654475432946"
+               x2="213.8239197596287"
+               y2="193.62654475432944"/>
+         <circle class="anchorCircle1"
+                 cx="183.8239197596287"
+                 cy="187.92654475432946"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="213.8239197596287"
+                 cy="193.62654475432944"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="231.33740978515215"
+               y1="128.02185645352048"
+               x2="261.33740978515215"
+               y2="92.62185645352048"/>
+         <circle class="anchorCircle1"
+                 cx="231.33740978515215"
+                 cy="128.02185645352048"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="261.33740978515215"
+                 cy="92.62185645352048"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="283.891388635211"
+               y1="80.40996122780294"
+               x2="313.891388635211"
+               y2="66.60996122780294"/>
+         <circle class="anchorCircle1"
+                 cx="283.891388635211"
+                 cy="80.40996122780294"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="313.891388635211"
+                 cy="66.60996122780294"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="341.72168003956693"
+               y1="50.64549844471065"
+               x2="371.72168003956693"
+               y2="84.54549844471065"/>
+         <circle class="anchorCircle1"
+                 cx="341.72168003956693"
+                 cy="50.64549844471065"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="371.72168003956693"
+                 cy="84.54549844471065"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="381.5116016727397"
+               y1="175.27672897018903"
+               x2="411.5116016727397"
+               y2="192.676728970189"/>
+         <circle class="anchorCircle1"
+                 cx="381.5116016727397"
+                 cy="175.27672897018903"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="411.5116016727397"
+                 cy="192.676728970189"
+                 r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <path d="M50,182 Q89.21214815315199,176.24845925450563 100,166 C119.21214815315197,147.74845925450563 136.57273000171787,83.64318250042948 150,87 C166.57273000171787,91.14318250042948 183.8239197596287,187.92654475432946 200,191 C213.8239197596287,193.62654475432944 231.33740978515215,128.02185645352048 250,106 C261.33740978515215,92.62185645352048 283.891388635211,80.40996122780294 300,73 C313.891388635211,66.60996122780294 341.72168003956693,50.64549844471065 350,60 C371.72168003956693,84.54549844471065 381.5116016727397,175.27672897018903 400,186 Q411.5116016727397,192.676728970189 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#3, $scaling = 0.3 with debug</text>
+   </g>
+   <g transform="translate(0, 600)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <polyline class="mainLine"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+         <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+         <line class="anchorLine"
+               x1="85.61619753753597"
+               y1="179.66461233934083"
+               x2="125.61619753753597"
+               y2="141.66461233934083"/>
+         <circle class="anchorCircle1"
+                 cx="85.61619753753597"
+                 cy="179.66461233934083"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="125.61619753753597"
+                 cy="141.66461233934083"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="132.09697333562383"
+               y1="82.52424333390596"
+               x2="172.09697333562383"
+               y2="92.52424333390596"/>
+         <circle class="anchorCircle1"
+                 cx="132.09697333562383"
+                 cy="82.52424333390596"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="172.09697333562383"
+                 cy="92.52424333390596"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="178.43189301283823"
+               y1="186.90205967243926"
+               x2="218.43189301283826"
+               y2="194.50205967243926"/>
+         <circle class="anchorCircle1"
+                 cx="178.43189301283823"
+                 cy="186.90205967243926"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="218.43189301283826"
+                 cy="194.50205967243926"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="225.11654638020286"
+               y1="135.36247527136064"
+               x2="265.11654638020286"
+               y2="88.16247527136065"/>
+         <circle class="anchorCircle1"
+                 cx="225.11654638020286"
+                 cy="135.36247527136064"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="265.11654638020286"
+                 cy="88.16247527136065"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="278.52185151361465"
+               y1="82.87994830373725"
+               x2="318.52185151361465"
+               y2="64.47994830373726"/>
+         <circle class="anchorCircle1"
+                 cx="278.52185151361465"
+                 cy="82.87994830373725"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="318.52185151361465"
+                 cy="64.47994830373726"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="338.96224005275593"
+               y1="47.52733125961419"
+               x2="378.96224005275593"
+               y2="92.7273312596142"/>
+         <circle class="anchorCircle1"
+                 cx="338.96224005275593"
+                 cy="47.52733125961419"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="378.96224005275593"
+                 cy="92.7273312596142"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="375.34880223031956"
+               y1="171.70230529358534"
+               x2="415.34880223031956"
+               y2="194.90230529358536"/>
+         <circle class="anchorCircle1"
+                 cx="375.34880223031956"
+                 cy="171.70230529358534"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="415.34880223031956"
+                 cy="194.90230529358536"
+                 r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#3, $scaling = 0.4 with debug</text>
+   </g>
+   <g transform="translate(500, 600)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <polyline class="mainLine"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+         <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+         <line class="anchorLine"
+               x1="82.02024692191996"
+               y1="183.08076542417604"
+               x2="132.02024692191995"
+               y2="135.58076542417604"/>
+         <circle class="anchorCircle1"
+                 cx="82.02024692191996"
+                 cy="183.08076542417604"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="132.02024692191995"
+                 cy="135.58076542417604"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="127.6212166695298"
+               y1="81.40530416738245"
+               x2="177.62121666952982"
+               y2="93.90530416738244"/>
+         <circle class="anchorCircle1"
+                 cx="127.6212166695298"
+                 cy="81.40530416738245"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="177.62121666952982"
+                 cy="93.90530416738244"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="173.0398662660478"
+               y1="185.87757459054907"
+               x2="223.0398662660478"
+               y2="195.37757459054907"/>
+         <circle class="anchorCircle1"
+                 cx="173.0398662660478"
+                 cy="185.87757459054907"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="223.0398662660478"
+                 cy="195.37757459054907"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="218.89568297525355"
+               y1="142.70309408920082"
+               x2="268.8956829752536"
+               y2="83.7030940892008"/>
+         <circle class="anchorCircle1"
+                 cx="218.89568297525355"
+                 cy="142.70309408920082"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="268.8956829752536"
+                 cy="83.7030940892008"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="273.1523143920183"
+               y1="85.34993537967158"
+               x2="323.1523143920183"
+               y2="62.34993537967158"/>
+         <circle class="anchorCircle1"
+                 cx="273.1523143920183"
+                 cy="85.34993537967158"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="323.1523143920183"
+                 cy="62.34993537967158"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="336.2028000659449"
+               y1="44.40916407451775"
+               x2="386.2028000659449"
+               y2="100.90916407451775"/>
+         <circle class="anchorCircle1"
+                 cx="336.2028000659449"
+                 cy="44.40916407451775"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="386.2028000659449"
+                 cy="100.90916407451775"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="369.18600278789944"
+               y1="168.12788161698168"
+               x2="419.18600278789944"
+               y2="197.12788161698168"/>
+         <circle class="anchorCircle1"
+                 cx="369.18600278789944"
+                 cy="168.12788161698168"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="419.18600278789944"
+                 cy="197.12788161698168"
+                 r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <path d="M50,182 Q82.02024692191996,183.08076542417604 100,166 C132.02024692191995,135.58076542417604 127.6212166695298,81.40530416738245 150,87 C177.62121666952982,93.90530416738244 173.0398662660478,185.87757459054907 200,191 C223.0398662660478,195.37757459054907 218.89568297525355,142.70309408920082 250,106 C268.8956829752536,83.7030940892008 273.1523143920183,85.34993537967158 300,73 C323.1523143920183,62.34993537967158 336.2028000659449,44.40916407451775 350,60 C386.2028000659449,100.90916407451775 369.18600278789944,168.12788161698168 400,186 Q419.18600278789944,197.12788161698168 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#3, $scaling = 0.5 with debug</text>
+   </g>
+   <g transform="translate(0, 900)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <polyline class="mainLine"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+         <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+         <line class="anchorLine"
+               x1="78.42429630630396"
+               y1="186.49691850901127"
+               x2="138.42429630630394"
+               y2="129.49691850901124"/>
+         <circle class="anchorCircle1"
+                 cx="78.42429630630396"
+                 cy="186.49691850901127"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="138.42429630630394"
+                 cy="129.49691850901124"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="123.14546000343576"
+               y1="80.28636500085894"
+               x2="183.14546000343574"
+               y2="95.28636500085894"/>
+         <circle class="anchorCircle1"
+                 cx="123.14546000343576"
+                 cy="80.28636500085894"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="183.14546000343574"
+                 cy="95.28636500085894"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="167.6478395192574"
+               y1="184.85308950865888"
+               x2="227.64783951925736"
+               y2="196.2530895086589"/>
+         <circle class="anchorCircle1"
+                 cx="167.6478395192574"
+                 cy="184.85308950865888"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="227.64783951925736"
+                 cy="196.2530895086589"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="212.67481957030427"
+               y1="150.04371290704097"
+               x2="272.6748195703043"
+               y2="79.24371290704096"/>
+         <circle class="anchorCircle1"
+                 cx="212.67481957030427"
+                 cy="150.04371290704097"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="272.6748195703043"
+                 cy="79.24371290704096"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="267.782777270422"
+               y1="87.81992245560589"
+               x2="327.782777270422"
+               y2="60.21992245560589"/>
+         <circle class="anchorCircle1"
+                 cx="267.782777270422"
+                 cy="87.81992245560589"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="327.782777270422"
+                 cy="60.21992245560589"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="333.44336007913387"
+               y1="41.290996889421294"
+               x2="393.44336007913387"
+               y2="109.09099688942129"/>
+         <circle class="anchorCircle1"
+                 cx="333.44336007913387"
+                 cy="41.290996889421294"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="393.44336007913387"
+                 cy="109.09099688942129"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="363.0232033454794"
+               y1="164.55345794037802"
+               x2="423.0232033454794"
+               y2="199.353457940378"/>
+         <circle class="anchorCircle1"
+                 cx="363.0232033454794"
+                 cy="164.55345794037802"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="423.0232033454794"
+                 cy="199.353457940378"
+                 r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <path d="M50,182 Q78.42429630630396,186.49691850901127 100,166 C138.42429630630394,129.49691850901124 123.14546000343576,80.28636500085894 150,87 C183.14546000343574,95.28636500085894 167.6478395192574,184.85308950865888 200,191 C227.64783951925736,196.2530895086589 212.67481957030427,150.04371290704097 250,106 C272.6748195703043,79.24371290704096 267.782777270422,87.81992245560589 300,73 C327.782777270422,60.21992245560589 333.44336007913387,41.290996889421294 350,60 C393.44336007913387,109.09099688942129 363.0232033454794,164.55345794037802 400,186 Q423.0232033454794,199.353457940378 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#3, $scaling = 0.6 with debug</text>
+   </g>
+   <g transform="translate(500, 900)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <polyline class="mainLine"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+         <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+         <line class="anchorLine"
+               x1="74.82834569068795"
+               y1="189.91307159384647"
+               x2="144.82834569068794"
+               y2="123.41307159384644"/>
+         <circle class="anchorCircle1"
+                 cx="74.82834569068795"
+                 cy="189.91307159384647"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="144.82834569068794"
+                 cy="123.41307159384644"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="118.66970333734172"
+               y1="79.16742583433543"
+               x2="188.6697033373417"
+               y2="96.66742583433542"/>
+         <circle class="anchorCircle1"
+                 cx="118.66970333734172"
+                 cy="79.16742583433543"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="188.6697033373417"
+                 cy="96.66742583433542"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="162.25581277246692"
+               y1="183.82860442676872"
+               x2="232.25581277246692"
+               y2="197.1286044267687"/>
+         <circle class="anchorCircle1"
+                 cx="162.25581277246692"
+                 cy="183.82860442676872"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="232.25581277246692"
+                 cy="197.1286044267687"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="206.45395616535498"
+               y1="157.38433172488112"
+               x2="276.453956165355"
+               y2="74.78433172488113"/>
+         <circle class="anchorCircle1"
+                 cx="206.45395616535498"
+                 cy="157.38433172488112"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="276.453956165355"
+                 cy="74.78433172488113"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="262.41324014882565"
+               y1="90.2899095315402"
+               x2="332.41324014882565"
+               y2="58.0899095315402"/>
+         <circle class="anchorCircle1"
+                 cx="262.41324014882565"
+                 cy="90.2899095315402"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="332.41324014882565"
+                 cy="58.0899095315402"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="330.68392009232286"
+               y1="38.17282970432484"
+               x2="400.68392009232286"
+               y2="117.27282970432483"/>
+         <circle class="anchorCircle1"
+                 cx="330.68392009232286"
+                 cy="38.17282970432484"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="400.68392009232286"
+                 cy="117.27282970432483"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="356.86040390305925"
+               y1="160.97903426377437"
+               x2="426.86040390305925"
+               y2="201.57903426377436"/>
+         <circle class="anchorCircle1"
+                 cx="356.86040390305925"
+                 cy="160.97903426377437"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="426.86040390305925"
+                 cy="201.57903426377436"
+                 r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <path d="M50,182 Q74.82834569068795,189.91307159384647 100,166 C144.82834569068794,123.41307159384644 118.66970333734172,79.16742583433543 150,87 C188.6697033373417,96.66742583433542 162.25581277246692,183.82860442676872 200,191 C232.25581277246692,197.1286044267687 206.45395616535498,157.38433172488112 250,106 C276.453956165355,74.78433172488113 262.41324014882565,90.2899095315402 300,73 C332.41324014882565,58.0899095315402 330.68392009232286,38.17282970432484 350,60 C400.68392009232286,117.27282970432483 356.86040390305925,160.97903426377437 400,186 Q426.86040390305925,201.57903426377436 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#3, $scaling = 0.7 with debug</text>
+   </g>
+   <g transform="translate(0, 1200)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <polyline class="mainLine"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+         <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+         <line class="anchorLine"
+               x1="71.23239507507193"
+               y1="193.32922467868167"
+               x2="151.23239507507193"
+               y2="117.32922467868164"/>
+         <circle class="anchorCircle1"
+                 cx="71.23239507507193"
+                 cy="193.32922467868167"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="151.23239507507193"
+                 cy="117.32922467868164"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="114.19394667124769"
+               y1="78.04848666781191"
+               x2="194.19394667124766"
+               y2="98.04848666781191"/>
+         <circle class="anchorCircle1"
+                 cx="114.19394667124769"
+                 cy="78.04848666781191"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="194.19394667124766"
+                 cy="98.04848666781191"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="156.86378602567646"
+               y1="182.80411934487853"
+               x2="236.8637860256765"
+               y2="198.00411934487852"/>
+         <circle class="anchorCircle1"
+                 cx="156.86378602567646"
+                 cy="182.80411934487853"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="236.8637860256765"
+                 cy="198.00411934487852"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="200.2330927604057"
+               y1="164.72495054272127"
+               x2="280.2330927604057"
+               y2="70.32495054272128"/>
+         <circle class="anchorCircle1"
+                 cx="200.2330927604057"
+                 cy="164.72495054272127"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="280.2330927604057"
+                 cy="70.32495054272128"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="257.0437030272293"
+               y1="92.75989660747452"
+               x2="337.0437030272293"
+               y2="55.95989660747452"/>
+         <circle class="anchorCircle1"
+                 cx="257.0437030272293"
+                 cy="92.75989660747452"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="337.0437030272293"
+                 cy="55.95989660747452"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="327.92448010551186"
+               y1="35.05466251922839"
+               x2="407.92448010551186"
+               y2="125.45466251922839"/>
+         <circle class="anchorCircle1"
+                 cx="327.92448010551186"
+                 cy="35.05466251922839"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="407.92448010551186"
+                 cy="125.45466251922839"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="350.6976044606391"
+               y1="157.4046105871707"
+               x2="430.6976044606391"
+               y2="203.8046105871707"/>
+         <circle class="anchorCircle1"
+                 cx="350.6976044606391"
+                 cy="157.4046105871707"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="430.6976044606391"
+                 cy="203.8046105871707"
+                 r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <path d="M50,182 Q71.23239507507193,193.32922467868167 100,166 C151.23239507507193,117.32922467868164 114.19394667124769,78.04848666781191 150,87 C194.19394667124766,98.04848666781191 156.86378602567646,182.80411934487853 200,191 C236.8637860256765,198.00411934487852 200.2330927604057,164.72495054272127 250,106 C280.2330927604057,70.32495054272128 257.0437030272293,92.75989660747452 300,73 C337.0437030272293,55.95989660747452 327.92448010551186,35.05466251922839 350,60 C407.92448010551186,125.45466251922839 350.6976044606391,157.4046105871707 400,186 Q430.6976044606391,203.8046105871707 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#3, $scaling = 0.8 with debug</text>
+   </g>
+   <g transform="translate(500, 1200)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <polyline class="mainLine"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+         <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+         <line class="anchorLine"
+               x1="67.63644445945593"
+               y1="196.74537776351687"
+               x2="157.63644445945593"
+               y2="111.24537776351686"/>
+         <circle class="anchorCircle1"
+                 cx="67.63644445945593"
+                 cy="196.74537776351687"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="157.63644445945593"
+                 cy="111.24537776351686"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="109.71819000515364"
+               y1="76.92954750128841"
+               x2="199.71819000515364"
+               y2="99.4295475012884"/>
+         <circle class="anchorCircle1"
+                 cx="109.71819000515364"
+                 cy="76.92954750128841"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="199.71819000515364"
+                 cy="99.4295475012884"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="151.47175927888605"
+               y1="181.77963426298834"
+               x2="241.47175927888605"
+               y2="198.87963426298836"/>
+         <circle class="anchorCircle1"
+                 cx="151.47175927888605"
+                 cy="181.77963426298834"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="241.47175927888605"
+                 cy="198.87963426298836"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="194.0122293554564"
+               y1="172.06556936056145"
+               x2="284.0122293554564"
+               y2="65.86556936056144"/>
+         <circle class="anchorCircle1"
+                 cx="194.0122293554564"
+                 cy="172.06556936056145"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="284.0122293554564"
+                 cy="65.86556936056144"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="251.67416590563298"
+               y1="95.22988368340884"
+               x2="341.674165905633"
+               y2="53.82988368340884"/>
+         <circle class="anchorCircle1"
+                 cx="251.67416590563298"
+                 cy="95.22988368340884"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="341.674165905633"
+                 cy="53.82988368340884"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="325.1650401187008"
+               y1="31.936495334131937"
+               x2="415.16504011870086"
+               y2="133.63649533413195"/>
+         <circle class="anchorCircle1"
+                 cx="325.1650401187008"
+                 cy="31.936495334131937"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="415.16504011870086"
+                 cy="133.63649533413195"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="344.534805018219"
+               y1="153.83018691056702"
+               x2="434.534805018219"
+               y2="206.03018691056704"/>
+         <circle class="anchorCircle1"
+                 cx="344.534805018219"
+                 cy="153.83018691056702"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="434.534805018219"
+                 cy="206.03018691056704"
+                 r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
+         <circle class="anchorCircle1" cx="" cy="" r="2"/>
+         <circle class="anchorCircle2" cx="" cy="" r="2"/>
+         <path d="M50,182 Q67.63644445945593,196.74537776351687 100,166 C157.63644445945593,111.24537776351686 109.71819000515364,76.92954750128841 150,87 C199.71819000515364,99.4295475012884 151.47175927888605,181.77963426298834 200,191 C241.47175927888605,198.87963426298836 194.0122293554564,172.06556936056145 250,106 C284.0122293554564,65.86556936056144 251.67416590563298,95.22988368340884 300,73 C341.674165905633,53.82988368340884 325.1650401187008,31.936495334131937 350,60 C415.16504011870086,133.63649533413195 344.534805018219,153.83018691056702 400,186 Q434.534805018219,206.03018691056704 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#3, $scaling = 0.9 with debug</text>
+   </g>
+   <g transform="translate(0, 1500)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q89.21214815315199,176.24845925450563 100,166 C119.21214815315197,147.74845925450563 136.57273000171787,83.64318250042948 150,87 C166.57273000171787,91.14318250042948 183.8239197596287,187.92654475432946 200,191 C213.8239197596287,193.62654475432944 231.33740978515215,128.02185645352048 250,106 C261.33740978515215,92.62185645352048 283.891388635211,80.40996122780294 300,73 C313.891388635211,66.60996122780294 341.72168003956693,50.64549844471065 350,60 C371.72168003956693,84.54549844471065 381.5116016727397,175.27672897018903 400,186 Q411.5116016727397,192.676728970189 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#2, $scaling = 0.3</text>
+   </g>
+   <g transform="translate(500, 1500)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">djb:bezier#1, default $scaling
+                    (0.4)</text>
+   </g>
+</svg>

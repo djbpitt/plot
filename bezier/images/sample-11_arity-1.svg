@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1000"
+     viewBox="0 0 1000 1500"
+     preserveAspectRatio="xMinYMin meet">
+   <g transform="translate(0, 0)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">$scaling = 0</text>
+   </g>
+   <g transform="translate(500, 0)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">$scaling = 0.1</text>
+   </g>
+   <g transform="translate(0, 300)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">$scaling = 0.2</text>
+   </g>
+   <g transform="translate(500, 300)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">$scaling = 0.3</text>
+   </g>
+   <g transform="translate(0, 600)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">$scaling = 0.4</text>
+   </g>
+   <g transform="translate(500, 600)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">$scaling = 0.5</text>
+   </g>
+   <g transform="translate(0, 900)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">$scaling = 0.6</text>
+   </g>
+   <g transform="translate(500, 900)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">$scaling = 0.7</text>
+   </g>
+   <g transform="translate(0, 1200)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">$scaling = 0.8</text>
+   </g>
+   <g transform="translate(500, 1200)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               height="300"
+               stroke="black"
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+      <text x="250" y="250" text-anchor="middle">$scaling = 0.9</text>
+   </g>
+</svg>

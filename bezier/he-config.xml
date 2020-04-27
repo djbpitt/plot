@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+     This is a Saxon configuration file.
+     
+     For documentation on the contents of a Saxon configuration file, see
+     http://www.saxonica.com/documentation/index/configuration-file.html
+     
+     While you edit, oXygen will also show you the documentation for each element
+     and attribute next to the content completion proposals.
+     
+     If have oXygen Author mode then switch to the Author page to get a graphical 
+     interface for editing this configuration file  
+-->
+<configuration edition="HE" xmlns="http://saxon.sf.net/ns/configuration"
+     label="Configuration for http://www.obdurodon.org/bezier package">
+     <xsltPackages>
+          <package name="http://www.obdurodon.org/bezier" version="1.0"
+               sourceLocation="bezier.xsl"/>
+     </xsltPackages>
+</configuration>
