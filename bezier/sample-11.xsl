@@ -12,6 +12,8 @@
 
     <!-- ================================================================= -->
     <!-- validate_points                                                   -->
+    <!--                                                                   -->
+    <!-- Return true if matches regex and at least 3 points                -->
     <!-- ================================================================= -->
     <xsl:function name="djb:validate_points" as="xs:boolean">
         <xsl:param name="pointPairs" as="xs:string+"/>
@@ -20,7 +22,11 @@
             select="'[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)'"/>
         <xsl:variable name="pair_regex" as="xs:string"
             select="concat('^', $float_regex, ',', $float_regex, '$')"/>
-        <xsl:sequence select="not($pointPairs ! matches(., $pair_regex) = xs:boolean('false'))"/>
+        <xsl:sequence
+            select="
+                every $pointPair in $pointPairs
+                    satisfies matches($pointPair, $pair_regex) and (count($pointPairs) ge 3)"
+        />
     </xsl:function>
 
     <!-- ================================================================= -->
