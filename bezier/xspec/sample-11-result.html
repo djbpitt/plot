@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for /Users/djb/repos/xstuff/bezier/sample-11.xsl (passed: 28 / pending: 0 / failed: 0 / total: 28)</title>
+      <title>Test Report for /Users/djb/repos/xstuff/bezier/sample-11.xsl (passed: 29 / pending: 0 / failed: 0 / total: 29)</title>
       <style type="text/css">/****************************************************************************/
 /*  File:       test-report.css                                             */
 /*  Author:     Jeni Tennison                                               */
@@ -511,7 +511,7 @@ span.scenario-totals {float: right; text-align: right}
       <h1>Test Report</h1>
       <p>Stylesheet: <a href="file:/Users/djb/repos/xstuff/bezier/sample-11.xsl">/Users/djb/repos/xstuff/bezier/sample-11.xsl</a></p>
       <p>XSpec: <a href="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">/Users/djb/repos/xstuff/bezier/sample-11.xspec</a></p>
-      <p>Tested: 26 April 2020 at 17:46</p>
+      <p>Tested: 27 April 2020 at 12:25</p>
       <h2>Contents</h2>
       <table class="xspec">
          <colgroup>
@@ -524,19 +524,19 @@ span.scenario-totals {float: right; text-align: right}
          <thead>
             <tr>
                <th></th>
-               <th class="totals">passed: 28</th>
+               <th class="totals">passed: 29</th>
                <th class="totals">pending: 0</th>
                <th class="totals">failed: 0</th>
-               <th class="totals">total: 28</th>
+               <th class="totals">total: 29</th>
             </tr>
          </thead>
          <tbody>
             <tr class="successful">
                <th><a href="#top_scenario1">Scenario for testing function validate_points</a></th>
-               <th class="totals">4</th>
+               <th class="totals">5</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
-               <th class="totals">4</th>
+               <th class="totals">5</th>
             </tr>
             <tr class="successful">
                <th><a href="#top_scenario2">Scenario for testing function split_points</a></th>
@@ -709,7 +709,7 @@ span.scenario-totals {float: right; text-align: right}
          </tbody>
       </table>
       <div id="top_scenario1">
-         <h2 class="successful">Scenario for testing function validate_points<span class="scenario-totals">passed: 4 / pending: 0 / failed: 0 / total: 4</span></h2>
+         <h2 class="successful">Scenario for testing function validate_points<span class="scenario-totals">passed: 5 / pending: 0 / failed: 0 / total: 5</span></h2>
          <table class="xspec" id="table_scenario1">
             <colgroup>
                <col style="width:75%" />
@@ -718,14 +718,14 @@ span.scenario-totals {float: right; text-align: right}
             <tbody>
                <tr class="successful">
                   <th>Scenario for testing function validate_points</th>
-                  <th>passed: 4 / pending: 0 / failed: 0 / total: 4</th>
+                  <th>passed: 5 / pending: 0 / failed: 0 / total: 5</th>
                </tr>
                <tr class="successful">
                   <th>Point coordinates (X and Y) are doubles: good input</th>
                   <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
                </tr>
                <tr class="successful">
-                  <td>Succeed if all X and Y are castable as xs:double</td>
+                  <td>Succeed if all X and Y match a regex for doubles</td>
                   <td>Success</td>
                </tr>
                <tr class="successful">
@@ -750,6 +750,14 @@ span.scenario-totals {float: right; text-align: right}
                </tr>
                <tr class="successful">
                   <td>Fail if any X or Y is missing</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <th>Fewer than 3 points</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>Fail if fewer than 3 points</td>
                   <td>Success</td>
                </tr>
             </tbody>

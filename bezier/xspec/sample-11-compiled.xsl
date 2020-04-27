@@ -63,6 +63,7 @@
          <xsl:call-template name="x:scenario1-scenario2"/>
          <xsl:call-template name="x:scenario1-scenario3"/>
          <xsl:call-template name="x:scenario1-scenario4"/>
+         <xsl:call-template name="x:scenario1-scenario5"/>
       </x:scenario>
    </xsl:template>
    <xsl:template name="x:scenario1-scenario1">
@@ -73,11 +74,12 @@
          <x:call>
             <x:param>
                <xsl:attribute name="name">split_points</xsl:attribute>
-               <xsl:attribute name="select">('50,182.3', '.6,166.')</xsl:attribute>
+               <xsl:attribute name="select">(                     '50,182',                      '100.0,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,73',                      '350,60',                      '400,186',                      '450,118'                     )</xsl:attribute>
             </x:param>
          </x:call>
          <xsl:variable name="x:result" as="item()*">
-            <xsl:variable name="split_points" select="('50,182.3', '.6,166.')"/>
+            <xsl:variable name="split_points"
+                          select="(                     '50,182',                      '100.0,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,73',                      '350,60',                      '400,186',                      '450,118'                     )"/>
             <xsl:sequence select="djb:validate_points($split_points)"/>
          </xsl:variable>
          <xsl:call-template name="test:report-sequence">
@@ -91,7 +93,7 @@
    </xsl:template>
    <xsl:template name="x:scenario1-scenario1-expect1">
       <xsl:param name="x:result" required="yes"/>
-      <xsl:message>Succeed if all X and Y are castable as xs:double</xsl:message>
+      <xsl:message>Succeed if all X and Y match a regex for doubles</xsl:message>
       <xsl:variable name="impl:expect-d7e10" select="xs:boolean('true')"/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
@@ -100,7 +102,7 @@
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario1-scenario1-expect1" successful="{$impl:successful}">
-         <x:label>Succeed if all X and Y are castable as xs:double</x:label>
+         <x:label>Succeed if all X and Y match a regex for doubles</x:label>
          <xsl:call-template name="test:report-sequence">
             <xsl:with-param name="sequence" select="$impl:expect-d7e10"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
@@ -116,11 +118,12 @@
          <x:call>
             <x:param>
                <xsl:attribute name="name">split_points</xsl:attribute>
-               <xsl:attribute name="select">'50,x'</xsl:attribute>
+               <xsl:attribute name="select">(                     '50,182',                      '100.0,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,73',                      '350,x',                      '400,186',                      '450,118'                     )</xsl:attribute>
             </x:param>
          </x:call>
          <xsl:variable name="x:result" as="item()*">
-            <xsl:variable name="split_points" select="'50,x'"/>
+            <xsl:variable name="split_points"
+                          select="(                     '50,182',                      '100.0,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,73',                      '350,x',                      '400,186',                      '450,118'                     )"/>
             <xsl:sequence select="djb:validate_points($split_points)"/>
          </xsl:variable>
          <xsl:call-template name="test:report-sequence">
@@ -159,11 +162,12 @@
          <x:call>
             <x:param>
                <xsl:attribute name="name">split_points</xsl:attribute>
-               <xsl:attribute name="select">'50,.'</xsl:attribute>
+               <xsl:attribute name="select">(                     '50,182',                      '.,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,73',                      '350,60',                      '400,186',                      '450,118'                     )</xsl:attribute>
             </x:param>
          </x:call>
          <xsl:variable name="x:result" as="item()*">
-            <xsl:variable name="split_points" select="'50,.'"/>
+            <xsl:variable name="split_points"
+                          select="(                     '50,182',                      '.,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,73',                      '350,60',                      '400,186',                      '450,118'                     )"/>
             <xsl:sequence select="djb:validate_points($split_points)"/>
          </xsl:variable>
          <xsl:call-template name="test:report-sequence">
@@ -202,11 +206,12 @@
          <x:call>
             <x:param>
                <xsl:attribute name="name">split_points</xsl:attribute>
-               <xsl:attribute name="select">',50'</xsl:attribute>
+               <xsl:attribute name="select">                      '50,182',                      '100.0,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,',                      '350,60',                      '400,186',                      '450,118'                                          </xsl:attribute>
             </x:param>
          </x:call>
          <xsl:variable name="x:result" as="item()*">
-            <xsl:variable name="split_points" select="',50'"/>
+            <xsl:variable name="split_points"
+                          select="                      '50,182',                      '100.0,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,',                      '350,60',                      '400,186',                      '450,118'                                          "/>
             <xsl:sequence select="djb:validate_points($split_points)"/>
          </xsl:variable>
          <xsl:call-template name="test:report-sequence">
@@ -221,7 +226,7 @@
    <xsl:template name="x:scenario1-scenario4-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Fail if any X or Y is missing</xsl:message>
-      <xsl:variable name="impl:expect-d7e22" select="xs:boolean('false')"/>
+      <xsl:variable name="impl:expect-d7e22" select="false()"/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
                     select="test:deep-equal($impl:expect-d7e22, $x:result, '')"/>
@@ -232,6 +237,49 @@
          <x:label>Fail if any X or Y is missing</x:label>
          <xsl:call-template name="test:report-sequence">
             <xsl:with-param name="sequence" select="$impl:expect-d7e22"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="x:scenario1-scenario5">
+      <xsl:message>..Fewer than 3 points</xsl:message>
+      <x:scenario id="scenario1-scenario5"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Fewer than 3 points</x:label>
+         <x:call>
+            <x:param>
+               <xsl:attribute name="name">split_points</xsl:attribute>
+               <xsl:attribute name="select">'1,50 2,100'</xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="x:result" as="item()*">
+            <xsl:variable name="split_points" select="'1,50 2,100'"/>
+            <xsl:sequence select="djb:validate_points($split_points)"/>
+         </xsl:variable>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$x:result"/>
+            <xsl:with-param name="wrapper-name" as="xs:string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <xsl:call-template name="x:scenario1-scenario5-expect1">
+            <xsl:with-param name="x:result" select="$x:result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="x:scenario1-scenario5-expect1">
+      <xsl:param name="x:result" required="yes"/>
+      <xsl:message>Fail if fewer than 3 points</xsl:message>
+      <xsl:variable name="impl:expect-d7e26" select="false()"/>
+      <xsl:variable name="impl:successful"
+                    as="xs:boolean"
+                    select="test:deep-equal($impl:expect-d7e26, $x:result, '')"/>
+      <xsl:if test="not($impl:successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario1-scenario5-expect1" successful="{$impl:successful}">
+         <x:label>Fail if fewer than 3 points</x:label>
+         <xsl:call-template name="test:report-sequence">
+            <xsl:with-param name="sequence" select="$impl:expect-d7e26"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -266,18 +314,18 @@
    <xsl:template name="x:scenario2-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Tokenize string with all points into pairs of X,Y values</xsl:message>
-      <xsl:variable name="impl:expect-d7e29"
+      <xsl:variable name="impl:expect-d7e33"
                     select="'50,182', '100,166', '150,87', '200,191', '250,106', '300,73', '350,60', '400,186', '450,118'"/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e29, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e33, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario2-expect1" successful="{$impl:successful}">
          <x:label>Tokenize string with all points into pairs of X,Y values</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e29"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e33"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -312,18 +360,18 @@
    <xsl:template name="x:scenario3-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Extract X values from point pairs</xsl:message>
-      <xsl:variable name="impl:expect-d7e37"
+      <xsl:variable name="impl:expect-d7e41"
                     select="50, 100, 150, 200, 250, 300, 350, 400, 450"/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e37, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e41, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario3-expect1" successful="{$impl:successful}">
          <x:label>Extract X values from point pairs</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e37"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e41"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -358,18 +406,18 @@
    <xsl:template name="x:scenario4-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Extract Y values from point pairs</xsl:message>
-      <xsl:variable name="impl:expect-d7e44"
+      <xsl:variable name="impl:expect-d7e48"
                     select="182, 166, 87, 191, 106, 73, 60, 186, 118"/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e44, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e48, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario4-expect1" successful="{$impl:successful}">
          <x:label>Extract Y values from point pairs</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e44"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e48"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -403,17 +451,17 @@
    <xsl:template name="x:scenario5-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute distance between alternating X values of input points</xsl:message>
-      <xsl:variable name="impl:expect-d7e51" select="100, 100, 100, 100, 100, 100, 100"/>
+      <xsl:variable name="impl:expect-d7e55" select="100, 100, 100, 100, 100, 100, 100"/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e51, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e55, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario5-expect1" successful="{$impl:successful}">
          <x:label>Compute distance between alternating X values of input points</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e51"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e55"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -447,17 +495,17 @@
    <xsl:template name="x:scenario6-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute distance between alternating Y values of input points</xsl:message>
-      <xsl:variable name="impl:expect-d7e59" select="-95, 25, 19, -118, -46, 113, 58"/>
+      <xsl:variable name="impl:expect-d7e63" select="-95, 25, 19, -118, -46, 113, 58"/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e59, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e63, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario6-expect1" successful="{$impl:successful}">
          <x:label>Compute distance between alternating Y values of input points</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e59"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e63"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -496,18 +544,18 @@
    <xsl:template name="x:scenario7-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute lengths of joining lines between alternating knots</xsl:message>
-      <xsl:variable name="impl:expect-d7e67"
+      <xsl:variable name="impl:expect-d7e71"
                     select="             xs:double('137.93114224133723'),              xs:double('103.07764064044152'),              xs:double('101.78899744078434'),              xs:double('154.67385040788247'),              xs:double('110.07270324653611'),              xs:double('150.89400253157845'),              xs:double('115.6027681329474')                         "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e67, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e71, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario7-expect1" successful="{$impl:successful}">
          <x:label>Compute lengths of joining lines between alternating knots</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e67"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e71"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -547,18 +595,18 @@
    <xsl:template name="x:scenario8-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute unit value of Xs</xsl:message>
-      <xsl:variable name="impl:expect-d7e75"
+      <xsl:variable name="impl:expect-d7e79"
                     select="             xs:double('0.7249994335944137'),              xs:double('0.9701425001453319'),              xs:double('0.9824244517014219'),              xs:double('0.6465216954016153'),              xs:double('0.9084904526785746'),              xs:double('0.6627168629785165'),              xs:double('0.8650311892618034')                         "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e75, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e79, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario8-expect1" successful="{$impl:successful}">
          <x:label>Compute unit value of Xs</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e75"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e79"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -598,18 +646,18 @@
    <xsl:template name="x:scenario9-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute unit value of Ys</xsl:message>
-      <xsl:variable name="impl:expect-d7e84"
+      <xsl:variable name="impl:expect-d7e88"
                     select="             xs:double('-0.688749461914693'),              xs:double('0.24253562503633297'),              xs:double('0.18666064582327016'),              xs:double('-0.762895600573906'),              xs:double('-0.41790560823214434'),              xs:double('0.7488700551657237'),              xs:double('0.501718089771846')                     "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e84, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e88, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario9-expect1" successful="{$impl:successful}">
          <x:label>Compute unit value of Ys</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e84"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e88"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -644,18 +692,18 @@
    <xsl:template name="x:scenario10-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute X coordinates for endpoint 1 of normals</xsl:message>
-      <xsl:variable name="impl:expect-d7e91"
+      <xsl:variable name="impl:expect-d7e95"
                     select="             xs:double('0.688749461914693'),              xs:double('-0.24253562503633297'),              xs:double('-0.18666064582327016'),              xs:double('0.762895600573906'),              xs:double('0.41790560823214434'),              xs:double('-0.7488700551657237'),              xs:double('-0.501718089771846')              "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e91, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e95, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario10-expect1" successful="{$impl:successful}">
          <x:label>Compute X coordinates for endpoint 1 of normals</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e91"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e95"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -690,18 +738,18 @@
    <xsl:template name="x:scenario11-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute Y coordinates for endpoint 1 of normals</xsl:message>
-      <xsl:variable name="impl:expect-d7e98"
+      <xsl:variable name="impl:expect-d7e102"
                     select="             xs:double('0.7249994335944137'),              xs:double('0.9701425001453319'),              xs:double('0.9824244517014219'),              xs:double('0.6465216954016153'),              xs:double('0.9084904526785746'),              xs:double('0.6627168629785165'),              xs:double('0.8650311892618034')                         "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e98, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e102, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario11-expect1" successful="{$impl:successful}">
          <x:label>Compute Y coordinates for endpoint 1 of normals</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e98"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e102"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -736,18 +784,18 @@
    <xsl:template name="x:scenario12-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute X coordinates for endpoint 2 of normals</xsl:message>
-      <xsl:variable name="impl:expect-d7e106"
+      <xsl:variable name="impl:expect-d7e110"
                     select="             xs:double('-0.688749461914693'),              xs:double('0.24253562503633297'),              xs:double('0.18666064582327016'),              xs:double('-0.762895600573906'),              xs:double('-0.41790560823214434'),              xs:double('0.7488700551657237'),              xs:double('0.501718089771846')              "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e106, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e110, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario12-expect1" successful="{$impl:successful}">
          <x:label>Compute X coordinates for endpoint 2 of normals</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e106"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e110"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -782,18 +830,18 @@
    <xsl:template name="x:scenario13-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute Y coordinates for endpoint 2 of normals</xsl:message>
-      <xsl:variable name="impl:expect-d7e113"
+      <xsl:variable name="impl:expect-d7e117"
                     select="             xs:double('-0.7249994335944137'),              xs:double('-0.9701425001453319'),              xs:double('-0.9824244517014219'),              xs:double('-0.6465216954016153'),              xs:double('-0.9084904526785746'),              xs:double('-0.6627168629785165'),              xs:double('-0.8650311892618034')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e113, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e117, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario13-expect1" successful="{$impl:successful}">
          <x:label>Compute Y coordinates for endpoint 2 of normals</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e113"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e117"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -834,18 +882,18 @@
    <xsl:template name="x:scenario14-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute angle for normal 1</xsl:message>
-      <xsl:variable name="impl:expect-d7e121"
+      <xsl:variable name="impl:expect-d7e125"
                     select="             xs:double('2.381829898714022'),              xs:double('3.3865713167166573'),              xs:double('3.329354600103387'),              xs:double('2.273812559600654'),              xs:double('2.710453912871011'),              xs:double('3.9879480670768155'),              xs:double('3.6671764471414035')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e121, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e125, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario14-expect1" successful="{$impl:successful}">
          <x:label>Compute angle for normal 1</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e121"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e125"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -886,18 +934,18 @@
    <xsl:template name="x:scenario15-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute angle for normal 2</xsl:message>
-      <xsl:variable name="impl:expect-d7e130"
+      <xsl:variable name="impl:expect-d7e134"
                     select="             xs:double('-0.759762754875771'),              xs:double('0.244978663126864'),              xs:double('0.18776194651359335'),              xs:double('-0.8677800939891389'),              xs:double('-0.4311387407187821'),              xs:double('0.8463554134870224'),              xs:double('0.5255837935516101')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e130, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e134, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario15-expect1" successful="{$impl:successful}">
          <x:label>Compute angle for normal 2</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e130"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e134"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -931,17 +979,17 @@
    <xsl:template name="x:scenario16-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute x distance between adjacent knots</xsl:message>
-      <xsl:variable name="impl:expect-d7e137" select="50, 50, 50, 50, 50, 50, 50, 50"/>
+      <xsl:variable name="impl:expect-d7e141" select="50, 50, 50, 50, 50, 50, 50, 50"/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e137, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e141, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario16-expect1" successful="{$impl:successful}">
          <x:label>Compute x distance between adjacent knots</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e137"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e141"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -975,18 +1023,18 @@
    <xsl:template name="x:scenario17-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute y distance between adjacent knots</xsl:message>
-      <xsl:variable name="impl:expect-d7e144"
+      <xsl:variable name="impl:expect-d7e148"
                     select="-16, -79, 104, -85, -33, -13, 126, -68"/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e144, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e148, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario17-expect1" successful="{$impl:successful}">
          <x:label>Compute y distance between adjacent knots</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e144"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e148"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -1025,18 +1073,18 @@
    <xsl:template name="x:scenario18-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute diagonal distance between adjacent knots</xsl:message>
-      <xsl:variable name="impl:expect-d7e153"
+      <xsl:variable name="impl:expect-d7e157"
                     select="             xs:double('52.49761899362675'),              xs:double('93.49331526906082'),              xs:double('115.39497389401325'),              xs:double('98.6154146165801'),              xs:double('59.90826320300064'),              xs:double('51.66236541235796'),              xs:double('135.55810562264435'),              xs:double('84.40379138403677')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e153, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e157, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario18-expect1" successful="{$impl:successful}">
          <x:label>Compute diagonal distance between adjacent knots</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e153"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e157"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -1076,18 +1124,18 @@
    <xsl:template name="x:scenario19-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute total distance between control points</xsl:message>
-      <xsl:variable name="impl:expect-d7e161"
+      <xsl:variable name="impl:expect-d7e165"
                     select="             xs:double('55.1724568965349'),              xs:double('41.23105625617661'),              xs:double('40.71559897631374'),              xs:double('61.86954016315299'),              xs:double('44.02908129861444'),              xs:double('60.357601012631385'),              xs:double('46.24110725317897')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e161, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e165, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario19-expect1" successful="{$impl:successful}">
          <x:label>Compute total distance between control points</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e161"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e165"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -1128,18 +1176,18 @@
    <xsl:template name="x:scenario20-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute length of incoming handle</xsl:message>
-      <xsl:variable name="impl:expect-d7e169"
+      <xsl:variable name="impl:expect-d7e173"
                     select="             xs:double('19.83974303421423'),              xs:double('18.454017488868082'),              xs:double('21.953959869187713'),              xs:double('38.48819582819986'),              xs:double('23.641578646269323'),              xs:double('16.65531777422403'),              xs:double('28.49746699967797')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e169, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e173, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario20-expect1" successful="{$impl:successful}">
          <x:label>Compute length of incoming handle</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e169"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e173"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -1180,18 +1228,18 @@
    <xsl:template name="x:scenario21-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute length of outgoing handle</xsl:message>
-      <xsl:variable name="impl:expect-d7e178"
+      <xsl:variable name="impl:expect-d7e182"
                     select="             xs:double('35.33271386232066'),              xs:double('22.77703876730852'),              xs:double('18.761639107126033'),              xs:double('23.381344334953123'),              xs:double('20.387502652345116'),              xs:double('43.702283238407354'),              xs:double('17.743640253500995')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e178, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e182, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario21-expect1" successful="{$impl:successful}">
          <x:label>Compute length of outgoing handle</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e178"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e182"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -1237,18 +1285,18 @@
    <xsl:template name="x:scenario22-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute X coordinates of incoming handles</xsl:message>
-      <xsl:variable name="impl:expect-d7e187"
+      <xsl:variable name="impl:expect-d7e191"
                     select="             xs:double('85.61619753753597'),              xs:double('132.09697333562383'),              xs:double('178.43189301283823'),              xs:double('225.11654638020286'),              xs:double('278.52185151361465'),              xs:double('338.96224005275593'),              xs:double('375.34880223031956')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e187, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e191, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario22-expect1" successful="{$impl:successful}">
          <x:label>Compute X coordinates of incoming handles</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e187"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e191"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -1294,18 +1342,18 @@
    <xsl:template name="x:scenario23-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute Y coordinates of incoming handles</xsl:message>
-      <xsl:variable name="impl:expect-d7e196"
+      <xsl:variable name="impl:expect-d7e200"
                     select="             xs:double('179.66461233934083'),              xs:double('82.52424333390596'),              xs:double('186.90205967243926'),              xs:double('135.36247527136064'),              xs:double('82.87994830373725'),              xs:double('47.52733125961419'),              xs:double('171.70230529358534')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e196, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e200, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario23-expect1" successful="{$impl:successful}">
          <x:label>Compute Y coordinates of incoming handles</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e196"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e200"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -1351,18 +1399,18 @@
    <xsl:template name="x:scenario24-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute X coordinates of outgoing handles</xsl:message>
-      <xsl:variable name="impl:expect-d7e206"
+      <xsl:variable name="impl:expect-d7e210"
                     select="             xs:double('125.61619753753597'),              xs:double('172.09697333562383'),              xs:double('218.43189301283826'),              xs:double('265.11654638020286'),              xs:double('318.52185151361465'),              xs:double('378.96224005275593'),              xs:double('415.34880223031956')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e206, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e210, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario24-expect1" successful="{$impl:successful}">
          <x:label>Compute X coordinates of outgoing handles</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e206"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e210"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>
@@ -1408,18 +1456,18 @@
    <xsl:template name="x:scenario25-expect1">
       <xsl:param name="x:result" required="yes"/>
       <xsl:message>Compute Y coordinates of outgoing handles</xsl:message>
-      <xsl:variable name="impl:expect-d7e215"
+      <xsl:variable name="impl:expect-d7e219"
                     select="             xs:double('141.66461233934083'),              xs:double('92.52424333390596'),              xs:double('194.50205967243926'),              xs:double('88.16247527136065'),              xs:double('64.47994830373726'),              xs:double('92.7273312596142'),              xs:double('194.90230529358536')             "/>
       <xsl:variable name="impl:successful"
                     as="xs:boolean"
-                    select="test:deep-equal($impl:expect-d7e215, $x:result, '')"/>
+                    select="test:deep-equal($impl:expect-d7e219, $x:result, '')"/>
       <xsl:if test="not($impl:successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
       <x:test id="scenario25-expect1" successful="{$impl:successful}">
          <x:label>Compute Y coordinates of outgoing handles</x:label>
          <xsl:call-template name="test:report-sequence">
-            <xsl:with-param name="sequence" select="$impl:expect-d7e215"/>
+            <xsl:with-param name="sequence" select="$impl:expect-d7e219"/>
             <xsl:with-param name="wrapper-name" as="xs:string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>

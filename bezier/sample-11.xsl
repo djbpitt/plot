@@ -624,25 +624,32 @@
                 <circle class="mainCircle" cx="{$xPoints[current()]}" cy="{$yPoints[current()]}"
                     r="{$cRadius}"/>
             </xsl:for-each>
-            <polyline class="mainLine" points="{$inputPoints}"/>
+            <xsl:if test="$debug">
+                <polyline class="mainLine" points="{$inputPoints}"/>
+            </xsl:if>
             <!-- ===================================================== -->
             <!-- Alternating (hypotenuse) lines                        -->
             <!-- ===================================================== -->
-            <xsl:for-each select="0, 1">
-                <polyline class="alternatingLine"
-                    points="{$pointPairs[position() mod 2 eq current()]}"/>
-            </xsl:for-each>
+            <xsl:if test="$debug">
+                <xsl:for-each select="0, 1">
+                    <polyline class="alternatingLine"
+                        points="{$pointPairs[position() mod 2 eq current()]}"/>
+                </xsl:for-each>
+            </xsl:if>
             <!-- ===================================================== -->
             <!-- Anchor points and lines                               -->
             <!-- ===================================================== -->
-            <xsl:for-each select="1 to count($xPoints)">
-                <line class="anchorLine" x1="{$anchor1Xs[current()]}" y1="{$anchor1Ys[current()]}"
-                    x2="{$anchor2Xs[current()]}" y2="{$anchor2Ys[current()]}"/>
-                <circle class="anchorCircle1" cx="{$anchor1Xs[current()]}"
-                    cy="{$anchor1Ys[current()]}" r="{$cRadius}"/>
-                <circle class="anchorCircle2" cx="{$anchor2Xs[current()]}"
-                    cy="{$anchor2Ys[current()]}" r="{$cRadius}"/>
-            </xsl:for-each>
+            <xsl:if test="$debug">
+                <xsl:for-each select="1 to count($xPoints)">
+                    <line class="anchorLine" x1="{$anchor1Xs[current()]}"
+                        y1="{$anchor1Ys[current()]}" x2="{$anchor2Xs[current()]}"
+                        y2="{$anchor2Ys[current()]}"/>
+                    <circle class="anchorCircle1" cx="{$anchor1Xs[current()]}"
+                        cy="{$anchor1Ys[current()]}" r="{$cRadius}"/>
+                    <circle class="anchorCircle2" cx="{$anchor2Xs[current()]}"
+                        cy="{$anchor2Ys[current()]}" r="{$cRadius}"/>
+                </xsl:for-each>
+            </xsl:if>
             <!-- ===================================================== -->
             <!-- Plot the spline                                       -->
             <!-- ===================================================== -->
@@ -695,5 +702,10 @@
             </xsl:variable>
             <path d="{string-join($bezierPath, ' ')}" stroke="black" stroke-width="1" fill="none"/>
         </g>
+        <xsl:if test="$debug">
+            <xsl:sequence
+                select="djb:create_diagnostics($dirXs, $dirYs, $lengths, $unitXs, $unitYs, $normal1Xs, $normal1Ys, $normal2Xs, $normal2Ys, $angle1s, $angle2s, $anchor1Xs, $anchor1Ys, $anchor2Xs, $anchor2Ys, $totalAnchorLengths, $inAnchorLengths, $outAnchorLengths, $scaling)"
+            />
+        </xsl:if>
     </xsl:function>
 </xsl:stylesheet>

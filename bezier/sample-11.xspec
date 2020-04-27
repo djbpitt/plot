@@ -8,30 +8,83 @@
         <x:call function="djb:validate_points"/>
         <x:scenario label="Point coordinates (X and Y) are doubles: good input">
             <x:call>
-                <x:param name="split_points" select="('50,182.3', '.6,166.')"/>
+                <x:param name="split_points"
+                    select="(
+                    '50,182', 
+                    '100.0,166.0', 
+                    '150.0,.87', 
+                    '.200,191', 
+                    '-250,-.106', 
+                    '300,73', 
+                    '350,60', 
+                    '400,186', 
+                    '450,118'
+                    )"
+                />
             </x:call>
-            <x:expect label="Succeed if all X and Y are castable as xs:double"
+            <x:expect label="Succeed if all X and Y match a regex for doubles"
                 select="xs:boolean('true')"/>
         </x:scenario>
         <x:scenario label="Point coordinates (X and Y) are doubles: string">
             <x:call>
-                <x:param name="split_points" select="'50,x'"/>
+                <x:param name="split_points"
+                    select="(
+                    '50,182', 
+                    '100.0,166.0', 
+                    '150.0,.87', 
+                    '.200,191', 
+                    '-250,-.106', 
+                    '300,73', 
+                    '350,x', 
+                    '400,186', 
+                    '450,118'
+                    )"
+                />
             </x:call>
             <x:expect label="Fail if any X or Y contains an alphabetic" select="xs:boolean('false')"
             />
         </x:scenario>
         <x:scenario label="Point coordinates (X and Y) are doubles: dot, but no digits">
             <x:call>
-                <x:param name="split_points" select="'50,.'"/>
+                <x:param name="split_points"
+                    select="(
+                    '50,182', 
+                    '.,166.0', 
+                    '150.0,.87', 
+                    '.200,191', 
+                    '-250,-.106', 
+                    '300,73', 
+                    '350,60', 
+                    '400,186', 
+                    '450,118'
+                    )"
+                />
             </x:call>
             <x:expect label="Fail if any X or Y contains a dot but not digits"
                 select="xs:boolean('false')"/>
         </x:scenario>
         <x:scenario label="Point coordinates (X and Y) are doubles: missing value">
             <x:call>
-                <x:param name="split_points" select="',50'"/>
+                <x:param name="split_points" select="
+                     '50,182', 
+                    '100.0,166.0', 
+                    '150.0,.87', 
+                    '.200,191', 
+                    '-250,-.106', 
+                    '300,', 
+                    '350,60', 
+                    '400,186', 
+                    '450,118'
+                    
+                    "/>
             </x:call>
-            <x:expect label="Fail if any X or Y is missing" select="xs:boolean('false')"/>
+            <x:expect label="Fail if any X or Y is missing" select="false()"/>
+        </x:scenario>
+        <x:scenario label="Fewer than 3 points">
+            <x:call>
+                <x:param name="split_points" select="'1,50 2,100'"/>
+            </x:call>
+            <x:expect label="Fail if fewer than 3 points" select="false()"/>
         </x:scenario>
     </x:scenario>
 

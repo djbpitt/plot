@@ -4,7 +4,7 @@
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           stylesheet="file:/Users/djb/repos/xstuff/bezier/sample-11.xsl"
-          date="2020-04-26T17:46:38.903-04:00"
+          date="2020-04-27T12:25:53.369-04:00"
           xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
    <x:scenario id="scenario1"
                xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
@@ -14,11 +14,12 @@
                   xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
          <x:label>Point coordinates (X and Y) are doubles: good input</x:label>
          <x:call>
-            <x:param name="split_points" select="('50,182.3', '.6,166.')"/>
+            <x:param name="split_points"
+                     select="(                     '50,182',                      '100.0,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,73',                      '350,60',                      '400,186',                      '450,118'                     )"/>
          </x:call>
          <x:result select="xs:boolean('true')"/>
          <x:test id="scenario1-scenario1-expect1" successful="true">
-            <x:label>Succeed if all X and Y are castable as xs:double</x:label>
+            <x:label>Succeed if all X and Y match a regex for doubles</x:label>
             <x:expect select="xs:boolean('true')"/>
          </x:test>
       </x:scenario>
@@ -26,7 +27,8 @@
                   xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
          <x:label>Point coordinates (X and Y) are doubles: string</x:label>
          <x:call>
-            <x:param name="split_points" select="'50,x'"/>
+            <x:param name="split_points"
+                     select="(                     '50,182',                      '100.0,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,73',                      '350,x',                      '400,186',                      '450,118'                     )"/>
          </x:call>
          <x:result select="xs:boolean('false')"/>
          <x:test id="scenario1-scenario2-expect1" successful="true">
@@ -38,7 +40,8 @@
                   xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
          <x:label>Point coordinates (X and Y) are doubles: dot, but no digits</x:label>
          <x:call>
-            <x:param name="split_points" select="'50,.'"/>
+            <x:param name="split_points"
+                     select="(                     '50,182',                      '.,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,73',                      '350,60',                      '400,186',                      '450,118'                     )"/>
          </x:call>
          <x:result select="xs:boolean('false')"/>
          <x:test id="scenario1-scenario3-expect1" successful="true">
@@ -50,11 +53,24 @@
                   xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
          <x:label>Point coordinates (X and Y) are doubles: missing value</x:label>
          <x:call>
-            <x:param name="split_points" select="',50'"/>
+            <x:param name="split_points"
+                     select="                      '50,182',                      '100.0,166.0',                      '150.0,.87',                      '.200,191',                      '-250,-.106',                      '300,',                      '350,60',                      '400,186',                      '450,118'                                          "/>
          </x:call>
          <x:result select="xs:boolean('false')"/>
          <x:test id="scenario1-scenario4-expect1" successful="true">
             <x:label>Fail if any X or Y is missing</x:label>
+            <x:expect select="xs:boolean('false')"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario5"
+                  xspec="file:/Users/djb/repos/xstuff/bezier/sample-11.xspec">
+         <x:label>Fewer than 3 points</x:label>
+         <x:call>
+            <x:param name="split_points" select="'1,50 2,100'"/>
+         </x:call>
+         <x:result select="xs:boolean('false')"/>
+         <x:test id="scenario1-scenario5-expect1" successful="true">
+            <x:label>Fail if fewer than 3 points</x:label>
             <x:expect select="xs:boolean('false')"/>
          </x:test>
       </x:scenario>
