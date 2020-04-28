@@ -15,6 +15,6 @@
      label="Configuration for http://www.obdurodon.org/bezier package">
      <xsltPackages>
           <package name="http://www.obdurodon.org/bezier" version="1.0"
-               sourceLocation="bezier.xsl"/>
+               sourceLocation="bezier.xsl" exportLocation="bezier.sef"/>
      </xsltPackages>
 </configuration>

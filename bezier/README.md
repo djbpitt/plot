@@ -4351,7 +4351,17 @@ We illustrate the function call and the effect of the `$scaling` parameter with 
 
 ### 12. Convert to package
 
-XSLT 3.0 introduces *packages* as a library-management alternative to `<xsl:import>` and `<xsl:include>`. For information about packages see the [XSLT 3.0 spec](https://www.w3.org/TR/xslt-30/#packages), the [Saxon documentation](https://www.saxonica.com/documentation/index.html#!xsl-elements/package), and Michael Kay’s [XSLT 3.0 packages](http://www.xmlamsterdam.com/pdf/2013/2013-michaelhkay-ansterdam.odp) (LibreOffice presentation download). The XSLT 3.0 spec defines the way `<xsl:use-package>` finds its packages as implementation dependent, and the package and driver here are configured for Saxon 10 EE or HE. The sample SVG output, below, replicates the output above, but it uses the package instead of `<xsl:import>` or `<xsl:include>`. It adds two images that the end, illustrating the arity-2 and arity-1 version of the function.
+XSLT 3.0 introduces *packages* as a library-management alternative to `<xsl:import>` and `<xsl:include>`. For information about packages see the [XSLT 3.0 spec](https://www.w3.org/TR/xslt-30/#packages), the [Saxon documentation](https://www.saxonica.com/documentation/index.html#!xsl-elements/package), and Michael Kay’s [XSLT 3.0 packages](http://www.xmlamsterdam.com/pdf/2013/2013-michaelhkay-ansterdam.odp) (LibreOffice presentation download). The XSLT 3.0 spec defines the way `<xsl:use-package>` finds its packages as implementation dependent, and the package and driver here are configured for Saxon 10 EE or HE. The sample SVG output, below, replicates the output above, but it uses the package instead of `<xsl:import>` or `<xsl:include>`. It adds two images that the end, illustrating the arity-2 and arity-1 version of the function. Run from the command line with (with `ee` aliased to the command to run an XSLT transformation with Saxon EE):
+
+```bash
+ee -xsl:driver-bezier.xsl -config:ee-config.xml -it -o:images/bezier.svg
+```
+
+or (with `saxon` aliased to the command to run an XSLT transformation with Saxon HE):
+
+```bash
+saxon -xsl:driver-bezier.xsl -config:he-config.xml -it -o:images/bezier.svg
+```
 
 #### SVG
 
@@ -5105,7 +5115,7 @@ XSLT 3.0 introduces *packages* as a library-management alternative to `<xsl:impo
      label="Configuration for http://www.obdurodon.org/bezier package">
      <xsltPackages>
           <package name="http://www.obdurodon.org/bezier" version="1.0"
-               sourceLocation="bezier.xsl"/>
+               sourceLocation="bezier.xsl" exportLocation="bezier.sef"/>
      </xsltPackages>
 </configuration>
 ```

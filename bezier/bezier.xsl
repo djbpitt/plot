@@ -728,6 +728,4 @@
         <xsl:param name="inputPoints" as="xs:string"/>
         <xsl:sequence select="djb:bezier($inputPoints, 0.4, false())"/>
     </xsl:function>
-
-    <xsl:template name="fake" visibility="public"/>
 </xsl:package>

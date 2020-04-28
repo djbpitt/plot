@@ -39,11 +39,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -127,11 +127,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -285,11 +285,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -443,11 +443,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -601,11 +601,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -759,11 +759,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -917,11 +917,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -1075,11 +1075,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -1233,11 +1233,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -1391,11 +1391,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -1549,11 +1549,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -1606,11 +1606,11 @@
             }</style>
          <rect x="0"
                y="0"
+               width="500"
                height="300"
                stroke="black"
-               class="backgroundColor"
-               width="500"
-               stroke-width="1"/>
+               stroke-width="1"
+               class="backgroundColor"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
