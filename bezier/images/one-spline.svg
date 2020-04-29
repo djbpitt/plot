@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg">
+   <g transform="translate(10, 10)">
+      <g>
+         <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+         <rect x="0"
+               y="0"
+               width="500"
+               height="300"
+               stroke="black"
+               stroke-width="1"
+               class="backgroundColor"/>
+         <circle class="mainCircle" cx="50" cy="182" r="2"/>
+         <circle class="mainCircle" cx="100" cy="166" r="2"/>
+         <circle class="mainCircle" cx="150" cy="87" r="2"/>
+         <circle class="mainCircle" cx="200" cy="191" r="2"/>
+         <circle class="mainCircle" cx="250" cy="106" r="2"/>
+         <circle class="mainCircle" cx="300" cy="73" r="2"/>
+         <circle class="mainCircle" cx="350" cy="60" r="2"/>
+         <circle class="mainCircle" cx="400" cy="186" r="2"/>
+         <circle class="mainCircle" cx="450" cy="118" r="2"/>
+         <polyline class="mainLine"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+         <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+         <line class="anchorLine"
+               x1="85.61619753753597"
+               y1="179.66461233934083"
+               x2="125.61619753753597"
+               y2="141.66461233934083"/>
+         <circle class="anchorCircle1"
+                 cx="85.61619753753597"
+                 cy="179.66461233934083"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="125.61619753753597"
+                 cy="141.66461233934083"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="132.09697333562383"
+               y1="82.52424333390596"
+               x2="172.09697333562383"
+               y2="92.52424333390596"/>
+         <circle class="anchorCircle1"
+                 cx="132.09697333562383"
+                 cy="82.52424333390596"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="172.09697333562383"
+                 cy="92.52424333390596"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="178.43189301283823"
+               y1="186.90205967243926"
+               x2="218.43189301283826"
+               y2="194.50205967243926"/>
+         <circle class="anchorCircle1"
+                 cx="178.43189301283823"
+                 cy="186.90205967243926"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="218.43189301283826"
+                 cy="194.50205967243926"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="225.11654638020286"
+               y1="135.36247527136064"
+               x2="265.11654638020286"
+               y2="88.16247527136065"/>
+         <circle class="anchorCircle1"
+                 cx="225.11654638020286"
+                 cy="135.36247527136064"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="265.11654638020286"
+                 cy="88.16247527136065"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="278.52185151361465"
+               y1="82.87994830373725"
+               x2="318.52185151361465"
+               y2="64.47994830373726"/>
+         <circle class="anchorCircle1"
+                 cx="278.52185151361465"
+                 cy="82.87994830373725"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="318.52185151361465"
+                 cy="64.47994830373726"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="338.96224005275593"
+               y1="47.52733125961419"
+               x2="378.96224005275593"
+               y2="92.7273312596142"/>
+         <circle class="anchorCircle1"
+                 cx="338.96224005275593"
+                 cy="47.52733125961419"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="378.96224005275593"
+                 cy="92.7273312596142"
+                 r="2"/>
+         <line class="anchorLine"
+               x1="375.34880223031956"
+               y1="171.70230529358534"
+               x2="415.34880223031956"
+               y2="194.90230529358536"/>
+         <circle class="anchorCircle1"
+                 cx="375.34880223031956"
+                 cy="171.70230529358534"
+                 r="2"/>
+         <circle class="anchorCircle2"
+                 cx="415.34880223031956"
+                 cy="194.90230529358536"
+                 r="2"/>
+         <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
+               stroke="black"
+               stroke-width="1"
+               fill="none"/>
+      </g>
+   </g>
+</svg>

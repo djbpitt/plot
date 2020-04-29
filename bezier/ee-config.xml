@@ -11,10 +11,11 @@
      If have oXygen Author mode then switch to the Author page to get a graphical 
      interface for editing this configuration file  
 -->
+<!--  exportLocation="bezier.sef" -->
 <configuration edition="EE" xmlns="http://saxon.sf.net/ns/configuration"
      label="Configuration for http://www.obdurodon.org/bezier package">
      <xsltPackages>
-          <package name="http://www.obdurodon.org/bezier" version="1.0"
-               sourceLocation="bezier.xsl" exportLocation="bezier.sef"/>
+          <package name="http://www.obdurodon.org/bezier" version="1.0" sourceLocation="bezier.xsl"
+               exportLocation="bezier.sef"/>
      </xsltPackages>
 </configuration>

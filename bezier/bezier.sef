@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package xmlns='http://ns.saxonica.com/xslt/export' xmlns:fn='http://www.w3.org/2005/xpath-functions' xmlns:java-type='http://saxon.sf.net/java-type' xmlns:vv='http://saxon.sf.net/generated-variable' xmlns:xs='http://www.w3.org/2001/XMLSchema' when='2020-04-28T15:24:00.604-04:00' id='0' name='http://www.obdurodon.org/bezier' version='30' declaredModes='1' packageVersion='1' saxonProduct='SAXON-EE' saxonVersion='10.0' buildDateTime='2020-04-28T15:24:00.605-04:00' target='EE' targetVersion='1' relocatable='false' implicit='false'>
+<package xmlns='http://ns.saxonica.com/xslt/export' xmlns:fn='http://www.w3.org/2005/xpath-functions' xmlns:java-type='http://saxon.sf.net/java-type' xmlns:vv='http://saxon.sf.net/generated-variable' xmlns:xs='http://www.w3.org/2001/XMLSchema' when='2020-04-29T11:13:31.918-04:00' id='0' name='http://www.obdurodon.org/bezier' version='30' declaredModes='1' packageVersion='1' saxonProduct='SAXON-EE' saxonVersion='10.0' buildDateTime='2020-04-29T11:13:31.918-04:00' target='EE' targetVersion='1' relocatable='false' implicit='false'>
  <co id='0' binds=''>
   <function name='Q{http://www.obdurodon.org}create_inAnchorLengths' line='243' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='4' flags='pU' as='+AO' slots='3'>
    <arg name='Q{}totalAnchorLengths' as='+AO'/>
@@ -1168,9 +1168,12 @@
                               <forEach line='640'>
                                <to>
                                 <int val='1'/>
-                                <fn name='count'>
-                                 <varRef name='Q{}xPoints' slot='6'/>
-                                </fn>
+                                <arith op='-' calc='i-i'>
+                                 <fn name='count'>
+                                  <varRef name='Q{}xPoints' slot='6'/>
+                                 </fn>
+                                 <int val='2'/>
+                                </arith>
                                </to>
                                <sequence line='643'>
                                 <elem name='line' nsuri='http://www.w3.org/2000/svg' flags='dl'>
@@ -1719,12 +1722,7 @@
    </check>
   </function>
  </co>
- <co id='20' vis='PUBLIC' binds=''>
-  <template name='Q{}fake' flags='os' line='732' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' slots='0'>
-   <empty role='body'/>
-  </template>
- </co>
- <co id='21' binds=''>
+ <co id='20' binds=''>
   <function name='Q{http://www.obdurodon.org}extract_xPoints' line='54' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='4' flags='pU' as='+AO' slots='1'>
    <arg name='Q{}pointPairs' as='+AS'/>
    <check role='body' baseUri='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' ns='=http://www.w3.org/2000/svg djb=http://www.obdurodon.org html=http://www.w3.org/1999/xhtml math=~ svg=http://www.w3.org/2000/svg xs=~ xsl=~ xml=~' line='56' card='+' diag='5|0|XTTE0780|djb:extract_xPoints#1'>
@@ -1743,7 +1741,7 @@
    </check>
   </function>
  </co>
- <co id='22' binds=''>
+ <co id='21' binds=''>
   <function name='Q{http://www.obdurodon.org}create_angle1s' line='169' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='4' flags='pU' as='+AO' slots='3'>
    <arg name='Q{}normal1Ys' as='+AO'/>
    <arg name='Q{}normal1Xs' as='+AO'/>
@@ -1967,12 +1965,9 @@
         <forEach line='388'>
          <to>
           <int val='1'/>
-          <arith op='-' calc='i-i'>
-           <fn name='count'>
-            <varRef name='Q{}dirXs' slot='0'/>
-           </fn>
-           <int val='2'/>
-          </arith>
+          <fn name='count'>
+           <varRef name='Q{}dirXs' slot='0'/>
+          </fn>
          </to>
          <elem line='389' name='tr' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
           <sequence line='391'>
@@ -1998,12 +1993,12 @@
             </let>
            </elem>
            <elem line='403' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='405' var='Q{http://saxon.sf.net/generated-variable}current364639279' as='1' slot='21' eval='16'>
+            <let line='405' var='Q{http://saxon.sf.net/generated-variable}current1234250905' as='1' slot='21' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}lengths' slot='2'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current364639279' slot='21'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current1234250905' slot='21'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2013,12 +2008,12 @@
             </let>
            </elem>
            <elem line='408' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='410' var='Q{http://saxon.sf.net/generated-variable}current1427040229' as='1' slot='22' eval='16'>
+            <let line='410' var='Q{http://saxon.sf.net/generated-variable}current16868310' as='1' slot='22' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}unitXs' slot='3'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current1427040229' slot='22'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current16868310' slot='22'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2028,12 +2023,12 @@
             </let>
            </elem>
            <elem line='413' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='415' var='Q{http://saxon.sf.net/generated-variable}current1604002113' as='1' slot='23' eval='16'>
+            <let line='415' var='Q{http://saxon.sf.net/generated-variable}current769530879' as='1' slot='23' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}unitYs' slot='4'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current1604002113' slot='23'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current769530879' slot='23'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2043,14 +2038,14 @@
             </let>
            </elem>
            <elem line='418' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='427' var='Q{http://saxon.sf.net/generated-variable}current-2112902394' as='1' slot='24' eval='16'>
+            <let line='427' var='Q{http://saxon.sf.net/generated-variable}current-1779202169' as='1' slot='24' eval='16'>
              <dot type='1ADI'/>
              <fn name='string-join'>
               <sequence>
                <forEach>
                 <subscript>
                  <varRef name='Q{}normal1Xs' slot='5'/>
-                 <varRef name='Q{http://saxon.sf.net/generated-variable}current-2112902394' slot='24'/>
+                 <varRef name='Q{http://saxon.sf.net/generated-variable}current-1779202169' slot='24'/>
                 </subscript>
                 <fn name='format-number'>
                  <dot type='1AO'/>
@@ -2060,7 +2055,7 @@
                <forEach>
                 <subscript>
                  <varRef name='Q{}normal1Ys' slot='6'/>
-                 <varRef name='Q{http://saxon.sf.net/generated-variable}current-2112902394' slot='24'/>
+                 <varRef name='Q{http://saxon.sf.net/generated-variable}current-1779202169' slot='24'/>
                 </subscript>
                 <fn name='format-number'>
                  <dot type='1AO'/>
@@ -2073,14 +2068,14 @@
             </let>
            </elem>
            <elem line='430' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='439' var='Q{http://saxon.sf.net/generated-variable}current-924893715' as='1' slot='25' eval='16'>
+            <let line='439' var='Q{http://saxon.sf.net/generated-variable}current-716794803' as='1' slot='25' eval='16'>
              <dot type='1ADI'/>
              <fn name='string-join'>
               <sequence>
                <forEach>
                 <subscript>
                  <varRef name='Q{}normal2Xs' slot='7'/>
-                 <varRef name='Q{http://saxon.sf.net/generated-variable}current-924893715' slot='25'/>
+                 <varRef name='Q{http://saxon.sf.net/generated-variable}current-716794803' slot='25'/>
                 </subscript>
                 <fn name='format-number'>
                  <dot type='1AO'/>
@@ -2090,7 +2085,7 @@
                <forEach>
                 <subscript>
                  <varRef name='Q{}normal2Ys' slot='8'/>
-                 <varRef name='Q{http://saxon.sf.net/generated-variable}current-924893715' slot='25'/>
+                 <varRef name='Q{http://saxon.sf.net/generated-variable}current-716794803' slot='25'/>
                 </subscript>
                 <fn name='format-number'>
                  <dot type='1AO'/>
@@ -2103,12 +2098,12 @@
             </let>
            </elem>
            <elem line='442' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='444' var='Q{http://saxon.sf.net/generated-variable}current1787079037' as='1' slot='26' eval='16'>
+            <let line='444' var='Q{http://saxon.sf.net/generated-variable}current1604002113' as='1' slot='26' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}angle1s' slot='9'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current1787079037' slot='26'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current1604002113' slot='26'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2118,12 +2113,12 @@
             </let>
            </elem>
            <elem line='447' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='449' var='Q{http://saxon.sf.net/generated-variable}current1813187653' as='1' slot='27' eval='16'>
+            <let line='449' var='Q{http://saxon.sf.net/generated-variable}current38262958' as='1' slot='27' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}angle2s' slot='10'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current1813187653' slot='27'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current38262958' slot='27'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2133,12 +2128,12 @@
             </let>
            </elem>
            <elem line='452' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='454' var='Q{http://saxon.sf.net/generated-variable}current1353530305' as='1' slot='28' eval='16'>
+            <let line='454' var='Q{http://saxon.sf.net/generated-variable}current1217875525' as='1' slot='28' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}anchor1Xs' slot='11'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current1353530305' slot='28'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current1217875525' slot='28'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2148,12 +2143,12 @@
             </let>
            </elem>
            <elem line='457' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='459' var='Q{http://saxon.sf.net/generated-variable}current574268151' as='1' slot='29' eval='16'>
+            <let line='459' var='Q{http://saxon.sf.net/generated-variable}current1787079037' as='1' slot='29' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}anchor1Ys' slot='12'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current574268151' slot='29'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current1787079037' slot='29'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2163,12 +2158,12 @@
             </let>
            </elem>
            <elem line='462' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='464' var='Q{http://saxon.sf.net/generated-variable}current1832532108' as='1' slot='30' eval='16'>
+            <let line='464' var='Q{http://saxon.sf.net/generated-variable}current1813187653' as='1' slot='30' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}anchor2Xs' slot='13'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current1832532108' slot='30'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current1813187653' slot='30'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2178,12 +2173,12 @@
             </let>
            </elem>
            <elem line='467' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='469' var='Q{http://saxon.sf.net/generated-variable}current423583818' as='1' slot='31' eval='16'>
+            <let line='469' var='Q{http://saxon.sf.net/generated-variable}current1353530305' as='1' slot='31' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}anchor2Ys' slot='14'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current423583818' slot='31'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current1353530305' slot='31'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2196,12 +2191,12 @@
             <varRef line='473' name='Q{}scaling' slot='18'/>
            </elem>
            <elem line='476' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='479' var='Q{http://saxon.sf.net/generated-variable}current552936351' as='1' slot='32' eval='16'>
+            <let line='479' var='Q{http://saxon.sf.net/generated-variable}current574268151' as='1' slot='32' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}totalAnchorLengths' slot='15'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current552936351' slot='32'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current574268151' slot='32'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2211,12 +2206,12 @@
             </let>
            </elem>
            <elem line='482' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='485' var='Q{http://saxon.sf.net/generated-variable}current1471086700' as='1' slot='33' eval='16'>
+            <let line='485' var='Q{http://saxon.sf.net/generated-variable}current1832532108' as='1' slot='33' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}inAnchorLengths' slot='16'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current1471086700' slot='33'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current1832532108' slot='33'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2226,12 +2221,12 @@
             </let>
            </elem>
            <elem line='488' name='td' nsuri='http://www.w3.org/1999/xhtml' flags='dl'>
-            <let line='491' var='Q{http://saxon.sf.net/generated-variable}current1810742349' as='1' slot='34' eval='16'>
+            <let line='491' var='Q{http://saxon.sf.net/generated-variable}current423583818' as='1' slot='34' eval='16'>
              <dot type='1ADI'/>
              <forEach>
               <subscript>
                <varRef name='Q{}outAnchorLengths' slot='17'/>
-               <varRef name='Q{http://saxon.sf.net/generated-variable}current1810742349' slot='34'/>
+               <varRef name='Q{http://saxon.sf.net/generated-variable}current423583818' slot='34'/>
               </subscript>
               <fn name='format-number'>
                <dot type='1AO'/>
@@ -2250,7 +2245,7 @@
    </elem>
   </function>
  </co>
- <co id='23' binds=''>
+ <co id='22' binds=''>
   <function name='Q{http://www.obdurodon.org}create_outAnchorLengths' line='259' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='4' flags='pU' as='+AO' slots='3'>
    <arg name='Q{}totalAnchorLengths' as='+AO'/>
    <arg name='Q{}segLengths' as='+AO'/>
@@ -2297,7 +2292,7 @@
    </check>
   </function>
  </co>
- <co id='24' binds=''>
+ <co id='23' binds=''>
   <function name='Q{http://www.obdurodon.org}create_yLengths' line='209' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='4' flags='pU' as='+AO' slots='2'>
    <arg name='Q{}yPoints' as='+AO'/>
    <check role='body' baseUri='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' ns='=http://www.w3.org/2000/svg djb=http://www.obdurodon.org html=http://www.w3.org/1999/xhtml math=~ svg=http://www.w3.org/2000/svg xs=~ xsl=~ xml=~' line='211' card='+' diag='5|0|XTTE0780|djb:create_yLengths#1'>
@@ -2331,7 +2326,7 @@
    </check>
   </function>
  </co>
- <co id='25' binds=''>
+ <co id='24' binds=''>
   <function name='Q{http://www.obdurodon.org}create_xLengths' line='199' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='4' flags='pU' as='+AO' slots='2'>
    <arg name='Q{}xPoints' as='+AO'/>
    <check role='body' baseUri='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' ns='=http://www.w3.org/2000/svg djb=http://www.obdurodon.org html=http://www.w3.org/1999/xhtml math=~ svg=http://www.w3.org/2000/svg xs=~ xsl=~ xml=~' line='201' card='+' diag='5|0|XTTE0780|djb:create_xLengths#1'>
@@ -2365,7 +2360,7 @@
    </check>
   </function>
  </co>
- <co id='26' binds=''>
+ <co id='25' binds=''>
   <function name='Q{http://www.obdurodon.org}create_anchor2Ys' line='323' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='4' flags='pU' as='+AO' slots='4'>
    <arg name='Q{}yPoints' as='+AO'/>
    <arg name='Q{}angle2s' as='+AO'/>
@@ -2406,7 +2401,7 @@
    </check>
   </function>
  </co>
- <co id='27' binds=''>
+ <co id='26' binds=''>
   <function name='Q{http://www.obdurodon.org}create_anchor2Xs' line='307' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='4' flags='pU' as='+AO' slots='4'>
    <arg name='Q{}xPoints' as='+AO'/>
    <arg name='Q{}angle2s' as='+AO'/>
@@ -2447,7 +2442,7 @@
    </check>
   </function>
  </co>
- <co id='28' binds=''>
+ <co id='27' binds=''>
   <function name='Q{http://www.obdurodon.org}create_unitXs' line='113' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='4' flags='pU' as='+AO' slots='3'>
    <arg name='Q{}dirXs' as='+AO'/>
    <arg name='Q{}lengths' as='+AO'/>
@@ -2476,13 +2471,13 @@
    </check>
   </function>
  </co>
- <co id='29' binds=''>
+ <co id='28' binds=''>
   <function name='Q{http://www.obdurodon.org}create_normal1Ys' line='145' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='6' flags='pU' as='+AO' slots='1'>
    <arg name='Q{}unitXs' as='+AO'/>
    <varRef role='body' baseUri='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' ns='=http://www.w3.org/2000/svg djb=http://www.obdurodon.org html=http://www.w3.org/1999/xhtml math=~ svg=http://www.w3.org/2000/svg xs=~ xsl=~ xml=~' line='147' name='Q{}unitXs' slot='0'/>
   </function>
  </co>
- <co id='30' binds=''>
+ <co id='29' binds=''>
   <function name='Q{http://www.obdurodon.org}create_normal1Xs' line='137' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='4' flags='pU' as='+AO' slots='1'>
    <arg name='Q{}unitYs' as='+AO'/>
    <check role='body' baseUri='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' ns='=http://www.w3.org/2000/svg djb=http://www.obdurodon.org html=http://www.w3.org/1999/xhtml math=~ svg=http://www.w3.org/2000/svg xs=~ xsl=~ xml=~' line='139' card='+' diag='5|0|XTTE0780|djb:create_normal1Xs#1'>
@@ -2496,7 +2491,7 @@
    </check>
   </function>
  </co>
- <co id='31' binds=''>
+ <co id='30' binds=''>
   <function name='Q{http://www.obdurodon.org}create_unitYs' line='125' module='file:/Users/djb/repos/xstuff/bezier/bezier.xsl' eval='4' flags='pU' as='+AO' slots='3'>
    <arg name='Q{}dirYs' as='+AO'/>
    <arg name='Q{}lengths' as='+AO'/>
@@ -2525,7 +2520,7 @@
    </check>
   </function>
  </co>
- <co id='32' binds=''>
+ <co id='31' binds=''>
   <mode onNo='TC' flags='dWe' patternSlots='0'/>
  </co>
  <overridden/>
@@ -2534,4 +2529,4 @@
  </output>
  <decimalFormat/>
 </package>
-<?Σ c7e553b?>
+<?Σ 5bffe644?>

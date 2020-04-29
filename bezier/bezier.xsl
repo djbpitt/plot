@@ -385,7 +385,7 @@
                         <th>anchorLength1<br/>(in)</th>
                         <th>anchorLength2<br/>(out)</th>
                     </tr>
-                    <xsl:for-each select="1 to count($dirXs) - 2">
+                    <xsl:for-each select="1 to count($dirXs)">
                         <tr>
                             <!-- Bézier number -->
                             <td>
@@ -637,7 +637,7 @@
             <!-- Anchor points and lines                               -->
             <!-- ===================================================== -->
             <xsl:if test="$debug">
-                <xsl:for-each select="1 to count($xPoints)">
+                <xsl:for-each select="1 to count($xPoints) - 2">
                     <line class="anchorLine" x1="{$anchor1Xs[current()]}"
                         y1="{$anchor1Ys[current()]}" x2="{$anchor2Xs[current()]}"
                         y2="{$anchor2Ys[current()]}"/>

@@ -39,11 +39,11 @@
             }</style>
          <rect x="0"
                y="0"
-               width="500"
                height="300"
                stroke="black"
-               stroke-width="1"
-               class="backgroundColor"/>
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -78,12 +78,6 @@
          <line class="anchorLine" x1="400" y1="186" x2="400" y2="186"/>
          <circle class="anchorCircle1" cx="400" cy="186" r="2"/>
          <circle class="anchorCircle2" cx="400" cy="186" r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
          <path d="M50,182 Q100,166 100,166 C100,166 150,87 150,87 C150,87 200,191 200,191 C200,191 250,106 250,106 C250,106 300,73 300,73 C300,73 350,60 350,60 C350,60 400,186 400,186 Q400,186 450,118"
                stroke="black"
                stroke-width="1"
@@ -127,11 +121,11 @@
             }</style>
          <rect x="0"
                y="0"
-               width="500"
                height="300"
                stroke="black"
-               stroke-width="1"
-               class="backgroundColor"/>
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -236,12 +230,6 @@
                  cx="403.8372005575799"
                  cy="188.22557632339633"
                  r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
          <path d="M50,182 Q96.404049384384,169.4161530848352 100,166 C106.404049384384,159.9161530848352 145.52424333390596,85.8810608334765 150,87 C155.52424333390596,88.38106083347648 194.60797325320956,189.9755149181098 200,191 C204.60797325320956,191.87551491810981 243.77913659505072,113.34061881784017 250,106 C253.77913659505072,101.54061881784015 294.63046287840365,75.46998707593431 300,73 C304.63046287840365,70.86998707593432 347.240560013189,56.88183281490355 350,60 C357.240560013189,68.18183281490354 393.8372005575799,182.42557632339634 400,186 Q403.8372005575799,188.22557632339633 450,118"
                stroke="black"
                stroke-width="1"
@@ -285,11 +273,11 @@
             }</style>
          <rect x="0"
                y="0"
-               width="500"
                height="300"
                stroke="black"
-               stroke-width="1"
-               class="backgroundColor"/>
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -394,12 +382,6 @@
                  cx="407.6744011151598"
                  cy="190.45115264679268"
                  r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
          <path d="M50,182 Q92.80809876876799,172.83230616967043 100,166 C112.80809876876799,153.8323061696704 141.04848666781191,84.76212166695298 150,87 C161.04848666781191,89.76212166695298 189.21594650641913,188.95102983621962 200,191 C209.21594650641913,192.75102983621963 237.55827319010143,120.68123763568032 250,106 C257.55827319010143,97.08123763568032 289.26092575680735,77.93997415186863 300,73 C309.26092575680735,68.73997415186864 344.48112002637794,53.76366562980709 350,60 C364.481120026378,76.3636656298071 387.6744011151598,178.85115264679268 400,186 Q407.6744011151598,190.45115264679268 450,118"
                stroke="black"
                stroke-width="1"
@@ -443,11 +425,11 @@
             }</style>
          <rect x="0"
                y="0"
-               width="500"
                height="300"
                stroke="black"
-               stroke-width="1"
-               class="backgroundColor"/>
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -552,12 +534,6 @@
                  cx="411.5116016727397"
                  cy="192.676728970189"
                  r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
          <path d="M50,182 Q89.21214815315199,176.24845925450563 100,166 C119.21214815315197,147.74845925450563 136.57273000171787,83.64318250042948 150,87 C166.57273000171787,91.14318250042948 183.8239197596287,187.92654475432946 200,191 C213.8239197596287,193.62654475432944 231.33740978515215,128.02185645352048 250,106 C261.33740978515215,92.62185645352048 283.891388635211,80.40996122780294 300,73 C313.891388635211,66.60996122780294 341.72168003956693,50.64549844471065 350,60 C371.72168003956693,84.54549844471065 381.5116016727397,175.27672897018903 400,186 Q411.5116016727397,192.676728970189 450,118"
                stroke="black"
                stroke-width="1"
@@ -601,11 +577,11 @@
             }</style>
          <rect x="0"
                y="0"
-               width="500"
                height="300"
                stroke="black"
-               stroke-width="1"
-               class="backgroundColor"/>
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -710,12 +686,6 @@
                  cx="415.34880223031956"
                  cy="194.90230529358536"
                  r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
          <path d="M50,182 Q85.61619753753597,179.66461233934083 100,166 C125.61619753753597,141.66461233934083 132.09697333562383,82.52424333390596 150,87 C172.09697333562383,92.52424333390596 178.43189301283823,186.90205967243926 200,191 C218.43189301283826,194.50205967243926 225.11654638020286,135.36247527136064 250,106 C265.11654638020286,88.16247527136065 278.52185151361465,82.87994830373725 300,73 C318.52185151361465,64.47994830373726 338.96224005275593,47.52733125961419 350,60 C378.96224005275593,92.7273312596142 375.34880223031956,171.70230529358534 400,186 Q415.34880223031956,194.90230529358536 450,118"
                stroke="black"
                stroke-width="1"
@@ -759,11 +729,11 @@
             }</style>
          <rect x="0"
                y="0"
-               width="500"
                height="300"
                stroke="black"
-               stroke-width="1"
-               class="backgroundColor"/>
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -868,12 +838,6 @@
                  cx="419.18600278789944"
                  cy="197.12788161698168"
                  r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
          <path d="M50,182 Q82.02024692191996,183.08076542417604 100,166 C132.02024692191995,135.58076542417604 127.6212166695298,81.40530416738245 150,87 C177.62121666952982,93.90530416738244 173.0398662660478,185.87757459054907 200,191 C223.0398662660478,195.37757459054907 218.89568297525355,142.70309408920082 250,106 C268.8956829752536,83.7030940892008 273.1523143920183,85.34993537967158 300,73 C323.1523143920183,62.34993537967158 336.2028000659449,44.40916407451775 350,60 C386.2028000659449,100.90916407451775 369.18600278789944,168.12788161698168 400,186 Q419.18600278789944,197.12788161698168 450,118"
                stroke="black"
                stroke-width="1"
@@ -917,11 +881,11 @@
             }</style>
          <rect x="0"
                y="0"
-               width="500"
                height="300"
                stroke="black"
-               stroke-width="1"
-               class="backgroundColor"/>
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -1026,12 +990,6 @@
                  cx="423.0232033454794"
                  cy="199.353457940378"
                  r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
          <path d="M50,182 Q78.42429630630396,186.49691850901127 100,166 C138.42429630630394,129.49691850901124 123.14546000343576,80.28636500085894 150,87 C183.14546000343574,95.28636500085894 167.6478395192574,184.85308950865888 200,191 C227.64783951925736,196.2530895086589 212.67481957030427,150.04371290704097 250,106 C272.6748195703043,79.24371290704096 267.782777270422,87.81992245560589 300,73 C327.782777270422,60.21992245560589 333.44336007913387,41.290996889421294 350,60 C393.44336007913387,109.09099688942129 363.0232033454794,164.55345794037802 400,186 Q423.0232033454794,199.353457940378 450,118"
                stroke="black"
                stroke-width="1"
@@ -1075,11 +1033,11 @@
             }</style>
          <rect x="0"
                y="0"
-               width="500"
                height="300"
                stroke="black"
-               stroke-width="1"
-               class="backgroundColor"/>
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -1184,12 +1142,6 @@
                  cx="426.86040390305925"
                  cy="201.57903426377436"
                  r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
          <path d="M50,182 Q74.82834569068795,189.91307159384647 100,166 C144.82834569068794,123.41307159384644 118.66970333734172,79.16742583433543 150,87 C188.6697033373417,96.66742583433542 162.25581277246692,183.82860442676872 200,191 C232.25581277246692,197.1286044267687 206.45395616535498,157.38433172488112 250,106 C276.453956165355,74.78433172488113 262.41324014882565,90.2899095315402 300,73 C332.41324014882565,58.0899095315402 330.68392009232286,38.17282970432484 350,60 C400.68392009232286,117.27282970432483 356.86040390305925,160.97903426377437 400,186 Q426.86040390305925,201.57903426377436 450,118"
                stroke="black"
                stroke-width="1"
@@ -1233,11 +1185,11 @@
             }</style>
          <rect x="0"
                y="0"
-               width="500"
                height="300"
                stroke="black"
-               stroke-width="1"
-               class="backgroundColor"/>
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -1342,12 +1294,6 @@
                  cx="430.6976044606391"
                  cy="203.8046105871707"
                  r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
          <path d="M50,182 Q71.23239507507193,193.32922467868167 100,166 C151.23239507507193,117.32922467868164 114.19394667124769,78.04848666781191 150,87 C194.19394667124766,98.04848666781191 156.86378602567646,182.80411934487853 200,191 C236.8637860256765,198.00411934487852 200.2330927604057,164.72495054272127 250,106 C280.2330927604057,70.32495054272128 257.0437030272293,92.75989660747452 300,73 C337.0437030272293,55.95989660747452 327.92448010551186,35.05466251922839 350,60 C407.92448010551186,125.45466251922839 350.6976044606391,157.4046105871707 400,186 Q430.6976044606391,203.8046105871707 450,118"
                stroke="black"
                stroke-width="1"
@@ -1391,11 +1337,11 @@
             }</style>
          <rect x="0"
                y="0"
-               width="500"
                height="300"
                stroke="black"
-               stroke-width="1"
-               class="backgroundColor"/>
+               class="backgroundColor"
+               width="500"
+               stroke-width="1"/>
          <circle class="mainCircle" cx="50" cy="182" r="2"/>
          <circle class="mainCircle" cx="100" cy="166" r="2"/>
          <circle class="mainCircle" cx="150" cy="87" r="2"/>
@@ -1500,12 +1446,6 @@
                  cx="434.534805018219"
                  cy="206.03018691056704"
                  r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
-         <line class="anchorLine" x1="" y1="" x2="" y2=""/>
-         <circle class="anchorCircle1" cx="" cy="" r="2"/>
-         <circle class="anchorCircle2" cx="" cy="" r="2"/>
          <path d="M50,182 Q67.63644445945593,196.74537776351687 100,166 C157.63644445945593,111.24537776351686 109.71819000515364,76.92954750128841 150,87 C199.71819000515364,99.4295475012884 151.47175927888605,181.77963426298834 200,191 C241.47175927888605,198.87963426298836 194.0122293554564,172.06556936056145 250,106 C284.0122293554564,65.86556936056144 251.67416590563298,95.22988368340884 300,73 C341.674165905633,53.82988368340884 325.1650401187008,31.936495334131937 350,60 C415.16504011870086,133.63649533413195 344.534805018219,153.83018691056702 400,186 Q434.534805018219,206.03018691056704 450,118"
                stroke="black"
                stroke-width="1"
