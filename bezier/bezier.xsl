@@ -612,8 +612,10 @@
             <!-- ===================================================== -->
             <!-- Background                                            -->
             <!-- ===================================================== -->
-            <rect x="0" y="0" width="500" height="300" stroke="black" stroke-width="1"
-                class="backgroundColor"/>
+            <xsl:if test="$debug">
+                <rect x="0" y="0" width="500" height="300" stroke="black" stroke-width="1"
+                    class="backgroundColor"/>
+            </xsl:if>
             <!-- ===================================================== -->
             <!-- Data points and connecting lines                      -->
             <!-- ===================================================== -->
