@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><root xmlns:djb="http://www.obdurodon.org">
-    <p djb:n="d1e3" djb:type="start"/>This is a <word djb:n="d1e5" djb:type="start"/>paragraph<word djb:n="d1e5" djb:type="end"/> that contains some stuff.<p djb:n="d1e3" djb:type="end"/>
-    <p djb:n="d1e9" djb:type="start"/>This is another paragraph <phrase djb:n="d1e11" djb:type="start"/><word djb:n="d1e12" djb:type="start"/>that<word djb:n="d1e12" djb:type="end"/>
-            <word djb:n="d1e15" djb:type="start"/>contains<word djb:n="d1e15" djb:type="end"/>
-            <word djb:n="d1e18" djb:type="start"/>more<word djb:n="d1e18" djb:type="end"/><phrase djb:n="d1e11" djb:type="end"/> stuff.<p djb:n="d1e9" djb:type="end"/>
-</root>

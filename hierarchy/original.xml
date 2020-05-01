@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
-    <p>This is a <word>paragraph</word> that contains some stuff.</p>
-    <p>This is another paragraph <phrase><word>that</word>
-            <word>contains</word>
-            <word>more</word></phrase> stuff.</p>
-</root>
