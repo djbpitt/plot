@@ -11,10 +11,15 @@
      If have oXygen Author mode then switch to the Author page to get a graphical 
      interface for editing this configuration file  
 -->
-<configuration edition="HE" xmlns="http://saxon.sf.net/ns/configuration"
+<!--  exportLocation="bezier.sef" -->
+<configuration edition="EE" xmlns="http://saxon.sf.net/ns/configuration"
      label="Configuration for http://www.obdurodon.org/bezier package">
      <xsltPackages>
           <package name="http://www.obdurodon.org/bezier" version="1.0"
-               sourceLocation="bezier.xsl"/>
+               sourceLocation="bezier/bezier.xsl"/>
+          <package name="http://www.obdurodon.org/regression" version="1.0"
+               sourceLocation="regression/regression.xsl"/>
+          <package name="http://www.obdurodon.org/plot_lib" version="1.0"
+               sourceLocation="lib/plot_lib.xsl"/>
      </xsltPackages>
 </configuration>
