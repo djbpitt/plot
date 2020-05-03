@@ -5,13 +5,18 @@
     exclude-result-prefixes="#all" xmlns="http://www.w3.org/2000/svg"
     xmlns:html="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" version="3.0">
 
+    <!-- ================================================================ -->
+    <!-- Package dependencies                                             -->
+    <!-- ================================================================ -->
+    <xsl:use-package name="http://www.obdurodon.org/plot_lib"/>
+    <!-- ================================================================ -->
+
     <!-- ================================================================= -->
     <!-- Visibility                                                        -->
     <!--                                                                   -->
     <!-- Helper fuctions are all private                                   -->
     <!-- djb:bezier() (all three arities) are final                        -->
     <!-- $css and $cRadius are public                                      -->
-    <!-- initial template is a fake to satisfy EE compiler                 -->
     <!-- ================================================================= -->
     <xsl:expose visibility="final" component="function"
         names="djb:bezier#3 djb:bezier#2 djb:bezier#1"/>
@@ -20,33 +25,6 @@
     <!-- ================================================================= -->
     <!-- Private functions                                                 -->
     <!-- ================================================================= -->
-
-    <!-- ================================================================= -->
-    <!-- validate_points                                                   -->
-    <!--                                                                   -->
-    <!-- Return true if matches regex and at least 3 points                -->
-    <!-- ================================================================= -->
-    <xsl:function name="djb:validate_points" as="xs:boolean">
-        <xsl:param name="pointPairs" as="xs:string+"/>
-        <!-- https://stackoverflow.com/questions/12643009/regular-expression-for-floating-point-numbers -->
-        <xsl:variable name="float_regex" as="xs:string"
-            select="'[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)'"/>
-        <xsl:variable name="pair_regex" as="xs:string"
-            select="concat('^', $float_regex, ',', $float_regex, '$')"/>
-        <xsl:sequence
-            select="
-                every $pointPair in $pointPairs
-                    satisfies matches($pointPair, $pair_regex) and (count($pointPairs) ge 3)"
-        />
-    </xsl:function>
-
-    <!-- ================================================================= -->
-    <!-- split_points                                                      -->
-    <!-- ================================================================= -->
-    <xsl:function name="djb:split_points" as="xs:string+">
-        <xsl:param name="all_points" as="xs:string"/>
-        <xsl:sequence select="tokenize(normalize-space($all_points), ' ')"/>
-    </xsl:function>
 
     <!-- ================================================================= -->
     <!-- extract_xPoints                                                   -->
