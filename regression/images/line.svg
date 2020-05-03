@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg">
-   <g transform="translate(10, 60)">
-      <polyline stroke="black"
-                stroke-width="1"
-                fill="none"
-                points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
-      <line x1="50"
-            y1="160.55555555555554"
-            x2="450"
-            y2="105.35555555555555"
-            stroke="red"
-            stroke-width="1"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:djb="http://www.obdurodon.org">
+   <g transform="translate(10, 10)">
+      <g>
+         <line x1="50"
+               y1="160.55555555555554"
+               x2="450"
+               y2="105.35555555555555"
+               stroke="red"
+               stroke-width="1"/>
+      </g>
    </g>
 </svg>

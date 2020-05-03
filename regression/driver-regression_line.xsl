@@ -10,7 +10,7 @@
     <xsl:template name="xsl:initial-template">
         <svg xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(10, 10)">
-                <xsl:sequence select="djb:regression_line($points, true())"/>
+                <xsl:sequence select="djb:regression_line($points)"/>
             </g>
         </svg>
     </xsl:template>

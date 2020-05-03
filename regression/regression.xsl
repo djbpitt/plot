@@ -3,7 +3,11 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:djb="http://www.obdurodon.org" xmlns:math="http://www.w3.org/2005/xpath-functions/math"
     exclude-result-prefixes="#all" version="3.0">
-    <xsl:expose component="function" names="djb:regression_line#2" visibility="final"/>
+    <xsl:expose component="function" visibility="final"
+        names="
+        djb:regression_line#2 
+        djb:regression_line#1
+        "/>
     <!-- ================================================================ -->
     <!-- Package dependencies                                             -->
     <!-- ================================================================ -->
@@ -68,5 +72,10 @@
             <line x1="{min($allX)}" y1="{$b}" x2="{max($allX)}" y2="{$m * max($allX) + $b}"
                 stroke="red" stroke-width="1"/>
         </g>
+    </xsl:function>
+
+    <xsl:function name="djb:regression_line">
+        <xsl:param name="points" as="xs:string"/>
+        <xsl:sequence select="djb:regression_line($points, false())"/>
     </xsl:function>
 </xsl:package>
