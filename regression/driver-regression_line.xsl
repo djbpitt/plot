@@ -8,10 +8,12 @@
     <xsl:variable name="points" as="xs:string"
         select="'50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118'"/>
     <xsl:template name="xsl:initial-template">
+        <xsl:variable name="result" as="item()+" select="djb:regression_line($points, true())"/>
         <svg xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(10, 10)">
-                <xsl:sequence select="djb:regression_line($points)"/>
+                <xsl:sequence select="$result[1]"/>
             </g>
         </svg>
+        <xsl:message select="$result[2]"/>
     </xsl:template>
 </xsl:stylesheet>

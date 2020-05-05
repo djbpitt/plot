@@ -63,6 +63,7 @@
         <g xmlns="http://www.w3.org/2000/svg">
             <xsl:if test="$debug">
                 <!-- debug output includes data points and connecting polyline -->
+                <style> .regression {stroke: red; stroke-width: 1;} </style>
                 <polyline stroke="lightgray" stroke-width="1" fill="none" points="{$pointPairs}"/>
                 <xsl:for-each select="1 to $n">
                     <circle cx="{$allX[current()]}" cy="{$allY[current()]}" r="2" color="lightgray"
@@ -70,8 +71,11 @@
                 </xsl:for-each>
             </xsl:if>
             <line x1="{min($allX)}" y1="{$b}" x2="{max($allX)}" y2="{$m * max($allX) + $b}"
-                stroke="red" stroke-width="1"/>
+                class="regression"/>
         </g>
+        <xsl:if test="$debug">
+            <xsl:sequence select="map {'m' : $m, 'b' : $b}"/>
+        </xsl:if>
     </xsl:function>
 
     <xsl:function name="djb:regression_line">

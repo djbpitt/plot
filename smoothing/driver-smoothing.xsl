@@ -50,6 +50,12 @@
     <xsl:template name="xsl:initial-template">
         <svg xmlns="http://www.w3.org/2000/svg"
             viewBox="0 -210 {(count($splitPoints) + 1) * $xSpacing} 300">
+            <style type="text/css">
+                <![CDATA[
+                .regression {
+                    stroke: red;
+                    stroke-width: 0.5;
+                }]]></style>
             <g>
                 <!-- ruling lines first, for overlap -->
                 <xsl:for-each select="1 to 20">

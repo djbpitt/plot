@@ -36,8 +36,8 @@
             <xsl:message terminate="yes">Bad $points value: <xsl:value-of select="$points"
                 /></xsl:message>
         </xsl:if>
-        <xsl:if test="$window mod 2 = 0">
-            <xsl:message terminate="yes">$window value must be an odd number</xsl:message>
+        <xsl:if test="$window mod 2 = 0 and $window gt 0">
+            <xsl:message terminate="yes">$window value must be a positive odd number</xsl:message>
         </xsl:if>
         <!-- ============================================================ -->
         <!-- $windowSide as xs:double: points to either side of center    -->
