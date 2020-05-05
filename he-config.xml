@@ -18,5 +18,9 @@
                sourceLocation="bezier/bezier.xsl"/>
           <package name="http://www.obdurodon.org/regression" version="1.0"
                sourceLocation="regression/regression.xsl"/>
+          <package name="http://www.obdurodon.org/plot_lib" version="1.0"
+               sourceLocation="lib/plot_lib.xsl"/>
+          <package name="http://www.obdurodon.org/smoothing" version="1.0"
+               sourceLocation="smoothing/smoothing.xsl"/>
      </xsltPackages>
 </configuration>
