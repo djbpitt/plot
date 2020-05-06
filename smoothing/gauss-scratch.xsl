@@ -55,22 +55,37 @@
                 "/>
 
     </xsl:function>
+    <xsl:variable name="xScale" as="xs:integer" select="2"/>
     <xsl:template name="xsl:initial-template">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -110 120 120">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -110 {120 * $xScale} 150">
             <g>
                 <xsl:for-each select="0 to 10">
-                    <line x1="0" y1="{current() * -10}" x2="100" y2="{current() * -10}"
+                    <line x1="0" y1="{current() * -10}" x2="{100 * $xScale}" y2="{current() * -10}"
                         stroke="lightgray" stroke-width="0.5"/>
                     <text x="-2" y="{current() * -10}" text-anchor="end"
                         alignment-baseline="central" font-size="6">
                         <xsl:value-of select="current() * 10"/>
                     </text>
                 </xsl:for-each>
-                <xsl:for-each select="1 to $n">
-                    <circle cx="{position()}" cy="{$allY[current()]}" r="1" fill="black"/>
-                    <circle cx="{position()}" cy="{djb:gauss($allY[current()], $mean, $stddev)}"
-                        r="1" fill="red"/>
+                <xsl:for-each select="0 to 100">
+                    <xsl:if test="current() mod 5 eq 0">
+                        <line x1="{current() * $xScale}" y1="0" x2="{current() * $xScale}" y2="-100"
+                            stroke="lightgray" stroke-width="0.5"/>
+                        <text x="{current() * $xScale}" y="6" text-anchor="middle" font-size="6">
+                            <xsl:value-of select="current()"/>
+                        </text>
+                    </xsl:if>
                 </xsl:for-each>
+                <xsl:for-each select="1 to $n">
+                    <circle cx="{position() * $xScale}" cy="{$allY[current()]}" r="1" fill="black"/>
+                    <circle cx="{position() * $xScale}"
+                        cy="{djb:gauss($allY[current()], $mean, $stddev)}" r="1" fill="red"/>
+                </xsl:for-each>
+                <text x="{$n * $xScale div 2}" y="15" text-anchor="middle" font-size="6">
+                    <xsl:value-of
+                        select="'mean: ' || ($mean * -1) ! round(., 2) || '; stddev: ' || $stddev ! round(., 2)"
+                    />
+                </text>
             </g>
         </svg>
         <xsl:message select="count($allY)"/>
