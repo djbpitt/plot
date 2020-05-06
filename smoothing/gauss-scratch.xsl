@@ -48,9 +48,10 @@
         <xsl:param name="x" as="xs:double"/>
         <xsl:param name="mean" as="xs:double"/>
         <xsl:param name="stddev" as="xs:double"/>
+        <!-- Invert for negative values, scale by n, scale again by n/2-->
         <xsl:sequence
             select="
-                -100 * 50 * (1 div ($stddev * math:sqrt(2 * math:pi()))) *
+                -1 * $n * ($n div 2) * (1 div ($stddev * math:sqrt(2 * math:pi()))) *
                 math:exp(-0.5 * math:pow(($x - $mean) div $stddev, 2))
                 "/>
 
