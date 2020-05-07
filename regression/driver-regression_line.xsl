@@ -25,8 +25,15 @@
             '400,-186',
             '450,-118'"/>
     <xsl:template name="xsl:initial-template">
-        <xsl:variable name="result" as="item()+" select="djb:regression_line($points, true())"/>
+        <xsl:variable name="result" as="item()+" select="djb:regression_line($points)"/>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="30 -230 460 270">
+            <style>
+                <![CDATA[
+                .regression {
+                    stroke: red;
+                    stroke-width: 1;
+                }]]>
+            </style>
             <xsl:for-each select="1 to 9">
                 <!-- vertical ruling lines and X labels -->
                 <xsl:variable name="xPos" as="xs:integer" select="position() * 50"/>
@@ -51,9 +58,13 @@
                 dependent variable</text>
             <text x="250" y="-215" text-anchor="middle" font-size="8">Sample regression line</text>
             <g>
-                <xsl:sequence select="$result[1]"/>
+                <polyline points="{$points}" stroke="black" stroke-width="1" fill="none"/>
+                <xsl:for-each select="$points">
+                    <circle cx="{substring-before(current(), ',')}"
+                        cy="{substring-after(current(), ',')}" r="2" fill="black"/>
+                </xsl:for-each>
+                <xsl:sequence select="$result"/>
             </g>
         </svg>
-        <xsl:message select="$result[2]"/>
     </xsl:template>
 </xsl:stylesheet>

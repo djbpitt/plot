@@ -2,6 +2,13 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      xmlns:djb="http://www.obdurodon.org"
      viewBox="30 -230 460 270">
+   <style>
+                
+                .regression {
+                    stroke: red;
+                    stroke-width: 1;
+                }
+            </style>
    <line x1="50"
          y1="0"
          x2="50"
@@ -335,21 +342,20 @@
                 dependent variable</text>
    <text x="250" y="-215" text-anchor="middle" font-size="8">Sample regression line</text>
    <g>
+      <polyline points="50,-182 100,-166 150,-87 200,-191 250,-106 300,-73 350,-60 400,-186 450,-118"
+                stroke="black"
+                stroke-width="1"
+                fill="none"/>
+      <circle cx="50" cy="-182" r="2" fill="black"/>
+      <circle cx="100" cy="-166" r="2" fill="black"/>
+      <circle cx="150" cy="-87" r="2" fill="black"/>
+      <circle cx="200" cy="-191" r="2" fill="black"/>
+      <circle cx="250" cy="-106" r="2" fill="black"/>
+      <circle cx="300" cy="-73" r="2" fill="black"/>
+      <circle cx="350" cy="-60" r="2" fill="black"/>
+      <circle cx="400" cy="-186" r="2" fill="black"/>
+      <circle cx="450" cy="-118" r="2" fill="black"/>
       <g>
-         <style> .regression {stroke: red; stroke-width: 1;} </style>
-         <polyline stroke="lightgray"
-                   stroke-width="1"
-                   fill="none"
-                   points="50,-182 100,-166 150,-87 200,-191 250,-106 300,-73 350,-60 400,-186 450,-118"/>
-         <circle cx="50" cy="-182" r="2" color="lightgray"/>
-         <circle cx="100" cy="-166" r="2" color="lightgray"/>
-         <circle cx="150" cy="-87" r="2" color="lightgray"/>
-         <circle cx="200" cy="-191" r="2" color="lightgray"/>
-         <circle cx="250" cy="-106" r="2" color="lightgray"/>
-         <circle cx="300" cy="-73" r="2" color="lightgray"/>
-         <circle cx="350" cy="-60" r="2" color="lightgray"/>
-         <circle cx="400" cy="-186" r="2" color="lightgray"/>
-         <circle cx="450" cy="-118" r="2" color="lightgray"/>
          <line x1="50"
                y1="-160.55555555555554"
                x2="450"

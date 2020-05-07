@@ -62,8 +62,13 @@
         <!-- ============================================================ -->
         <g xmlns="http://www.w3.org/2000/svg">
             <xsl:if test="$debug">
-                <!-- debug output includes data points and connecting polyline -->
-                <style> .regression {stroke: red; stroke-width: 1;} </style>
+                <!-- debug output includes background, data points and connecting polyline -->
+                <style><![CDATA[
+                    .regression {stroke: red; stroke-width: 1;} 
+                    .background {fill: papayawhip;}
+                    ]]></style>
+                <rect x="{min($allX) - 10}" y="{min($allY) - 10}" width="{max($allX) - min($allX) + 20}"
+                    height="{max($allY) - min($allY) + 20}" class="background"/>
                 <polyline stroke="lightgray" stroke-width="1" fill="none" points="{$pointPairs}"/>
                 <xsl:for-each select="1 to $n">
                     <circle cx="{$allX[current()]}" cy="{$allY[current()]}" r="2" color="lightgray"
@@ -79,7 +84,7 @@
     </xsl:function>
 
     <xsl:function name="djb:regression_line">
-        <xsl:param name="points" as="xs:string"/>
+        <xsl:param name="points" as="xs:string+"/>
         <xsl:sequence select="djb:regression_line($points, false())"/>
     </xsl:function>
 </xsl:package>
