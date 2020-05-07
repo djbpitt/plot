@@ -16,22 +16,21 @@
         djb:smoothing#2
         djb:smoothing#1
         "/>
-    <xsl:function name="djb:smoothing">
+    <xsl:function name="djb:smoothing" as="xs:string+">
         <!-- ============================================================ -->
         <!-- djb:smoothing#2                                              -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
-        <!--   $inputPoints as xs:string : whitespace delimited X,Y       -->
+        <!--   $inputPoints as xs:string+ : X,Y points as strings         -->
         <!--   $window as xs:integer : odd-valued window size             -->
         <!--                                                              -->
-        <!-- Return: xs:string : whitespace delimited adjusted X,Y        -->
+        <!-- Return: xs:string+ : adjusted X,Y points as strings          -->
         <!-- ============================================================ -->
-        <xsl:param name="inputPoints" as="xs:string"/>
+        <xsl:param name="points" as="xs:string+"/>
         <xsl:param name="window" as="xs:integer"/>
         <!-- ============================================================ -->
         <!-- Raise an error if points are bad or $window is even          -->
         <!-- ============================================================ -->
-        <xsl:variable name="points" select="djb:split_points($inputPoints)"/>
         <xsl:if test="not(djb:validate_points($points))">
             <xsl:message terminate="yes">Bad $points value: <xsl:value-of select="$points"
                 /></xsl:message>
@@ -73,13 +72,12 @@
             </xsl:for-each>
         </xsl:variable>
         <!-- ============================================================ -->
-        <!-- Sew the points back together and return since string         -->
+        <!-- Return all points                                            -->
         <!-- ============================================================ -->
-        <xsl:sequence
-            select="(for $i in 1 to $n return string-join(($allX[$i], $scaledYs[$i]), ',')) => string-join(' ')"
+        <xsl:sequence select="for $i in 1 to $n return string-join(($allX[$i], $scaledYs[$i]), ',')"
         />
     </xsl:function>
-    <xsl:function name="djb:smoothing" as="xs:string">
+    <xsl:function name="djb:smoothing" as="xs:string+">
         <xsl:param name="points"/>
         <xsl:sequence select="djb:smoothing($points, 3)"/>
     </xsl:function>
