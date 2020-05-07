@@ -24,7 +24,7 @@
         <xsl:text>&#x0a;</xsl:text>
         <xsl:choose>
             <xsl:when
-                test="djb:validate_points(('50,1.82', '1.00,166', '150,-87', '+200,191', '250,106'))">
+                test="djb:validate_points(('50,1.82', '100.,166', '150,-87', '+200,191', '250,106'))">
                 <xsl:text>djb:validate_points() accepts valid input</xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -47,6 +47,15 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:text>Oops! djb:validate_points() incorrectly accepts bad point</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>&#x0a;</xsl:text>
+        <xsl:choose>
+            <xsl:when test="not(djb:validate_points(('1,2', '3,5', '2,7')))">
+                <xsl:text>djb:validate_points() correctly fails when X is not monotonic</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>Oops! djb:validate_points() allows non-monotonic X</xsl:text>
             </xsl:otherwise>
         </xsl:choose>
         <xsl:text>&#x0a;</xsl:text>

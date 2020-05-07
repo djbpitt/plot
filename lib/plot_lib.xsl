@@ -25,6 +25,7 @@
     <!--     2. Each point matches regex "X,Y" where                       -->
     <!--        a. X and Y are doubles with optional leading sign)         -->
     <!--        b. there are no spaces                                     -->
+    <!--     3. X values are arranged monotonically                        -->
     <!-- ================================================================= -->
     <xsl:function name="djb:validate_points" as="xs:boolean">
         <xsl:param name="pointPairs" as="xs:string+"/>
@@ -34,7 +35,9 @@
             (count($pointPairs) ge 3)
             and
             (every $pointPair in $pointPairs
-            satisfies djb:validate_point($pointPair))
+            satisfies djb:validate_point_regex($pointPair))
+            and
+            djb:validate_monotonic_X($pointPairs)
             "
         />
     </xsl:function>
@@ -60,7 +63,7 @@
     <!-- ================================================================= -->
     <!-- Private functions                                                 -->
     <!-- ================================================================= -->
-    <!-- validate_point (nb: singular)                                     -->
+    <!-- validate_point_regex (nb: singular)                               -->
     <!--                                                                   -->
     <!-- Tests a single point and returns True if it matches regex         -->
     <!-- Regex: "X,Y" where                                                -->
@@ -73,12 +76,35 @@
     <!-- Return:                                                           -->
     <!--   True iff point matches regex                                    -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:validate_point" as="xs:boolean">
+    <xsl:function name="djb:validate_point_regex" as="xs:boolean">
         <xsl:param name="inputPoint" as="xs:string"/>
         <!-- https://stackoverflow.com/questions/12643009/regular-expression-for-floating-point-numbers -->
         <xsl:variable name="float_regex" as="xs:string"
             select="'[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)'"/>
         <xsl:variable name="point_regex" as="xs:string" select="$float_regex || ',' || $float_regex"/>
         <xsl:sequence select="matches($inputPoint, $point_regex)"/>
+    </xsl:function>
+    <!-- ================================================================= -->
+    <!-- validate_monotonic_X                                              -->
+    <!--                                                                   -->
+    <!-- Tests input a sequence and returns True if X values are monotonic -->
+    <!--                                                                   -->
+    <!-- Parameters:                                                       -->
+    <!--   $inputPoints as xs:string+ : all points in X,Y format           -->
+    <!--                                                                   -->
+    <!-- Return:                                                           -->
+    <!--   True iff X is monotonic                                         -->
+    <!--                                                                   -->
+    <!-- Note: not($list != $list) returns true iff all values agree       -->
+    <!--   (thanks, Liam!)                                                 -->
+    <!-- ================================================================= -->
+    <xsl:function name="djb:validate_monotonic_X" as="xs:boolean">
+        <xsl:param name="pointPairs" as="xs:string+"/>
+        <xsl:variable name="allX" as="xs:double+"
+            select="$pointPairs ! tokenize(., ',')[1] ! number(.)"/>
+        <xsl:variable name="pointCount" as="xs:integer" select="count($pointPairs)"/>
+        <xsl:variable name="test_for_ge" as="xs:boolean+"
+            select="for $i in 2 to $pointCount return $allX[$i] ge $allX[$i - 1]"/>
+        <xsl:sequence select="not($test_for_ge != $test_for_ge)"/>
     </xsl:function>
 </xsl:package>
