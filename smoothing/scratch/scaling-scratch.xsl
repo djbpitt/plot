@@ -40,6 +40,8 @@
                     fill="blue" fill-opacity=".5"/>
                 <circle cx="{$xPos}" cy="-{($yScale * (10 - ((current() - 1) div 10)))}" r="1.5"
                     fill="orange" fill-opacity="0.5"/>
+                <circle cx="{$xPos}" cy="{($yScale div 1000) * -1 * math:pow((101 - current()), 2)}" r="1.5" fill="fuchsia"
+                    fill-opacity="0.5"/>
             </xsl:for-each>
             <polyline
                 points="{for $i in (1 to 100) return string-join(($i * $xScale, $yScale * -10 div $i), ',')}"
@@ -56,6 +58,7 @@
             <polyline
                 points="{for $i in (1 to 100) return string-join(($i * $xScale, $yScale * (-10 + (($i - 1) div 10))), ',')}"
                 stroke="orange" stroke-width="1" stroke-opacity="0.5" fill="none"/>
+            <!--<polyline points=""/>-->
         </svg>
     </xsl:template>
     <!--
