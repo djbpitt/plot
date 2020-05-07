@@ -1,25 +1,359 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:djb="http://www.obdurodon.org">
-   <g transform="translate(10, 10)">
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:djb="http://www.obdurodon.org"
+     viewBox="30 -230 460 270">
+   <line x1="50"
+         y1="0"
+         x2="50"
+         y2="-200"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="50" y="5" font-size="4" text-anchor="middle">50</text>
+   <line x1="100"
+         y1="0"
+         x2="100"
+         y2="-200"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="100" y="5" font-size="4" text-anchor="middle">100</text>
+   <line x1="150"
+         y1="0"
+         x2="150"
+         y2="-200"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="150" y="5" font-size="4" text-anchor="middle">150</text>
+   <line x1="200"
+         y1="0"
+         x2="200"
+         y2="-200"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="200" y="5" font-size="4" text-anchor="middle">200</text>
+   <line x1="250"
+         y1="0"
+         x2="250"
+         y2="-200"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="250" y="5" font-size="4" text-anchor="middle">250</text>
+   <line x1="300"
+         y1="0"
+         x2="300"
+         y2="-200"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="300" y="5" font-size="4" text-anchor="middle">300</text>
+   <line x1="350"
+         y1="0"
+         x2="350"
+         y2="-200"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="350" y="5" font-size="4" text-anchor="middle">350</text>
+   <line x1="400"
+         y1="0"
+         x2="400"
+         y2="-200"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="400" y="5" font-size="4" text-anchor="middle">400</text>
+   <line x1="450"
+         y1="0"
+         x2="450"
+         y2="-200"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="450" y="5" font-size="4" text-anchor="middle">450</text>
+   <line x1="50"
+         y1="0"
+         x2="450"
+         y2="0"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="0"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">0</text>
+   <line x1="50"
+         y1="-10"
+         x2="450"
+         y2="-10"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-10"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">10</text>
+   <line x1="50"
+         y1="-20"
+         x2="450"
+         y2="-20"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-20"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">20</text>
+   <line x1="50"
+         y1="-30"
+         x2="450"
+         y2="-30"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-30"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">30</text>
+   <line x1="50"
+         y1="-40"
+         x2="450"
+         y2="-40"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-40"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">40</text>
+   <line x1="50"
+         y1="-50"
+         x2="450"
+         y2="-50"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-50"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">50</text>
+   <line x1="50"
+         y1="-60"
+         x2="450"
+         y2="-60"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-60"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">60</text>
+   <line x1="50"
+         y1="-70"
+         x2="450"
+         y2="-70"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-70"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">70</text>
+   <line x1="50"
+         y1="-80"
+         x2="450"
+         y2="-80"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-80"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">80</text>
+   <line x1="50"
+         y1="-90"
+         x2="450"
+         y2="-90"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-90"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">90</text>
+   <line x1="50"
+         y1="-100"
+         x2="450"
+         y2="-100"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-100"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">100</text>
+   <line x1="50"
+         y1="-110"
+         x2="450"
+         y2="-110"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-110"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">110</text>
+   <line x1="50"
+         y1="-120"
+         x2="450"
+         y2="-120"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-120"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">120</text>
+   <line x1="50"
+         y1="-130"
+         x2="450"
+         y2="-130"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-130"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">130</text>
+   <line x1="50"
+         y1="-140"
+         x2="450"
+         y2="-140"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-140"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">140</text>
+   <line x1="50"
+         y1="-150"
+         x2="450"
+         y2="-150"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-150"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">150</text>
+   <line x1="50"
+         y1="-160"
+         x2="450"
+         y2="-160"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-160"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">160</text>
+   <line x1="50"
+         y1="-170"
+         x2="450"
+         y2="-170"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-170"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">170</text>
+   <line x1="50"
+         y1="-180"
+         x2="450"
+         y2="-180"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-180"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">180</text>
+   <line x1="50"
+         y1="-190"
+         x2="450"
+         y2="-190"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-190"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">190</text>
+   <line x1="50"
+         y1="-200"
+         x2="450"
+         y2="-200"
+         stroke="lightgray"
+         stroke-width="0.5"
+         stroke-linecap="square"/>
+   <text x="47"
+         y="-200"
+         text-anchor="end"
+         alignment-baseline="central"
+         font-size="4">200</text>
+   <text x="250" y="12" font-size="6" text-anchor="middle">Fake independent variable</text>
+   <text x="35"
+         y="-100"
+         text-anchor="middle"
+         writing-mode="tb"
+         font-size="6">Fake
+                dependent variable</text>
+   <text x="250" y="-215" text-anchor="middle" font-size="8">Sample regression line</text>
+   <g>
       <g>
          <style> .regression {stroke: red; stroke-width: 1;} </style>
          <polyline stroke="lightgray"
                    stroke-width="1"
                    fill="none"
-                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
-         <circle cx="50" cy="182" r="2" color="lightgray"/>
-         <circle cx="100" cy="166" r="2" color="lightgray"/>
-         <circle cx="150" cy="87" r="2" color="lightgray"/>
-         <circle cx="200" cy="191" r="2" color="lightgray"/>
-         <circle cx="250" cy="106" r="2" color="lightgray"/>
-         <circle cx="300" cy="73" r="2" color="lightgray"/>
-         <circle cx="350" cy="60" r="2" color="lightgray"/>
-         <circle cx="400" cy="186" r="2" color="lightgray"/>
-         <circle cx="450" cy="118" r="2" color="lightgray"/>
+                   points="50,-182 100,-166 150,-87 200,-191 250,-106 300,-73 350,-60 400,-186 450,-118"/>
+         <circle cx="50" cy="-182" r="2" color="lightgray"/>
+         <circle cx="100" cy="-166" r="2" color="lightgray"/>
+         <circle cx="150" cy="-87" r="2" color="lightgray"/>
+         <circle cx="200" cy="-191" r="2" color="lightgray"/>
+         <circle cx="250" cy="-106" r="2" color="lightgray"/>
+         <circle cx="300" cy="-73" r="2" color="lightgray"/>
+         <circle cx="350" cy="-60" r="2" color="lightgray"/>
+         <circle cx="400" cy="-186" r="2" color="lightgray"/>
+         <circle cx="450" cy="-118" r="2" color="lightgray"/>
          <line x1="50"
-               y1="160.55555555555554"
+               y1="-160.55555555555554"
                x2="450"
-               y2="105.35555555555555"
+               y2="-105.35555555555555"
                class="regression"/>
       </g>
    </g>

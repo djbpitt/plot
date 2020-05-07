@@ -19,13 +19,14 @@
         <!-- name: djb:regression_line#2                                  -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
-        <!--   $points as xs:string : all points in SVG @points format    -->
+        <!--   $points as xs:string+ : all points in X,Y coordinate form  -->
         <!--   $debug as xs:boolean                                       -->
         <!--                                                              -->
         <!-- Return:                                                      -->
-        <!--   svg:g : contains regression line, points, polyline         -->
+        <!--   element(svg:g) : contains <line>                           -->
+        <!--   if $debug, also contains points, polyline, CSS             -->
         <!-- ============================================================ -->
-        <xsl:param name="inputPoints" as="xs:string"/>
+        <xsl:param name="pointPairs" as="xs:string+"/>
         <xsl:param name="debug" as="xs:boolean"/>
         <!-- ============================================================ -->
 
@@ -37,9 +38,8 @@
         <!--   m = ( n∑xy − (∑x)(∑y) ) / ( n∑x² − (∑x)² )                 -->
         <!--   b = ( ∑y − m∑x ) / n                                       -->
         <!-- ============================================================ -->
-        <xsl:variable name="pointPairs" as="xs:string+" select="djb:split_points($inputPoints)"/>
         <xsl:if test="not(djb:validate_points($pointPairs))">
-            <xsl:message terminate="yes" select="'Invalid points: ' || $inputPoints"/>
+            <xsl:message terminate="yes" select="'Invalid points: ' || $pointPairs"/>
         </xsl:if>
         <xsl:variable name="n" as="xs:integer" select="count($pointPairs)"/>
         <xsl:variable name="allX" as="xs:double+"
