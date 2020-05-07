@@ -59,5 +59,14 @@
             </xsl:otherwise>
         </xsl:choose>
         <xsl:text>&#x0a;</xsl:text>
+        <xsl:choose>
+            <xsl:when test="djb:validate_points(('1,2', '1,5', '2,7'))">
+                <xsl:text>djb:validate_points() correctly recognizes consecutive equal X values as monotonic</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>Oops! djb:validate_points() incorrectly rejects consecutive equal X values as monotonic</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>&#x0a;</xsl:text>
     </xsl:template>
 </xsl:stylesheet>
