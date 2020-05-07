@@ -14,8 +14,8 @@
 <configuration edition="HE" xmlns="http://saxon.sf.net/ns/configuration"
      label="Configuration for http://www.obdurodon.org/bezier package">
      <xsltPackages>
-          <package name="http://www.obdurodon.org/bezier" version="1.0"
-               sourceLocation="bezier/bezier.xsl"/>
+          <package name="http://www.obdurodon.org/spline" version="1.0"
+               sourceLocation="spline/spline.xsl"/>
           <package name="http://www.obdurodon.org/regression" version="1.0"
                sourceLocation="regression/regression.xsl"/>
           <package name="http://www.obdurodon.org/plot_lib" version="1.0"

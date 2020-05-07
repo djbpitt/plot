@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:djb="http://www.obdurodon.org">
+   <g transform="translate(10, 10)">
+      <g>
+         <style> .regression {stroke: red; stroke-width: 1;} </style>
+         <polyline stroke="lightgray"
+                   stroke-width="1"
+                   fill="none"
+                   points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+         <circle cx="50" cy="182" r="2" color="lightgray"/>
+         <circle cx="100" cy="166" r="2" color="lightgray"/>
+         <circle cx="150" cy="87" r="2" color="lightgray"/>
+         <circle cx="200" cy="191" r="2" color="lightgray"/>
+         <circle cx="250" cy="106" r="2" color="lightgray"/>
+         <circle cx="300" cy="73" r="2" color="lightgray"/>
+         <circle cx="350" cy="60" r="2" color="lightgray"/>
+         <circle cx="400" cy="186" r="2" color="lightgray"/>
+         <circle cx="450" cy="118" r="2" color="lightgray"/>
+         <line x1="50"
+               y1="160.55555555555554"
+               x2="450"
+               y2="105.35555555555555"
+               class="regression"/>
+      </g>
+   </g>
+</svg>

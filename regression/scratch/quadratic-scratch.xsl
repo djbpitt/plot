@@ -35,6 +35,7 @@
         <xsl:param name="inputPairs" as="xs:string"/>
         <xsl:variable name="pointPairs" as="xs:string+" select="djb:split_points($inputPoints)"/>
         <xsl:variable name="n" as="xs:integer" select="count($pointPairs)"/>
+        <!-- table columns -->
         <xsl:variable name="allX" as="xs:double+"
             select="$pointPairs ! substring-before(., ',') ! number(.)"/>
         <xsl:variable name="allY" as="xs:double+"
@@ -55,12 +56,14 @@
                 return
                     math:pow($allX[$i], 2) * $allY[$i])
                 => sum()"/>
+        <!-- equivalences -->
         <xsl:variable name="sumX.X" as="xs:double" select="$sumX2 - (math:pow($sumX, 2) div $n)"/>
         <xsl:variable name="sumX.Y" as="xs:double" select="$sumXY - ($sumX * $sumY div $n)"/>
         <xsl:variable name="sumX.X2" as="xs:double" select="$sumX3 - ($sumX2 * $sumX div $n)"/>
         <xsl:variable name="sumX2.Y" as="xs:double" select="$sumX2Y - ($sumX2 * $sumY div $n)"/>
         <xsl:variable name="sumX2.X2" as="xs:double"
             select="$sumX4 - (math:pow(($sumX2), 2) div $n)"/>
+        <!-- coefficients -->
         <xsl:variable name="a" as="xs:double"
             select="
                 (($sumX2.Y * $sumX.X) -
@@ -84,6 +87,7 @@
                 $b * $sumX div $n -
                 $a * $sumX2 div $n
                 "/>
+        <!-- equation -->
         <xsl:variable name="eq" as="xs:string"
             select="
                 concat(
