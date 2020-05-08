@@ -7,6 +7,7 @@
     <xsl:output method="xml" indent="yes"/>
 
     <!-- ================================================================ -->
+    <!-- djb:random_sequence()                                            -->
     <!-- Create a specified number of random numbers -100 < n < 0         -->
     <!-- Adapted from the XPath 3.1 functions spec                        -->
     <!-- ================================================================ -->
