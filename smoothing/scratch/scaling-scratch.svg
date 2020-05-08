@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -130 1100 260">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-25 -130 1310 260">
    <line x1="10"
          y1="-0"
          x2="1000"
@@ -150,7 +150,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="10" y="8" text-anchor="middle" font-size="6">1</text>
+   <text x="10" y="8" text-anchor="middle" font-size="6">0</text>
    <line x1="20"
          y1="0"
          x2="20"
@@ -158,7 +158,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="20" y="8" text-anchor="middle" font-size="6">2</text>
+   <text x="20" y="8" text-anchor="middle" font-size="6">1</text>
    <line x1="30"
          y1="0"
          x2="30"
@@ -166,7 +166,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="30" y="8" text-anchor="middle" font-size="6">3</text>
+   <text x="30" y="8" text-anchor="middle" font-size="6">2</text>
    <line x1="40"
          y1="0"
          x2="40"
@@ -174,7 +174,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="40" y="8" text-anchor="middle" font-size="6">4</text>
+   <text x="40" y="8" text-anchor="middle" font-size="6">3</text>
    <line x1="50"
          y1="0"
          x2="50"
@@ -182,7 +182,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="50" y="8" text-anchor="middle" font-size="6">5</text>
+   <text x="50" y="8" text-anchor="middle" font-size="6">4</text>
    <line x1="60"
          y1="0"
          x2="60"
@@ -190,7 +190,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="60" y="8" text-anchor="middle" font-size="6">6</text>
+   <text x="60" y="8" text-anchor="middle" font-size="6">5</text>
    <line x1="70"
          y1="0"
          x2="70"
@@ -198,7 +198,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="70" y="8" text-anchor="middle" font-size="6">7</text>
+   <text x="70" y="8" text-anchor="middle" font-size="6">6</text>
    <line x1="80"
          y1="0"
          x2="80"
@@ -206,7 +206,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="80" y="8" text-anchor="middle" font-size="6">8</text>
+   <text x="80" y="8" text-anchor="middle" font-size="6">7</text>
    <line x1="90"
          y1="0"
          x2="90"
@@ -214,7 +214,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="90" y="8" text-anchor="middle" font-size="6">9</text>
+   <text x="90" y="8" text-anchor="middle" font-size="6">8</text>
    <line x1="100"
          y1="0"
          x2="100"
@@ -222,7 +222,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="100" y="8" text-anchor="middle" font-size="6">10</text>
+   <text x="100" y="8" text-anchor="middle" font-size="6">9</text>
    <line x1="110"
          y1="0"
          x2="110"
@@ -230,7 +230,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="110" y="8" text-anchor="middle" font-size="6">11</text>
+   <text x="110" y="8" text-anchor="middle" font-size="6">10</text>
    <line x1="120"
          y1="0"
          x2="120"
@@ -238,7 +238,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="120" y="8" text-anchor="middle" font-size="6">12</text>
+   <text x="120" y="8" text-anchor="middle" font-size="6">11</text>
    <line x1="130"
          y1="0"
          x2="130"
@@ -246,7 +246,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="130" y="8" text-anchor="middle" font-size="6">13</text>
+   <text x="130" y="8" text-anchor="middle" font-size="6">12</text>
    <line x1="140"
          y1="0"
          x2="140"
@@ -254,7 +254,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="140" y="8" text-anchor="middle" font-size="6">14</text>
+   <text x="140" y="8" text-anchor="middle" font-size="6">13</text>
    <line x1="150"
          y1="0"
          x2="150"
@@ -262,7 +262,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="150" y="8" text-anchor="middle" font-size="6">15</text>
+   <text x="150" y="8" text-anchor="middle" font-size="6">14</text>
    <line x1="160"
          y1="0"
          x2="160"
@@ -270,7 +270,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="160" y="8" text-anchor="middle" font-size="6">16</text>
+   <text x="160" y="8" text-anchor="middle" font-size="6">15</text>
    <line x1="170"
          y1="0"
          x2="170"
@@ -278,7 +278,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="170" y="8" text-anchor="middle" font-size="6">17</text>
+   <text x="170" y="8" text-anchor="middle" font-size="6">16</text>
    <line x1="180"
          y1="0"
          x2="180"
@@ -286,7 +286,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="180" y="8" text-anchor="middle" font-size="6">18</text>
+   <text x="180" y="8" text-anchor="middle" font-size="6">17</text>
    <line x1="190"
          y1="0"
          x2="190"
@@ -294,7 +294,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="190" y="8" text-anchor="middle" font-size="6">19</text>
+   <text x="190" y="8" text-anchor="middle" font-size="6">18</text>
    <line x1="200"
          y1="0"
          x2="200"
@@ -302,7 +302,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="200" y="8" text-anchor="middle" font-size="6">20</text>
+   <text x="200" y="8" text-anchor="middle" font-size="6">19</text>
    <line x1="210"
          y1="0"
          x2="210"
@@ -310,7 +310,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="210" y="8" text-anchor="middle" font-size="6">21</text>
+   <text x="210" y="8" text-anchor="middle" font-size="6">20</text>
    <line x1="220"
          y1="0"
          x2="220"
@@ -318,7 +318,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="220" y="8" text-anchor="middle" font-size="6">22</text>
+   <text x="220" y="8" text-anchor="middle" font-size="6">21</text>
    <line x1="230"
          y1="0"
          x2="230"
@@ -326,7 +326,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="230" y="8" text-anchor="middle" font-size="6">23</text>
+   <text x="230" y="8" text-anchor="middle" font-size="6">22</text>
    <line x1="240"
          y1="0"
          x2="240"
@@ -334,7 +334,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="240" y="8" text-anchor="middle" font-size="6">24</text>
+   <text x="240" y="8" text-anchor="middle" font-size="6">23</text>
    <line x1="250"
          y1="0"
          x2="250"
@@ -342,7 +342,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="250" y="8" text-anchor="middle" font-size="6">25</text>
+   <text x="250" y="8" text-anchor="middle" font-size="6">24</text>
    <line x1="260"
          y1="0"
          x2="260"
@@ -350,7 +350,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="260" y="8" text-anchor="middle" font-size="6">26</text>
+   <text x="260" y="8" text-anchor="middle" font-size="6">25</text>
    <line x1="270"
          y1="0"
          x2="270"
@@ -358,7 +358,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="270" y="8" text-anchor="middle" font-size="6">27</text>
+   <text x="270" y="8" text-anchor="middle" font-size="6">26</text>
    <line x1="280"
          y1="0"
          x2="280"
@@ -366,7 +366,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="280" y="8" text-anchor="middle" font-size="6">28</text>
+   <text x="280" y="8" text-anchor="middle" font-size="6">27</text>
    <line x1="290"
          y1="0"
          x2="290"
@@ -374,7 +374,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="290" y="8" text-anchor="middle" font-size="6">29</text>
+   <text x="290" y="8" text-anchor="middle" font-size="6">28</text>
    <line x1="300"
          y1="0"
          x2="300"
@@ -382,7 +382,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="300" y="8" text-anchor="middle" font-size="6">30</text>
+   <text x="300" y="8" text-anchor="middle" font-size="6">29</text>
    <line x1="310"
          y1="0"
          x2="310"
@@ -390,7 +390,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="310" y="8" text-anchor="middle" font-size="6">31</text>
+   <text x="310" y="8" text-anchor="middle" font-size="6">30</text>
    <line x1="320"
          y1="0"
          x2="320"
@@ -398,7 +398,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="320" y="8" text-anchor="middle" font-size="6">32</text>
+   <text x="320" y="8" text-anchor="middle" font-size="6">31</text>
    <line x1="330"
          y1="0"
          x2="330"
@@ -406,7 +406,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="330" y="8" text-anchor="middle" font-size="6">33</text>
+   <text x="330" y="8" text-anchor="middle" font-size="6">32</text>
    <line x1="340"
          y1="0"
          x2="340"
@@ -414,7 +414,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="340" y="8" text-anchor="middle" font-size="6">34</text>
+   <text x="340" y="8" text-anchor="middle" font-size="6">33</text>
    <line x1="350"
          y1="0"
          x2="350"
@@ -422,7 +422,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="350" y="8" text-anchor="middle" font-size="6">35</text>
+   <text x="350" y="8" text-anchor="middle" font-size="6">34</text>
    <line x1="360"
          y1="0"
          x2="360"
@@ -430,7 +430,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="360" y="8" text-anchor="middle" font-size="6">36</text>
+   <text x="360" y="8" text-anchor="middle" font-size="6">35</text>
    <line x1="370"
          y1="0"
          x2="370"
@@ -438,7 +438,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="370" y="8" text-anchor="middle" font-size="6">37</text>
+   <text x="370" y="8" text-anchor="middle" font-size="6">36</text>
    <line x1="380"
          y1="0"
          x2="380"
@@ -446,7 +446,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="380" y="8" text-anchor="middle" font-size="6">38</text>
+   <text x="380" y="8" text-anchor="middle" font-size="6">37</text>
    <line x1="390"
          y1="0"
          x2="390"
@@ -454,7 +454,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="390" y="8" text-anchor="middle" font-size="6">39</text>
+   <text x="390" y="8" text-anchor="middle" font-size="6">38</text>
    <line x1="400"
          y1="0"
          x2="400"
@@ -462,7 +462,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="400" y="8" text-anchor="middle" font-size="6">40</text>
+   <text x="400" y="8" text-anchor="middle" font-size="6">39</text>
    <line x1="410"
          y1="0"
          x2="410"
@@ -470,7 +470,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="410" y="8" text-anchor="middle" font-size="6">41</text>
+   <text x="410" y="8" text-anchor="middle" font-size="6">40</text>
    <line x1="420"
          y1="0"
          x2="420"
@@ -478,7 +478,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="420" y="8" text-anchor="middle" font-size="6">42</text>
+   <text x="420" y="8" text-anchor="middle" font-size="6">41</text>
    <line x1="430"
          y1="0"
          x2="430"
@@ -486,7 +486,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="430" y="8" text-anchor="middle" font-size="6">43</text>
+   <text x="430" y="8" text-anchor="middle" font-size="6">42</text>
    <line x1="440"
          y1="0"
          x2="440"
@@ -494,7 +494,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="440" y="8" text-anchor="middle" font-size="6">44</text>
+   <text x="440" y="8" text-anchor="middle" font-size="6">43</text>
    <line x1="450"
          y1="0"
          x2="450"
@@ -502,7 +502,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="450" y="8" text-anchor="middle" font-size="6">45</text>
+   <text x="450" y="8" text-anchor="middle" font-size="6">44</text>
    <line x1="460"
          y1="0"
          x2="460"
@@ -510,7 +510,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="460" y="8" text-anchor="middle" font-size="6">46</text>
+   <text x="460" y="8" text-anchor="middle" font-size="6">45</text>
    <line x1="470"
          y1="0"
          x2="470"
@@ -518,7 +518,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="470" y="8" text-anchor="middle" font-size="6">47</text>
+   <text x="470" y="8" text-anchor="middle" font-size="6">46</text>
    <line x1="480"
          y1="0"
          x2="480"
@@ -526,7 +526,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="480" y="8" text-anchor="middle" font-size="6">48</text>
+   <text x="480" y="8" text-anchor="middle" font-size="6">47</text>
    <line x1="490"
          y1="0"
          x2="490"
@@ -534,7 +534,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="490" y="8" text-anchor="middle" font-size="6">49</text>
+   <text x="490" y="8" text-anchor="middle" font-size="6">48</text>
    <line x1="500"
          y1="0"
          x2="500"
@@ -542,7 +542,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="500" y="8" text-anchor="middle" font-size="6">50</text>
+   <text x="500" y="8" text-anchor="middle" font-size="6">49</text>
    <line x1="510"
          y1="0"
          x2="510"
@@ -550,7 +550,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="510" y="8" text-anchor="middle" font-size="6">51</text>
+   <text x="510" y="8" text-anchor="middle" font-size="6">50</text>
    <line x1="520"
          y1="0"
          x2="520"
@@ -558,7 +558,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="520" y="8" text-anchor="middle" font-size="6">52</text>
+   <text x="520" y="8" text-anchor="middle" font-size="6">51</text>
    <line x1="530"
          y1="0"
          x2="530"
@@ -566,7 +566,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="530" y="8" text-anchor="middle" font-size="6">53</text>
+   <text x="530" y="8" text-anchor="middle" font-size="6">52</text>
    <line x1="540"
          y1="0"
          x2="540"
@@ -574,7 +574,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="540" y="8" text-anchor="middle" font-size="6">54</text>
+   <text x="540" y="8" text-anchor="middle" font-size="6">53</text>
    <line x1="550"
          y1="0"
          x2="550"
@@ -582,7 +582,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="550" y="8" text-anchor="middle" font-size="6">55</text>
+   <text x="550" y="8" text-anchor="middle" font-size="6">54</text>
    <line x1="560"
          y1="0"
          x2="560"
@@ -590,7 +590,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="560" y="8" text-anchor="middle" font-size="6">56</text>
+   <text x="560" y="8" text-anchor="middle" font-size="6">55</text>
    <line x1="570"
          y1="0"
          x2="570"
@@ -598,7 +598,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="570" y="8" text-anchor="middle" font-size="6">57</text>
+   <text x="570" y="8" text-anchor="middle" font-size="6">56</text>
    <line x1="580"
          y1="0"
          x2="580"
@@ -606,7 +606,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="580" y="8" text-anchor="middle" font-size="6">58</text>
+   <text x="580" y="8" text-anchor="middle" font-size="6">57</text>
    <line x1="590"
          y1="0"
          x2="590"
@@ -614,7 +614,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="590" y="8" text-anchor="middle" font-size="6">59</text>
+   <text x="590" y="8" text-anchor="middle" font-size="6">58</text>
    <line x1="600"
          y1="0"
          x2="600"
@@ -622,7 +622,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="600" y="8" text-anchor="middle" font-size="6">60</text>
+   <text x="600" y="8" text-anchor="middle" font-size="6">59</text>
    <line x1="610"
          y1="0"
          x2="610"
@@ -630,7 +630,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="610" y="8" text-anchor="middle" font-size="6">61</text>
+   <text x="610" y="8" text-anchor="middle" font-size="6">60</text>
    <line x1="620"
          y1="0"
          x2="620"
@@ -638,7 +638,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="620" y="8" text-anchor="middle" font-size="6">62</text>
+   <text x="620" y="8" text-anchor="middle" font-size="6">61</text>
    <line x1="630"
          y1="0"
          x2="630"
@@ -646,7 +646,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="630" y="8" text-anchor="middle" font-size="6">63</text>
+   <text x="630" y="8" text-anchor="middle" font-size="6">62</text>
    <line x1="640"
          y1="0"
          x2="640"
@@ -654,7 +654,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="640" y="8" text-anchor="middle" font-size="6">64</text>
+   <text x="640" y="8" text-anchor="middle" font-size="6">63</text>
    <line x1="650"
          y1="0"
          x2="650"
@@ -662,7 +662,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="650" y="8" text-anchor="middle" font-size="6">65</text>
+   <text x="650" y="8" text-anchor="middle" font-size="6">64</text>
    <line x1="660"
          y1="0"
          x2="660"
@@ -670,7 +670,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="660" y="8" text-anchor="middle" font-size="6">66</text>
+   <text x="660" y="8" text-anchor="middle" font-size="6">65</text>
    <line x1="670"
          y1="0"
          x2="670"
@@ -678,7 +678,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="670" y="8" text-anchor="middle" font-size="6">67</text>
+   <text x="670" y="8" text-anchor="middle" font-size="6">66</text>
    <line x1="680"
          y1="0"
          x2="680"
@@ -686,7 +686,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="680" y="8" text-anchor="middle" font-size="6">68</text>
+   <text x="680" y="8" text-anchor="middle" font-size="6">67</text>
    <line x1="690"
          y1="0"
          x2="690"
@@ -694,7 +694,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="690" y="8" text-anchor="middle" font-size="6">69</text>
+   <text x="690" y="8" text-anchor="middle" font-size="6">68</text>
    <line x1="700"
          y1="0"
          x2="700"
@@ -702,7 +702,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="700" y="8" text-anchor="middle" font-size="6">70</text>
+   <text x="700" y="8" text-anchor="middle" font-size="6">69</text>
    <line x1="710"
          y1="0"
          x2="710"
@@ -710,7 +710,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="710" y="8" text-anchor="middle" font-size="6">71</text>
+   <text x="710" y="8" text-anchor="middle" font-size="6">70</text>
    <line x1="720"
          y1="0"
          x2="720"
@@ -718,7 +718,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="720" y="8" text-anchor="middle" font-size="6">72</text>
+   <text x="720" y="8" text-anchor="middle" font-size="6">71</text>
    <line x1="730"
          y1="0"
          x2="730"
@@ -726,7 +726,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="730" y="8" text-anchor="middle" font-size="6">73</text>
+   <text x="730" y="8" text-anchor="middle" font-size="6">72</text>
    <line x1="740"
          y1="0"
          x2="740"
@@ -734,7 +734,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="740" y="8" text-anchor="middle" font-size="6">74</text>
+   <text x="740" y="8" text-anchor="middle" font-size="6">73</text>
    <line x1="750"
          y1="0"
          x2="750"
@@ -742,7 +742,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="750" y="8" text-anchor="middle" font-size="6">75</text>
+   <text x="750" y="8" text-anchor="middle" font-size="6">74</text>
    <line x1="760"
          y1="0"
          x2="760"
@@ -750,7 +750,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="760" y="8" text-anchor="middle" font-size="6">76</text>
+   <text x="760" y="8" text-anchor="middle" font-size="6">75</text>
    <line x1="770"
          y1="0"
          x2="770"
@@ -758,7 +758,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="770" y="8" text-anchor="middle" font-size="6">77</text>
+   <text x="770" y="8" text-anchor="middle" font-size="6">76</text>
    <line x1="780"
          y1="0"
          x2="780"
@@ -766,7 +766,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="780" y="8" text-anchor="middle" font-size="6">78</text>
+   <text x="780" y="8" text-anchor="middle" font-size="6">77</text>
    <line x1="790"
          y1="0"
          x2="790"
@@ -774,7 +774,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="790" y="8" text-anchor="middle" font-size="6">79</text>
+   <text x="790" y="8" text-anchor="middle" font-size="6">78</text>
    <line x1="800"
          y1="0"
          x2="800"
@@ -782,7 +782,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="800" y="8" text-anchor="middle" font-size="6">80</text>
+   <text x="800" y="8" text-anchor="middle" font-size="6">79</text>
    <line x1="810"
          y1="0"
          x2="810"
@@ -790,7 +790,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="810" y="8" text-anchor="middle" font-size="6">81</text>
+   <text x="810" y="8" text-anchor="middle" font-size="6">80</text>
    <line x1="820"
          y1="0"
          x2="820"
@@ -798,7 +798,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="820" y="8" text-anchor="middle" font-size="6">82</text>
+   <text x="820" y="8" text-anchor="middle" font-size="6">81</text>
    <line x1="830"
          y1="0"
          x2="830"
@@ -806,7 +806,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="830" y="8" text-anchor="middle" font-size="6">83</text>
+   <text x="830" y="8" text-anchor="middle" font-size="6">82</text>
    <line x1="840"
          y1="0"
          x2="840"
@@ -814,7 +814,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="840" y="8" text-anchor="middle" font-size="6">84</text>
+   <text x="840" y="8" text-anchor="middle" font-size="6">83</text>
    <line x1="850"
          y1="0"
          x2="850"
@@ -822,7 +822,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="850" y="8" text-anchor="middle" font-size="6">85</text>
+   <text x="850" y="8" text-anchor="middle" font-size="6">84</text>
    <line x1="860"
          y1="0"
          x2="860"
@@ -830,7 +830,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="860" y="8" text-anchor="middle" font-size="6">86</text>
+   <text x="860" y="8" text-anchor="middle" font-size="6">85</text>
    <line x1="870"
          y1="0"
          x2="870"
@@ -838,7 +838,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="870" y="8" text-anchor="middle" font-size="6">87</text>
+   <text x="870" y="8" text-anchor="middle" font-size="6">86</text>
    <line x1="880"
          y1="0"
          x2="880"
@@ -846,7 +846,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="880" y="8" text-anchor="middle" font-size="6">88</text>
+   <text x="880" y="8" text-anchor="middle" font-size="6">87</text>
    <line x1="890"
          y1="0"
          x2="890"
@@ -854,7 +854,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="890" y="8" text-anchor="middle" font-size="6">89</text>
+   <text x="890" y="8" text-anchor="middle" font-size="6">88</text>
    <line x1="900"
          y1="0"
          x2="900"
@@ -862,7 +862,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="900" y="8" text-anchor="middle" font-size="6">90</text>
+   <text x="900" y="8" text-anchor="middle" font-size="6">89</text>
    <line x1="910"
          y1="0"
          x2="910"
@@ -870,7 +870,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="910" y="8" text-anchor="middle" font-size="6">91</text>
+   <text x="910" y="8" text-anchor="middle" font-size="6">90</text>
    <line x1="920"
          y1="0"
          x2="920"
@@ -878,7 +878,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="920" y="8" text-anchor="middle" font-size="6">92</text>
+   <text x="920" y="8" text-anchor="middle" font-size="6">91</text>
    <line x1="930"
          y1="0"
          x2="930"
@@ -886,7 +886,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="930" y="8" text-anchor="middle" font-size="6">93</text>
+   <text x="930" y="8" text-anchor="middle" font-size="6">92</text>
    <line x1="940"
          y1="0"
          x2="940"
@@ -894,7 +894,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="940" y="8" text-anchor="middle" font-size="6">94</text>
+   <text x="940" y="8" text-anchor="middle" font-size="6">93</text>
    <line x1="950"
          y1="0"
          x2="950"
@@ -902,7 +902,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="950" y="8" text-anchor="middle" font-size="6">95</text>
+   <text x="950" y="8" text-anchor="middle" font-size="6">94</text>
    <line x1="960"
          y1="0"
          x2="960"
@@ -910,7 +910,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="960" y="8" text-anchor="middle" font-size="6">96</text>
+   <text x="960" y="8" text-anchor="middle" font-size="6">95</text>
    <line x1="970"
          y1="0"
          x2="970"
@@ -918,7 +918,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="970" y="8" text-anchor="middle" font-size="6">97</text>
+   <text x="970" y="8" text-anchor="middle" font-size="6">96</text>
    <line x1="980"
          y1="0"
          x2="980"
@@ -926,7 +926,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="980" y="8" text-anchor="middle" font-size="6">98</text>
+   <text x="980" y="8" text-anchor="middle" font-size="6">97</text>
    <line x1="990"
          y1="0"
          x2="990"
@@ -934,7 +934,7 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="990" y="8" text-anchor="middle" font-size="6">99</text>
+   <text x="990" y="8" text-anchor="middle" font-size="6">98</text>
    <line x1="1000"
          y1="0"
          x2="1000"
@@ -942,12 +942,23 @@
          stroke="lightgray"
          stroke-width="0.5"
          stroke-linecap="square"/>
-   <text x="1000" y="8" text-anchor="middle" font-size="6">100</text>
+   <text x="1000" y="8" text-anchor="middle" font-size="6">99</text>
    <circle cx="10" cy="-250" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="10" cy="-250" r="1.5" fill="red" fill-opacity=".5"/>
    <circle cx="10" cy="-250" r="1.5" fill="green" fill-opacity=".5"/>
+   <circle cx="10" cy="-250" r="1.5" fill="indigo" fill-opacity=".5"/>
    <circle cx="10" cy="-250" r="1.5" fill="blue" fill-opacity=".5"/>
-   <circle cx="10" cy="-250" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="10" cy="-250" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="10"
+           cy="-250"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="10"
+           cy="-249.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="20" cy="-125" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="20"
            cy="-166.666666666666666667"
@@ -955,12 +966,19 @@
            fill="red"
            fill-opacity=".5"/>
    <circle cx="20" cy="-187.5" r="1.5" fill="green" fill-opacity=".5"/>
-   <circle cx="20" cy="-125" r="1.5" fill="blue" fill-opacity=".5"/>
    <circle cx="20"
-           cy="-247.5"
+           cy="-227.272727272727272727"
            r="1.5"
-           fill="orange"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="20" cy="-125" r="1.5" fill="blue" fill-opacity=".5"/>
+   <circle cx="20" cy="-247.5" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="20"
+           cy="-245.025"
+           r="1.5"
+           fill="darkorchid"
            fill-opacity="0.5"/>
+   <circle cx="20" cy="-249.9" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="30"
            cy="-83.333333333333333333"
            r="1.5"
@@ -968,17 +986,39 @@
            fill-opacity=".5"/>
    <circle cx="30" cy="-125" r="1.5" fill="red" fill-opacity=".5"/>
    <circle cx="30" cy="-150" r="1.5" fill="green" fill-opacity=".5"/>
+   <circle cx="30"
+           cy="-208.333333333333333333"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
    <circle cx="30" cy="-62.5" r="1.5" fill="blue" fill-opacity=".5"/>
-   <circle cx="30" cy="-245" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="30" cy="-245" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="30"
+           cy="-240.10000000000002"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="30"
+           cy="-249.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="40" cy="-62.5" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="40" cy="-100" r="1.5" fill="red" fill-opacity=".5"/>
    <circle cx="40" cy="-125" r="1.5" fill="green" fill-opacity=".5"/>
-   <circle cx="40" cy="-31.25" r="1.5" fill="blue" fill-opacity=".5"/>
    <circle cx="40"
-           cy="-242.5"
+           cy="-192.307692307692307692"
            r="1.5"
-           fill="orange"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="40" cy="-31.25" r="1.5" fill="blue" fill-opacity=".5"/>
+   <circle cx="40" cy="-242.5" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="40"
+           cy="-235.22500000000002"
+           r="1.5"
+           fill="darkorchid"
            fill-opacity="0.5"/>
+   <circle cx="40" cy="-249.6" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="50" cy="-50" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="50"
            cy="-83.333333333333333333"
@@ -990,8 +1030,23 @@
            r="1.5"
            fill="green"
            fill-opacity=".5"/>
+   <circle cx="50"
+           cy="-178.571428571428571429"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
    <circle cx="50" cy="-15.625" r="1.5" fill="blue" fill-opacity=".5"/>
-   <circle cx="50" cy="-240" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="50" cy="-240" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="50"
+           cy="-230.4"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="50"
+           cy="-249.375"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="60"
            cy="-41.666666666666666667"
            r="1.5"
@@ -1003,12 +1058,19 @@
            fill="red"
            fill-opacity=".5"/>
    <circle cx="60" cy="-93.75" r="1.5" fill="green" fill-opacity=".5"/>
-   <circle cx="60" cy="-7.8125" r="1.5" fill="blue" fill-opacity=".5"/>
    <circle cx="60"
-           cy="-237.5"
+           cy="-166.666666666666666667"
            r="1.5"
-           fill="orange"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="60" cy="-7.8125" r="1.5" fill="blue" fill-opacity=".5"/>
+   <circle cx="60" cy="-237.5" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="60"
+           cy="-225.625"
+           r="1.5"
+           fill="darkorchid"
            fill-opacity="0.5"/>
+   <circle cx="60" cy="-249.1" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="70"
            cy="-35.714285714285714286"
            r="1.5"
@@ -1020,8 +1082,23 @@
            r="1.5"
            fill="green"
            fill-opacity=".5"/>
+   <circle cx="70"
+           cy="-156.25"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
    <circle cx="70" cy="-3.90625" r="1.5" fill="blue" fill-opacity=".5"/>
-   <circle cx="70" cy="-235" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="70" cy="-235" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="70"
+           cy="-220.9"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="70"
+           cy="-248.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="80" cy="-31.25" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="80"
            cy="-55.555555555555555556"
@@ -1030,15 +1107,22 @@
            fill-opacity=".5"/>
    <circle cx="80" cy="-75" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="80"
+           cy="-147.058823529411764706"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="80"
            cy="-1.953125"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="80" cy="-232.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="80"
-           cy="-232.5"
+           cy="-216.22500000000002"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
            fill-opacity="0.5"/>
+   <circle cx="80" cy="-248.4" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="90"
            cy="-27.777777777777777778"
            r="1.5"
@@ -1051,11 +1135,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="90"
+           cy="-138.888888888888888889"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="90"
            cy="-0.9765625"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="90" cy="-230" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="90" cy="-230" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="90"
+           cy="-211.60000000000002"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="90"
+           cy="-247.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="100" cy="-25" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="100"
            cy="-45.454545454545454545"
@@ -1064,6 +1163,11 @@
            fill-opacity=".5"/>
    <circle cx="100" cy="-62.5" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="100"
+           cy="-131.578947368421052632"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="100"
            cy="-0.48828125"
            r="1.5"
            fill="blue"
@@ -1071,7 +1175,17 @@
    <circle cx="100"
            cy="-227.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="100"
+           cy="-207.025"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="100"
+           cy="-247.5"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="110"
            cy="-22.727272727272727273"
@@ -1088,12 +1202,23 @@
            r="1.5"
            fill="green"
            fill-opacity=".5"/>
+   <circle cx="110" cy="-125" r="1.5" fill="indigo" fill-opacity=".5"/>
    <circle cx="110"
            cy="-0.244140625"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="110" cy="-225" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="110" cy="-225" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="110"
+           cy="-202.5"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="110"
+           cy="-246.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="120"
            cy="-20.833333333333333333"
            r="1.5"
@@ -1110,6 +1235,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="120"
+           cy="-119.047619047619047619"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="120"
            cy="-0.1220703125"
            r="1.5"
            fill="blue"
@@ -1117,7 +1247,17 @@
    <circle cx="120"
            cy="-222.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="120"
+           cy="-198.025"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="120"
+           cy="-246.4"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="130"
            cy="-19.230769230769230769"
@@ -1131,11 +1271,26 @@
            fill-opacity=".5"/>
    <circle cx="130" cy="-50" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="130"
+           cy="-113.636363636363636364"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="130"
            cy="-0.06103515625"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="130" cy="-220" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="130" cy="-220" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="130"
+           cy="-193.60000000000002"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="130"
+           cy="-245.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="140"
            cy="-17.857142857142857143"
            r="1.5"
@@ -1152,6 +1307,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="140"
+           cy="-108.695652173913043478"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="140"
            cy="-0.030517578125"
            r="1.5"
            fill="blue"
@@ -1159,7 +1319,17 @@
    <circle cx="140"
            cy="-217.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="140"
+           cy="-189.22500000000002"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="140"
+           cy="-245.1"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="150"
            cy="-16.666666666666666667"
@@ -1173,11 +1343,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="150"
+           cy="-104.166666666666666667"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="150"
            cy="-0.0152587890625"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="150" cy="-215" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="150" cy="-215" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="150"
+           cy="-184.9"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="150"
+           cy="-244.375"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="160"
            cy="-15.625"
            r="1.5"
@@ -1193,6 +1378,7 @@
            r="1.5"
            fill="green"
            fill-opacity=".5"/>
+   <circle cx="160" cy="-100" r="1.5" fill="indigo" fill-opacity=".5"/>
    <circle cx="160"
            cy="-0.00762939453125"
            r="1.5"
@@ -1201,7 +1387,17 @@
    <circle cx="160"
            cy="-212.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="160"
+           cy="-180.625"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="160"
+           cy="-243.6"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="170"
            cy="-14.705882352941176471"
@@ -1219,11 +1415,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="170"
+           cy="-96.153846153846153846"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="170"
            cy="-0.003814697265625"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="170" cy="-210" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="170" cy="-210" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="170"
+           cy="-176.4"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="170"
+           cy="-242.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="180"
            cy="-13.888888888888888889"
            r="1.5"
@@ -1236,6 +1447,11 @@
            fill-opacity=".5"/>
    <circle cx="180" cy="-37.5" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="180"
+           cy="-92.592592592592592593"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="180"
            cy="-0.0019073486328125"
            r="1.5"
            fill="blue"
@@ -1243,7 +1459,17 @@
    <circle cx="180"
            cy="-207.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="180"
+           cy="-172.22500000000002"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="180"
+           cy="-241.9"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="190"
            cy="-13.157894736842105263"
@@ -1257,11 +1483,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="190"
+           cy="-89.285714285714285714"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="190"
            cy="-0.00095367431640625"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="190" cy="-205" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="190" cy="-205" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="190"
+           cy="-168.10000000000002"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="190"
+           cy="-240.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="200" cy="-12.5" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="200"
            cy="-23.809523809523809524"
@@ -1274,6 +1515,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="200"
+           cy="-86.206896551724137931"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="200"
            cy="-0.000476837158203125"
            r="1.5"
            fill="blue"
@@ -1281,8 +1527,14 @@
    <circle cx="200"
            cy="-202.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
            fill-opacity="0.5"/>
+   <circle cx="200"
+           cy="-164.025"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="200" cy="-240" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="210"
            cy="-11.904761904761904762"
            r="1.5"
@@ -1299,11 +1551,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="210"
+           cy="-83.333333333333333333"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="210"
            cy="-0.0002384185791015625"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="210" cy="-200" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="210" cy="-200" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="210"
+           cy="-160"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="210"
+           cy="-238.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="220"
            cy="-11.363636363636363636"
            r="1.5"
@@ -1316,6 +1583,11 @@
            fill-opacity=".5"/>
    <circle cx="220" cy="-31.25" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="220"
+           cy="-80.645161290322580645"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="220"
            cy="-0.00011920928955078125"
            r="1.5"
            fill="blue"
@@ -1323,7 +1595,17 @@
    <circle cx="220"
            cy="-197.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="220"
+           cy="-156.025"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="220"
+           cy="-237.9"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="230"
            cy="-10.869565217391304348"
@@ -1337,11 +1619,26 @@
            fill-opacity=".5"/>
    <circle cx="230" cy="-30" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="230"
+           cy="-78.125"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="230"
            cy="-0.000059604644775390625"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="230" cy="-195" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="230" cy="-195" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="230"
+           cy="-152.1"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="230"
+           cy="-236.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="240"
            cy="-10.416666666666666667"
            r="1.5"
@@ -1354,6 +1651,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="240"
+           cy="-75.757575757575757576"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="240"
            cy="-0.000029802322387695312"
            r="1.5"
            fill="blue"
@@ -1361,7 +1663,17 @@
    <circle cx="240"
            cy="-192.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="240"
+           cy="-148.225"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="240"
+           cy="-235.6"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="250" cy="-10" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="250"
@@ -1375,11 +1687,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="250"
+           cy="-73.529411764705882353"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="250"
            cy="-0.000014901161193847656"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="250" cy="-190" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="250" cy="-190" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="250"
+           cy="-144.4"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="250"
+           cy="-234.375"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="260"
            cy="-9.615384615384615385"
            r="1.5"
@@ -1396,6 +1723,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="260"
+           cy="-71.428571428571428571"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="260"
            cy="-0.000007450580596923828"
            r="1.5"
            fill="blue"
@@ -1403,7 +1735,17 @@
    <circle cx="260"
            cy="-187.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="260"
+           cy="-140.625"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="260"
+           cy="-233.1"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="270"
            cy="-9.259259259259259259"
@@ -1421,11 +1763,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="270"
+           cy="-69.444444444444444444"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="270"
            cy="-0.000003725290298461914"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="270" cy="-185" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="270" cy="-185" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="270"
+           cy="-136.9"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="270"
+           cy="-231.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="280"
            cy="-8.928571428571428571"
            r="1.5"
@@ -1438,6 +1795,11 @@
            fill-opacity=".5"/>
    <circle cx="280" cy="-25" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="280"
+           cy="-67.567567567567567568"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="280"
            cy="-0.000001862645149230957"
            r="1.5"
            fill="blue"
@@ -1445,7 +1807,17 @@
    <circle cx="280"
            cy="-182.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="280"
+           cy="-133.225"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="280"
+           cy="-230.4"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="290"
            cy="-8.620689655172413793"
@@ -1463,11 +1835,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="290"
+           cy="-65.789473684210526316"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="290"
            cy="-9.313225746154785E-7"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="290" cy="-180" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="290" cy="-180" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="290"
+           cy="-129.6"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="290"
+           cy="-228.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="300"
            cy="-8.333333333333333333"
            r="1.5"
@@ -1484,6 +1871,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="300"
+           cy="-64.102564102564102564"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="300"
            cy="-4.6566128730773926E-7"
            r="1.5"
            fill="blue"
@@ -1491,7 +1883,17 @@
    <circle cx="300"
            cy="-177.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="300"
+           cy="-126.025"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="300"
+           cy="-227.5"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="310"
            cy="-8.064516129032258065"
@@ -1504,12 +1906,23 @@
            r="1.5"
            fill="green"
            fill-opacity=".5"/>
+   <circle cx="310" cy="-62.5" r="1.5" fill="indigo" fill-opacity=".5"/>
    <circle cx="310"
            cy="-2.3283064365386963E-7"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="310" cy="-175" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="310" cy="-175" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="310"
+           cy="-122.5"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="310"
+           cy="-225.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="320"
            cy="-7.8125"
            r="1.5"
@@ -1526,6 +1939,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="320"
+           cy="-60.975609756097560976"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="320"
            cy="-1.1641532182693481E-7"
            r="1.5"
            fill="blue"
@@ -1533,7 +1951,17 @@
    <circle cx="320"
            cy="-172.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="320"
+           cy="-119.025"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="320"
+           cy="-224.4"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="330"
            cy="-7.575757575757575758"
@@ -1551,11 +1979,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="330"
+           cy="-59.52380952380952381"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="330"
            cy="-5.820766091346741E-8"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="330" cy="-170" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="330" cy="-170" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="330"
+           cy="-115.60000000000001"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="330"
+           cy="-222.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="340"
            cy="-7.352941176470588235"
            r="1.5"
@@ -1572,6 +2015,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="340"
+           cy="-58.139534883720930233"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="340"
            cy="-2.9103830456733704E-8"
            r="1.5"
            fill="blue"
@@ -1579,7 +2027,17 @@
    <circle cx="340"
            cy="-167.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="340"
+           cy="-112.22500000000001"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="340"
+           cy="-221.1"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="350"
            cy="-7.142857142857142857"
@@ -1597,11 +2055,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="350"
+           cy="-56.818181818181818182"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="350"
            cy="-1.4551915228366852E-8"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="350" cy="-165" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="350" cy="-165" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="350"
+           cy="-108.9"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="350"
+           cy="-219.375"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="360"
            cy="-6.944444444444444444"
            r="1.5"
@@ -1618,6 +2091,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="360"
+           cy="-55.555555555555555556"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="360"
            cy="-7.275957614183426E-9"
            r="1.5"
            fill="blue"
@@ -1625,7 +2103,17 @@
    <circle cx="360"
            cy="-162.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="360"
+           cy="-105.625"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="360"
+           cy="-217.6"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="370"
            cy="-6.756756756756756757"
@@ -1643,11 +2131,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="370"
+           cy="-54.347826086956521739"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="370"
            cy="-3.637978807091713E-9"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="370" cy="-160" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="370" cy="-160" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="370"
+           cy="-102.4"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="370"
+           cy="-215.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="380"
            cy="-6.578947368421052632"
            r="1.5"
@@ -1660,6 +2163,11 @@
            fill-opacity=".5"/>
    <circle cx="380" cy="-18.75" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="380"
+           cy="-53.19148936170212766"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="380"
            cy="-1.8189894035458565E-9"
            r="1.5"
            fill="blue"
@@ -1667,7 +2175,17 @@
    <circle cx="380"
            cy="-157.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="380"
+           cy="-99.22500000000001"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="380"
+           cy="-213.9"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="390"
            cy="-6.410256410256410256"
@@ -1681,11 +2199,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="390"
+           cy="-52.083333333333333333"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="390"
            cy="-9.094947017729282E-10"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="390" cy="-155" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="390" cy="-155" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="390"
+           cy="-96.10000000000001"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="390"
+           cy="-211.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="400" cy="-6.25" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="400"
            cy="-12.195121951219512195"
@@ -1698,6 +2231,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="400"
+           cy="-51.020408163265306122"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="400"
            cy="-4.547473508864641E-10"
            r="1.5"
            fill="blue"
@@ -1705,8 +2243,14 @@
    <circle cx="400"
            cy="-152.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
            fill-opacity="0.5"/>
+   <circle cx="400"
+           cy="-93.025"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="400" cy="-210" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="410"
            cy="-6.097560975609756098"
            r="1.5"
@@ -1722,12 +2266,23 @@
            r="1.5"
            fill="green"
            fill-opacity=".5"/>
+   <circle cx="410" cy="-50" r="1.5" fill="indigo" fill-opacity=".5"/>
    <circle cx="410"
            cy="-2.2737367544323206E-10"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="410" cy="-150" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="410" cy="-150" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="410"
+           cy="-90"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="410"
+           cy="-207.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="420"
            cy="-5.952380952380952381"
            r="1.5"
@@ -1744,6 +2299,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="420"
+           cy="-49.019607843137254902"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="420"
            cy="-1.1368683772161603E-10"
            r="1.5"
            fill="blue"
@@ -1751,7 +2311,17 @@
    <circle cx="420"
            cy="-147.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="420"
+           cy="-87.025"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="420"
+           cy="-205.9"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="430"
            cy="-5.813953488372093023"
@@ -1769,11 +2339,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="430"
+           cy="-48.076923076923076923"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="430"
            cy="-5.6843418860808015E-11"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="430" cy="-145" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="430" cy="-145" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="430"
+           cy="-84.10000000000001"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="430"
+           cy="-203.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="440"
            cy="-5.681818181818181818"
            r="1.5"
@@ -1790,6 +2375,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="440"
+           cy="-47.169811320754716981"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="440"
            cy="-2.8421709430404007E-11"
            r="1.5"
            fill="blue"
@@ -1797,7 +2387,17 @@
    <circle cx="440"
            cy="-142.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="440"
+           cy="-81.22500000000001"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="440"
+           cy="-201.6"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="450"
            cy="-5.555555555555555556"
@@ -1815,11 +2415,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="450"
+           cy="-46.296296296296296296"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="450"
            cy="-1.4210854715202004E-11"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="450" cy="-140" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="450" cy="-140" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="450"
+           cy="-78.4"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="450"
+           cy="-199.375"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="460"
            cy="-5.434782608695652174"
            r="1.5"
@@ -1836,6 +2451,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="460"
+           cy="-45.454545454545454545"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="460"
            cy="-7.105427357601002E-12"
            r="1.5"
            fill="blue"
@@ -1843,7 +2463,17 @@
    <circle cx="460"
            cy="-137.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="460"
+           cy="-75.625"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="460"
+           cy="-197.1"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="470"
            cy="-5.319148936170212766"
@@ -1861,11 +2491,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="470"
+           cy="-44.642857142857142857"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="470"
            cy="-3.552713678800501E-12"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="470" cy="-135" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="470" cy="-135" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="470"
+           cy="-72.9"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="470"
+           cy="-194.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="480"
            cy="-5.208333333333333333"
            r="1.5"
@@ -1878,6 +2523,11 @@
            fill-opacity=".5"/>
    <circle cx="480" cy="-15" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="480"
+           cy="-43.859649122807017544"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="480"
            cy="-1.7763568394002505E-12"
            r="1.5"
            fill="blue"
@@ -1885,7 +2535,17 @@
    <circle cx="480"
            cy="-132.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="480"
+           cy="-70.22500000000001"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="480"
+           cy="-192.4"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="490"
            cy="-5.102040816326530612"
@@ -1899,11 +2559,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="490"
+           cy="-43.103448275862068966"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="490"
            cy="-8.881784197001252E-13"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="490" cy="-130" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="490" cy="-130" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="490"
+           cy="-67.60000000000001"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="490"
+           cy="-189.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="500" cy="-5" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="500"
            cy="-9.80392156862745098"
@@ -1916,6 +2591,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="500"
+           cy="-42.37288135593220339"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="500"
            cy="-4.440892098500626E-13"
            r="1.5"
            fill="blue"
@@ -1923,7 +2603,17 @@
    <circle cx="500"
            cy="-127.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="500"
+           cy="-65.025"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="500"
+           cy="-187.5"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="510"
            cy="-4.90196078431372549"
@@ -1941,11 +2631,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="510"
+           cy="-41.666666666666666667"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="510"
            cy="-2.220446049250313E-13"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="510" cy="-125" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="510" cy="-125" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="510"
+           cy="-62.5"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="510"
+           cy="-184.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="520"
            cy="-4.807692307692307692"
            r="1.5"
@@ -1962,6 +2667,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="520"
+           cy="-40.98360655737704918"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="520"
            cy="-1.1102230246251565E-13"
            r="1.5"
            fill="blue"
@@ -1969,7 +2679,17 @@
    <circle cx="520"
            cy="-122.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="520"
+           cy="-60.025000000000006"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="520"
+           cy="-182.39999999999998"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="530"
            cy="-4.716981132075471698"
@@ -1987,11 +2707,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="530"
+           cy="-40.322580645161290323"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="530"
            cy="-5.551115123125783E-14"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="530" cy="-120" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="530" cy="-120" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="530"
+           cy="-57.6"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="530"
+           cy="-179.77499999999998"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="540"
            cy="-4.62962962962962963"
            r="1.5"
@@ -2008,6 +2743,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="540"
+           cy="-39.68253968253968254"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="540"
            cy="-2.7755575615628914E-14"
            r="1.5"
            fill="blue"
@@ -2015,7 +2755,17 @@
    <circle cx="540"
            cy="-117.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="540"
+           cy="-55.225"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="540"
+           cy="-177.1"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="550"
            cy="-4.545454545454545455"
@@ -2033,11 +2783,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="550"
+           cy="-39.0625"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="550"
            cy="-1.3877787807814457E-14"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="550" cy="-115" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="550" cy="-115" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="550"
+           cy="-52.900000000000006"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="550"
+           cy="-174.375"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="560"
            cy="-4.464285714285714286"
            r="1.5"
@@ -2054,6 +2819,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="560"
+           cy="-38.461538461538461538"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="560"
            cy="-6.938893903907228E-15"
            r="1.5"
            fill="blue"
@@ -2061,7 +2831,17 @@
    <circle cx="560"
            cy="-112.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="560"
+           cy="-50.625"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="560"
+           cy="-171.6"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="570"
            cy="-4.385964912280701754"
@@ -2079,11 +2859,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="570"
+           cy="-37.878787878787878788"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="570"
            cy="-3.469446951953614E-15"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="570" cy="-110" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="570" cy="-110" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="570"
+           cy="-48.400000000000006"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="570"
+           cy="-168.77499999999998"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="580"
            cy="-4.310344827586206897"
            r="1.5"
@@ -2096,6 +2891,11 @@
            fill-opacity=".5"/>
    <circle cx="580" cy="-12.5" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="580"
+           cy="-37.313432835820895522"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="580"
            cy="-1.734723475976807E-15"
            r="1.5"
            fill="blue"
@@ -2103,7 +2903,17 @@
    <circle cx="580"
            cy="-107.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
+           fill-opacity="0.5"/>
+   <circle cx="580"
+           cy="-46.225"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="580"
+           cy="-165.89999999999998"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="590"
            cy="-4.237288135593220339"
@@ -2121,11 +2931,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="590"
+           cy="-36.764705882352941176"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="590"
            cy="-8.673617379884035E-16"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="590" cy="-105" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="590" cy="-105" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="590"
+           cy="-44.1"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="590"
+           cy="-162.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="600"
            cy="-4.166666666666666667"
            r="1.5"
@@ -2142,6 +2967,11 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="600"
+           cy="-36.231884057971014493"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="600"
            cy="-4.3368086899420177E-16"
            r="1.5"
            fill="blue"
@@ -2149,8 +2979,14 @@
    <circle cx="600"
            cy="-102.5"
            r="1.5"
-           fill="orange"
+           fill="coral"
            fill-opacity="0.5"/>
+   <circle cx="600"
+           cy="-42.025000000000006"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="600" cy="-160" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="610"
            cy="-4.098360655737704918"
            r="1.5"
@@ -2167,11 +3003,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="610"
+           cy="-35.714285714285714286"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="610"
            cy="-2.1684043449710089E-16"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="610" cy="-100" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="610" cy="-100" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="610"
+           cy="-40"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="610"
+           cy="-156.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="620"
            cy="-4.032258064516129032"
            r="1.5"
@@ -2188,14 +3039,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="620"
+           cy="-35.211267605633802817"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="620"
            cy="-1.0842021724855044E-16"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="620" cy="-97.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="620"
-           cy="-97.5"
+           cy="-38.025"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="620"
+           cy="-153.89999999999998"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="630"
            cy="-3.968253968253968254"
@@ -2209,11 +3071,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="630"
+           cy="-34.722222222222222222"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="630"
            cy="-5.421010862427522E-17"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="630" cy="-95" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="630" cy="-95" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="630"
+           cy="-36.1"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="630"
+           cy="-150.77499999999998"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="640"
            cy="-3.90625"
            r="1.5"
@@ -2230,14 +3107,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="640"
+           cy="-34.246575342465753425"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="640"
            cy="-2.710505431213761E-17"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="640" cy="-92.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="640"
-           cy="-92.5"
+           cy="-34.225"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="640"
+           cy="-147.6"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="650"
            cy="-3.846153846153846154"
@@ -2255,11 +3143,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="650"
+           cy="-33.783783783783783784"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="650"
            cy="-1.3552527156068805E-17"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="650" cy="-90" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="650" cy="-90" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="650"
+           cy="-32.4"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="650"
+           cy="-144.375"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="660"
            cy="-3.787878787878787879"
            r="1.5"
@@ -2276,14 +3179,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="660"
+           cy="-33.333333333333333333"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="660"
            cy="-6.776263578034403E-18"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="660" cy="-87.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="660"
-           cy="-87.5"
+           cy="-30.625"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="660"
+           cy="-141.1"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="670"
            cy="-3.731343283582089552"
@@ -2301,11 +3215,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="670"
+           cy="-32.894736842105263158"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="670"
            cy="-3.3881317890172014E-18"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="670" cy="-85" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="670" cy="-85" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="670"
+           cy="-28.900000000000002"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="670"
+           cy="-137.77499999999998"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="680"
            cy="-3.676470588235294118"
            r="1.5"
@@ -2322,14 +3251,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="680"
+           cy="-32.467532467532467532"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="680"
            cy="-1.6940658945086007E-18"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="680" cy="-82.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="680"
-           cy="-82.5"
+           cy="-27.225"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="680"
+           cy="-134.39999999999998"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="690"
            cy="-3.623188405797101449"
@@ -2347,11 +3287,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="690"
+           cy="-32.051282051282051282"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="690"
            cy="-8.470329472543003E-19"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="690" cy="-80" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="690" cy="-80" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="690"
+           cy="-25.6"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="690"
+           cy="-130.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="700"
            cy="-3.571428571428571429"
            r="1.5"
@@ -2368,14 +3323,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="700"
+           cy="-31.645569620253164557"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="700"
            cy="-4.2351647362715017E-19"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="700" cy="-77.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="700"
-           cy="-77.5"
+           cy="-24.025000000000002"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="700"
+           cy="-127.5"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="710"
            cy="-3.521126760563380282"
@@ -2393,11 +3359,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="710"
+           cy="-31.25"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="710"
            cy="-2.1175823681357508E-19"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="710" cy="-75" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="710" cy="-75" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="710"
+           cy="-22.5"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="710"
+           cy="-123.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="720"
            cy="-3.472222222222222222"
            r="1.5"
@@ -2414,14 +3395,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="720"
+           cy="-30.864197530864197531"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="720"
            cy="-1.0587911840678754E-19"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="720" cy="-72.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="720"
-           cy="-72.5"
+           cy="-21.025000000000002"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="720"
+           cy="-120.4"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="730"
            cy="-3.424657534246575342"
@@ -2435,11 +3427,26 @@
            fill-opacity=".5"/>
    <circle cx="730" cy="-10" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="730"
+           cy="-30.487804878048780488"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="730"
            cy="-5.293955920339377E-20"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="730" cy="-70" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="730" cy="-70" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="730"
+           cy="-19.6"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="730"
+           cy="-116.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="740"
            cy="-3.378378378378378378"
            r="1.5"
@@ -2456,14 +3463,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="740"
+           cy="-30.120481927710843373"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="740"
            cy="-2.6469779601696886E-20"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="740" cy="-67.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="740"
-           cy="-67.5"
+           cy="-18.225"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="740"
+           cy="-113.1"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="750"
            cy="-3.333333333333333333"
@@ -2481,11 +3499,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="750"
+           cy="-29.761904761904761905"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="750"
            cy="-1.3234889800848443E-20"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="750" cy="-65" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="750" cy="-65" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="750"
+           cy="-16.900000000000002"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="750"
+           cy="-109.375"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="760"
            cy="-3.289473684210526316"
            r="1.5"
@@ -2502,14 +3535,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="760"
+           cy="-29.411764705882352941"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="760"
            cy="-6.6174449004242214E-21"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="760" cy="-62.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="760"
-           cy="-62.5"
+           cy="-15.625"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="760"
+           cy="-105.6"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="770"
            cy="-3.246753246753246753"
@@ -2527,11 +3571,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="770"
+           cy="-29.069767441860465116"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="770"
            cy="-3.3087224502121107E-21"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="770" cy="-60" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="770" cy="-60" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="770"
+           cy="-14.4"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="770"
+           cy="-101.775"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="780"
            cy="-3.205128205128205128"
            r="1.5"
@@ -2544,15 +3603,22 @@
            fill-opacity=".5"/>
    <circle cx="780" cy="-9.375" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="780"
+           cy="-28.735632183908045977"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="780"
            cy="-1.6543612251060553E-21"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="780" cy="-57.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="780"
-           cy="-57.5"
+           cy="-13.225000000000001"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
            fill-opacity="0.5"/>
+   <circle cx="780" cy="-97.9" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="790"
            cy="-3.164556962025316456"
            r="1.5"
@@ -2565,11 +3631,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="790"
+           cy="-28.409090909090909091"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="790"
            cy="-8.271806125530277E-22"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="790" cy="-55" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="790" cy="-55" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="790"
+           cy="-12.100000000000001"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="790"
+           cy="-93.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="800" cy="-3.125" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="800"
            cy="-6.172839506172839506"
@@ -2582,15 +3663,22 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="800"
+           cy="-28.089887640449438202"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="800"
            cy="-4.1359030627651384E-22"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="800" cy="-52.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="800"
-           cy="-52.5"
+           cy="-11.025"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
            fill-opacity="0.5"/>
+   <circle cx="800" cy="-90" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="810"
            cy="-3.086419753086419753"
            r="1.5"
@@ -2607,11 +3695,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="810"
+           cy="-27.777777777777777778"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="810"
            cy="-2.0679515313825692E-22"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="810" cy="-50" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="810" cy="-50" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="810"
+           cy="-10"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="810"
+           cy="-85.975"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="820"
            cy="-3.048780487804878049"
            r="1.5"
@@ -2628,14 +3731,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="820"
+           cy="-27.472527472527472527"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="820"
            cy="-1.0339757656912846E-22"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="820" cy="-47.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="820"
-           cy="-47.5"
+           cy="-9.025"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="820"
+           cy="-81.89999999999998"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="830"
            cy="-3.012048192771084337"
@@ -2653,11 +3767,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="830"
+           cy="-27.17391304347826087"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="830"
            cy="-5.169878828456423E-23"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="830" cy="-45" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="830" cy="-45" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="830"
+           cy="-8.1"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="830"
+           cy="-77.77499999999998"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="840"
            cy="-2.97619047619047619"
            r="1.5"
@@ -2674,15 +3803,22 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="840"
+           cy="-26.881720430107526882"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="840"
            cy="-2.5849394142282115E-23"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="840" cy="-42.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="840"
-           cy="-42.5"
+           cy="-7.2250000000000005"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
            fill-opacity="0.5"/>
+   <circle cx="840" cy="-73.6" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="850"
            cy="-2.941176470588235294"
            r="1.5"
@@ -2699,11 +3835,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="850"
+           cy="-26.59574468085106383"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="850"
            cy="-1.2924697071141057E-23"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="850" cy="-40" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="850" cy="-40" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="850"
+           cy="-6.4"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="850"
+           cy="-69.375"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="860"
            cy="-2.906976744186046512"
            r="1.5"
@@ -2720,15 +3871,22 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="860"
+           cy="-26.315789473684210526"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="860"
            cy="-6.462348535570529E-24"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="860" cy="-37.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="860"
-           cy="-37.5"
+           cy="-5.625"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
            fill-opacity="0.5"/>
+   <circle cx="860" cy="-65.1" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="870"
            cy="-2.873563218390804598"
            r="1.5"
@@ -2745,11 +3903,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="870"
+           cy="-26.041666666666666667"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="870"
            cy="-3.2311742677852644E-24"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="870" cy="-35" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="870" cy="-35" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="870"
+           cy="-4.9"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="870"
+           cy="-60.77499999999998"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="880"
            cy="-2.840909090909090909"
            r="1.5"
@@ -2766,14 +3939,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="880"
+           cy="-25.773195876288659794"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="880"
            cy="-1.6155871338926322E-24"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="880" cy="-32.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="880"
-           cy="-32.5"
+           cy="-4.2250000000000005"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="880"
+           cy="-56.39999999999998"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="890"
            cy="-2.80898876404494382"
@@ -2791,11 +3975,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="890"
+           cy="-25.510204081632653061"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="890"
            cy="-8.077935669463161E-25"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="890" cy="-30" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="890" cy="-30" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="890"
+           cy="-3.6"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="890"
+           cy="-51.974999999999994"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="900"
            cy="-2.777777777777777778"
            r="1.5"
@@ -2812,15 +4011,22 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="900"
+           cy="-25.252525252525252525"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="900"
            cy="-4.0389678347315804E-25"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="900" cy="-27.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="900"
-           cy="-27.5"
+           cy="-3.0250000000000004"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
            fill-opacity="0.5"/>
+   <circle cx="900" cy="-47.5" r="1.5" fill="brown" fill-opacity="0.5"/>
    <circle cx="910"
            cy="-2.747252747252747253"
            r="1.5"
@@ -2836,12 +4042,23 @@
            r="1.5"
            fill="green"
            fill-opacity=".5"/>
+   <circle cx="910" cy="-25" r="1.5" fill="indigo" fill-opacity=".5"/>
    <circle cx="910"
            cy="-2.0194839173657902E-25"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="910" cy="-25" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="910" cy="-25" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="910"
+           cy="-2.5"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="910"
+           cy="-42.974999999999994"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="920"
            cy="-2.717391304347826087"
            r="1.5"
@@ -2858,14 +4075,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="920"
+           cy="-24.752475247524752475"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="920"
            cy="-1.0097419586828951E-25"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="920" cy="-22.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="920"
-           cy="-22.5"
+           cy="-2.025"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="920"
+           cy="-38.39999999999998"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="930"
            cy="-2.688172043010752688"
@@ -2883,11 +4111,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="930"
+           cy="-24.509803921568627451"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="930"
            cy="-5.0487097934144756E-26"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="930" cy="-20" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="930" cy="-20" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="930"
+           cy="-1.6"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="930"
+           cy="-33.77499999999998"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="940"
            cy="-2.659574468085106383"
            r="1.5"
@@ -2904,14 +4147,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="940"
+           cy="-24.271844660194174757"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="940"
            cy="-2.5243548967072378E-26"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="940" cy="-17.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="940"
-           cy="-17.5"
+           cy="-1.225"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="940"
+           cy="-29.099999999999994"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="950"
            cy="-2.631578947368421053"
@@ -2929,11 +4183,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="950"
+           cy="-24.038461538461538462"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="950"
            cy="-1.2621774483536189E-26"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="950" cy="-15" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="950" cy="-15" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="950"
+           cy="-0.9"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="950"
+           cy="-24.375"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="960"
            cy="-2.604166666666666667"
            r="1.5"
@@ -2950,14 +4219,25 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="960"
+           cy="-23.809523809523809524"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="960"
            cy="-6.3108872417680944E-27"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="960" cy="-12.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="960"
-           cy="-12.5"
+           cy="-0.625"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="960"
+           cy="-19.599999999999994"
+           r="1.5"
+           fill="brown"
            fill-opacity="0.5"/>
    <circle cx="970"
            cy="-2.577319587628865979"
@@ -2975,11 +4255,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="970"
+           cy="-23.584905660377358491"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="970"
            cy="-3.1554436208840472E-27"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="970" cy="-10" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="970" cy="-10" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="970"
+           cy="-0.4"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="970"
+           cy="-14.774999999999977"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="980"
            cy="-2.551020408163265306"
            r="1.5"
@@ -2992,11 +4287,26 @@
            fill-opacity=".5"/>
    <circle cx="980" cy="-7.5" r="1.5" fill="green" fill-opacity=".5"/>
    <circle cx="980"
+           cy="-23.364485981308411215"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="980"
            cy="-1.5777218104420236E-27"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="980" cy="-7.5" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="980" cy="-7.5" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="980"
+           cy="-0.225"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="980"
+           cy="-9.899999999999977"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="990"
            cy="-2.525252525252525253"
            r="1.5"
@@ -3009,11 +4319,26 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="990"
+           cy="-23.148148148148148148"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="990"
            cy="-7.888609052210118E-28"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
-   <circle cx="990" cy="-5" r="1.5" fill="orange" fill-opacity="0.5"/>
+   <circle cx="990" cy="-5" r="1.5" fill="coral" fill-opacity="0.5"/>
+   <circle cx="990"
+           cy="-0.1"
+           r="1.5"
+           fill="darkorchid"
+           fill-opacity="0.5"/>
+   <circle cx="990"
+           cy="-4.974999999999994"
+           r="1.5"
+           fill="brown"
+           fill-opacity="0.5"/>
    <circle cx="1000" cy="-2.5" r="1.5" fill="black" fill-opacity=".5"/>
    <circle cx="1000"
            cy="-4.950495049504950495"
@@ -3026,15 +4351,22 @@
            fill="green"
            fill-opacity=".5"/>
    <circle cx="1000"
+           cy="-22.935779816513761468"
+           r="1.5"
+           fill="indigo"
+           fill-opacity=".5"/>
+   <circle cx="1000"
            cy="-3.944304526105059E-28"
            r="1.5"
            fill="blue"
            fill-opacity=".5"/>
+   <circle cx="1000" cy="-2.5" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="1000"
-           cy="-2.5"
+           cy="-0.025"
            r="1.5"
-           fill="orange"
+           fill="darkorchid"
            fill-opacity="0.5"/>
+   <circle cx="1000" cy="0" r="1.5" fill="brown" fill-opacity="0.5"/>
    <polyline points="10,-250 20,-125 30,-83.333333333333333333 40,-62.5 50,-50 60,-41.666666666666666667 70,-35.714285714285714286 80,-31.25 90,-27.777777777777777778 100,-25 110,-22.727272727272727273 120,-20.833333333333333333 130,-19.230769230769230769 140,-17.857142857142857143 150,-16.666666666666666667 160,-15.625 170,-14.705882352941176471 180,-13.888888888888888889 190,-13.157894736842105263 200,-12.5 210,-11.904761904761904762 220,-11.363636363636363636 230,-10.869565217391304348 240,-10.416666666666666667 250,-10 260,-9.615384615384615385 270,-9.259259259259259259 280,-8.928571428571428571 290,-8.620689655172413793 300,-8.333333333333333333 310,-8.064516129032258065 320,-7.8125 330,-7.575757575757575758 340,-7.352941176470588235 350,-7.142857142857142857 360,-6.944444444444444444 370,-6.756756756756756757 380,-6.578947368421052632 390,-6.410256410256410256 400,-6.25 410,-6.097560975609756098 420,-5.952380952380952381 430,-5.813953488372093023 440,-5.681818181818181818 450,-5.555555555555555556 460,-5.434782608695652174 470,-5.319148936170212766 480,-5.208333333333333333 490,-5.102040816326530612 500,-5 510,-4.90196078431372549 520,-4.807692307692307692 530,-4.716981132075471698 540,-4.62962962962962963 550,-4.545454545454545455 560,-4.464285714285714286 570,-4.385964912280701754 580,-4.310344827586206897 590,-4.237288135593220339 600,-4.166666666666666667 610,-4.098360655737704918 620,-4.032258064516129032 630,-3.968253968253968254 640,-3.90625 650,-3.846153846153846154 660,-3.787878787878787879 670,-3.731343283582089552 680,-3.676470588235294118 690,-3.623188405797101449 700,-3.571428571428571429 710,-3.521126760563380282 720,-3.472222222222222222 730,-3.424657534246575342 740,-3.378378378378378378 750,-3.333333333333333333 760,-3.289473684210526316 770,-3.246753246753246753 780,-3.205128205128205128 790,-3.164556962025316456 800,-3.125 810,-3.086419753086419753 820,-3.048780487804878049 830,-3.012048192771084337 840,-2.97619047619047619 850,-2.941176470588235294 860,-2.906976744186046512 870,-2.873563218390804598 880,-2.840909090909090909 890,-2.80898876404494382 900,-2.777777777777777778 910,-2.747252747252747253 920,-2.717391304347826087 930,-2.688172043010752688 940,-2.659574468085106383 950,-2.631578947368421053 960,-2.604166666666666667 970,-2.577319587628865979 980,-2.551020408163265306 990,-2.525252525252525253 1000,-2.5"
              stroke="black"
              stroke-width="1"
@@ -3050,14 +4382,56 @@
              stroke-width="1"
              stroke-opacity="0.5"
              fill="none"/>
+   <polyline points="10,-250 20,-227.272727272727272727 30,-208.333333333333333333 40,-192.307692307692307692 50,-178.571428571428571429 60,-166.666666666666666667 70,-156.25 80,-147.058823529411764706 90,-138.888888888888888889 100,-131.578947368421052632 110,-125 120,-119.047619047619047619 130,-113.636363636363636364 140,-108.695652173913043478 150,-104.166666666666666667 160,-100 170,-96.153846153846153846 180,-92.592592592592592593 190,-89.285714285714285714 200,-86.206896551724137931 210,-83.333333333333333333 220,-80.645161290322580645 230,-78.125 240,-75.757575757575757576 250,-73.529411764705882353 260,-71.428571428571428571 270,-69.444444444444444444 280,-67.567567567567567568 290,-65.789473684210526316 300,-64.102564102564102564 310,-62.5 320,-60.975609756097560976 330,-59.52380952380952381 340,-58.139534883720930233 350,-56.818181818181818182 360,-55.555555555555555556 370,-54.347826086956521739 380,-53.19148936170212766 390,-52.083333333333333333 400,-51.020408163265306122 410,-50 420,-49.019607843137254902 430,-48.076923076923076923 440,-47.169811320754716981 450,-46.296296296296296296 460,-45.454545454545454545 470,-44.642857142857142857 480,-43.859649122807017544 490,-43.103448275862068966 500,-42.37288135593220339 510,-41.666666666666666667 520,-40.98360655737704918 530,-40.322580645161290323 540,-39.68253968253968254 550,-39.0625 560,-38.461538461538461538 570,-37.878787878787878788 580,-37.313432835820895522 590,-36.764705882352941176 600,-36.231884057971014493 610,-35.714285714285714286 620,-35.211267605633802817 630,-34.722222222222222222 640,-34.246575342465753425 650,-33.783783783783783784 660,-33.333333333333333333 670,-32.894736842105263158 680,-32.467532467532467532 690,-32.051282051282051282 700,-31.645569620253164557 710,-31.25 720,-30.864197530864197531 730,-30.487804878048780488 740,-30.120481927710843373 750,-29.761904761904761905 760,-29.411764705882352941 770,-29.069767441860465116 780,-28.735632183908045977 790,-28.409090909090909091 800,-28.089887640449438202 810,-27.777777777777777778 820,-27.472527472527472527 830,-27.17391304347826087 840,-26.881720430107526882 850,-26.59574468085106383 860,-26.315789473684210526 870,-26.041666666666666667 880,-25.773195876288659794 890,-25.510204081632653061 900,-25.252525252525252525 910,-25 920,-24.752475247524752475 930,-24.509803921568627451 940,-24.271844660194174757 950,-24.038461538461538462 960,-23.809523809523809524 970,-23.584905660377358491 980,-23.364485981308411215 990,-23.148148148148148148 1000,-22.935779816513761468"
+             stroke="indigo"
+             stroke-width="1"
+             stroke-opacity="0.5"
+             fill="none"/>
    <polyline points="10,-250 20,-125 30,-62.5 40,-31.25 50,-15.625 60,-7.8125 70,-3.90625 80,-1.953125 90,-0.9765625 100,-0.48828125 110,-0.244140625 120,-0.1220703125 130,-0.06103515625 140,-0.030517578125 150,-0.0152587890625 160,-0.00762939453125 170,-0.003814697265625 180,-0.0019073486328125 190,-0.00095367431640625 200,-0.000476837158203125 210,-0.0002384185791015625 220,-0.00011920928955078125 230,-0.000059604644775390625 240,-0.000029802322387695312 250,-0.000014901161193847656 260,-0.000007450580596923828 270,-0.000003725290298461914 280,-0.000001862645149230957 290,-9.313225746154785E-7 300,-4.6566128730773926E-7 310,-2.3283064365386963E-7 320,-1.1641532182693481E-7 330,-5.820766091346741E-8 340,-2.9103830456733704E-8 350,-1.4551915228366852E-8 360,-7.275957614183426E-9 370,-3.637978807091713E-9 380,-1.8189894035458565E-9 390,-9.094947017729282E-10 400,-4.547473508864641E-10 410,-2.2737367544323206E-10 420,-1.1368683772161603E-10 430,-5.6843418860808015E-11 440,-2.8421709430404007E-11 450,-1.4210854715202004E-11 460,-7.105427357601002E-12 470,-3.552713678800501E-12 480,-1.7763568394002505E-12 490,-8.881784197001252E-13 500,-4.440892098500626E-13 510,-2.220446049250313E-13 520,-1.1102230246251565E-13 530,-5.551115123125783E-14 540,-2.7755575615628914E-14 550,-1.3877787807814457E-14 560,-6.938893903907228E-15 570,-3.469446951953614E-15 580,-1.734723475976807E-15 590,-8.673617379884035E-16 600,-4.3368086899420177E-16 610,-2.1684043449710089E-16 620,-1.0842021724855044E-16 630,-5.421010862427522E-17 640,-2.710505431213761E-17 650,-1.3552527156068805E-17 660,-6.776263578034403E-18 670,-3.3881317890172014E-18 680,-1.6940658945086007E-18 690,-8.470329472543003E-19 700,-4.2351647362715017E-19 710,-2.1175823681357508E-19 720,-1.0587911840678754E-19 730,-5.293955920339377E-20 740,-2.6469779601696886E-20 750,-1.3234889800848443E-20 760,-6.6174449004242214E-21 770,-3.3087224502121107E-21 780,-1.6543612251060553E-21 790,-8.271806125530277E-22 800,-4.1359030627651384E-22 810,-2.0679515313825692E-22 820,-1.0339757656912846E-22 830,-5.169878828456423E-23 840,-2.5849394142282115E-23 850,-1.2924697071141057E-23 860,-6.462348535570529E-24 870,-3.2311742677852644E-24 880,-1.6155871338926322E-24 890,-8.077935669463161E-25 900,-4.0389678347315804E-25 910,-2.0194839173657902E-25 920,-1.0097419586828951E-25 930,-5.0487097934144756E-26 940,-2.5243548967072378E-26 950,-1.2621774483536189E-26 960,-6.3108872417680944E-27 970,-3.1554436208840472E-27 980,-1.5777218104420236E-27 990,-7.888609052210118E-28 1000,-3.944304526105059E-28"
              stroke="blue"
              stroke-width="1"
              stroke-opacity="0.5"
              fill="none"/>
    <polyline points="10,-250 20,-247.5 30,-245 40,-242.5 50,-240 60,-237.5 70,-235 80,-232.5 90,-230 100,-227.5 110,-225 120,-222.5 130,-220 140,-217.5 150,-215 160,-212.5 170,-210 180,-207.5 190,-205 200,-202.5 210,-200 220,-197.5 230,-195 240,-192.5 250,-190 260,-187.5 270,-185 280,-182.5 290,-180 300,-177.5 310,-175 320,-172.5 330,-170 340,-167.5 350,-165 360,-162.5 370,-160 380,-157.5 390,-155 400,-152.5 410,-150 420,-147.5 430,-145 440,-142.5 450,-140 460,-137.5 470,-135 480,-132.5 490,-130 500,-127.5 510,-125 520,-122.5 530,-120 540,-117.5 550,-115 560,-112.5 570,-110 580,-107.5 590,-105 600,-102.5 610,-100 620,-97.5 630,-95 640,-92.5 650,-90 660,-87.5 670,-85 680,-82.5 690,-80 700,-77.5 710,-75 720,-72.5 730,-70 740,-67.5 750,-65 760,-62.5 770,-60 780,-57.5 790,-55 800,-52.5 810,-50 820,-47.5 830,-45 840,-42.5 850,-40 860,-37.5 870,-35 880,-32.5 890,-30 900,-27.5 910,-25 920,-22.5 930,-20 940,-17.5 950,-15 960,-12.5 970,-10 980,-7.5 990,-5 1000,-2.5"
-             stroke="orange"
+             stroke="coral"
              stroke-width="1"
              stroke-opacity="0.5"
              fill="none"/>
+   <polyline points="10,-250 20,-245.025 30,-240.10000000000002 40,-235.22500000000002 50,-230.4 60,-225.625 70,-220.9 80,-216.22500000000002 90,-211.60000000000002 100,-207.025 110,-202.5 120,-198.025 130,-193.60000000000002 140,-189.22500000000002 150,-184.9 160,-180.625 170,-176.4 180,-172.22500000000002 190,-168.10000000000002 200,-164.025 210,-160 220,-156.025 230,-152.1 240,-148.225 250,-144.4 260,-140.625 270,-136.9 280,-133.225 290,-129.6 300,-126.025 310,-122.5 320,-119.025 330,-115.60000000000001 340,-112.22500000000001 350,-108.9 360,-105.625 370,-102.4 380,-99.22500000000001 390,-96.10000000000001 400,-93.025 410,-90 420,-87.025 430,-84.10000000000001 440,-81.22500000000001 450,-78.4 460,-75.625 470,-72.9 480,-70.22500000000001 490,-67.60000000000001 500,-65.025 510,-62.5 520,-60.025000000000006 530,-57.6 540,-55.225 550,-52.900000000000006 560,-50.625 570,-48.400000000000006 580,-46.225 590,-44.1 600,-42.025000000000006 610,-40 620,-38.025 630,-36.1 640,-34.225 650,-32.4 660,-30.625 670,-28.900000000000002 680,-27.225 690,-25.6 700,-24.025000000000002 710,-22.5 720,-21.025000000000002 730,-19.6 740,-18.225 750,-16.900000000000002 760,-15.625 770,-14.4 780,-13.225000000000001 790,-12.100000000000001 800,-11.025 810,-10 820,-9.025 830,-8.1 840,-7.2250000000000005 850,-6.4 860,-5.625 870,-4.9 880,-4.2250000000000005 890,-3.6 900,-3.0250000000000004 910,-2.5 920,-2.025 930,-1.6 940,-1.225 950,-0.9 960,-0.625 970,-0.4 980,-0.225 990,-0.1 1000,-0.025"
+             stroke="darkorchid"
+             stroke-width="1"
+             stroke-opacity="0.5"
+             fill="none"/>
+   <polyline points="10,-249.975 20,-249.9 30,-249.775 40,-249.6 50,-249.375 60,-249.1 70,-248.775 80,-248.4 90,-247.975 100,-247.5 110,-246.975 120,-246.4 130,-245.775 140,-245.1 150,-244.375 160,-243.6 170,-242.775 180,-241.9 190,-240.975 200,-240 210,-238.975 220,-237.9 230,-236.775 240,-235.6 250,-234.375 260,-233.1 270,-231.775 280,-230.4 290,-228.975 300,-227.5 310,-225.975 320,-224.4 330,-222.775 340,-221.1 350,-219.375 360,-217.6 370,-215.775 380,-213.9 390,-211.975 400,-210 410,-207.975 420,-205.9 430,-203.775 440,-201.6 450,-199.375 460,-197.1 470,-194.775 480,-192.4 490,-189.975 500,-187.5 510,-184.975 520,-182.39999999999998 530,-179.77499999999998 540,-177.1 550,-174.375 560,-171.6 570,-168.77499999999998 580,-165.89999999999998 590,-162.975 600,-160 610,-156.975 620,-153.89999999999998 630,-150.77499999999998 640,-147.6 650,-144.375 660,-141.1 670,-137.77499999999998 680,-134.39999999999998 690,-130.975 700,-127.5 710,-123.975 720,-120.4 730,-116.775 740,-113.1 750,-109.375 760,-105.6 770,-101.775 780,-97.9 790,-93.975 800,-90 810,-85.975 820,-81.89999999999998 830,-77.77499999999998 840,-73.6 850,-69.375 860,-65.1 870,-60.77499999999998 880,-56.39999999999998 890,-51.974999999999994 900,-47.5 910,-42.974999999999994 920,-38.39999999999998 930,-33.77499999999998 940,-29.099999999999994 950,-24.375 960,-19.599999999999994 970,-14.774999999999977 980,-9.899999999999977 990,-4.974999999999994 1000,0"
+             stroke="brown"
+             stroke-width="1"
+             stroke-opacity="0.5"
+             fill="none"/>
+   <text x="500" y="20" text-anchor="middle" font-size="10">Distance from window
+                focus point</text>
+   <text x="-15"
+         y="-125"
+         text-anchor="middle"
+         font-size="10"
+         writing-mode="tb">Weight</text>
+   <rect x="1015"
+         y="-110"
+         height="100"
+         width="178"
+         stroke="black"
+         stroke-width="0.5"
+         fill="ghostwhite"/>
+   <text x="1020" y="-100" font-size="8">
+      <tspan>Black: 1 / (d + 1)</tspan>
+      <tspan x="1020" dy="12" fill="red">Red: 2 / (d + 2)</tspan>
+      <tspan x="1020" dy="12" fill="green">Green: 3 / (d + 3)</tspan>
+      <tspan x="1020" dy="12" fill="indigo">Indigo: 10 / (d + 9)</tspan>
+      <tspan x="1020" dy="12" fill="blue">Blue: 1 / (2 ^ d)</tspan>
+      <tspan x="1020" dy="12" fill="coral">Coral: (100 - d) / 100 (negative
+                    values)</tspan>
+      <tspan x="1020" dy="12" fill="darkviolet">Dark violet: ((100 - d) ^ 2) / 100 (rises
+                    after 100)</tspan>
+      <tspan x="1020" dy="12" fill="brown">Brown: 100 - (((100 - d) ^ 2) / 100) (negative
+                    values)</tspan>
+   </text>
 </svg>
