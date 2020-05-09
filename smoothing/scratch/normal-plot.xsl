@@ -43,20 +43,23 @@
         <!--   Assume μ = 0 and σ = 1                                     -->
         <!-- ============================================================ -->
         <xsl:param name="x" as="xs:double"/>
+        <xsl:param name="mean" as="xs:double"/>
         <xsl:sequence
             select="
-                100 * math:exp(-1 * (math:pow($x, 2)) div 2)
+                100 * math:exp(-1 * (math:pow($x - $mean, 2)) div 2)
                 div
                 math:sqrt(2 * math:pi())"
         />
     </xsl:function>
-    <xsl:variable name="half" as="xs:integer" select="3"/>
+    <xsl:variable name="half" as="xs:integer" select="4"/>
+    <xsl:variable name="mean" as="xs:double" select="0"/>
     <xsl:variable name="xScale" as="xs:double" select="10"/>
     <xsl:variable name="yScale" as="xs:double" select="100"/>
     <xsl:template name="xsl:initial-template">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 -50 110 70">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 -110 110 120">
             <g>
-                <xsl:for-each select="0 to 4">
+                <xsl:for-each select="0 to 10">
+                    <!-- horizontal ruling and Y labels-->
                     <xsl:variable name="xEnd" as="xs:double" select="$xScale * $half"/>
                     <xsl:variable name="yPos" as="xs:double" select="$yScale * current() div -10"/>
                     <line x1="{-1 * $xEnd}" y1="{$yPos}" x2="{$xEnd}" y2="{$yPos}"
@@ -66,9 +69,10 @@
                         <xsl:value-of select="(current() div 10) => format-number('0.0')"/>
                     </text>
                 </xsl:for-each>
-                <xsl:for-each select="-3 to 3">
+                <xsl:for-each select="$half * -1 to $half">
+                    <!-- vertical ruling and X labels -->
                     <xsl:variable name="xPos" as="xs:double" select="current() * $xScale"/>
-                    <line x1="{$xPos}" y1="0" x2="{$xPos}" y2="-{.45 * $yScale}" stroke="lightgray"
+                    <line x1="{$xPos}" y1="0" x2="{$xPos}" y2="{-1 * $yScale}" stroke="lightgray"
                         stroke-width="0.5" stroke-linecap="square"/>
                     <text x="{$xPos}" y="5" text-anchor="middle" font-size="3">
                         <xsl:value-of
@@ -80,15 +84,12 @@
                         />
                     </text>
                 </xsl:for-each>
-
+                <!-- plot curve-->
                 <xsl:variable name="allX" as="xs:double+" select="djb:expand-to-tenths($half)"/>
                 <polyline
-                    points="{for $x in ($allX) return string-join(($x * $xScale, -1 * djb:normal($x)), ',')}"
+                    points="{for $x in ($allX) return string-join(($x * $xScale, -1 * djb:normal($x, $mean)), ',')}"
                     stroke="black" stroke-width="1" fill="none"/>
             </g>
-            <!--<g transform="translate(0, 400)">
-                <xsl:variable name="allY" as="xs:double+" select=""/>
-            </g>-->
         </svg>
     </xsl:template>
 </xsl:stylesheet>
