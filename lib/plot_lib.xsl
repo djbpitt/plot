@@ -10,24 +10,25 @@
         names="
         djb:validate_points#1 
         djb:split_points#1
+        djb:gaussian#4
         "/>
-    <!-- ================================================================= -->
-    <!-- validate_points (nb: plural)                                      -->
-    <!--                                                                   -->
-    <!-- Validates cardinality and lexical form of input points            -->
-    <!--                                                                   -->
-    <!-- Parameters:                                                       -->
-    <!--   $pointPairs as xs:string+ : sequence of SVG coordinate points   -->
-    <!--                                                                   -->
-    <!-- Return:                                                           -->
-    <!--   True iff                                                        -->
-    <!--     1. There are at least three points                            -->
-    <!--     2. Each point matches regex "X,Y" where                       -->
-    <!--        a. X and Y are doubles with optional leading sign)         -->
-    <!--        b. there are no spaces                                     -->
-    <!--     3. X values are arranged monotonically                        -->
-    <!-- ================================================================= -->
     <xsl:function name="djb:validate_points" as="xs:boolean">
+        <!-- ================================================================= -->
+        <!-- validate_points (nb: plural)                                      -->
+        <!--                                                                   -->
+        <!-- Validates cardinality and lexical form of input points            -->
+        <!--                                                                   -->
+        <!-- Parameters:                                                       -->
+        <!--   $pointPairs as xs:string+ : sequence of SVG coordinate points   -->
+        <!--                                                                   -->
+        <!-- Return:                                                           -->
+        <!--   True iff                                                        -->
+        <!--     1. There are at least three points                            -->
+        <!--     2. Each point matches regex "X,Y" where                       -->
+        <!--        a. X and Y are doubles with optional leading sign)         -->
+        <!--        b. there are no spaces                                     -->
+        <!--     3. X values are arranged monotonically                        -->
+        <!-- ================================================================= -->
         <xsl:param name="pointPairs" as="xs:string+"/>
         <!-- https://stackoverflow.com/questions/12643009/regular-expression-for-floating-point-numbers -->
         <xsl:sequence
@@ -42,41 +43,71 @@
         />
     </xsl:function>
 
-    <!-- ================================================================= -->
-    <!-- split_points                                                      -->
-    <!--                                                                   -->
-    <!-- Splits SVG @points format into individual strings for each point  -->
-    <!--                                                                   -->
-    <!-- Parameters:                                                       -->
-    <!--   $all_points as xs:string :                                      -->
-    <!--      whitespace-delimited coordinate pairs                        -->
-    <!--                                                                   -->
-    <!-- Return:                                                           -->
-    <!--   xs:string+ : one string for each point pair                     -->
-    <!-- ================================================================= -->
     <xsl:function name="djb:split_points" as="xs:string+">
+        <!-- ================================================================= -->
+        <!-- split_points                                                      -->
+        <!--                                                                   -->
+        <!-- Splits SVG @points format into individual strings for each point  -->
+        <!--                                                                   -->
+        <!-- Parameters:                                                       -->
+        <!--   $all_points as xs:string :                                      -->
+        <!--      whitespace-delimited coordinate pairs                        -->
+        <!--                                                                   -->
+        <!-- Return:                                                           -->
+        <!--   xs:string+ : one string for each point pair                     -->
+        <!-- ================================================================= -->
         <xsl:param name="all_points" as="xs:string"/>
         <xsl:sequence select="tokenize(normalize-space($all_points), ' ')"/>
+    </xsl:function>
+
+    <xsl:function name="djb:gaussian" as="xs:double">
+        <!-- ============================================================ -->
+        <!-- djb:gaussian() as xs:double                                  -->
+        <!--                                                              -->
+        <!-- $peak as xs:double : height of curve’s peak                  -->
+        <!-- $center as xs:double : X position of center of peak (mean)   -->
+        <!-- $stddev as xs:double : stddev (controls width of curve)      -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   xs:double, representing Y value corresponding to X         -->
+        <!--                                                              -->
+        <!-- https://en.wikipedia.org/wiki/Gaussian_function:             -->
+        <!-- "The parameter a is the height of the curve's peak, b is the -->
+        <!--   position of the center of the peak and c (the standard     -->
+        <!--   deviation, sometimes called the Gaussian RMS width)        -->
+        <!--   controls the width of the "bell".                          -->
+        <!-- ============================================================ -->
+        <xsl:param name="x" as="xs:double"/>
+        <xsl:param name="peak" as="xs:double"/>
+        <xsl:param name="mean" as="xs:double"/>
+        <xsl:param name="stddev" as="xs:double"/>
+        <xsl:if test="$stddev le 0">
+            <xsl:message terminate="yes">Stddev must be greater than 0</xsl:message>
+        </xsl:if>
+        <xsl:sequence
+            select="$peak * math:exp(-1 * (math:pow(($x - $mean), 2)) div (2 * math:pow($stddev, 2)))"
+        />
     </xsl:function>
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
     <!-- Private functions                                                 -->
     <!-- ================================================================= -->
-    <!-- validate_point_regex (nb: singular)                               -->
-    <!--                                                                   -->
-    <!-- Tests a single point and returns True if it matches regex         -->
-    <!-- Regex: "X,Y" where                                                -->
-    <!--   X and Y are doubles in canonic notation (optional leading sign) -->
-    <!--   and there are no spaces                                         -->
-    <!--                                                                   -->
-    <!-- Parameters:                                                       -->
-    <!--   $inputPoint as xs:string : point in X,Y format                  -->
-    <!--                                                                   -->
-    <!-- Return:                                                           -->
-    <!--   True iff point matches regex                                    -->
-    <!-- ================================================================= -->
     <xsl:function name="djb:validate_point_regex" as="xs:boolean">
+        <!-- ================================================================= -->
+        <!-- validate_point_regex (nb: singular)                               -->
+        <!--                                                                   -->
+        <!-- Tests a single point and returns True if it matches regex         -->
+        <!-- Regex: "X,Y" where                                                -->
+        <!--   X and Y are doubles in canonic notation (optional leading sign) -->
+        <!--   and there are no spaces                                         -->
+        <!--                                                                   -->
+        <!-- Parameters:                                                       -->
+        <!--   $inputPoint as xs:string : point in X,Y format                  -->
+        <!--                                                                   -->
+        <!-- Return:                                                           -->
+        <!--   True iff point matches regex                                    -->
+        <!-- ================================================================= -->
         <xsl:param name="inputPoint" as="xs:string"/>
         <!-- https://stackoverflow.com/questions/12643009/regular-expression-for-floating-point-numbers -->
         <xsl:variable name="float_regex" as="xs:string"
@@ -84,27 +115,90 @@
         <xsl:variable name="point_regex" as="xs:string" select="$float_regex || ',' || $float_regex"/>
         <xsl:sequence select="matches($inputPoint, $point_regex)"/>
     </xsl:function>
-    <!-- ================================================================= -->
-    <!-- validate_monotonic_X                                              -->
-    <!--                                                                   -->
-    <!-- Tests input a sequence and returns True if X values are monotonic -->
-    <!--                                                                   -->
-    <!-- Parameters:                                                       -->
-    <!--   $inputPoints as xs:string+ : all points in X,Y format           -->
-    <!--                                                                   -->
-    <!-- Return:                                                           -->
-    <!--   True iff X is monotonic                                         -->
-    <!--                                                                   -->
-    <!-- Note: not($list != $list) returns true iff all values agree       -->
-    <!--   (thanks, Liam!)                                                 -->
-    <!-- ================================================================= -->
+
     <xsl:function name="djb:validate_monotonic_X" as="xs:boolean">
+        <!-- ================================================================= -->
+        <!-- validate_monotonic_X                                              -->
+        <!--                                                                   -->
+        <!-- Tests input a sequence and returns True if X values are monotonic -->
+        <!--                                                                   -->
+        <!-- Parameters:                                                       -->
+        <!--   $inputPoints as xs:string+ : all points in X,Y format           -->
+        <!--                                                                   -->
+        <!-- Return:                                                           -->
+        <!--   True iff X is monotonic                                         -->
+        <!--                                                                   -->
+        <!-- Note: not($list != $list) returns true iff all values agree       -->
+        <!--   (thanks, Liam!)                                                 -->
+        <!-- ================================================================= -->
         <xsl:param name="pointPairs" as="xs:string+"/>
         <xsl:variable name="allX" as="xs:double+"
             select="$pointPairs ! tokenize(., ',')[1] ! number(.)"/>
-        <xsl:variable name="pointCount" as="xs:integer" select="count($pointPairs)"/>
-        <xsl:variable name="test_for_ge" as="xs:boolean+"
-            select="for $i in 2 to $pointCount return $allX[$i] ge $allX[$i - 1]"/>
-        <xsl:sequence select="not($test_for_ge != $test_for_ge)"/>
+        <xsl:sequence select="djb:monotonic($allX)"/>
     </xsl:function>
+
+    <xsl:function name="djb:uniform" as="xs:boolean">
+        <!-- ============================================================ -->
+        <!-- djb:uniform                                                  -->
+        <!--                                                              -->
+        <!-- Returns True iff all items in sequence are equal             -->
+        <!--                                                              -->
+        <!-- Parameter                                                    -->
+        <!--   $seq as item()+ : sequence of any datatype                 -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   xs:boolean : True iff all items in $seq are equal          -->
+        <!--                                                              -->
+        <!-- Note: O(n) counterpart to O(n^2) not($seq != $seq)           -->
+        <!-- ============================================================ -->
+        <xsl:param name="seq" as="item()+"/>
+        <xsl:sequence select="not(head($seq) != tail($seq))"/>
+    </xsl:function>
+
+    <xsl:function name="djb:monotonic" as="xs:boolean">
+        <!-- ============================================================ -->
+        <!-- djb:monotonic                                                -->
+        <!--                                                              -->
+        <!-- Returns True iff sequence is monotonic (in either direction) -->
+        <!--                                                              -->
+        <!-- Parameter                                                    -->
+        <!--   $seq as xs:double+ : sequence of numerical values          -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   True iff $seq is monotonically non-increasing or           -->
+        <!--   non-decreasing                                             -->
+        <!-- ============================================================ -->
+        <xsl:param name="seq" as="xs:double+"/>
+        <xsl:sequence
+            select="
+            (for $i in 2 to count($seq)
+            return
+            $seq[$i] ge $seq[$i - 1]) => djb:uniform()"
+        />
+    </xsl:function>
+
+    <xsl:function name="djb:expand-to-tenths" as="xs:double+">
+        <!-- ============================================================ -->
+        <!-- djb:expand-to-tenths                                         -->
+        <!--                                                              -->
+        <!-- Converts integer range to range of tenths                    -->
+        <!--                                                              -->
+        <!-- Parameter                                                    -->
+        <!--   $half as xs:integer : upper bound of symmetrical range     -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   xs:double+ : symmetrical range in tenths                   -->
+        <!-- ============================================================ -->
+        <xsl:param name="half" as="xs:integer"/>
+        <xsl:if test="$half le 0">
+            <xsl:message terminate="yes">Input must be a positive integer</xsl:message>
+        </xsl:if>
+        <xsl:sequence
+            select="
+            for $i in (-10 * $half to 10 * $half)
+            return
+            $i div 10"
+        />
+    </xsl:function>
+
 </xsl:package>

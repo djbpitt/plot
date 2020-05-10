@@ -123,7 +123,7 @@
             <xsl:message terminate="yes">Stddev must be greater than 0</xsl:message>
         </xsl:if>
         <xsl:sequence
-            select="$peak * math:exp(-1 * (math:pow(($x - $mean), 2)) div (2 * math:pow($stddev, 2)))"
+            select="$peak * math:exp(-1 * (math:pow(($x - $center), 2)) div (2 * math:pow($stddev, 2)))"
         />
     </xsl:function>
 
