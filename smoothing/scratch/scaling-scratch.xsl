@@ -76,7 +76,7 @@
                 points="{for $i in (1 to 50) return string-join(($i * $xScale, $yScale * (-10 div math:pow(2, $i - 1))), ',')}"
                 stroke="blue" stroke-width="1" stroke-opacity="0.5" fill="none"/>
             <polyline
-                points="{for $i in (1 to 50) return string-join(($i * $xScale, $yScale * (-10 + (($i - 1) div 5))), ',')}"
+                points="{for $i in (1 to 49) return string-join(($i * $xScale, $yScale * (-10 + (($i - 1) div 5))), ',')}"
                 stroke="coral" stroke-width="1" stroke-opacity="0.5" fill="none"/>
             <polyline
                 points="{for $i in (1 to 50) return string-join(($i * $xScale, $yScale * (math:pow(51 - $i,2) div -250)), ',')}"
@@ -101,11 +101,11 @@
                 focus point</text>
             <text x="-15" y="-{$yScale * 5}" text-anchor="middle" font-size="12" writing-mode="tb"
                 >Weight</text>
-            <text x="{$xScale * 25}" y="-{$yScale * 11}" text-anchor="middle" font-size="16">Scaling
-                functions</text>
+            <text x="{$xScale * 25}" y="-{$yScale * 11}" text-anchor="middle" font-size="16">Sample
+                scaling functions</text>
             <!-- Legend -->
             <g transform="translate(0, 50)">
-                <rect x="0" y="-5" height="139" width="320" stroke="black" stroke-width="0.5"
+                <rect x="0" y="-5" height="133" width="320" stroke="black" stroke-width="0.5"
                     fill="ghostwhite"/>
                 <xsl:for-each
                     select="'black', 'red', 'green', 'indigo', 'blue', 'darkgoldenrod', 'coral', 'darkviolet', 'brown'">
@@ -122,8 +122,7 @@
                     <tspan x="20" dy="14" fill="darkgoldenrod">Gaussian (σ = 5, 10, 15)</tspan>
                     <tspan x="20" dy="14" fill="coral">Linear (N - d) / N; 50/50, 49/50, 48/50,
                         47/50, …</tspan>
-                    <tspan x="20" dy="14" fill="darkviolet">Parabolic ((N + 1 - d) / N) ^
-                        2)</tspan>
+                    <tspan x="20" dy="14" fill="darkviolet">Parabolic ((N + 1 - d) / N) ^ 2)</tspan>
                     <tspan x="20" dy="14" fill="brown">Parabolic (d / N) ^ 2</tspan>
                 </text>
             </g>

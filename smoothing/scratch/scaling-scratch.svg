@@ -2858,7 +2858,7 @@
              stroke-width="1"
              stroke-opacity="0.5"
              fill="none"/>
-   <polyline points="10,-250 20,-245 30,-240 40,-235 50,-230 60,-225 70,-220 80,-215 90,-210 100,-205 110,-200 120,-195 130,-190 140,-185 150,-180 160,-175 170,-170 180,-165 190,-160 200,-155 210,-150 220,-145 230,-140 240,-135 250,-130 260,-125 270,-120 280,-115 290,-110 300,-105 310,-100 320,-95 330,-90 340,-85 350,-80 360,-75 370,-70 380,-65 390,-60 400,-55 410,-50 420,-45 430,-40 440,-35 450,-30 460,-25 470,-20 480,-15 490,-10 500,-5"
+   <polyline points="10,-250 20,-245 30,-240 40,-235 50,-230 60,-225 70,-220 80,-215 90,-210 100,-205 110,-200 120,-195 130,-190 140,-185 150,-180 160,-175 170,-170 180,-165 190,-160 200,-155 210,-150 220,-145 230,-140 240,-135 250,-130 260,-125 270,-120 280,-115 290,-110 300,-105 310,-100 320,-95 330,-90 340,-85 350,-80 360,-75 370,-70 380,-65 390,-60 400,-55 410,-50 420,-45 430,-40 440,-35 450,-30 460,-25 470,-20 480,-15 490,-10"
              stroke="coral"
              stroke-width="1"
              stroke-opacity="0.5"
@@ -2895,12 +2895,12 @@
          text-anchor="middle"
          font-size="12"
          writing-mode="tb">Weight</text>
-   <text x="250" y="-275" text-anchor="middle" font-size="16">Scaling
-                functions</text>
+   <text x="250" y="-275" text-anchor="middle" font-size="16">Sample
+                scaling functions</text>
    <g transform="translate(0, 50)">
       <rect x="0"
             y="-5"
-            height="139"
+            height="133"
             width="320"
             stroke="black"
             stroke-width="0.5"
@@ -2924,8 +2924,7 @@
          <tspan x="20" dy="14" fill="darkgoldenrod">Gaussian (σ = 5, 10, 15)</tspan>
          <tspan x="20" dy="14" fill="coral">Linear (N - d) / N; 50/50, 49/50, 48/50,
                         47/50, …</tspan>
-         <tspan x="20" dy="14" fill="darkviolet">Parabolic ((N + 1 - d) / N) ^
-                        2)</tspan>
+         <tspan x="20" dy="14" fill="darkviolet">Parabolic ((N + 1 - d) / N) ^ 2)</tspan>
          <tspan x="20" dy="14" fill="brown">Parabolic (d / N) ^ 2</tspan>
       </text>
    </g>
