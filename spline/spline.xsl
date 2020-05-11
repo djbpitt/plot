@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:package name="http://www.obdurodon.org/bezier" package-version="1.0"
+<xsl:package name="http://www.obdurodon.org/spline" package-version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:djb="http://www.obdurodon.org" xmlns:math="http://www.w3.org/2005/xpath-functions/math"
     exclude-result-prefixes="#all" xmlns="http://www.w3.org/2000/svg"
@@ -15,11 +15,11 @@
     <!-- Visibility                                                        -->
     <!--                                                                   -->
     <!-- Helper fuctions are all private                                   -->
-    <!-- djb:bezier() (all three arities) are final                        -->
+    <!-- djb:spline() (all three arities) are final                        -->
     <!-- $css and $cRadius are public                                      -->
     <!-- ================================================================= -->
     <xsl:expose visibility="final" component="function"
-        names="djb:bezier#3 djb:bezier#2 djb:bezier#1"/>
+        names="djb:spline#3 djb:spline#2 djb:spline#1"/>
     <xsl:expose visibility="public" component="variable" names="css cRadius"/>
 
     <!-- ================================================================= -->
@@ -523,21 +523,20 @@
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- bezier#3                                                          -->
+    <!-- spline#3                                                          -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:bezier" as="element()+">
+    <xsl:function name="djb:spline" as="element()+">
         <!-- ============================================================= -->
         <!-- Function is called with points, scaling, and debug values     -->
         <!-- ============================================================= -->
-        <xsl:param name="inputPoints" as="xs:string"/>
+        <xsl:param name="pointPairs" as="xs:string+"/>
         <xsl:param name="scaling" as="xs:double"/>
         <xsl:param name="debug" as="xs:boolean"/>
         <!-- ============================================================= -->
         <!-- Get point pairs and validate points and scaling               -->
         <!-- ============================================================= -->
-        <xsl:variable name="pointPairs" as="xs:string+" select="djb:split_points($inputPoints)"/>
         <xsl:if test="not(djb:validate_points($pointPairs))">
-            <xsl:message terminate="yes" select="'Invalid points: ' || $inputPoints"/>
+            <xsl:message terminate="yes" select="'Invalid points: ' || $pointPairs"/>
         </xsl:if>
         <xsl:if test="not($scaling ge 0 and $scaling le 1 and $scaling castable as xs:double)">
             <xsl:message terminate="yes" select="'Invalid scaling value: ' || $scaling"/>
@@ -586,7 +585,9 @@
             <!-- ===================================================== -->
             <!-- CSS (public variable, may be overridden)              -->
             <!-- ===================================================== -->
-            <xsl:sequence select="$css"/>
+            <xsl:if test="$debug">
+                <xsl:sequence select="$css"/>
+            </xsl:if>
             <!-- ===================================================== -->
             <!-- Background                                            -->
             <!-- ===================================================== -->
@@ -597,12 +598,12 @@
             <!-- ===================================================== -->
             <!-- Data points and connecting lines                      -->
             <!-- ===================================================== -->
-            <xsl:for-each select="1 to count($xPoints)">
-                <circle class="mainCircle" cx="{$xPoints[current()]}" cy="{$yPoints[current()]}"
-                    r="{$cRadius}"/>
-            </xsl:for-each>
             <xsl:if test="$debug">
-                <polyline class="mainLine" points="{$inputPoints}"/>
+                <xsl:for-each select="1 to count($xPoints)">
+                    <circle class="mainCircle" cx="{$xPoints[current()]}" cy="{$yPoints[current()]}"
+                        r="{$cRadius}"/>
+                </xsl:for-each>
+                <polyline class="mainLine" points="{$pointPairs}"/>
             </xsl:if>
             <!-- ===================================================== -->
             <!-- Alternating (hypotenuse) lines                        -->
@@ -630,7 +631,7 @@
             <!-- ===================================================== -->
             <!-- Plot the spline                                       -->
             <!-- ===================================================== -->
-            <xsl:variable name="bezierPath" as="xs:string+">
+            <xsl:variable name="splinePath" as="xs:string+">
                 <!-- start at first point -->
                 <xsl:sequence
                     select="
@@ -677,7 +678,7 @@
                         "
                 />
             </xsl:variable>
-            <path d="{string-join($bezierPath, ' ')}" stroke="black" stroke-width="1" fill="none"/>
+            <path d="{string-join($splinePath, ' ')}" class="spline"/>
         </g>
         <xsl:if test="$debug">
             <xsl:sequence
@@ -687,25 +688,25 @@
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- bezier#2                                                          -->
+    <!-- spline#2                                                          -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:bezier" as="element()+">
+    <xsl:function name="djb:spline" as="element()+">
         <!-- ============================================================= -->
         <!-- Function is called with points, scaling, but not debug        -->
         <!-- ============================================================= -->
-        <xsl:param name="inputPoints" as="xs:string"/>
+        <xsl:param name="points" as="xs:string+"/>
         <xsl:param name="scaling" as="xs:double"/>
-        <xsl:sequence select="djb:bezier($inputPoints, $scaling, false())"/>
+        <xsl:sequence select="djb:spline($points, $scaling, false())"/>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- bezier#1                                                          -->
+    <!-- spline#1                                                          -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:bezier" as="element()+">
+    <xsl:function name="djb:spline" as="element()+">
         <!-- ============================================================= -->
         <!-- Function is called with points, scaling, but not debug        -->
         <!-- ============================================================= -->
-        <xsl:param name="inputPoints" as="xs:string"/>
-        <xsl:sequence select="djb:bezier($inputPoints, 0.4, false())"/>
+        <xsl:param name="points" as="xs:string+"/>
+        <xsl:sequence select="djb:spline($points, 0.4, false())"/>
     </xsl:function>
 </xsl:package>
