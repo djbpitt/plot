@@ -61,8 +61,8 @@
         <!-- Return value                                                 -->
         <!-- ============================================================ -->
         <g xmlns="http://www.w3.org/2000/svg">
-            <xsl:if test="$debug">
-                <!-- debug output includes background, data points and connecting polyline -->
+            <!--<xsl:if test="$debug">
+                <!-\- debug output includes background, data points and connecting polyline -\->
                 <style><![CDATA[
                     .regression {stroke: red; stroke-width: 1;} 
                     .background {fill: papayawhip;}
@@ -74,7 +74,7 @@
                     <circle cx="{$allX[current()]}" cy="{$allY[current()]}" r="2" color="lightgray"
                     />
                 </xsl:for-each>
-            </xsl:if>
+            </xsl:if>-->
             <line x1="{min($allX)}" y1="{$b}" x2="{max($allX)}" y2="{$m * max($allX) + $b}"
                 class="regression"/>
         </g>
