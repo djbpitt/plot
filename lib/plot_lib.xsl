@@ -11,6 +11,7 @@
         djb:validate_points#1 
         djb:split_points#1
         djb:gaussian#4
+        djb:random-sequence#1
         "/>
     <xsl:function name="djb:validate_points" as="xs:boolean">
         <!-- ================================================================= -->
@@ -58,6 +59,26 @@
         <!-- ================================================================= -->
         <xsl:param name="all_points" as="xs:string"/>
         <xsl:sequence select="tokenize(normalize-space($all_points), ' ')"/>
+    </xsl:function>
+
+    <xsl:function name="djb:random-sequence" as="xs:double*">
+        <!-- ================================================================ -->
+        <!-- djb:random_sequence()                                            -->
+        <!-- Create a specified number of random numbers -100 < n < 0         -->
+        <!-- Adapted from the XPath 3.1 functions spec                        -->
+        <!-- ================================================================ -->
+        <xsl:param name="length" as="xs:integer"/>
+        <xsl:sequence select="djb:random-sequence($length, random-number-generator())"/>
+    </xsl:function>
+    <xsl:function name="djb:random-sequence">
+        <xsl:param name="length" as="xs:integer"/>
+        <xsl:param name="G" as="map(xs:string, item())"/>
+        <xsl:choose>
+            <xsl:when test="$length eq 0"/>
+            <xsl:otherwise>
+                <xsl:sequence select="$G?number, djb:random-sequence($length - 1, $G?next())"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:function>
 
     <xsl:function name="djb:gaussian" as="xs:double">
