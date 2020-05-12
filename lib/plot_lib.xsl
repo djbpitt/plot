@@ -148,9 +148,6 @@
         <!--                                                                   -->
         <!-- Return:                                                           -->
         <!--   True iff X is monotonic                                         -->
-        <!--                                                                   -->
-        <!-- Note: not($list != $list) returns true iff all values agree       -->
-        <!--   (thanks, Liam!)                                                 -->
         <!-- ================================================================= -->
         <xsl:param name="pointPairs" as="xs:string+"/>
         <xsl:variable name="allX" as="xs:double+"
@@ -171,6 +168,7 @@
         <!--   xs:boolean : True iff all items in $seq are equal          -->
         <!--                                                              -->
         <!-- Note: O(n) counterpart to O(n^2) not($seq != $seq)           -->
+        <!--   (from Michael Kay over xml.com Slack                       -->
         <!-- ============================================================ -->
         <xsl:param name="seq" as="item()+"/>
         <xsl:sequence select="not(head($seq) != tail($seq))"/>

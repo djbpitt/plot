@@ -17,6 +17,7 @@
     <xsl:variable name="regression" as="item()+" select="djb:regression_line($points, true())"/>
     <xsl:variable name="m" as="xs:double" select="$regression[2]?m"/>
     <xsl:variable name="b" as="xs:double" select="$regression[2]?b"/>
+    <xsl:variable name="window" as="xs:integer" select="15"/>
     <xsl:template name="xsl:initial-template">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -115 210 195">
             <style type="text/css">
@@ -67,18 +68,26 @@
                 </xsl:for-each>
                 <polyline points="{$points}" stroke="black" stroke-width="0.5" fill="none"/>
                 <xsl:sequence select="$regression[1]"/>
-                <xsl:sequence select="djb:smoothing($points, 9) => djb:spline(0.4)"/>
+                <xsl:sequence select="djb:smoothing($points, $window) => djb:spline(0.4)"/>
                 <!-- graph labels -->
                 <text x="100" y="8" text-anchor="middle" font-size="5">Fake independent
                     variable</text>
                 <text x="-10" y="-50" text-anchor="middle" font-size="5" writing-mode="tb">Fake
                     dependent variable</text>
-                <text x="100" y="-106" text-anchor="middle" font-size="8">Smoothing examples</text>
+                <text x="100" y="-106" text-anchor="middle" font-size="8">
+                    <xsl:value-of
+                        select="
+                            'Smoothing examples (window
+                    = ' || $window || ')'"
+                    />
+                </text>
             </g>
             <g transform="translate(50, 15)">
-                <rect x="0" y="0" width="100" height="50" fill="ghostwhite" stroke="black"
+                <rect x="0" y="0" width="100" height="51" fill="ghostwhite" stroke="black"
                     stroke-width="0.5"/>
-                <xsl:for-each select="'black', 'red', 'gray', 'blue'">
+                <!-- 'black', 'red', 'blue', 'green', 'indigo', 'darkgoldenrod', 'coral', 'darkviolet', 'brown -->
+                <xsl:for-each
+                    select="'black', 'red', 'gray', 'blue', 'green', 'indigo', 'darkgoldenrod'">
                     <rect x="2" y="{-5 + position() * 7}" width="5" height="5" fill="{current()}"/>
                 </xsl:for-each>
                 <text x="10" y="6" fill="black" font-size="5">
@@ -93,7 +102,7 @@
                             select="'Y intercept of regression line (' || format-number(-1 * $b, '0.0') || ')'"
                         />
                     </tspan>
-                    <tspan x="10" dy="7" fill="blue">Rectangular kernal, window 9</tspan>
+                    <tspan x="10" dy="7" fill="blue">Rectangular kernal</tspan>
                 </text>
             </g>
         </svg>

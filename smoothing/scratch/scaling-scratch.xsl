@@ -113,17 +113,20 @@
                         fill="{current()}"/>
                 </xsl:for-each>
                 <text x="20" y="10" font-size="12">
-                    <tspan>1 / (d + 1); 1/1, 1/2, 1/3, 1/4, …</tspan>
-                    <tspan x="20" dy="14" fill="red">2 / (d + 2); 2/2, 2/3, 2/4, 2/5 …</tspan>
-                    <tspan x="20" dy="14" fill="green">3 / (d + 3); 3/3, 3/4, 3/5, 3/6, …</tspan>
-                    <tspan x="20" dy="14" fill="indigo">10 / (d + 10); 10/10, 10/11, 10/12, 10/13,
+                    <tspan>1/(d + 1); 1/1, 1/2, 1/3, 1/4, …</tspan>
+                    <tspan x="20" dy="14" fill="red">2/(d + 2); 2/2, 2/3, 2/4, 2/5, …</tspan>
+                    <tspan x="20" dy="14" fill="green">3/(d + 3); 3/3, 3/4, 3/5, 3/6, …</tspan>
+                    <tspan x="20" dy="14" fill="indigo">10/(d + 10); 10/10, 10/11, 10/12, 10/13,
                         …</tspan>
-                    <tspan x="20" dy="14" fill="blue">1 / (2 ^ d); 1, 1/2, 1/4, 1/8, …</tspan>
+                    <tspan x="20" dy="14" fill="blue">1/2<tspan font-size="8" dy="-4"
+                            >d</tspan><tspan dy="4">; 1/1, 1/2, 1/4, 1/8, …</tspan></tspan>
                     <tspan x="20" dy="14" fill="darkgoldenrod">Gaussian (σ = 5, 10, 15)</tspan>
-                    <tspan x="20" dy="14" fill="coral">Linear (N - d) / N; 50/50, 49/50, 48/50,
+                    <tspan x="20" dy="14" fill="coral">Linear: (N - d)/N; 50/50, 49/50, 48/50,
                         47/50, …</tspan>
-                    <tspan x="20" dy="14" fill="darkviolet">Parabolic ((N + 1 - d) / N) ^ 2)</tspan>
-                    <tspan x="20" dy="14" fill="brown">Parabolic (d / N) ^ 2</tspan>
+                    <tspan x="20" dy="14" fill="darkviolet">Parabolic: ((N + 1 - d)/N)<tspan
+                            dy="-4" font-size="8">2</tspan><tspan dy="4">&#xa0;</tspan></tspan>
+                    <tspan x="20" dy="14" fill="brown">Parabolic: (d/N)<tspan dy="-4"
+                            font-size="8">2</tspan></tspan>
                 </text>
             </g>
         </svg>
