@@ -3,7 +3,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     xmlns:djb="http://www.obdurodon.org" version="3.0">
-    <xsl:output method="xml" indent="yes"/>
+    <xsl:output method="xml" indent="no"/>
 
     <!-- ================================================================ -->
     <!-- Packages                                                         -->
@@ -89,7 +89,7 @@
                 </xsl:when>
                 <xsl:when test="$short_left">
                     <!-- left side is short, but not empty -->
-                    <xsl:sequence select="1 to ($focus - $half_window + 1)"></xsl:sequence>
+                    <xsl:sequence select="1 to ($focus - $half_window + 1)"/>
                 </xsl:when>
                 <xsl:when test="$focus eq $n">
                     <!-- no right, compensate on left -->
@@ -107,6 +107,7 @@
         <xsl:variable name="right" as="xs:integer*">25</xsl:variable>
         <xsl:sequence select="'Left: ' || string-join($left, ',')"/>
         <xsl:sequence select="'Focus: ' || $focus"/>
+        <xsl:sequence select="'Total length: ' || count($left) + count($focus)"/>
     </xsl:function>
     <!-- ================================================================ -->
 
@@ -135,6 +136,7 @@
             <xsl:value-of select="'&#x0a;'"/>
             <xsl:sequence select="djb:weighted_average(current(), (1 to 10), 5, 0)"/>
         </xsl:for-each>
+        <xsl:value-of select="'&#x0a;'"/>
         <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -110 120 120" width="50%">
             <xsl:for-each select="$points">
                 <circle cx="{substring-before(current(), ',')}"
