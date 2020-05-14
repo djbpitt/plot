@@ -5,8 +5,8 @@
     exclude-result-prefixes="#all" version="3.0">
     <xsl:expose component="function" visibility="final"
         names="
-        djb:regression_line#2 
-        djb:regression_line#1
+        djb:regression-line#2 
+        djb:regression-line#1
         "/>
     <!-- ================================================================ -->
     <!-- Package dependencies                                             -->
@@ -14,9 +14,9 @@
     <xsl:use-package name="http://www.obdurodon.org/plot_lib"/>
     <!-- ================================================================ -->
 
-    <xsl:function name="djb:regression_line">
+    <xsl:function name="djb:regression-line">
         <!-- ============================================================ -->
-        <!-- name: djb:regression_line#2                                  -->
+        <!-- name: djb:regression-line#2                                  -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
         <!--   $points as xs:string+ : all points in X,Y coordinate form  -->
@@ -38,7 +38,7 @@
         <!--   m = ( n∑xy − (∑x)(∑y) ) / ( n∑x² − (∑x)² )                 -->
         <!--   b = ( ∑y − m∑x ) / n                                       -->
         <!-- ============================================================ -->
-        <xsl:if test="not(djb:validate_points($pointPairs))">
+        <xsl:if test="not(djb:validate-points($pointPairs))">
             <xsl:message terminate="yes" select="'Invalid points: ' || $pointPairs"/>
         </xsl:if>
         <xsl:variable name="n" as="xs:integer" select="count($pointPairs)"/>
@@ -83,8 +83,8 @@
         </xsl:if>
     </xsl:function>
 
-    <xsl:function name="djb:regression_line">
+    <xsl:function name="djb:regression-line">
         <xsl:param name="points" as="xs:string+"/>
-        <xsl:sequence select="djb:regression_line($points, false())"/>
+        <xsl:sequence select="djb:regression-line($points, false())"/>
     </xsl:function>
 </xsl:package>
