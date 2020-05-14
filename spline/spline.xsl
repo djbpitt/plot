@@ -19,7 +19,10 @@
     <!-- $css and $cRadius are public                                      -->
     <!-- ================================================================= -->
     <xsl:expose visibility="final" component="function"
-        names="djb:spline#3 djb:spline#2 djb:spline#1"/>
+        names="
+        djb:spline#3
+        djb:spline#2
+        djb:spline#1"/>
     <xsl:expose visibility="public" component="variable" names="css cRadius"/>
 
     <!-- ================================================================= -->
@@ -536,7 +539,8 @@
         <!-- Get point pairs and validate points and scaling               -->
         <!-- ============================================================= -->
         <xsl:if test="not(djb:validate_points($pointPairs))">
-            <xsl:message terminate="yes" select="'Invalid points: ' || $pointPairs"/>
+            <xsl:message terminate="yes"
+                select="'Invalid points: ' || string-join($pointPairs, ' : ')"/>
         </xsl:if>
         <xsl:if test="not($scaling ge 0 and $scaling le 1 and $scaling castable as xs:double)">
             <xsl:message terminate="yes" select="'Invalid scaling value: ' || $scaling"/>
