@@ -12,6 +12,7 @@
         djb:split_points#1
         djb:gaussian#4
         djb:random-sequence#1
+        djb:round-to-odd#1
         "/>
     <xsl:function name="djb:validate_points" as="xs:boolean">
         <!-- ================================================================= -->
@@ -62,11 +63,11 @@
     </xsl:function>
 
     <xsl:function name="djb:random-sequence" as="xs:double*">
-        <!-- ================================================================ -->
-        <!-- djb:random_sequence()                                            -->
-        <!-- Create a specified number of random numbers -100 < n < 0         -->
-        <!-- Adapted from the XPath 3.1 functions spec                        -->
-        <!-- ================================================================ -->
+        <!-- ============================================================ -->
+        <!-- djb:random_sequence()                                        -->
+        <!-- Create a specified number of random numbers -100 < n < 0     -->
+        <!-- Adapted from the XPath 3.1 functions spec                    -->
+        <!-- ============================================================ -->
         <xsl:param name="length" as="xs:integer"/>
         <xsl:sequence select="djb:random-sequence($length, random-number-generator())"/>
     </xsl:function>
@@ -109,11 +110,26 @@
             select="$peak * math:exp(-1 * (math:pow(($x - $mean), 2)) div (2 * math:pow($stddev, 2)))"
         />
     </xsl:function>
-    <!-- ================================================================= -->
 
-    <!-- ================================================================= -->
-    <!-- Private functions                                                 -->
-    <!-- ================================================================= -->
+    <xsl:function name="djb:round-to-odd" as="xs:integer">
+        <!-- ============================================================ -->
+        <!-- djb:round-to-odd()                                           -->
+        <!-- Round even integer up to odd, return input odd unchanged     -->
+        <!--                                                              -->
+        <!-- Parameter                                                    -->
+        <!--   $input as xs:integer : value to be rounded to odd          -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   If even, rounds up to odd; if odd, returns unchanged       -->
+        <!-- ============================================================ -->
+        <xsl:param name="input" as="xs:integer"/>
+        <xsl:sequence select="(2 * floor($input div 2) + 1) => xs:integer()"/>
+    </xsl:function>
+    <!-- ================================================================ -->
+
+    <!-- ================================================================ -->
+    <!-- Private functions                                                -->
+    <!-- ================================================================ -->
     <xsl:function name="djb:validate_point_regex" as="xs:boolean">
         <!-- ================================================================= -->
         <!-- validate_point_regex (nb: singular)                               -->
