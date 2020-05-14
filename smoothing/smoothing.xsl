@@ -31,7 +31,7 @@
         <!-- ============================================================ -->
         <!-- Raise an error if points are bad or $window is even          -->
         <!-- ============================================================ -->
-        <xsl:if test="not(djb:validate_points($points))">
+        <xsl:if test="not(djb:validate-points($points))">
             <xsl:message terminate="yes">Bad $points value: <xsl:value-of select="$points"
                 /></xsl:message>
         </xsl:if>

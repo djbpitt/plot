@@ -538,7 +538,7 @@
         <!-- ============================================================= -->
         <!-- Get point pairs and validate points and scaling               -->
         <!-- ============================================================= -->
-        <xsl:if test="not(djb:validate_points($pointPairs))">
+        <xsl:if test="not(djb:validate-points($pointPairs))">
             <xsl:message terminate="yes"
                 select="'Invalid points: ' || string-join($pointPairs, ' : ')"/>
         </xsl:if>
