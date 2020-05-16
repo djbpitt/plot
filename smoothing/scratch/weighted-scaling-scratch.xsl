@@ -17,7 +17,7 @@
     <!-- ================================================================ -->
     <!-- Create fake data, for testing, with a bit of jitter              -->
     <!-- ================================================================ -->
-    <xsl:variable name="pointCount" as="xs:integer" select="25"/>
+    <xsl:variable name="pointCount" as="xs:integer" select="40"/>
     <xsl:variable name="xScale" as="xs:integer" select="5"/>
     <xsl:variable name="allY" as="xs:double+"
         select="
@@ -34,13 +34,20 @@
     <!-- ================================================================ -->
     <!-- test window is 2/3 of all points-->
     <xsl:variable name="window-small" as="xs:integer" select="3"/>
+    <xsl:variable name="window-mid" as="xs:integer"
+        select="djb:round-to-odd(xs:integer(round(count($allY) div 3)))"/>
     <xsl:variable name="window-default" as="xs:integer"
-        select="djb:round-to-odd(xs:integer(round(count($allY) div 3 * 2)))"/>
+        select="djb:round-to-odd(xs:integer(round(2 * count($allY) div 3)))"/>
     <xsl:variable name="stddev" as="xs:double" select="5"/>
     <!--<xsl:variable name="weights" as="xs:double+" select="djb:gaussian_weights($window, $stddev)"/>-->
     <xsl:variable name="adjustedY-small" as="xs:double+">
         <xsl:for-each select="1 to count($points)">
             <xsl:sequence select="djb:weighted-average(current(), $allY, $window-small, $stddev)"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="adjustedY-mid" as="xs:double+">
+        <xsl:for-each select="1 to count($points)">
+            <xsl:sequence select="djb:weighted-average(current(), $allY, $window-mid, $stddev)"/>
         </xsl:for-each>
     </xsl:variable>
     <xsl:variable name="adjustedY-default" as="xs:double+">
@@ -54,6 +61,11 @@
             for $x in (1 to count($adjustedY-small))
             return
                 string-join(($x * $xScale, -1 * $adjustedY-small[$x]), ',')"/>
+    <xsl:variable name="adjustedPoints-mid" as="xs:string+"
+        select="
+            for $x in (1 to count($adjustedY-mid))
+            return
+                string-join(($x * $xScale, -1 * $adjustedY-mid[$x]), ',')"/>
     <xsl:variable name="adjustedPoints-default" as="xs:string+"
         select="
             for $x in (1 to count($adjustedY-default))
@@ -66,6 +78,12 @@
             <style type="text/css">
                 #small .spline {
                     stroke: fuchsia;
+                    stroke-width: 0.5;
+                    stroke-opacity: 0.5;
+                    fill: none;
+                }
+                #mid .spline {
+                    stroke: orange;
                     stroke-width: 0.5;
                     stroke-opacity: 0.5;
                     fill: none;
@@ -97,6 +115,9 @@
                 stroke-opacity="0.5"/>
             <g id="small">
                 <xsl:sequence select="djb:spline($adjustedPoints-small, .4)"/>
+            </g>
+            <g id="mid">
+                <xsl:sequence select="djb:spline($adjustedPoints-mid, .4)"/>
             </g>
             <!-- adjusted default window points in green -->
             <g id="default">
