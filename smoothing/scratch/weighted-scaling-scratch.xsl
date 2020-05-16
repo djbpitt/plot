@@ -56,7 +56,7 @@
                 string-join(($x * $xScale, -1 * $adjustedY-small[$x]), ',')"/>
     <xsl:variable name="adjustedPoints-default" as="xs:string+"
         select="
-            for $x in (1 to count($adjustedY-small))
+            for $x in (1 to count($adjustedY-default))
             return
                 string-join(($x * $xScale, -1 * $adjustedY-default[$x]), ',')"/>
 
