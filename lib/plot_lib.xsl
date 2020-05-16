@@ -3,6 +3,14 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     xmlns:djb="http://www.obdurodon.org" version="3.0">
+
+    <!-- ================================================================= -->
+    <!-- TODO                                                              -->
+    <!--                                                                   -->
+    <!-- djb:random-sequence() errors out with a stack overflow; refactor  -->
+    <!--   with iteration instead of recursion                             -->
+    <!-- ================================================================= -->
+
     <!-- ================================================================= -->
     <!-- Public (final) functions                                          -->
     <!-- ================================================================= -->
@@ -145,20 +153,24 @@
             </xsl:choose>
         </xsl:variable>
         <xsl:variable name="weighted_values" as="xs:double+">
-            <!-- create weighted values -->
-            <xsl:for-each select="1 to ($half_window + 1)">
-                <!-- values for left side and focus -->
-                <xsl:sequence select="$input_values[$focus + 1 - current()] * $weights[current()]"/>
+            <xsl:for-each select="reverse($left_edge to $focus)">
+                <xsl:variable name="pos" as="xs:integer" select="position()"/>
+                <xsl:sequence select="$input_values[current()] * $weights[$pos]"/>
             </xsl:for-each>
-            <xsl:for-each select="1 to $half_window">
-                <!-- values for right side -->
-                <xsl:sequence select="$input_values[$focus + current()] * $weights[current() + 1]"/>
+            <xsl:for-each select="($focus + 1) to $right_edge">
+                <xsl:variable name="pos" as="xs:integer" select="position()"/>
+                <xsl:sequence select="$input_values[current()] * $weights[$pos + 1]"/>
             </xsl:for-each>
         </xsl:variable>
-        <!-- sum of weighted values div sum of applied weights -->
+        <xsl:variable name="sum_weighted_values" as="xs:double" select="sum($weighted_values)"/>
+        <!-- compute sum of weights applied to all points in winow -->
         <xsl:variable name="sum_applied_weights" as="xs:double"
-            select="$weights[1] + sum(($weights[position() = 2 to ($half_window + 1)] ! (. * 2)))"/>
-        <xsl:sequence select="sum($weighted_values) div $sum_applied_weights"/>
+            select="
+            $weights[1] + 
+            sum($weights[position() = (2 to (1 + $focus - $left_edge))]) +
+            sum($weights[position() = (2 to (1 + $right_edge - $focus))])
+            "/>
+        <xsl:sequence select="$sum_weighted_values div $sum_applied_weights"/>
     </xsl:function>
 
     <xsl:function name="djb:round-to-odd" as="xs:integer">
