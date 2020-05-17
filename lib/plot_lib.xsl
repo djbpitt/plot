@@ -21,6 +21,7 @@
         djb:random-sequence#1
         djb:weighted-average#4
         djb:round-to-odd#1
+        djb:gaussian#4
         "/>
     <xsl:function name="djb:validate-points" as="xs:boolean">
         <!-- ================================================================= -->
@@ -187,6 +188,40 @@
         <xsl:param name="input" as="xs:integer"/>
         <xsl:sequence select="(2 * floor($input div 2) + 1) => xs:integer()"/>
     </xsl:function>
+
+    <xsl:function name="djb:gaussian" as="xs:double">
+        <!-- ============================================================ -->
+        <!-- djb:gaussian() as xs:double                                  -->
+        <!--                                                              -->
+        <!-- $x as xs:double : input                                      -->
+        <!-- $peak as xs:double : height of curve’s peak                  -->
+        <!-- $center as xs:double : X position of center of peak (mean)   -->
+        <!-- $stddev as xs:double : stddev (controls width of curve)      -->
+        <!--                                                              -->
+        <!-- Helper function for djb:gaussian-weights, which is a helper  -->
+        <!--   function for djb:weighted-average                          -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   xs:double, representing Y value corresponding to X         -->
+        <!--                                                              -->
+        <!-- https://en.wikipedia.org/wiki/Gaussian_function:             -->
+        <!-- "The parameter a is the height of the curve's peak, b is the -->
+        <!--   position of the center of the peak and c (the standard     -->
+        <!--   deviation, sometimes called the Gaussian RMS width)        -->
+        <!--   controls the width of the "bell".                          -->
+        <!-- ============================================================ -->
+        <xsl:param name="x" as="xs:double"/>
+        <xsl:param name="peak" as="xs:double"/>
+        <xsl:param name="mean" as="xs:double"/>
+        <xsl:param name="stddev" as="xs:double"/>
+        <xsl:if test="$stddev le 0">
+            <xsl:message terminate="yes">Stddev must be greater than 0</xsl:message>
+        </xsl:if>
+        <xsl:sequence
+            select="$peak * math:exp(-1 * (math:pow(($x - $mean), 2)) div (2 * math:pow($stddev, 2)))"
+        />
+    </xsl:function>
+    
     <!-- ================================================================ -->
 
     <!-- ================================================================ -->
@@ -295,39 +330,6 @@
             for $i in (-10 * $half to 10 * $half)
             return
             $i div 10"
-        />
-    </xsl:function>
-
-    <xsl:function name="djb:gaussian" as="xs:double">
-        <!-- ============================================================ -->
-        <!-- djb:gaussian() as xs:double                                  -->
-        <!--                                                              -->
-        <!-- $x as xs:double : input                                      -->
-        <!-- $peak as xs:double : height of curve’s peak                  -->
-        <!-- $center as xs:double : X position of center of peak (mean)   -->
-        <!-- $stddev as xs:double : stddev (controls width of curve)      -->
-        <!--                                                              -->
-        <!-- Helper function for djb:gaussian-weights, which is a helper  -->
-        <!--   function for djb:weighted-average                          -->
-        <!--                                                              -->
-        <!-- Returns                                                      -->
-        <!--   xs:double, representing Y value corresponding to X         -->
-        <!--                                                              -->
-        <!-- https://en.wikipedia.org/wiki/Gaussian_function:             -->
-        <!-- "The parameter a is the height of the curve's peak, b is the -->
-        <!--   position of the center of the peak and c (the standard     -->
-        <!--   deviation, sometimes called the Gaussian RMS width)        -->
-        <!--   controls the width of the "bell".                          -->
-        <!-- ============================================================ -->
-        <xsl:param name="x" as="xs:double"/>
-        <xsl:param name="peak" as="xs:double"/>
-        <xsl:param name="mean" as="xs:double"/>
-        <xsl:param name="stddev" as="xs:double"/>
-        <xsl:if test="$stddev le 0">
-            <xsl:message terminate="yes">Stddev must be greater than 0</xsl:message>
-        </xsl:if>
-        <xsl:sequence
-            select="$peak * math:exp(-1 * (math:pow(($x - $mean), 2)) div (2 * math:pow($stddev, 2)))"
         />
     </xsl:function>
 
