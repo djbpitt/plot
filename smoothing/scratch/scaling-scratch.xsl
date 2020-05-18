@@ -3,7 +3,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:djb="http://www.obdurodon.org"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     version="3.0">
-    <xsl:use-package name="http://www.obdurodon.org/plot_lib"/>
+    <xsl:use-package name="http://www.obdurodon.org/plot-lib"/>
     <xsl:output method="xml" indent="yes"/>
     <xsl:variable name="xScale" as="xs:integer" select="10"/>
     <xsl:variable name="yScale" as="xs:integer" select="25"/>
