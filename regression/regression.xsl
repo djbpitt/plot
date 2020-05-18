@@ -61,20 +61,6 @@
         <!-- Return value                                                 -->
         <!-- ============================================================ -->
         <g xmlns="http://www.w3.org/2000/svg">
-            <!--<xsl:if test="$debug">
-                <!-\- debug output includes background, data points and connecting polyline -\->
-                <style><![CDATA[
-                    .regression {stroke: red; stroke-width: 1;} 
-                    .background {fill: papayawhip;}
-                    ]]></style>
-                <rect x="{min($allX) - 10}" y="{min($allY) - 10}" width="{max($allX) - min($allX) + 20}"
-                    height="{max($allY) - min($allY) + 20}" class="background"/>
-                <polyline stroke="lightgray" stroke-width="1" fill="none" points="{$pointPairs}"/>
-                <xsl:for-each select="1 to $n">
-                    <circle cx="{$allX[current()]}" cy="{$allY[current()]}" r="2" color="lightgray"
-                    />
-                </xsl:for-each>
-            </xsl:if>-->
             <line x1="{min($allX)}" y1="{$b}" x2="{max($allX)}" y2="{$m * max($allX) + $b}"
                 class="regression"/>
         </g>
