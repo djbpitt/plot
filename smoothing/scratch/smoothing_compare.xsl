@@ -7,7 +7,7 @@
     <!-- ================================================================ -->
     <!-- Packages                                                         -->
     <!-- ================================================================ -->
-    <xsl:use-package name="http://www.obdurodon.org/plot_lib"/>
+    <xsl:use-package name="http://www.obdurodon.org/plot-lib"/>
     <xsl:use-package name="http://www.obdurodon.org/regression"/>
     <xsl:use-package name="http://www.obdurodon.org/smoothing"/>
     <xsl:use-package name="http://www.obdurodon.org/spline"/>
@@ -41,9 +41,11 @@
     <!-- Gaussian values                                                  -->
     <!-- ================================================================ -->
     <xsl:variable name="stddev" as="xs:double" select="5"/>
+    <xsl:variable name="weights" as="xs:double+"
+        select="djb:get-weights-scale('gaussian', $window, $stddev)"/>
     <xsl:variable name="gaussian-Ys" as="xs:double+">
         <xsl:for-each select="1 to count($points)">
-            <xsl:sequence select="djb:weighted-average(current(), $allY, $window, $stddev)"/>
+            <xsl:sequence select="djb:weighted-average(current(), $window, $allY, $weights)"/>
         </xsl:for-each>
     </xsl:variable>
     <xsl:variable name="gaussian-points" as="xs:string+"
@@ -81,22 +83,16 @@
                 <!-- ==================================================== -->
                 <line x1="2" y1="0" x2="200" y2="0" stroke="lightgray" stroke-width="0.5"
                     stroke-linecap="square"/>
-                <text x="0" y="0" fill="lightgray" font-size="3" text-anchor="end"
-                    alignment-baseline="central">0.0</text>
+                <text x="0" y="0" fill="lightgray" font-size="3" text-anchor="end" alignment-baseline="central">0.0</text>
                 <line x1="2" y1="-100" x2="200" y2="-100" stroke="lightgray" stroke-width="0.5"
                     stroke-linecap="square"/>
-                <text x="0" y="-100" fill="lightgray" font-size="3" text-anchor="end"
-                    alignment-baseline="central">100.0</text>
-                <text x="0" y="{$b}" fill="lightgray" font-size="3" text-anchor="end"
-                    alignment-baseline="central">
+                <text x="0" y="-100" fill="lightgray" font-size="3" text-anchor="end" alignment-baseline="central">100.0</text>
+                <text x="0" y="{$b}" fill="lightgray" font-size="3" text-anchor="end" alignment-baseline="central">
                     <xsl:value-of select="(-1 * number($b)) => format-number('0.0')"/>
                 </text>
-                <text x="208" y="-100" font-size="3" fill="lightgray" text-anchor="end"
-                    alignment-baseline="central">100.0</text>
-                <text x="208" y="0" font-size="3" fill="lightgray" text-anchor="end"
-                    alignment-baseline="central">0.0</text>
-                <text x="208" y="{$m * 200 + $b}" fill="red" fill-opacity="0.5" font-size="3"
-                    text-anchor="end" alignment-baseline="central">
+                <text x="208" y="-100" font-size="3" fill="lightgray" text-anchor="end" alignment-baseline="central">100.0</text>
+                <text x="208" y="0" font-size="3" fill="lightgray" text-anchor="end" alignment-baseline="central">0.0</text>
+                <text x="208" y="{$m * 200 + $b}" fill="red" fill-opacity="0.5" font-size="3" text-anchor="end" alignment-baseline="central">
                     <xsl:value-of select="format-number(-1 * ($m * 200 + $b), '0.0')"/>
                 </text>
 
@@ -150,11 +146,9 @@
                 <text x="-10" y="-50" text-anchor="middle" font-size="5" writing-mode="tb">Fake
                     dependent variable</text>
                 <text x="100" y="-106" text-anchor="middle" font-size="8">
-                    <xsl:value-of
-                        select="
+                    <xsl:value-of select="
                             'Smoothing examples (window
-                    = ' || $window || ')'"
-                    />
+                    = ' || $window || ')'"/>
                 </text>
             </g>
             <g transform="translate(50, 15)">
@@ -168,14 +162,10 @@
                 <text x="10" y="6" fill="black" font-size="5">
                     <tspan>Actual data (101 points)</tspan>
                     <tspan x="10" dy="7" fill="red">
-                        <xsl:value-of
-                            select="'Regression line (' || format-number(-1 * $b, '0.0') || '–' || format-number(-1 * ($m * 200 + $b), '0.0') || ')'"
-                        />
+                        <xsl:value-of select="'Regression line (' || format-number(-1 * $b, '0.0') || '–' || format-number(-1 * ($m * 200 + $b), '0.0') || ')'"/>
                     </tspan>
                     <tspan x="10" dy="7" fill="gray">
-                        <xsl:value-of
-                            select="'Y intercept of regression line (' || format-number(-1 * $b, '0.0') || ')'"
-                        />
+                        <xsl:value-of select="'Y intercept of regression line (' || format-number(-1 * $b, '0.0') || ')'"/>
                     </tspan>
                     <tspan x="10" dy="7" fill="blue">Rectangular kernal</tspan>
                     <tspan x="10" dy="7" fill="green">Gaussian kernal (σ = 5)</tspan>
