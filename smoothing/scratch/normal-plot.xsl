@@ -3,7 +3,8 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:f="http://www.obdurodon.org/function"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     xmlns:djb="http://www.obdurodon.org" version="3.0">
-    <xsl:output method="xml" indent="yes"/>
+    <!-- indent set to no to avoid adding whitespace between <tspan> elements -->
+    <xsl:output method="xml" indent="no"/>
 
     <xsl:function name="djb:uniform" as="xs:boolean">
         <!-- ============================================================ -->
@@ -209,11 +210,9 @@
                             select="$stddev * current() * $xScale"/>
                         <line x1="{$xPos}" y1="0" x2="{$xPos}" y2="-100" stroke="mediumturquoise"/>
                         <text x="{$xPos}" y="4">
-                            <xsl:value-of
-                                select="
+                            <xsl:value-of select="
                                     ($mean + (current() * $stddev))
-                                    => format-number('0.0')"
-                            />
+                                    => format-number('0.0')"/>
                         </text>
                         <text x="{$xPos}" y="8">
                             <xsl:value-of select="current() || 'σ'"/>
@@ -243,20 +242,15 @@
                         <xsl:value-of select="'Peak =' || $peak || '; '"/>
                     </tspan>
                     <tspan fill="tomato">
-                        <xsl:value-of
-                            select="
+                        <xsl:value-of select="
                                 'μ = ' ||
-                                $mean ! format-number(., '0.0')"
-                        />
-                    </tspan>
-                    <tspan>; </tspan>
+                                $mean ! format-number(., '0.0')"/>
+                    </tspan><tspan>; </tspan>
                     <tspan fill="mediumturquoise">
-                        <xsl:value-of
-                            select="
+                        <xsl:value-of select="
                                 'σ = ' ||
                                 $stddev ! format-number(., '0.0')
-                                "
-                        />
+                                "/>
                     </tspan>
                 </text>
             </g>
