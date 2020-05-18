@@ -25,6 +25,7 @@
         djb:validate-points#1 
         djb:split-points#1
         djb:random-sequence#1
+        djb:get-weights-scale#3
         djb:weighted-average#4
         djb:round-to-odd#1
         "/>
@@ -94,6 +95,55 @@
         </xsl:iterate>
     </xsl:function>
 
+    <xsl:function name="djb:get-weights-scale" as="xs:double+">
+        <!-- ============================================================ -->
+        <!-- djb:get=weights-scale#3                                      -->
+        <!--                                                              -->
+        <!-- Returns sequence of scaling values for different kernels     -->
+        <!--                                                              -->
+        <!-- Parameters:                                                  -->
+        <!--   f:kernel as xs:string : gaussian, rectangular, exponential -->
+        <!--   f: window_size as xs:integer : width of window             -->
+        <!--   f:stddev as xs:integer : controls width of bell            -->
+        <!--                                                              -->
+        <!-- Returns:                                                     -->
+        <!--   xs:double+ : weights to be applied in scaling              -->
+        <!--                                                              -->
+        <!-- Notes:                                                       -->
+        <!--   Gaussian mean = 0, peak = 1                                -->
+        <!--   f:stddev is ignored silently except for Gaussian           -->
+        <!--   Return full width of window (for end values)               -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:kernel" as="xs:string"/>
+        <xsl:param name="f:window-size" as="xs:integer"/>
+        <xsl:param name="f:stddev" as="xs:double"/>
+        <xsl:if test="$f:window-size mod 2 eq 0 or $f:window-size lt 3">
+            <xsl:message terminate="yes">Window size must be odd integer greater than
+                3</xsl:message>
+        </xsl:if>
+        <xsl:choose>
+            <xsl:when test="$f:kernel eq 'gaussian'">
+                <xsl:if test="$f:stddev le 0">
+                    <xsl:message terminate="yes">σ must be greater than 0</xsl:message>
+                </xsl:if>
+                <xsl:sequence select="djb:gaussian-weights($f:window-size, $f:stddev)"/>
+            </xsl:when>
+            <xsl:when test="$f:kernel eq 'rectangular'">
+                <!-- all values are equal to 1 -->
+                <xsl:sequence select="(0 to ($f:window-size)) ! 1"/>
+            </xsl:when>
+            <xsl:when test="$f:kernel eq 'exponential'">
+                <!-- 1/1, 1/2, 1/4, 1/8, ... -->
+                <xsl:sequence select="(0 to ($f:window-size)) ! (math:pow(2, -1 * .))"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:message terminate="yes"
+                    select="'Invalid kernel (' || $f:kernel || '); must be one of: gaussian, rectangular, or exponential'"
+                />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+    
     <xsl:function name="djb:weighted-average" as="xs:double">
         <!-- ============================================================ -->
         <!-- djb:weighted-average#4                                       -->
@@ -218,55 +268,6 @@
         <xsl:variable name="f:point-regex" as="xs:string"
             select="$f:float-regex || ',' || $f:float-regex"/>
         <xsl:sequence select="matches($f:input-point, $f:point-regex)"/>
-    </xsl:function>
-
-    <xsl:function name="djb:get-weights-scale" as="xs:double+">
-        <!-- ============================================================ -->
-        <!-- djb:get=weights-scale#3                                      -->
-        <!--                                                              -->
-        <!-- Returns sequence of scaling values for different kernels     -->
-        <!--                                                              -->
-        <!-- Parameters:                                                  -->
-        <!--   f:kernel as xs:string : gaussian, rectangular, exponential -->
-        <!--   f: window_size as xs:integer : width of window             -->
-        <!--   f:stddev as xs:integer : controls width of bell            -->
-        <!--                                                              -->
-        <!-- Returns:                                                     -->
-        <!--   xs:double+ : weights to be applied in scaling              -->
-        <!--                                                              -->
-        <!-- Notes:                                                       -->
-        <!--   Gaussian mean = 0, peak = 1                                -->
-        <!--   f:stddev is ignored silently except for Gaussian           -->
-        <!--   Return full width of window (for end values)               -->
-        <!-- ============================================================ -->
-        <xsl:param name="f:kernel" as="xs:string"/>
-        <xsl:param name="f:window-size" as="xs:integer"/>
-        <xsl:param name="f:stddev" as="xs:double"/>
-        <xsl:if test="$f:window-size mod 2 eq 0 or $f:window-size lt 3">
-            <xsl:message terminate="yes">Window size must be odd integer greater than
-                3</xsl:message>
-        </xsl:if>
-        <xsl:choose>
-            <xsl:when test="$f:kernel eq 'gaussian'">
-                <xsl:if test="$f:stddev le 0">
-                    <xsl:message terminate="yes">σ must be greater than 0</xsl:message>
-                </xsl:if>
-                <xsl:sequence select="djb:gaussian-weights($f:window-size, $f:stddev)"/>
-            </xsl:when>
-            <xsl:when test="$f:kernel eq 'rectangular'">
-                <!-- all values are equal to 1 -->
-                <xsl:sequence select="(0 to ($f:window-size)) ! 1"/>
-            </xsl:when>
-            <xsl:when test="$f:kernel eq 'exponential'">
-                <!-- 1/1, 1/2, 1/4, 1/8, ... -->
-                <xsl:sequence select="(0 to ($f:window-size)) ! (math:pow(2, -1 * .))"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:message terminate="yes"
-                    select="'Invalid kernel (' || $f:kernel || '); must be one of: gaussian, rectangular, or exponential'"
-                />
-            </xsl:otherwise>
-        </xsl:choose>
     </xsl:function>
 
     <xsl:function name="djb:validate-monotonic-X" as="xs:boolean">
