@@ -5,13 +5,6 @@
     xmlns:djb="http://www.obdurodon.org" version="3.0">
 
     <!-- ================================================================= -->
-    <!-- TODO                                                              -->
-    <!--                                                                   -->
-    <!-- djb:random-sequence() errors out with a stack overflow; refactor  -->
-    <!--   with iteration instead of recursion                             -->
-    <!-- ================================================================= -->
-
-    <!-- ================================================================= -->
     <!-- Public (final) functions                                          -->
     <!-- ================================================================= -->
     <xsl:expose component="function" visibility="final"
@@ -25,7 +18,7 @@
         "/>
     <xsl:function name="djb:validate-points" as="xs:boolean">
         <!-- ================================================================= -->
-        <!-- validate_points (nb: plural)                                      -->
+        <!-- djb:validate_points#1 (nb: plural)                                -->
         <!--                                                                   -->
         <!-- Validates cardinality and lexical form of input points            -->
         <!--                                                                   -->
@@ -56,7 +49,7 @@
 
     <xsl:function name="djb:split-points" as="xs:string+">
         <!-- ================================================================= -->
-        <!-- split_points                                                      -->
+        <!-- djb:split_points#1                                                -->
         <!--                                                                   -->
         <!-- Splits SVG @points format into individual strings for each point  -->
         <!--                                                                   -->
@@ -78,15 +71,20 @@
         <!-- ============================================================ -->
         <!-- djb:random-sequence#1                                        -->
         <!-- Create a specified number of random numbers -100 < n < 0     -->
-        <!-- Adapted from the XPath 3.1 functions spec                    -->
         <!-- ============================================================ -->
-        <xsl:param name="length" as="xs:integer"/>
-        <xsl:sequence select="djb:random-sequence($length, random-number-generator())"/>
+        <xsl:param name="count" as="xs:integer"/>
+        <xsl:iterate select="1 to $count">
+            <xsl:param name="G" as="map(xs:string, item())" select="random-number-generator()"/>
+            <xsl:sequence select="$G?number"/>
+            <xsl:next-iteration>
+                <xsl:with-param name="G" select="$G?next()"/>
+            </xsl:next-iteration>
+        </xsl:iterate>
     </xsl:function>
 
     <xsl:function name="djb:weighted-average" as="xs:double">
         <!-- ============================================================ -->
-        <!-- djb:weighted_average                                         -->
+        <!-- djb:weighted_average#4                                       -->
         <!--                                                              -->
         <!-- Returns smoothed value for current point                     -->
         <!--                                                              -->
@@ -176,7 +174,7 @@
 
     <xsl:function name="djb:round-to-odd" as="xs:integer">
         <!-- ============================================================ -->
-        <!-- djb:round-to-odd()                                           -->
+        <!-- djb:round-to-odd#1                                           -->
         <!-- Round even integer up to odd, return input odd unchanged     -->
         <!--                                                              -->
         <!-- Parameter                                                    -->
@@ -191,7 +189,7 @@
 
     <xsl:function name="djb:gaussian" as="xs:double">
         <!-- ============================================================ -->
-        <!-- djb:gaussian() as xs:double                                  -->
+        <!-- djb:gaussian#4 as xs:double                                  -->
         <!--                                                              -->
         <!-- $x as xs:double : input                                      -->
         <!-- $peak as xs:double : height of curve’s peak                  -->
@@ -229,7 +227,7 @@
     <!-- ================================================================ -->
     <xsl:function name="djb:validate_point_regex" as="xs:boolean">
         <!-- ================================================================= -->
-        <!-- validate_point_regex (nb: singular)                               -->
+        <!-- validate_point_regex#1 (nb: singular)                             -->
         <!--                                                                   -->
         <!-- Tests a single point and returns True if it matches regex         -->
         <!-- Regex: "X,Y" where                                                -->
@@ -252,7 +250,7 @@
 
     <xsl:function name="djb:validate_monotonic_X" as="xs:boolean">
         <!-- ================================================================= -->
-        <!-- validate_monotonic_X                                              -->
+        <!-- validate_monotonic_X#1                                            -->
         <!--                                                                   -->
         <!-- Tests input a sequence and returns True if X values are monotonic -->
         <!--                                                                   -->
@@ -270,7 +268,7 @@
 
     <xsl:function name="djb:uniform" as="xs:boolean">
         <!-- ============================================================ -->
-        <!-- djb:uniform                                                  -->
+        <!-- djb:uniform#1                                                -->
         <!--                                                              -->
         <!-- Returns True iff all items in sequence are equal             -->
         <!--                                                              -->
@@ -289,7 +287,7 @@
 
     <xsl:function name="djb:monotonic" as="xs:boolean">
         <!-- ============================================================ -->
-        <!-- djb:monotonic                                                -->
+        <!-- djb:monotonic#1                                              -->
         <!--                                                              -->
         <!-- Returns True iff sequence is monotonic (in either direction) -->
         <!--                                                              -->
@@ -311,7 +309,7 @@
 
     <xsl:function name="djb:expand-to-tenths" as="xs:double+">
         <!-- ============================================================ -->
-        <!-- djb:expand-to-tenths                                         -->
+        <!-- djb:expand-to-tenths#1                                       -->
         <!--                                                              -->
         <!-- Converts integer range to range of tenths                    -->
         <!--                                                              -->
@@ -335,7 +333,7 @@
 
     <xsl:function name="djb:gaussian-weights" as="xs:double+">
         <!-- ============================================================ -->
-        <!-- djb:gaussian_weights                                         -->
+        <!-- djb:gaussian_weights#2                                       -->
         <!--                                                              -->
         <!-- Returns sequence of values for Gaussian weighting            -->
         <!--   Helper function for djb:weighted-average                   -->
@@ -360,22 +358,6 @@
         <xsl:for-each select="0 to ($window_size - 1)">
             <xsl:sequence select="djb:gaussian(current(), 1, 0, $stddev)"/>
         </xsl:for-each>
-    </xsl:function>
-
-    <xsl:function name="djb:random-sequence">
-        <!-- ============================================================ -->
-        <!-- djb:random-sequence#2                                        -->
-        <!-- Helper function for djb:random-sequence#1                    -->
-        <!-- Adapted from the XPath 3.1 functions spec                    -->
-        <!-- ============================================================ -->
-        <xsl:param name="length" as="xs:integer"/>
-        <xsl:param name="G" as="map(xs:string, item())"/>
-        <xsl:choose>
-            <xsl:when test="$length eq 0"/>
-            <xsl:otherwise>
-                <xsl:sequence select="$G?number, djb:random-sequence($length - 1, $G?next())"/>
-            </xsl:otherwise>
-        </xsl:choose>
     </xsl:function>
 
 </xsl:package>
