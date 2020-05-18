@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:package name="http://www.obdurodon.org/smoothing" xmlns:djb="http://www.obdurodon.org"
+    xmlns:f="http://www.obdurodon.org/function-variables"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="xs math"
+    xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     version="3.0">
     <!-- ================================================================ -->
     <!-- djb:smoothing                                                    -->
@@ -10,7 +11,7 @@
     <!--   Window is centered on current point                            -->
     <!--   Include extra points from other side if one is too short       -->
     <!-- ================================================================ -->
-    <xsl:use-package name="http://www.obdurodon.org/plot_lib"/>
+    <xsl:use-package name="http://www.obdurodon.org/plot-lib"/>
     <xsl:expose component="function" visibility="final"
         names="
         djb:smoothing#2
@@ -21,51 +22,51 @@
         <!-- djb:smoothing#2                                              -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
-        <!--   $inputPoints as xs:string+ : X,Y points as strings         -->
-        <!--   $window as xs:integer : odd-valued window size             -->
+        <!--   $f:points as xs:string+ : X,Y points as strings            -->
+        <!--   $f:window as xs:integer : odd-valued window size           -->
         <!--                                                              -->
         <!-- Return: xs:string+ : adjusted X,Y points as strings          -->
         <!-- ============================================================ -->
-        <xsl:param name="points" as="xs:string+"/>
-        <xsl:param name="window" as="xs:integer"/>
+        <xsl:param name="f:points" as="xs:string+"/>
+        <xsl:param name="f:window" as="xs:integer"/>
         <!-- ============================================================ -->
         <!-- Raise an error if points are bad or $window is even          -->
         <!-- ============================================================ -->
-        <xsl:if test="not(djb:validate-points($points))">
-            <xsl:message terminate="yes">Bad $points value: <xsl:value-of select="$points"
+        <xsl:if test="not(djb:validate-points($f:points))">
+            <xsl:message terminate="yes">Bad $f:points value: <xsl:value-of select="$f:points"
                 /></xsl:message>
         </xsl:if>
-        <xsl:if test="$window mod 2 = 0 and $window gt 0">
-            <xsl:message terminate="yes">$window value must be a positive odd number</xsl:message>
+        <xsl:if test="$f:window mod 2 = 0 and $f:window gt 0">
+            <xsl:message terminate="yes">$f:window value must be a positive odd number</xsl:message>
         </xsl:if>
         <!-- ============================================================ -->
-        <!-- $windowSide as xs:double: points to either side of center    -->
-        <!-- $n as xs:integer : count of points                           -->
-        <!-- $allX as xs:double+ : all X values                           -->
-        <!-- $allY as xs:double+ : all Y values                           -->
-        <!-- $scaledYs as xs:double+ : average within window              -->
+        <!-- $f:windowSide as xs:double: points to either side of center  -->
+        <!-- $f:n as xs:integer : count of points                         -->
+        <!-- $f:allX as xs:double+ : all X values                         -->
+        <!-- $f:allY as xs:double+ : all Y values                         -->
+        <!-- $f:scaledYs as xs:double+ : average within window            -->
         <!--   centered on current point                                  -->
         <!--   include extra points from other side if one is too short   -->
         <!-- ============================================================ -->
-        <xsl:variable name="windowSide" as="xs:double" select="($window - 1) div 2"/>
-        <xsl:variable name="n" as="xs:integer" select="count($points)"/>
-        <xsl:variable name="allX" as="xs:double+"
-            select="$points ! substring-before(.,',') ! number(.)"/>
-        <xsl:variable name="allY" as="xs:double+"
-            select="$points ! substring-after(.,',') ! number(.)"/>
-        <xsl:variable name="scaledYs" as="xs:double+">
-            <xsl:for-each select="$allY">
-                <xsl:variable name="currentPos" as="xs:integer" select="position()"/>
+        <xsl:variable name="f:windowSide" as="xs:double" select="($f:window - 1) div 2"/>
+        <xsl:variable name="f:n" as="xs:integer" select="count($f:points)"/>
+        <xsl:variable name="f:allX" as="xs:double+"
+            select="$f:points ! substring-before(.,',') ! number(.)"/>
+        <xsl:variable name="f:allY" as="xs:double+"
+            select="$f:points ! substring-after(.,',') ! number(.)"/>
+        <xsl:variable name="f:scaledYs" as="xs:double+">
+            <xsl:for-each select="$f:allY">
+                <xsl:variable name="f:pos" as="xs:integer" select="position()"/>
                 <xsl:choose>
-                    <xsl:when test="position() lt $windowSide">
-                        <xsl:value-of select="avg($allY[position() lt $window])"/>
+                    <xsl:when test="position() lt $f:windowSide">
+                        <xsl:value-of select="avg($f:allY[position() lt $f:window])"/>
                     </xsl:when>
-                    <xsl:when test="position() gt $n - $windowSide">
-                        <xsl:value-of select="avg($allY[position() ge ($n - $window)])"/>
+                    <xsl:when test="position() gt $f:n - $f:windowSide">
+                        <xsl:value-of select="avg($f:allY[position() ge ($f:n - $f:window)])"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:value-of
-                            select="avg($allY[position() ge $currentPos - $windowSide and position() le $currentPos + $windowSide])"
+                            select="avg($f:allY[position() ge $f:pos - $f:windowSide and position() le $f:pos + $f:windowSide])"
                         />
                     </xsl:otherwise>
                 </xsl:choose>
@@ -74,11 +75,11 @@
         <!-- ============================================================ -->
         <!-- Return all points                                            -->
         <!-- ============================================================ -->
-        <xsl:sequence select="for $i in 1 to $n return string-join(($allX[$i], $scaledYs[$i]), ',')"
-        />
+        <xsl:sequence
+            select="for $i in 1 to $f:n return string-join(($f:allX[$i], $f:scaledYs[$i]), ',')"/>
     </xsl:function>
     <xsl:function name="djb:smoothing" as="xs:string+">
-        <xsl:param name="points"/>
-        <xsl:sequence select="djb:smoothing($points, 3)"/>
+        <xsl:param name="f:points"/>
+        <xsl:sequence select="djb:smoothing($f:points, 3)"/>
     </xsl:function>
 </xsl:package>

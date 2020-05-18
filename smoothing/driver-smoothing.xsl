@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:djb="http://www.obdurodon.org"
+    xmlns:f="http://www.obdurodon.org/function-variables"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     version="3.0">
     <xsl:output method="xml" indent="yes"/>
     <!-- packages -->
     <xsl:use-package name="http://www.obdurodon.org/smoothing"/>
-    <xsl:use-package name="http://www.obdurodon.org/plot_lib"/>
+    <xsl:use-package name="http://www.obdurodon.org/plot-lib"/>
     <xsl:use-package name="http://www.obdurodon.org/regression"/>
 
     <!-- ================================================================ -->
@@ -105,7 +106,7 @@
                     stroke-width=".5" fill="none"/>
                 <polyline points="{djb:smoothing($stretchedPoints, 9)}" stroke="fuchsia"
                     stroke-width=".5" fill="none"/>
-                <xsl:sequence select="djb:regression_line($stretchedPoints)"/>
+                <xsl:sequence select="djb:regression-line($stretchedPoints)"/>
                 <text x="{count($points) * $xSpacing div 2}" y="25" text-anchor="middle"
                     font-size="8">black = actual, <tspan fill="orange">orange = 3</tspan>, <tspan
                         fill="blue">blue = 5</tspan>, <tspan fill="green">green = 7</tspan>, <tspan
