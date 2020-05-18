@@ -25,7 +25,7 @@
             '400,-186',
             '450,-118'"/>
     <xsl:template name="xsl:initial-template">
-        <xsl:variable name="result" as="item()+" select="djb:regression_line($points)"/>
+        <xsl:variable name="result" as="item()+" select="djb:regression-line($points)"/>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="30 -230 460 270">
             <style type="text/css">
                 <![CDATA[
