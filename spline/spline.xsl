@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:package name="http://www.obdurodon.org/spline" package-version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:djb="http://www.obdurodon.org" xmlns:math="http://www.w3.org/2005/xpath-functions/math"
-    exclude-result-prefixes="#all" xmlns="http://www.w3.org/2000/svg"
-    xmlns:html="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" version="3.0">
+    xmlns:djb="http://www.obdurodon.org" xmlns:f="http://www.obdurodon.org/function-variables"
+    xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
+    xmlns="http://www.w3.org/2000/svg" xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:svg="http://www.w3.org/2000/svg" version="3.0">
 
     <!-- ================================================================ -->
     <!-- Package dependencies                                             -->
     <!-- ================================================================ -->
-    <xsl:use-package name="http://www.obdurodon.org/plot_lib"/>
+    <xsl:use-package name="http://www.obdurodon.org/plot-lib"/>
     <!-- ================================================================ -->
 
     <!-- ================================================================= -->
@@ -30,129 +31,129 @@
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- extract_xPoints                                                   -->
+    <!-- extract-Xs                                                        -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:extract_xPoints" as="xs:double+">
-        <xsl:param name="pointPairs" as="xs:string+"/>
-        <xsl:sequence select="$pointPairs ! substring-before(., ',') ! xs:double(.)"/>
+    <xsl:function name="djb:extract-Xs" as="xs:double+">
+        <xsl:param name="f:point-pairs" as="xs:string+"/>
+        <xsl:sequence select="$f:point-pairs ! substring-before(., ',') ! xs:double(.)"/>
     </xsl:function>
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- extract_yPoints                                                   -->
+    <!-- extract-Ys                                                        -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:extract_yPoints" as="xs:double+">
-        <xsl:param name="pointPairs" as="xs:string+"/>
-        <xsl:sequence select="$pointPairs ! substring-after(., ',') ! xs:double(.)"/>
+    <xsl:function name="djb:extract-yS" as="xs:double+">
+        <xsl:param name="f:point-pairs" as="xs:string+"/>
+        <xsl:sequence select="$f:point-pairs ! substring-after(., ',') ! xs:double(.)"/>
     </xsl:function>
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- create_dirXs                                                      -->
+    <!-- create-dir-Xs                                                     -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_dirXs" as="xs:double+">
-        <xsl:param name="xPoints" as="xs:double+"/>
-        <xsl:for-each select="1 to count($xPoints) - 2">
-            <xsl:variable name="x1" as="xs:double" select="$xPoints[position() eq current()]"/>
-            <xsl:variable name="x2" as="xs:double" select="$xPoints[position() eq current() + 2]"/>
-            <xsl:sequence select="$x2 - $x1"/>
+    <xsl:function name="djb:create-dir-Xs" as="xs:double+">
+        <xsl:param name="f:Xs" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:Xs) - 2">
+            <xsl:variable name="f:x1" as="xs:double" select="$f:Xs[position() eq current()]"/>
+            <xsl:variable name="f:x2" as="xs:double" select="$f:Xs[position() eq current() + 2]"/>
+            <xsl:sequence select="$f:x2 - $f:x1"/>
         </xsl:for-each>
     </xsl:function>
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- create_dirYs                                                      -->
+    <!-- create-dir-Ys                                                     -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_dirYs" as="xs:double+">
-        <xsl:param name="yPoints" as="xs:double+"/>
-        <xsl:for-each select="1 to count($yPoints) - 2">
-            <xsl:variable name="y1" as="xs:double" select="$yPoints[position() eq current()]"/>
-            <xsl:variable name="y2" as="xs:double" select="$yPoints[position() eq current() + 2]"/>
-            <xsl:sequence select="$y2 - $y1"/>
+    <xsl:function name="djb:create-dir-Ys" as="xs:double+">
+        <xsl:param name="f:Ys" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:Ys) - 2">
+            <xsl:variable name="f:y1" as="xs:double" select="$f:Ys[position() eq current()]"/>
+            <xsl:variable name="f:y2" as="xs:double" select="$f:Ys[position() eq current() + 2]"/>
+            <xsl:sequence select="$f:y2 - $f:y1"/>
         </xsl:for-each>
     </xsl:function>
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- create_lengths                                                    -->
+    <!-- create-lengths                                                    -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_lengths" as="xs:double+">
-        <xsl:param name="dirXs" as="xs:double+"/>
-        <xsl:param name="dirYs" as="xs:double+"/>
-        <xsl:for-each select="1 to count($dirXs)">
-            <xsl:variable name="xDistance" as="xs:double" select="$dirXs[current()]"/>
-            <xsl:variable name="yDistance" as="xs:double" select="$dirYs[current()]"/>
+    <xsl:function name="djb:create-lengths" as="xs:double+">
+        <xsl:param name="f:dir-Xs" as="xs:double+"/>
+        <xsl:param name="f:dir-Ys" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:dir-Xs)">
+            <xsl:variable name="f:x-distance" as="xs:double" select="$f:dir-Xs[current()]"/>
+            <xsl:variable name="f:y-distance" as="xs:double" select="$f:dir-Ys[current()]"/>
             <xsl:sequence
-                select="(math:pow($xDistance, 2) + math:pow($yDistance, 2)) => math:sqrt()"/>
+                select="(math:pow($f:x-distance, 2) + math:pow($f:y-distance, 2)) => math:sqrt()"/>
         </xsl:for-each>
     </xsl:function>
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- create_unitXs                                                     -->
+    <!-- create-unit-Xs                                                    -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_unitXs" as="xs:double+">
-        <xsl:param name="dirXs" as="xs:double+"/>
-        <xsl:param name="lengths" as="xs:double+"/>
-        <xsl:for-each select="1 to count($dirXs)">
-            <xsl:sequence select="$dirXs[current()] div $lengths[current()]"/>
+    <xsl:function name="djb:create-unit-Xs" as="xs:double+">
+        <xsl:param name="f:dir-Xs" as="xs:double+"/>
+        <xsl:param name="f:lengths" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:dir-Xs)">
+            <xsl:sequence select="$f:dir-Xs[current()] div $f:lengths[current()]"/>
         </xsl:for-each>
     </xsl:function>
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- create_unitYs                                                     -->
+    <!-- create-unit-Ys                                                    -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_unitYs" as="xs:double+">
-        <xsl:param name="dirYs" as="xs:double+"/>
-        <xsl:param name="lengths" as="xs:double+"/>
-        <xsl:for-each select="1 to count($dirYs)">
-            <xsl:sequence select="$dirYs[current()] div $lengths[current()]"/>
+    <xsl:function name="djb:create-unit-Ys" as="xs:double+">
+        <xsl:param name="f:dir-Ys" as="xs:double+"/>
+        <xsl:param name="f:lengths" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:dir-Ys)">
+            <xsl:sequence select="$f:dir-Ys[current()] div $f:lengths[current()]"/>
         </xsl:for-each>
     </xsl:function>
     <!-- ================================================================= -->
 
     <!-- ================================================================= -->
-    <!-- create_normal1Xs : X coordinates of endpoint 1 of normals         -->
+    <!-- create-normal1-Xs : X coordinates of endpoint 1 of normals        -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_normal1Xs" as="xs:double+">
-        <xsl:param name="unitYs" as="xs:double+"/>
-        <xsl:sequence select="$unitYs ! (-1 * .)"/>
+    <xsl:function name="djb:create-normal1-Xs" as="xs:double+">
+        <xsl:param name="f:unit-Ys" as="xs:double+"/>
+        <xsl:sequence select="$f:unit-Ys ! (-1 * .)"/>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_normal1Ys : Y coordinates of endpoint 1 of normals         -->
+    <!-- create-normal1-Ys : Y coordinates of endpoint 1 of normals        -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_normal1Ys" as="xs:double+">
-        <xsl:param name="unitXs" as="xs:double+"/>
-        <xsl:sequence select="$unitXs"/>
+    <xsl:function name="djb:create-normal1-Ys" as="xs:double+">
+        <xsl:param name="f:unit-Xs" as="xs:double+"/>
+        <xsl:sequence select="$f:unit-Xs"/>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_normal2Xs : X coordinates of endpoint 2 of normals         -->
+    <!-- create-normal2-Xs : X coordinates of endpoint 2 of normals        -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_normal2Xs" as="xs:double+">
-        <xsl:param name="unitYs" as="xs:double+"/>
-        <xsl:sequence select="$unitYs"/>
+    <xsl:function name="djb:create-normal2-Xs" as="xs:double+">
+        <xsl:param name="f:unit-Ys" as="xs:double+"/>
+        <xsl:sequence select="$f:unit-Ys"/>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_normal2Ys : Y coordinates of endpoint 2 of normals         -->
+    <!-- create-normal2-Ys : Y coordinates of endpoint 2 of normals        -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_normal2Ys" as="xs:double+">
-        <xsl:param name="unitXs" as="xs:double+"/>
-        <xsl:sequence select="$unitXs ! (-1 * .)"/>
+    <xsl:function name="djb:create-normal2-Ys" as="xs:double+">
+        <xsl:param name="f:unit-Xs" as="xs:double+"/>
+        <xsl:sequence select="$f:unit-Xs ! (-1 * .)"/>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_angle1s : angle for normal1                                -->
+    <!-- create-angle1s : angle for normal1                                -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_angle1s" as="xs:double+">
-        <xsl:param name="normal1Ys" as="xs:double+"/>
-        <xsl:param name="normal1Xs" as="xs:double+"/>
-        <xsl:for-each select="1 to count($normal1Ys)">
+    <xsl:function name="djb:create-angle1s" as="xs:double+">
+        <xsl:param name="f:normal1-Ys" as="xs:double+"/>
+        <xsl:param name="f:normal1-Xs" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:normal1-Ys)">
             <xsl:sequence
-                select="math:atan2($normal1Ys[current()], $normal1Xs[current()]) + math:pi() div 2"
+                select="math:atan2($f:normal1-Ys[current()], $f:normal1-Xs[current()]) + math:pi() div 2"
             />
         </xsl:for-each>
     </xsl:function>
@@ -160,183 +161,183 @@
     <!-- ================================================================= -->
     <!-- create_angle2s : angle for normal2                                -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_angle2s" as="xs:double+">
-        <xsl:param name="normal2Ys" as="xs:double+"/>
-        <xsl:param name="normal2Xs" as="xs:double+"/>
-        <xsl:for-each select="1 to count($normal2Ys)">
+    <xsl:function name="djb:create-angle2s" as="xs:double+">
+        <xsl:param name="f:normal2-Ys" as="xs:double+"/>
+        <xsl:param name="f:normal2-Xs" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:normal2-Ys)">
             <xsl:sequence
-                select="math:atan2($normal2Ys[current()], $normal2Xs[current()]) + math:pi() div 2"
+                select="math:atan2($f:normal2-Ys[current()], $f:normal2-Xs[current()]) + math:pi() div 2"
             />
         </xsl:for-each>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- $segLengths as xs:double+ :                                       -->
+    <!-- $seg-lengths as xs:double+ :                                      -->
     <!--   diagonal distance between adjacent points                       -->
     <!-- ================================================================= -->
     <!-- ================================================================= -->
-    <!-- create_xLengths : x distance between adjacent knots               -->
+    <!-- create-xLengths : x distance between adjacent knots               -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_xLengths" as="xs:double+">
-        <xsl:param name="xPoints" as="xs:double+"/>
-        <xsl:for-each select="1 to count($xPoints) - 1">
-            <xsl:sequence select="$xPoints[current() + 1] - $xPoints[current()]"/>
+    <xsl:function name="djb:create-xLengths" as="xs:double+">
+        <xsl:param name="f:xPoints" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:xPoints) - 1">
+            <xsl:sequence select="$f:xPoints[current() + 1] - $f:xPoints[current()]"/>
         </xsl:for-each>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_yLengths : y distance between adjacent knots               -->
+    <!-- create-yLengths : y distance between adjacent knots               -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_yLengths" as="xs:double+">
-        <xsl:param name="yPoints" as="xs:double+"/>
-        <xsl:for-each select="1 to count($yPoints) - 1">
-            <xsl:sequence select="$yPoints[current() + 1] - $yPoints[current()]"/>
+    <xsl:function name="djb:create-yLengths" as="xs:double+">
+        <xsl:param name="f:yPoints" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:yPoints) - 1">
+            <xsl:sequence select="$f:yPoints[current() + 1] - $f:yPoints[current()]"/>
         </xsl:for-each>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_segLengths : diagonal distance between adjacent knots      -->
+    <!-- create-seg-lengths : diagonal distance between adjacent knots     -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_segLengths" as="xs:double+">
-        <xsl:param name="xLengths" as="xs:double+"/>
-        <xsl:param name="yLengths" as="xs:double+"/>
-        <xsl:for-each select="1 to count($xLengths)">
+    <xsl:function name="djb:create-seg-lengths" as="xs:double+">
+        <xsl:param name="f:xLengths" as="xs:double+"/>
+        <xsl:param name="f:yLengths" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:xLengths)">
             <xsl:sequence
-                select="(math:pow($xLengths[current()], 2) + math:pow($yLengths[current()], 2)) => math:sqrt()"
+                select="(math:pow($f:xLengths[current()], 2) + math:pow($f:yLengths[current()], 2)) => math:sqrt()"
             />
         </xsl:for-each>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_totalAnchorLengths : length of control line                -->
+    <!-- create-total-anchor=lengths : length of control line              -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_totalAnchorLengths" as="xs:double+">
-        <xsl:param name="lengths" as="xs:double+"/>
-        <xsl:param name="scaling" as="xs:double"/>
-        <xsl:for-each select="1 to count($lengths)">
-            <xsl:sequence select="$scaling * $lengths[current()]"/>
+    <xsl:function name="djb:create-total-anchor-lengths" as="xs:double+">
+        <xsl:param name="f:lengths" as="xs:double+"/>
+        <xsl:param name="f:scaling" as="xs:double"/>
+        <xsl:for-each select="1 to count($f:lengths)">
+            <xsl:sequence select="$f:scaling * $f:lengths[current()]"/>
         </xsl:for-each>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_inAnchorLengths : lengths of incoming handles              -->
+    <!-- create-in-anchor-lengths : lengths of incoming handles            -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_inAnchorLengths" as="xs:double+">
-        <xsl:param name="totalAnchorLengths" as="xs:double+"/>
-        <xsl:param name="segLengths" as="xs:double+"/>
-        <xsl:for-each select="1 to count($totalAnchorLengths)">
-            <xsl:sequence
-                select="
-                    $totalAnchorLengths[current()] *
-                    $segLengths[current()] div
-                    ($segLengths[current()] + $segLengths[current() + 1])"
-            />
-        </xsl:for-each>
-    </xsl:function>
-
-    <!-- ================================================================= -->
-    <!-- create_outAnchorLengths : lengths of outgoing handles             -->
-    <!-- ================================================================= -->
-    <xsl:function name="djb:create_outAnchorLengths" as="xs:double+">
-        <xsl:param name="totalAnchorLengths" as="xs:double+"/>
-        <xsl:param name="segLengths" as="xs:double+"/>
-        <xsl:for-each select="1 to count($totalAnchorLengths)">
+    <xsl:function name="djb:create-in-anchor-lengths" as="xs:double+">
+        <xsl:param name="f:total-anchor-lengths" as="xs:double+"/>
+        <xsl:param name="f:seg-lengths" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:total-anchor-lengths)">
             <xsl:sequence
                 select="
-                    $totalAnchorLengths[current()] *
-                    $segLengths[current() + 1] div
-                    ($segLengths[current()] + $segLengths[current() + 1])"
+                    $f:total-anchor-lengths[current()] *
+                    $f:seg-lengths[current()] div
+                    ($f:seg-lengths[current()] + $f:seg-lengths[current() + 1])"
             />
         </xsl:for-each>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_anchor1Xs : X for endpoint 1 of incoming handle            -->
+    <!-- create-out-anchor-lengths : lengths of outgoing handles           -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_anchor1Xs" as="xs:double+">
-        <xsl:param name="xPoints" as="xs:double+"/>
-        <xsl:param name="angle1s" as="xs:double+"/>
-        <xsl:param name="inAnchorLengths" as="xs:double+"/>
-        <xsl:for-each select="1 to count($angle1s)">
+    <xsl:function name="djb:create-out-anchor-lengths" as="xs:double+">
+        <xsl:param name="f:total-anchor-lengths" as="xs:double+"/>
+        <xsl:param name="f:seg-lengths" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:total-anchor-lengths)">
             <xsl:sequence
                 select="
-                    $xPoints[current() + 1] +
-                    math:cos($angle1s[current()]) * ($inAnchorLengths[current()])"
+                    $f:total-anchor-lengths[current()] *
+                    $f:seg-lengths[current() + 1] div
+                    ($f:seg-lengths[current()] + $f:seg-lengths[current() + 1])"
             />
         </xsl:for-each>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_anchor1Ys : Y for endpoint 1 of incoming handle            -->
+    <!-- create-anchor1-Xs : X for endpoint 1 of incoming handle           -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_anchor1Ys" as="xs:double+">
-        <xsl:param name="yPoints" as="xs:double+"/>
-        <xsl:param name="angle1s" as="xs:double+"/>
-        <xsl:param name="inAnchorLengths" as="xs:double+"/>
-        <xsl:for-each select="1 to count($angle1s)">
+    <xsl:function name="djb:create-anchor1-Xs" as="xs:double+">
+        <xsl:param name="f:xPoints" as="xs:double+"/>
+        <xsl:param name="f:angle1s" as="xs:double+"/>
+        <xsl:param name="fin-anchor-lengths" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:angle1s)">
             <xsl:sequence
                 select="
-                    $yPoints[current() + 1] +
-                    math:sin($angle1s[current()]) * ($inAnchorLengths[current()])"
+                    $f:xPoints[current() + 1] +
+                    math:cos($f:angle1s[current()]) * ($fin-anchor-lengths[current()])"
             />
         </xsl:for-each>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_anchor2Xs : X for endpoint 2 of incoming handle            -->
+    <!-- create-anchor1-Ys : Y for endpoint 1 of incoming handle           -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_anchor2Xs" as="xs:double+">
-        <xsl:param name="xPoints" as="xs:double+"/>
-        <xsl:param name="angle2s" as="xs:double+"/>
-        <xsl:param name="outAnchorLengths" as="xs:double+"/>
-        <xsl:for-each select="1 to count($angle2s)">
+    <xsl:function name="djb:create-anchor1-Ys" as="xs:double+">
+        <xsl:param name="f:yPoints" as="xs:double+"/>
+        <xsl:param name="f:angle1s" as="xs:double+"/>
+        <xsl:param name="f:in-anchor-lengths" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:angle1s)">
             <xsl:sequence
                 select="
-                    $xPoints[current() + 1] +
-                    math:cos($angle2s[current()]) * ($outAnchorLengths[current()])"
+                    $f:yPoints[current() + 1] +
+                    math:sin($f:angle1s[current()]) * ($f:in-anchor-lengths[current()])"
             />
         </xsl:for-each>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_anchor2Ys : Y for endpoint 2 of incoming handle            -->
+    <!-- create-anchor2-Xs : X for endpoint 2 of incoming handle           -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_anchor2Ys" as="xs:double+">
-        <xsl:param name="yPoints" as="xs:double+"/>
-        <xsl:param name="angle2s" as="xs:double+"/>
-        <xsl:param name="outAnchorLengths" as="xs:double+"/>
-        <xsl:for-each select="1 to count($angle2s)">
+    <xsl:function name="djb:create-anchor2-Xs" as="xs:double+">
+        <xsl:param name="f:xPoints" as="xs:double+"/>
+        <xsl:param name="f:angle2s" as="xs:double+"/>
+        <xsl:param name="f:out-anchor-lengths" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:angle2s)">
             <xsl:sequence
                 select="
-                    $yPoints[current() + 1] +
-                    math:sin($angle2s[current()]) * ($outAnchorLengths[current()])"
+                    $f:xPoints[current() + 1] +
+                    math:cos($f:angle2s[current()]) * ($f:out-anchor-lengths[current()])"
             />
         </xsl:for-each>
     </xsl:function>
 
     <!-- ================================================================= -->
-    <!-- create_diagnostics : output diagnostics if $debug                 -->
+    <!-- create-anchor2-Ys : Y for endpoint 2 of incoming handle           -->
     <!-- ================================================================= -->
-    <xsl:function name="djb:create_diagnostics" as="element(html:html)">
-        <xsl:param name="dirXs" as="xs:double+"/>
-        <xsl:param name="dirYs" as="xs:double+"/>
-        <xsl:param name="lengths" as="xs:double+"/>
-        <xsl:param name="unitXs" as="xs:double+"/>
-        <xsl:param name="unitYs" as="xs:double+"/>
-        <xsl:param name="normal1Xs" as="xs:double+"/>
-        <xsl:param name="normal1Ys" as="xs:double+"/>
-        <xsl:param name="normal2Xs" as="xs:double+"/>
-        <xsl:param name="normal2Ys" as="xs:double+"/>
-        <xsl:param name="angle1s" as="xs:double+"/>
-        <xsl:param name="angle2s" as="xs:double+"/>
-        <xsl:param name="anchor1Xs" as="xs:double+"/>
-        <xsl:param name="anchor1Ys" as="xs:double+"/>
-        <xsl:param name="anchor2Xs" as="xs:double+"/>
-        <xsl:param name="anchor2Ys" as="xs:double+"/>
-        <xsl:param name="totalAnchorLengths" as="xs:double+"/>
-        <xsl:param name="inAnchorLengths" as="xs:double+"/>
-        <xsl:param name="outAnchorLengths" as="xs:double+"/>
-        <xsl:param name="scaling" as="xs:double"/>
+    <xsl:function name="djb:create-anchor2-Ys" as="xs:double+">
+        <xsl:param name="f:yPoints" as="xs:double+"/>
+        <xsl:param name="f:angle2s" as="xs:double+"/>
+        <xsl:param name="f:out-anchor-lengths" as="xs:double+"/>
+        <xsl:for-each select="1 to count($f:angle2s)">
+            <xsl:sequence
+                select="
+                    $f:yPoints[current() + 1] +
+                    math:sin($f:angle2s[current()]) * ($f:out-anchor-lengths[current()])"
+            />
+        </xsl:for-each>
+    </xsl:function>
+
+    <!-- ================================================================= -->
+    <!-- create-diagnostics : output diagnostics if $debug                 -->
+    <!-- ================================================================= -->
+    <xsl:function name="djb:create-diagnostics" as="element(html:html)">
+        <xsl:param name="f:dir-Xs" as="xs:double+"/>
+        <xsl:param name="f:dir-Ys" as="xs:double+"/>
+        <xsl:param name="f:lengths" as="xs:double+"/>
+        <xsl:param name="f:unit-Xs" as="xs:double+"/>
+        <xsl:param name="f:unit-Ys" as="xs:double+"/>
+        <xsl:param name="f:normal1-Xs" as="xs:double+"/>
+        <xsl:param name="f:normal1-Ys" as="xs:double+"/>
+        <xsl:param name="f:normal2-Xs" as="xs:double+"/>
+        <xsl:param name="f:normal2-Ys" as="xs:double+"/>
+        <xsl:param name="f:angle1s" as="xs:double+"/>
+        <xsl:param name="f:angle2s" as="xs:double+"/>
+        <xsl:param name="f:anchor1-Xs" as="xs:double+"/>
+        <xsl:param name="f:anchor1-Ys" as="xs:double+"/>
+        <xsl:param name="f:anchor2-Xs" as="xs:double+"/>
+        <xsl:param name="f:anchor2-Ys" as="xs:double+"/>
+        <xsl:param name="f:total-anchorlengths" as="xs:double+"/>
+        <xsl:param name="f:in-anchor-lengths" as="xs:double+"/>
+        <xsl:param name="f:out-anchor-lengths" as="xs:double+"/>
+        <xsl:param name="f:scaling" as="xs:double"/>
         <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <title>Diagnostics</title>
@@ -366,7 +367,7 @@
                         <th>anchorLength1<br/>(in)</th>
                         <th>anchorLength2<br/>(out)</th>
                     </tr>
-                    <xsl:for-each select="1 to count($dirXs)">
+                    <xsl:for-each select="1 to count($f:dir-Xs)">
                         <tr>
                             <!-- Bézier number -->
                             <td>
@@ -374,26 +375,26 @@
                             </td>
                             <!-- dir X -->
                             <td>
-                                <xsl:sequence select="$dirXs[current()]"/>
+                                <xsl:sequence select="$f:dir-Xs[current()]"/>
                             </td>
                             <!-- dir Y -->
                             <td>
-                                <xsl:sequence select="$dirYs[current()]"/>
+                                <xsl:sequence select="$f:dir-Ys[current()]"/>
                             </td>
                             <!-- length of joining line -->
                             <td>
                                 <xsl:sequence
-                                    select="$lengths[current()] ! format-number(., '#.00')"/>
+                                    select="$f:lengths[current()] ! format-number(., '#.00')"/>
                             </td>
                             <!-- unit X -->
                             <td>
-                                <xsl:sequence select="$unitXs[current()] ! format-number(., '0.00')"
-                                />
+                                <xsl:sequence
+                                    select="$f:unit-Xs[current()] ! format-number(., '0.00')"/>
                             </td>
                             <!-- unit Y -->
                             <td>
-                                <xsl:sequence select="$unitYs[current()] ! format-number(., '0.00')"
-                                />
+                                <xsl:sequence
+                                    select="$f:unit-Ys[current()] ! format-number(., '0.00')"/>
                             </td>
                             <!-- normal 1 -->
                             <td>
@@ -401,8 +402,8 @@
                                     select="
                                         string-join(
                                         (
-                                        $normal1Xs[current()] ! format-number(., '0.00'),
-                                        $normal1Ys[current()] ! format-number(., '0.00')
+                                        $f:normal1-Xs[current()] ! format-number(., '0.00'),
+                                        $f:normal1-Ys[current()] ! format-number(., '0.00')
                                         ),
                                         ', ')"
                                 />
@@ -413,8 +414,8 @@
                                     select="
                                         string-join(
                                         (
-                                        $normal2Xs[current()] ! format-number(., '0.00'),
-                                        $normal2Ys[current()] ! format-number(., '0.00')
+                                        $f:normal2-Xs[current()] ! format-number(., '0.00'),
+                                        $f:normal2-Ys[current()] ! format-number(., '0.00')
                                         ),
                                         ', ')"
                                 />
@@ -422,53 +423,53 @@
                             <!-- angle 1 -->
                             <td>
                                 <xsl:sequence
-                                    select="$angle1s[current()] ! format-number(., '0.00')"/>
+                                    select="$f:angle1s[current()] ! format-number(., '0.00')"/>
                             </td>
                             <!-- angle 2 -->
                             <td>
                                 <xsl:sequence
-                                    select="$angle2s[current()] ! format-number(., '0.00')"/>
+                                    select="$f:angle2s[current()] ! format-number(., '0.00')"/>
                             </td>
                             <!-- anchor 1 X -->
                             <td>
                                 <xsl:sequence
-                                    select="$anchor1Xs[current()] ! format-number(., '0.00')"/>
+                                    select="$f:anchor1-Xs[current()] ! format-number(., '0.00')"/>
                             </td>
                             <!-- anchor 1 Y-->
                             <td>
                                 <xsl:sequence
-                                    select="$anchor1Ys[current()] ! format-number(., '0.00')"/>
+                                    select="$f:anchor1-Ys[current()] ! format-number(., '0.00')"/>
                             </td>
                             <!-- anchor 2 X -->
                             <td>
                                 <xsl:sequence
-                                    select="$anchor2Xs[current()] ! format-number(., '0.00')"/>
+                                    select="$f:anchor2-Xs[current()] ! format-number(., '0.00')"/>
                             </td>
                             <!-- anchor 2 Y -->
                             <td>
                                 <xsl:sequence
-                                    select="$anchor2Ys[current()] ! format-number(., '0.00')"/>
+                                    select="$f:anchor2-Ys[current()] ! format-number(., '0.00')"/>
                             </td>
                             <!-- scaling factor (constant) -->
                             <td>
-                                <xsl:sequence select="$scaling"/>
+                                <xsl:sequence select="$f:scaling"/>
                             </td>
                             <!-- total length of control line -->
                             <td>
                                 <xsl:sequence
-                                    select="$totalAnchorLengths[current()] ! format-number(., '0.00')"
+                                    select="$f:total-anchorlengths[current()] ! format-number(., '0.00')"
                                 />
                             </td>
                             <!-- in handle length -->
                             <td>
                                 <xsl:sequence
-                                    select="$inAnchorLengths[current()] ! format-number(., '0.00')"
+                                    select="$f:in-anchor-lengths[current()] ! format-number(., '0.00')"
                                 />
                             </td>
                             <!-- out handle length -->
                             <td>
                                 <xsl:sequence
-                                    select="$outAnchorLengths[current()] ! format-number(., '0.00')"
+                                    select="$f:out-anchor-lengths[current()] ! format-number(., '0.00')"
                                 />
                             </td>
                         </tr>
@@ -532,56 +533,59 @@
         <!-- ============================================================= -->
         <!-- Function is called with points, scaling, and debug values     -->
         <!-- ============================================================= -->
-        <xsl:param name="pointPairs" as="xs:string+"/>
-        <xsl:param name="scaling" as="xs:double"/>
-        <xsl:param name="debug" as="xs:boolean"/>
+        <xsl:param name="f:point-pairs" as="xs:string+"/>
+        <xsl:param name="f:scaling" as="xs:double"/>
+        <xsl:param name="f:debug" as="xs:boolean"/>
         <!-- ============================================================= -->
         <!-- Get point pairs and validate points and scaling               -->
         <!-- ============================================================= -->
-        <xsl:if test="not(djb:validate-points($pointPairs))">
+        <xsl:if test="not(djb:validate-points($f:point-pairs))">
             <xsl:message terminate="yes"
-                select="'Invalid points: ' || string-join($pointPairs, ' : ')"/>
+                select="'Invalid points: ' || string-join($f:point-pairs, ' : ')"/>
         </xsl:if>
-        <xsl:if test="not($scaling ge 0 and $scaling le 1 and $scaling castable as xs:double)">
-            <xsl:message terminate="yes" select="'Invalid scaling value: ' || $scaling"/>
+        <xsl:if test="not($f:scaling ge 0 and $f:scaling le 1 and $f:scaling castable as xs:double)">
+            <xsl:message terminate="yes" select="'Invalid scaling value: ' || $f:scaling"/>
         </xsl:if>
 
         <!-- ============================================================= -->
         <!-- Helper functions compute variables from parameters            -->
         <!-- ============================================================= -->
-        <xsl:variable name="xPoints" as="xs:double+" select="djb:extract_xPoints($pointPairs)"/>
-        <xsl:variable name="yPoints" as="xs:double+" select="djb:extract_yPoints($pointPairs)"/>
-        <xsl:variable name="dirXs" as="xs:double+" select="djb:create_dirXs($xPoints)"/>
-        <xsl:variable name="dirYs" as="xs:double+" select="djb:create_dirYs($yPoints)"/>
-        <xsl:variable name="lengths" as="xs:double+" select="djb:create_lengths($dirXs, $dirYs)"/>
-        <xsl:variable name="unitXs" as="xs:double+" select="djb:create_unitXs($dirXs, $lengths)"/>
-        <xsl:variable name="unitYs" as="xs:double+" select="djb:create_unitYs($dirYs, $lengths)"/>
-        <xsl:variable name="normal1Xs" as="xs:double+" select="djb:create_normal1Xs($unitYs)"/>
-        <xsl:variable name="normal1Ys" as="xs:double+" select="djb:create_normal1Ys($unitXs)"/>
-        <xsl:variable name="normal2Xs" as="xs:double+" select="djb:create_normal2Xs($unitYs)"/>
-        <xsl:variable name="normal2Ys" as="xs:double+" select="djb:create_normal2Ys($unitXs)"/>
-        <xsl:variable name="angle1s" as="xs:double+"
-            select="djb:create_angle1s($normal1Ys, $normal1Xs)"/>
-        <xsl:variable name="angle2s" as="xs:double+"
-            select="djb:create_angle2s($normal2Ys, $normal2Xs)"/>
-        <xsl:variable name="xLengths" as="xs:double+" select="djb:create_xLengths($xPoints)"/>
-        <xsl:variable name="yLengths" as="xs:double+" select="djb:create_yLengths($yPoints)"/>
-        <xsl:variable name="segLengths" as="xs:double+"
-            select="djb:create_segLengths($xLengths, $yLengths)"/>
-        <xsl:variable name="totalAnchorLengths" as="xs:double+"
-            select="djb:create_totalAnchorLengths($lengths, $scaling)"/>
-        <xsl:variable name="inAnchorLengths" as="xs:double+"
-            select="djb:create_inAnchorLengths($totalAnchorLengths, $segLengths)"/>
-        <xsl:variable name="outAnchorLengths" as="xs:double+"
-            select="djb:create_outAnchorLengths($totalAnchorLengths, $segLengths)"/>
-        <xsl:variable name="anchor1Xs" as="xs:double+"
-            select="djb:create_anchor1Xs($xPoints, $angle1s, $inAnchorLengths)"/>
-        <xsl:variable name="anchor1Ys" as="xs:double+"
-            select="djb:create_anchor1Ys($yPoints, $angle1s, $inAnchorLengths)"/>
-        <xsl:variable name="anchor2Xs" as="xs:double+"
-            select="djb:create_anchor2Xs($xPoints, $angle2s, $outAnchorLengths)"/>
-        <xsl:variable name="anchor2Ys" as="xs:double+"
-            select="djb:create_anchor2Ys($yPoints, $angle2s, $outAnchorLengths)"/>
+        <xsl:variable name="f:xPoints" as="xs:double+" select="djb:extract-Xs($f:point-pairs)"/>
+        <xsl:variable name="f:yPoints" as="xs:double+" select="djb:extract-yS($f:point-pairs)"/>
+        <xsl:variable name="f:dir-Xs" as="xs:double+" select="djb:create-dir-Xs($f:xPoints)"/>
+        <xsl:variable name="f:dir-Ys" as="xs:double+" select="djb:create-dir-Ys($f:yPoints)"/>
+        <xsl:variable name="f:lengths" as="xs:double+"
+            select="djb:create-lengths($f:dir-Xs, $f:dir-Ys)"/>
+        <xsl:variable name="f:unit-Xs" as="xs:double+"
+            select="djb:create-unit-Xs($f:dir-Xs, $f:lengths)"/>
+        <xsl:variable name="f:unit-Ys" as="xs:double+"
+            select="djb:create-unit-Ys($f:dir-Ys, $f:lengths)"/>
+        <xsl:variable name="f:normal1-Xs" as="xs:double+" select="djb:create-normal1-Xs($f:unit-Ys)"/>
+        <xsl:variable name="f:normal1-Ys" as="xs:double+" select="djb:create-normal1-Ys($f:unit-Xs)"/>
+        <xsl:variable name="f:normal2-Xs" as="xs:double+" select="djb:create-normal2-Xs($f:unit-Ys)"/>
+        <xsl:variable name="f:normal2-Ys" as="xs:double+" select="djb:create-normal2-Ys($f:unit-Xs)"/>
+        <xsl:variable name="f:angle1s" as="xs:double+"
+            select="djb:create-angle1s($f:normal1-Ys, $f:normal1-Xs)"/>
+        <xsl:variable name="f:angle2s" as="xs:double+"
+            select="djb:create-angle2s($f:normal2-Ys, $f:normal2-Xs)"/>
+        <xsl:variable name="f:xLengths" as="xs:double+" select="djb:create-xLengths($f:xPoints)"/>
+        <xsl:variable name="f:yLengths" as="xs:double+" select="djb:create-yLengths($f:yPoints)"/>
+        <xsl:variable name="f:seg-lengths" as="xs:double+"
+            select="djb:create-seg-lengths($f:xLengths, $f:yLengths)"/>
+        <xsl:variable name="f:total-anchor-lengths" as="xs:double+"
+            select="djb:create-total-anchor-lengths($f:lengths, $f:scaling)"/>
+        <xsl:variable name="f:in-anchor-lengths" as="xs:double+"
+            select="djb:create-in-anchor-lengths($f:total-anchor-lengths, $f:seg-lengths)"/>
+        <xsl:variable name="f:out-anchor-lengths" as="xs:double+"
+            select="djb:create-out-anchor-lengths($f:total-anchor-lengths, $f:seg-lengths)"/>
+        <xsl:variable name="f:anchor1-Xs" as="xs:double+"
+            select="djb:create-anchor1-Xs($f:xPoints, $f:angle1s, $f:in-anchor-lengths)"/>
+        <xsl:variable name="f:anchor1-Ys" as="xs:double+"
+            select="djb:create-anchor1-Ys($f:yPoints, $f:angle1s, $f:in-anchor-lengths)"/>
+        <xsl:variable name="f:anchor2-Xs" as="xs:double+"
+            select="djb:create-anchor2-Xs($f:xPoints, $f:angle2s, $f:out-anchor-lengths)"/>
+        <xsl:variable name="f:anchor2-Ys" as="xs:double+"
+            select="djb:create-anchor2-Ys($f:yPoints, $f:angle2s, $f:out-anchor-lengths)"/>
         <!-- ============================================================= -->
         <!-- Draw the graph                                                -->
         <!-- ============================================================= -->
@@ -589,104 +593,123 @@
             <!-- ===================================================== -->
             <!-- CSS (public variable, may be overridden)              -->
             <!-- ===================================================== -->
-            <xsl:if test="$debug">
+            <xsl:if test="$f:debug">
                 <xsl:sequence select="$css"/>
             </xsl:if>
             <!-- ===================================================== -->
             <!-- Background                                            -->
             <!-- ===================================================== -->
-            <xsl:if test="$debug">
+            <xsl:if test="$f:debug">
                 <rect x="0" y="0" width="500" height="300" stroke="black" stroke-width="1"
                     class="backgroundColor"/>
             </xsl:if>
             <!-- ===================================================== -->
             <!-- Data points and connecting lines                      -->
             <!-- ===================================================== -->
-            <xsl:if test="$debug">
-                <xsl:for-each select="1 to count($xPoints)">
-                    <circle class="mainCircle" cx="{$xPoints[current()]}" cy="{$yPoints[current()]}"
-                        r="{$cRadius}"/>
+            <xsl:if test="$f:debug">
+                <xsl:for-each select="1 to count($f:xPoints)">
+                    <circle class="mainCircle" cx="{$f:xPoints[current()]}"
+                        cy="{$f:yPoints[current()]}" r="{$cRadius}"/>
                 </xsl:for-each>
-                <polyline class="mainLine" points="{$pointPairs}"/>
+                <polyline class="mainLine" points="{$f:point-pairs}"/>
             </xsl:if>
             <!-- ===================================================== -->
             <!-- Alternating (hypotenuse) lines                        -->
             <!-- ===================================================== -->
-            <xsl:if test="$debug">
+            <xsl:if test="$f:debug">
                 <xsl:for-each select="0, 1">
                     <polyline class="alternatingLine"
-                        points="{$pointPairs[position() mod 2 eq current()]}"/>
+                        points="{$f:point-pairs[position() mod 2 eq current()]}"/>
                 </xsl:for-each>
             </xsl:if>
             <!-- ===================================================== -->
             <!-- Anchor points and lines                               -->
             <!-- ===================================================== -->
-            <xsl:if test="$debug">
-                <xsl:for-each select="1 to count($xPoints) - 2">
-                    <line class="anchorLine" x1="{$anchor1Xs[current()]}"
-                        y1="{$anchor1Ys[current()]}" x2="{$anchor2Xs[current()]}"
-                        y2="{$anchor2Ys[current()]}"/>
-                    <circle class="anchorCircle1" cx="{$anchor1Xs[current()]}"
-                        cy="{$anchor1Ys[current()]}" r="{$cRadius}"/>
-                    <circle class="anchorCircle2" cx="{$anchor2Xs[current()]}"
-                        cy="{$anchor2Ys[current()]}" r="{$cRadius}"/>
+            <xsl:if test="$f:debug">
+                <xsl:for-each select="1 to count($f:xPoints) - 2">
+                    <line class="anchorLine" x1="{$f:anchor1-Xs[current()]}"
+                        y1="{$f:anchor1-Ys[current()]}" x2="{$f:anchor2-Xs[current()]}"
+                        y2="{$f:anchor2-Ys[current()]}"/>
+                    <circle class="anchorCircle1" cx="{$f:anchor1-Xs[current()]}"
+                        cy="{$f:anchor1-Ys[current()]}" r="{$cRadius}"/>
+                    <circle class="anchorCircle2" cx="{$f:anchor2-Xs[current()]}"
+                        cy="{$f:anchor2-Ys[current()]}" r="{$cRadius}"/>
                 </xsl:for-each>
             </xsl:if>
             <!-- ===================================================== -->
             <!-- Plot the spline                                       -->
             <!-- ===================================================== -->
-            <xsl:variable name="splinePath" as="xs:string+">
+            <xsl:variable name="f:spline-path" as="xs:string+">
                 <!-- start at first point -->
                 <xsl:sequence
                     select="
                         concat(
                         'M',
-                        $xPoints[1],
+                        $f:xPoints[1],
                         ',',
-                        $yPoints[1])"/>
+                        $f:yPoints[1])"/>
                 <!-- first curve has only one control point -->
                 <xsl:sequence
                     select="
                         concat(
                         'Q',
-                        $anchor1Xs[1],
+                        $f:anchor1-Xs[1],
                         ',',
-                        $anchor1Ys[1],
+                        $f:anchor1-Ys[1],
                         ' ',
-                        $xPoints[2],
+                        $f:xPoints[2],
                         ',',
-                        $yPoints[2])
+                        $f:yPoints[2])
                         "/>
                 <!-- all but first and last curves have two control points -->
-                <xsl:for-each select="2 to (count($xPoints) - 2)">
-                    <xsl:variable name="c1" as="xs:string"
-                        select="$anchor2Xs[current() - 1] || ',' || $anchor2Ys[current() - 1]"/>
-                    <xsl:variable name="c2" as="xs:string"
-                        select="$anchor1Xs[current()] || ',' || $anchor1Ys[current()]"/>
-                    <xsl:variable name="endPoint" as="xs:string"
-                        select="$xPoints[current() + 1] || ',' || $yPoints[current() + 1]"/>
-                    <xsl:value-of select="'C' || string-join(($c1, $c2, $endPoint), ' ')"/>
+                <xsl:for-each select="2 to (count($f:xPoints) - 2)">
+                    <xsl:variable name="f:c1" as="xs:string"
+                        select="$f:anchor2-Xs[current() - 1] || ',' || $f:anchor2-Ys[current() - 1]"/>
+                    <xsl:variable name="f:c2" as="xs:string"
+                        select="$f:anchor1-Xs[current()] || ',' || $f:anchor1-Ys[current()]"/>
+                    <xsl:variable name="f:endP-point" as="xs:string"
+                        select="$f:xPoints[current() + 1] || ',' || $f:yPoints[current() + 1]"/>
+                    <xsl:value-of select="'C' || string-join(($f:c1, $f:c2, $f:endP-point), ' ')"/>
                 </xsl:for-each>
                 <!-- last curve has one control point-->
                 <xsl:sequence
                     select="
                         concat(
                         'Q',
-                        $anchor2Xs[last()],
+                        $f:anchor2-Xs[last()],
                         ',',
-                        $anchor2Ys[last()],
+                        $f:anchor2-Ys[last()],
                         ' ',
-                        $xPoints[last()],
+                        $f:xPoints[last()],
                         ',',
-                        $yPoints[last()])
+                        $f:yPoints[last()])
                         "
                 />
             </xsl:variable>
-            <path d="{string-join($splinePath, ' ')}" class="spline"/>
+            <path d="{string-join($f:spline-path, ' ')}" class="spline" fill="none"/>
         </g>
-        <xsl:if test="$debug">
+        <xsl:if test="$f:debug">
             <xsl:sequence
-                select="djb:create_diagnostics($dirXs, $dirYs, $lengths, $unitXs, $unitYs, $normal1Xs, $normal1Ys, $normal2Xs, $normal2Ys, $angle1s, $angle2s, $anchor1Xs, $anchor1Ys, $anchor2Xs, $anchor2Ys, $totalAnchorLengths, $inAnchorLengths, $outAnchorLengths, $scaling)"
+                select="djb:create-diagnostics(
+                $f:dir-Xs, 
+                $f:dir-Ys, 
+                $f:lengths, 
+                $f:unit-Xs, 
+                $f:unit-Ys, 
+                $f:normal1-Xs, 
+                $f:normal1-Ys, 
+                $f:normal2-Xs, 
+                $f:normal2-Ys, 
+                $f:angle1s, 
+                $f:angle2s, 
+                $f:anchor1-Xs, 
+                $f:anchor1-Ys, 
+                $f:anchor2-Xs, 
+                $f:anchor2-Ys, 
+                $f:total-anchor-lengths, 
+                $f:in-anchor-lengths, 
+                $f:out-anchor-lengths, 
+                $f:scaling)"
             />
         </xsl:if>
     </xsl:function>
@@ -698,9 +721,9 @@
         <!-- ============================================================= -->
         <!-- Function is called with points, scaling, but not debug        -->
         <!-- ============================================================= -->
-        <xsl:param name="points" as="xs:string+"/>
-        <xsl:param name="scaling" as="xs:double"/>
-        <xsl:sequence select="djb:spline($points, $scaling, false())"/>
+        <xsl:param name="f:point-pairs" as="xs:string+"/>
+        <xsl:param name="f:scaling" as="xs:double"/>
+        <xsl:sequence select="djb:spline($f:point-pairs, $f:scaling, false())"/>
     </xsl:function>
 
     <!-- ================================================================= -->
@@ -710,7 +733,7 @@
         <!-- ============================================================= -->
         <!-- Function is called with points, scaling, but not debug        -->
         <!-- ============================================================= -->
-        <xsl:param name="points" as="xs:string+"/>
-        <xsl:sequence select="djb:spline($points, 0.4, false())"/>
+        <xsl:param name="f:point-pairs" as="xs:string+"/>
+        <xsl:sequence select="djb:spline($f:point-pairs, 0.4, false())"/>
     </xsl:function>
 </xsl:package>

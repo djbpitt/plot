@@ -13,15 +13,15 @@
 -->
 <!--  exportLocation="bezier.sef" -->
 <configuration edition="EE" xmlns="http://saxon.sf.net/ns/configuration"
-     label="Configuration for http://www.obdurodon.org/bezier package"
+     label="Configuration for http://www.obdurodon.org/plot"
      licenseFileLocation="/opt/saxon/ee/saxon-license.lic">
      <xsltPackages>
           <package name="http://www.obdurodon.org/spline" version="1.0"
                sourceLocation="spline/spline.xsl"/>
           <package name="http://www.obdurodon.org/regression" version="1.0"
                sourceLocation="regression/regression.xsl"/>
-          <package name="http://www.obdurodon.org/plot_lib" version="1.0"
-               sourceLocation="lib/plot_lib.xsl"/>
+          <package name="http://www.obdurodon.org/plot-lib" version="1.0"
+               sourceLocation="lib/plot-lib.xsl"/>
           <package name="http://www.obdurodon.org/smoothing" version="1.0"
                sourceLocation="smoothing/smoothing.xsl"/>
      </xsltPackages>

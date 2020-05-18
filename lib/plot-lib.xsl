@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:package name="http://www.obdurodon.org/plot_lib"
+<xsl:package name="http://www.obdurodon.org/plot-lib"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
-    xmlns:djb="http://www.obdurodon.org" version="3.0">
+    xmlns:djb="http://www.obdurodon.org" xmlns:f="http://www.obdurodon.org/function-variables"
+    version="3.0">
+
+    <!-- ================================================================= -->
+    <!-- Library for statistical plotting in native XSLT                   -->
+    <!-- Author: David J. Birnbaum, djbpitt@gmail.com                      -->
+    <!-- Repo: https://github.com/djbpitt/plot                             -->
+    <!-- License: GPL 3.0                                                  -->
+    <!--                                                                   -->
+    <!-- Conventions:                                                      -->
+    <!--                                                                   -->
+    <!-- All function variables are in f: namespace                        -->
+    <!-- Multi-word names are hyphenated (except f:allX, f:allY)           -->
+    <!-- ================================================================= -->
 
     <!-- ================================================================= -->
     <!-- Public (final) functions                                          -->
@@ -14,16 +27,15 @@
         djb:random-sequence#1
         djb:weighted-average#4
         djb:round-to-odd#1
-        djb:gaussian#4
         "/>
     <xsl:function name="djb:validate-points" as="xs:boolean">
         <!-- ================================================================= -->
-        <!-- djb:validate_points#1 (nb: plural)                                -->
+        <!-- djb:validate-points#1 (nb: plural)                                -->
         <!--                                                                   -->
         <!-- Validates cardinality and lexical form of input points            -->
         <!--                                                                   -->
         <!-- Parameters:                                                       -->
-        <!--   $pointPairs as xs:string+ : sequence of SVG coordinate points   -->
+        <!--   $f:point-pairs as xs:string+ : SVG coordinate points            -->
         <!--                                                                   -->
         <!-- Return:                                                           -->
         <!--   True iff                                                        -->
@@ -33,28 +45,28 @@
         <!--        b. there are no spaces                                     -->
         <!--     3. X values are arranged monotonically                        -->
         <!-- ================================================================= -->
-        <xsl:param name="pointPairs" as="xs:string+"/>
+        <xsl:param name="f:point-pairs" as="xs:string+"/>
         <!-- https://stackoverflow.com/questions/12643009/regular-expression-for-floating-point-numbers -->
         <xsl:sequence
             select="
-            (count($pointPairs) ge 3)
+            (count($f:point-pairs) ge 3)
             and
-            (every $pointPair in $pointPairs
-            satisfies djb:validate_point_regex($pointPair))
+            (every $f:point-pair in $f:point-pairs
+            satisfies djb:validate-point-regex($f:point-pair))
             and
-            djb:validate_monotonic_X($pointPairs)
+            djb:validate-monotonic-X($f:point-pairs)
             "
         />
     </xsl:function>
 
     <xsl:function name="djb:split-points" as="xs:string+">
         <!-- ================================================================= -->
-        <!-- djb:split_points#1                                                -->
+        <!-- djb:split-points#1                                                -->
         <!--                                                                   -->
         <!-- Splits SVG @points format into individual strings for each point  -->
         <!--                                                                   -->
         <!-- Parameters:                                                       -->
-        <!--   $all_points as xs:string :                                      -->
+        <!--   $f:all-points as xs:string :                                    -->
         <!--      whitespace-delimited coordinate pairs                        -->
         <!--                                                                   -->
         <!-- Return:                                                           -->
@@ -63,8 +75,8 @@
         <!-- Note:                                                             -->
         <!--   Not currently used; remove?                                     -->
         <!-- ================================================================= -->
-        <xsl:param name="all_points" as="xs:string"/>
-        <xsl:sequence select="tokenize(normalize-space($all_points), ' ')"/>
+        <xsl:param name="f:all-points" as="xs:string"/>
+        <xsl:sequence select="tokenize(normalize-space($f:all-points), ' ')"/>
     </xsl:function>
 
     <xsl:function name="djb:random-sequence" as="xs:double*">
@@ -84,23 +96,18 @@
 
     <xsl:function name="djb:weighted-average" as="xs:double">
         <!-- ============================================================ -->
-        <!-- djb:weighted_average#4                                       -->
+        <!-- djb:weighted-average#4                                       -->
         <!--                                                              -->
         <!-- Returns smoothed value for current point                     -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
-        <!--   $focus as xs:integer : offset of focus point               -->
-        <!--   $input_values as xs:double+ : all Y values                 -->
-        <!--   $window_size as xs:integer : width of window (odd, > 3)    -->
-        <!--   $stddev as xs:double : width of bell                       -->
+        <!--   $f:focus as xs:integer : offset of focus point             -->
+        <!--   $f:window_size as xs:integer : width of window (odd, > 3)  -->
+        <!--   $f:input_values as xs:double+ : all Y values               -->
+        <!--   $f:weights : weights scale (from djb:get-weights-scale)    -->
         <!--                                                              -->
         <!-- Returns:                                                     -->
         <!--   xs:double : weighted value for focus point                 -->
-        <!--                                                              -->
-        <!-- Notes:                                                       -->
-        <!--   Mean - 0, peak = 1                                         -->
-        <!--   Return full width of window for end values                 -->
-        <!--   Weights are computed with djb:gaussian_weights()           -->
         <!--                                                              -->
         <!-- XQuery mockup:                                               -->
         <!--   let $sum_of_weights := sum($weights)                       -->
@@ -109,67 +116,65 @@
         <!--     return $weights[$i] * $scores[$i]) => sum()              -->
         <!--   return $sum_of_weighted_scores div $sum_of_weights         -->
         <!-- ============================================================ -->
-        <xsl:param name="focus" as="xs:integer"/>
-        <xsl:param name="input_values" as="xs:double+"/>
-        <xsl:param name="window_size" as="xs:integer"/>
-        <xsl:param name="stddev" as="xs:double+"/>
-        <xsl:variable name="weights" as="xs:double+"
-            select="djb:gaussian-weights($window_size, $stddev)"/>
-        <xsl:variable name="n" as="xs:integer" select="count($input_values)"/>
-        <xsl:if test="$window_size mod 2 eq 0 or $window_size lt 3 or $window_size gt $n">
+        <xsl:param name="f:focus" as="xs:integer"/>
+        <xsl:param name="f:window-size" as="xs:integer"/>
+        <xsl:param name="f:input-values" as="xs:double+"/>
+        <xsl:param name="f:weights" as="xs:double+"/>
+        <xsl:variable name="f:n" as="xs:integer" select="count($f:input-values)"/>
+        <xsl:if test="$f:window-size mod 2 eq 0 or $f:window-size lt 3 or $f:window-size gt $f:n">
             <xsl:message terminate="yes">Window size must be 1) an odd integer, 2) greater than 3,
                 and 3) not greater than the count of the input values</xsl:message>
         </xsl:if>
         <!-- adjust window for end cases -->
-        <xsl:variable name="half_window" as="xs:integer" select="$window_size idiv 2"/>
-        <xsl:variable name="left_edge" as="xs:integer">
+        <xsl:variable name="f:half-window" as="xs:integer" select="$f:window-size idiv 2"/>
+        <xsl:variable name="f:left-edge" as="xs:integer">
             <xsl:choose>
-                <xsl:when test="$focus le $half_window">
+                <xsl:when test="$f:focus le $f:half-window">
                     <!-- window touches left edge -->
                     <xsl:sequence select="1"/>
                 </xsl:when>
-                <xsl:when test="$focus gt ($n - $half_window)">
+                <xsl:when test="$f:focus gt ($f:n - $f:half-window)">
                     <!-- window touches right edge -->
-                    <xsl:sequence select="$n - (2 * $half_window)"/>
+                    <xsl:sequence select="$f:n - (2 * $f:half-window)"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <!-- window not at edge -->
-                    <xsl:sequence select="$focus - $half_window"/>
+                    <xsl:sequence select="$f:focus - $f:half-window"/>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="right_edge" as="xs:integer">
+        <xsl:variable name="f:right-edge" as="xs:integer">
             <xsl:choose>
-                <xsl:when test="$focus ge ($n - $half_window)">
-                    <xsl:sequence select="$n"/>
+                <xsl:when test="$f:focus ge ($f:n - $f:half-window)">
+                    <xsl:sequence select="$f:n"/>
                 </xsl:when>
-                <xsl:when test="$focus le $half_window">
-                    <xsl:sequence select="$window_size"/>
+                <xsl:when test="$f:focus le $f:half-window">
+                    <xsl:sequence select="$f:window-size"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:sequence select="$focus + $half_window"/>
+                    <xsl:sequence select="$f:focus + $f:half-window"/>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="weighted_values" as="xs:double+">
-            <xsl:for-each select="reverse($left_edge to $focus)">
-                <xsl:variable name="pos" as="xs:integer" select="position()"/>
-                <xsl:sequence select="$input_values[current()] * $weights[$pos]"/>
+        <xsl:variable name="f:weighted-values" as="xs:double+">
+            <xsl:for-each select="reverse($f:left-edge to $f:focus)">
+                <xsl:variable name="f:pos" as="xs:integer" select="position()"/>
+                <xsl:sequence select="$f:input-values[current()] * $f:weights[$f:pos]"/>
             </xsl:for-each>
-            <xsl:for-each select="($focus + 1) to $right_edge">
-                <xsl:variable name="pos" as="xs:integer" select="position()"/>
-                <xsl:sequence select="$input_values[current()] * $weights[$pos + 1]"/>
+            <xsl:for-each select="($f:focus + 1) to $f:right-edge">
+                <xsl:variable name="f:pos" as="xs:integer" select="position()"/>
+                <xsl:sequence select="$f:input-values[current()] * $f:weights[$f:pos + 1]"/>
             </xsl:for-each>
         </xsl:variable>
-        <xsl:variable name="sum_weighted_values" as="xs:double" select="sum($weighted_values)"/>
+        <xsl:variable name="f:sum-weighted-values" as="xs:double" select="sum($f:weighted-values)"/>
         <!-- compute sum of weights applied to all points in winow -->
-        <xsl:variable name="sum_applied_weights" as="xs:double"
+        <xsl:variable name="f:sum-applied-weights" as="xs:double"
             select="
-            $weights[1] + 
-            sum($weights[position() = (2 to (1 + $focus - $left_edge))]) +
-            sum($weights[position() = (2 to (1 + $right_edge - $focus))])
+            $f:weights[1] + 
+            sum($f:weights[position() = (2 to (1 + $f:focus - $f:left-edge))]) +
+            sum($f:weights[position() = (2 to (1 + $f:right-edge - $f:focus))])
             "/>
-        <xsl:sequence select="$sum_weighted_values div $sum_applied_weights"/>
+        <xsl:sequence select="$f:sum-weighted-values div $f:sum-applied-weights"/>
     </xsl:function>
 
     <xsl:function name="djb:round-to-odd" as="xs:integer">
@@ -186,48 +191,14 @@
         <xsl:param name="input" as="xs:integer"/>
         <xsl:sequence select="(2 * floor($input div 2) + 1) => xs:integer()"/>
     </xsl:function>
-
-    <xsl:function name="djb:gaussian" as="xs:double">
-        <!-- ============================================================ -->
-        <!-- djb:gaussian#4 as xs:double                                  -->
-        <!--                                                              -->
-        <!-- $x as xs:double : input                                      -->
-        <!-- $peak as xs:double : height of curve’s peak                  -->
-        <!-- $center as xs:double : X position of center of peak (mean)   -->
-        <!-- $stddev as xs:double : stddev (controls width of curve)      -->
-        <!--                                                              -->
-        <!-- Helper function for djb:gaussian-weights, which is a helper  -->
-        <!--   function for djb:weighted-average                          -->
-        <!--                                                              -->
-        <!-- Returns                                                      -->
-        <!--   xs:double, representing Y value corresponding to X         -->
-        <!--                                                              -->
-        <!-- https://en.wikipedia.org/wiki/Gaussian_function:             -->
-        <!-- "The parameter a is the height of the curve's peak, b is the -->
-        <!--   position of the center of the peak and c (the standard     -->
-        <!--   deviation, sometimes called the Gaussian RMS width)        -->
-        <!--   controls the width of the "bell".                          -->
-        <!-- ============================================================ -->
-        <xsl:param name="x" as="xs:double"/>
-        <xsl:param name="peak" as="xs:double"/>
-        <xsl:param name="mean" as="xs:double"/>
-        <xsl:param name="stddev" as="xs:double"/>
-        <xsl:if test="$stddev le 0">
-            <xsl:message terminate="yes">Stddev must be greater than 0</xsl:message>
-        </xsl:if>
-        <xsl:sequence
-            select="$peak * math:exp(-1 * (math:pow(($x - $mean), 2)) div (2 * math:pow($stddev, 2)))"
-        />
-    </xsl:function>
-
     <!-- ================================================================ -->
 
     <!-- ================================================================ -->
     <!-- Private functions                                                -->
     <!-- ================================================================ -->
-    <xsl:function name="djb:validate_point_regex" as="xs:boolean">
+    <xsl:function name="djb:validate-point-regex" as="xs:boolean">
         <!-- ================================================================= -->
-        <!-- validate_point_regex#1 (nb: singular)                             -->
+        <!-- fjb:validate-point-regex#1 (nb: singular)                         -->
         <!--                                                                   -->
         <!-- Tests a single point and returns True if it matches regex         -->
         <!-- Regex: "X,Y" where                                                -->
@@ -235,35 +206,85 @@
         <!--   and there are no spaces                                         -->
         <!--                                                                   -->
         <!-- Parameters:                                                       -->
-        <!--   $inputPoint as xs:string : point in X,Y format                  -->
+        <!--   $f:input-point as xs:string : point in X,Y format               -->
         <!--                                                                   -->
         <!-- Return:                                                           -->
         <!--   True iff point matches regex                                    -->
         <!-- ================================================================= -->
-        <xsl:param name="inputPoint" as="xs:string"/>
+        <xsl:param name="f:input-point" as="xs:string"/>
         <!-- https://stackoverflow.com/questions/12643009/regular-expression-for-floating-point-numbers -->
-        <xsl:variable name="float_regex" as="xs:string"
+        <xsl:variable name="f:float-regex" as="xs:string"
             select="'[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)'"/>
-        <xsl:variable name="point_regex" as="xs:string" select="$float_regex || ',' || $float_regex"/>
-        <xsl:sequence select="matches($inputPoint, $point_regex)"/>
+        <xsl:variable name="f:point-regex" as="xs:string"
+            select="$f:float-regex || ',' || $f:float-regex"/>
+        <xsl:sequence select="matches($f:input-point, $f:point-regex)"/>
     </xsl:function>
 
-    <xsl:function name="djb:validate_monotonic_X" as="xs:boolean">
+    <xsl:function name="djb:get-weights-scale" as="xs:double+">
+        <!-- ============================================================ -->
+        <!-- djb:get=weights-scale#3                                      -->
+        <!--                                                              -->
+        <!-- Returns sequence of scaling values for different kernels     -->
+        <!--                                                              -->
+        <!-- Parameters:                                                  -->
+        <!--   f:kernel as xs:string : gaussian, rectangular, exponential -->
+        <!--   f: window_size as xs:integer : width of window             -->
+        <!--   f:stddev as xs:integer : controls width of bell            -->
+        <!--                                                              -->
+        <!-- Returns:                                                     -->
+        <!--   xs:double+ : weights to be applied in scaling              -->
+        <!--                                                              -->
+        <!-- Notes:                                                       -->
+        <!--   Gaussian mean = 0, peak = 1                                -->
+        <!--   f:stddev is ignored silently except for Gaussian           -->
+        <!--   Return full width of window (for end values)               -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:kernel" as="xs:string"/>
+        <xsl:param name="f:window-size" as="xs:integer"/>
+        <xsl:param name="f:stddev" as="xs:double"/>
+        <xsl:if test="$f:window-size mod 2 eq 0 or $f:window-size lt 3">
+            <xsl:message terminate="yes">Window size must be odd integer greater than
+                3</xsl:message>
+        </xsl:if>
+        <xsl:choose>
+            <xsl:when test="$f:kernel eq 'gaussian'">
+                <xsl:if test="$f:stddev le 0">
+                    <xsl:message terminate="yes">σ must be greater than 0</xsl:message>
+                </xsl:if>
+                <xsl:sequence select="djb:gaussian-weights($f:window-size, $f:stddev)"/>
+            </xsl:when>
+            <xsl:when test="$f:kernel eq 'rectangular'">
+                <!-- all values are equal to 1 -->
+                <xsl:sequence select="(0 to ($f:window-size)) ! 1"/>
+            </xsl:when>
+            <xsl:when test="$f:kernel eq 'exponential'">
+                <!-- 1/1, 1/2, 1/4, 1/8, ... -->
+                <xsl:sequence select="(0 to ($f:window-size)) ! (math:pow(2, -1 * .))"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:message terminate="yes"
+                    select="'Invalid kernel (' || $f:kernel || '); must be one of: gaussian, rectangular, or exponential'"
+                />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+
+    <xsl:function name="djb:validate-monotonic-X" as="xs:boolean">
         <!-- ================================================================= -->
-        <!-- validate_monotonic_X#1                                            -->
+        <!-- djb:validate-monotonic-X#1                                        -->
         <!--                                                                   -->
         <!-- Tests input a sequence and returns True if X values are monotonic -->
         <!--                                                                   -->
         <!-- Parameters:                                                       -->
-        <!--   $inputPoints as xs:string+ : all points in X,Y format           -->
+        <!--   $f:input-points as xs:string+ : all points in X,Y format        -->
         <!--                                                                   -->
         <!-- Return:                                                           -->
         <!--   True iff X is monotonic                                         -->
         <!-- ================================================================= -->
-        <xsl:param name="pointPairs" as="xs:string+"/>
-        <xsl:variable name="allX" as="xs:double+"
-            select="$pointPairs ! tokenize(., ',')[1] ! number(.)"/>
-        <xsl:sequence select="djb:monotonic($allX)"/>
+        <xsl:param name="f:point-pairs" as="xs:string+"/>
+        <xsl:variable name="f:allX" as="xs:double+"
+            select="$f:point-pairs ! tokenize(., ',')[1] ! number(.)"/>
+        <xsl:sequence select="djb:monotonic($f:allX)"/>
     </xsl:function>
 
     <xsl:function name="djb:uniform" as="xs:boolean">
@@ -273,7 +294,7 @@
         <!-- Returns True iff all items in sequence are equal             -->
         <!--                                                              -->
         <!-- Parameter                                                    -->
-        <!--   $seq as item()+ : sequence of any datatype                 -->
+        <!--   $f:seq as item()+ : sequence of any datatype               -->
         <!--                                                              -->
         <!-- Returns                                                      -->
         <!--   xs:boolean : True iff all items in $seq are equal          -->
@@ -281,8 +302,8 @@
         <!-- Note: O(n) counterpart to O(n^2) not($seq != $seq)           -->
         <!--   (from Michael Kay over xml.com Slack                       -->
         <!-- ============================================================ -->
-        <xsl:param name="seq" as="item()+"/>
-        <xsl:sequence select="not(head($seq) != tail($seq))"/>
+        <xsl:param name="f:seq" as="item()+"/>
+        <xsl:sequence select="not(head($f:seq) != tail($f:seq))"/>
     </xsl:function>
 
     <xsl:function name="djb:monotonic" as="xs:boolean">
@@ -292,18 +313,18 @@
         <!-- Returns True iff sequence is monotonic (in either direction) -->
         <!--                                                              -->
         <!-- Parameter                                                    -->
-        <!--   $seq as xs:double+ : sequence of numerical values          -->
+        <!--   $f:seq as xs:double+ : sequence of numerical values        -->
         <!--                                                              -->
         <!-- Returns                                                      -->
-        <!--   True iff $seq is monotonically non-increasing or           -->
+        <!--   True iff $f:seq is monotonically non-increasing or         -->
         <!--   non-decreasing                                             -->
         <!-- ============================================================ -->
-        <xsl:param name="seq" as="xs:double+"/>
+        <xsl:param name="f:seq" as="xs:double+"/>
         <xsl:sequence
             select="
-            (for $i in 2 to count($seq)
+            (for $i in 2 to count($f:seq)
             return
-            $seq[$i] ge $seq[$i - 1]) => djb:uniform()"
+            $f:seq[$i] ge $f:seq[$i - 1]) => djb:uniform()"
         />
     </xsl:function>
 
@@ -314,18 +335,18 @@
         <!-- Converts integer range to range of tenths                    -->
         <!--                                                              -->
         <!-- Parameter                                                    -->
-        <!--   $half as xs:integer : upper bound of symmetrical range     -->
+        <!--   $f:half as xs:integer : upper bound of symmetrical range   -->
         <!--                                                              -->
         <!-- Returns                                                      -->
         <!--   xs:double+ : symmetrical range in tenths                   -->
         <!-- ============================================================ -->
-        <xsl:param name="half" as="xs:integer"/>
-        <xsl:if test="$half le 0">
+        <xsl:param name="f:half" as="xs:integer"/>
+        <xsl:if test="$f:half le 0">
             <xsl:message terminate="yes">Input must be a positive integer</xsl:message>
         </xsl:if>
         <xsl:sequence
             select="
-            for $i in (-10 * $half to 10 * $half)
+            for $i in (-10 * $f:half to 10 * $f:half)
             return
             $i div 10"
         />
@@ -333,13 +354,12 @@
 
     <xsl:function name="djb:gaussian-weights" as="xs:double+">
         <!-- ============================================================ -->
-        <!-- djb:gaussian_weights#2                                       -->
+        <!-- djb:gaussian-weights#2                                       -->
         <!--                                                              -->
         <!-- Returns sequence of values for Gaussian weighting            -->
-        <!--   Helper function for djb:weighted-average                   -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
-        <!--   window_size as xs:integer : width of window (odd, > 3)     -->
+        <!--   window_size as xs:integer : width of window                -->
         <!--   stddev as xs:integer : controls width of bell              -->
         <!--                                                              -->
         <!-- Returns:                                                     -->
@@ -349,15 +369,37 @@
         <!--   Mean - 0, peak = 1                                         -->
         <!--   Return full width of window (for end values)               -->
         <!-- ============================================================ -->
-        <xsl:param name="window_size" as="xs:integer"/>
-        <xsl:param name="stddev" as="xs:double"/>
-        <xsl:if test="$window_size mod 2 eq 0 or $window_size lt 3">
-            <xsl:message terminate="yes">Window size must be odd integer greater than
-                3</xsl:message>
-        </xsl:if>
-        <xsl:for-each select="0 to ($window_size - 1)">
-            <xsl:sequence select="djb:gaussian(current(), 1, 0, $stddev)"/>
+        <xsl:param name="f:window-size" as="xs:integer"/>
+        <xsl:param name="f:stddev" as="xs:double"/>
+        <xsl:for-each select="0 to ($f:window-size)">
+            <xsl:sequence select="djb:gaussian(current(), 1, 0, $f:stddev)"/>
         </xsl:for-each>
     </xsl:function>
 
+    <xsl:function name="djb:gaussian" as="xs:double">
+        <!-- ============================================================ -->
+        <!-- djb:gaussian#4 as xs:double                                  -->
+        <!--                                                              -->
+        <!-- $f:x as xs:double : input                                    -->
+        <!-- $f:peak as xs:double : height of curve’s peak                -->
+        <!-- $f:center as xs:double : X position of center of peak (mean) -->
+        <!-- $f:stddev as xs:double : stddev (controls width of curve)    -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   xs:double, representing Y value corresponding to X         -->
+        <!--                                                              -->
+        <!-- https://en.wikipedia.org/wiki/Gaussian_function:             -->
+        <!-- "The parameter a is the height of the curve's peak, b is the -->
+        <!--   position of the center of the peak and c (the standard     -->
+        <!--   deviation, sometimes called the Gaussian RMS width)        -->
+        <!--   controls the width of the "bell".                          -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:x" as="xs:double"/>
+        <xsl:param name="f:peak" as="xs:double"/>
+        <xsl:param name="f:mean" as="xs:double"/>
+        <xsl:param name="f:stddev" as="xs:double"/>
+        <xsl:sequence
+            select="$f:peak * math:exp(-1 * (math:pow(($f:x - $f:mean), 2)) div (2 * math:pow($f:stddev, 2)))"
+        />
+    </xsl:function>
 </xsl:package>
