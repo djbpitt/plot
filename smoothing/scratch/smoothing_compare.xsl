@@ -166,7 +166,7 @@
                     <rect x="2" y="{-5 + position() * 7}" width="5" height="5" fill="{current()}"/>
                 </xsl:for-each>
                 <text x="10" y="6" fill="black" font-size="5">
-                    <tspan>Actual data (100 points)</tspan>
+                    <tspan>Actual data (101 points)</tspan>
                     <tspan x="10" dy="7" fill="red">
                         <xsl:value-of
                             select="'Regression line (' || format-number(-1 * $b, '0.0') || '–' || format-number(-1 * ($m * 200 + $b), '0.0') || ')'"
