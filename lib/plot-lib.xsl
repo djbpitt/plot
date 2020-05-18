@@ -27,6 +27,7 @@
         djb:random-sequence#1
         djb:get-weights-scale#3
         djb:weighted-average#4
+        djb:gaussian#4
         djb:round-to-odd#1
         "/>
     <xsl:function name="djb:validate-points" as="xs:boolean">
@@ -227,6 +228,33 @@
         <xsl:sequence select="$f:sum-weighted-values div $f:sum-applied-weights"/>
     </xsl:function>
 
+    <xsl:function name="djb:gaussian" as="xs:double">
+        <!-- ============================================================ -->
+        <!-- djb:gaussian#4 as xs:double                                  -->
+        <!--                                                              -->
+        <!-- $f:x as xs:double : input                                    -->
+        <!-- $f:peak as xs:double : height of curve’s peak                -->
+        <!-- $f:center as xs:double : X position of center of peak (mean) -->
+        <!-- $f:stddev as xs:double : stddev (controls width of curve)    -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   xs:double, representing Y value corresponding to X         -->
+        <!--                                                              -->
+        <!-- https://en.wikipedia.org/wiki/Gaussian_function:             -->
+        <!-- "The parameter a is the height of the curve's peak, b is the -->
+        <!--   position of the center of the peak and c (the standard     -->
+        <!--   deviation, sometimes called the Gaussian RMS width)        -->
+        <!--   controls the width of the "bell".                          -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:x" as="xs:double"/>
+        <xsl:param name="f:peak" as="xs:double"/>
+        <xsl:param name="f:mean" as="xs:double"/>
+        <xsl:param name="f:stddev" as="xs:double"/>
+        <xsl:sequence
+            select="$f:peak * math:exp(-1 * (math:pow(($f:x - $f:mean), 2)) div (2 * math:pow($f:stddev, 2)))"
+        />
+    </xsl:function>
+
     <xsl:function name="djb:round-to-odd" as="xs:integer">
         <!-- ============================================================ -->
         <!-- djb:round-to-odd#1                                           -->
@@ -375,32 +403,5 @@
         <xsl:for-each select="0 to ($f:window-size)">
             <xsl:sequence select="djb:gaussian(current(), 1, 0, $f:stddev)"/>
         </xsl:for-each>
-    </xsl:function>
-
-    <xsl:function name="djb:gaussian" as="xs:double">
-        <!-- ============================================================ -->
-        <!-- djb:gaussian#4 as xs:double                                  -->
-        <!--                                                              -->
-        <!-- $f:x as xs:double : input                                    -->
-        <!-- $f:peak as xs:double : height of curve’s peak                -->
-        <!-- $f:center as xs:double : X position of center of peak (mean) -->
-        <!-- $f:stddev as xs:double : stddev (controls width of curve)    -->
-        <!--                                                              -->
-        <!-- Returns                                                      -->
-        <!--   xs:double, representing Y value corresponding to X         -->
-        <!--                                                              -->
-        <!-- https://en.wikipedia.org/wiki/Gaussian_function:             -->
-        <!-- "The parameter a is the height of the curve's peak, b is the -->
-        <!--   position of the center of the peak and c (the standard     -->
-        <!--   deviation, sometimes called the Gaussian RMS width)        -->
-        <!--   controls the width of the "bell".                          -->
-        <!-- ============================================================ -->
-        <xsl:param name="f:x" as="xs:double"/>
-        <xsl:param name="f:peak" as="xs:double"/>
-        <xsl:param name="f:mean" as="xs:double"/>
-        <xsl:param name="f:stddev" as="xs:double"/>
-        <xsl:sequence
-            select="$f:peak * math:exp(-1 * (math:pow(($f:x - $f:mean), 2)) div (2 * math:pow($f:stddev, 2)))"
-        />
     </xsl:function>
 </xsl:package>
