@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 -110 110 130">
-   <style type="text/css">
+<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 -110 110 130"><style type="text/css">
                 
                 .stddev {
                     fill: mediumturquoise;
@@ -22,86 +20,4 @@
                     stroke-width: 0.5;
                     stroke-linecap: square;
                     text-anchor: end;
-                }</style>
-   <g>
-      <g class="h_ruling">
-         <line x1="-50" y1="0" x2="50" y2="0" stroke="lightgray"/>
-         <text x="-52" y="0" alignment-baseline="central">0</text>
-         <line x1="-50" y1="-10" x2="50" y2="-10" stroke="lightgray"/>
-         <text x="-52" y="-10" alignment-baseline="central">10</text>
-         <line x1="-50" y1="-20" x2="50" y2="-20" stroke="lightgray"/>
-         <text x="-52" y="-20" alignment-baseline="central">20</text>
-         <line x1="-50" y1="-30" x2="50" y2="-30" stroke="lightgray"/>
-         <text x="-52" y="-30" alignment-baseline="central">30</text>
-         <line x1="-50" y1="-40" x2="50" y2="-40" stroke="lightgray"/>
-         <text x="-52" y="-40" alignment-baseline="central">40</text>
-         <line x1="-50" y1="-50" x2="50" y2="-50" stroke="lightgray"/>
-         <text x="-52" y="-50" alignment-baseline="central">50</text>
-         <line x1="-50" y1="-60" x2="50" y2="-60" stroke="lightgray"/>
-         <text x="-52" y="-60" alignment-baseline="central">60</text>
-         <line x1="-50" y1="-70" x2="50" y2="-70" stroke="lightgray"/>
-         <text x="-52" y="-70" alignment-baseline="central">70</text>
-         <line x1="-50" y1="-80" x2="50" y2="-80" stroke="lightgray"/>
-         <text x="-52" y="-80" alignment-baseline="central">80</text>
-         <line x1="-50" y1="-90" x2="50" y2="-90" stroke="lightgray"/>
-         <text x="-52" y="-90" alignment-baseline="central">90</text>
-         <line x1="-50" y1="-100" x2="50" y2="-100" stroke="lightgray"/>
-         <text x="-52" y="-100" alignment-baseline="central">100</text>
-      </g>
-      <g class="stddev">
-         <line x1="-30" y1="0" x2="-30" y2="-100" stroke="mediumturquoise"/>
-         <text x="-30" y="4">-3.0</text>
-         <text x="-30" y="8">-3σ</text>
-         <line x1="-20" y1="0" x2="-20" y2="-100" stroke="mediumturquoise"/>
-         <text x="-20" y="4">-2.0</text>
-         <text x="-20" y="8">-2σ</text>
-         <line x1="-10" y1="0" x2="-10" y2="-100" stroke="mediumturquoise"/>
-         <text x="-10" y="4">-1.0</text>
-         <text x="-10" y="8">-1σ</text>
-         <line x1="10" y1="0" x2="10" y2="-100" stroke="mediumturquoise"/>
-         <text x="10" y="4">1.0</text>
-         <text x="10" y="8">1σ</text>
-         <line x1="20" y1="0" x2="20" y2="-100" stroke="mediumturquoise"/>
-         <text x="20" y="4">2.0</text>
-         <text x="20" y="8">2σ</text>
-         <line x1="30" y1="0" x2="30" y2="-100" stroke="mediumturquoise"/>
-         <text x="30" y="4">3.0</text>
-         <text x="30" y="8">3σ</text>
-      </g>
-      <g class="mean">
-         <line x1="0" y1="0" x2="0" y2="-100" stroke="tomato"/>
-         <text x="0" y="4" text-anchor="middle">0</text>
-      </g>
-      <text x="0"
-            y="8"
-            text-anchor="middle"
-            fill="tomato"
-            font-size="3">μ</text>
-      <line x1="-40"
-            y1="-0"
-            x2="40"
-            y2="-0"
-            class="h_ruling"
-            stroke="lightgray"/>
-      <line x1="-40"
-            y1="-100"
-            x2="40"
-            y2="-100"
-            class="h_ruling"
-            stroke="lightgray"/>
-      <polyline points="-40,-0.033546262790251184 -39,-0.049795542150327395 -38,-0.07318024188804728 -37,-0.10647662366679196 -36,-0.1533810679324463 -35,-0.21874911181828852 -34,-0.3088715408236772 -33,-0.43178400076330814 -32,-0.5976022895005938 -31,-0.8188701014374075 -30,-1.1108996538242306 -29,-1.4920786069067842 -28,-1.9841094744370298 -27,-2.612140985391822 -26,-3.404745473459933 -25,-4.393693362340742 -24,-5.613476283413372 -23,-7.100535373963702 -22,-8.89216174593863 -21,-11.025052530448521 -20,-13.53352832366127 -19,-16.44744565771549 -18,-19.789869908361464 -17,-23.57460765558636 -16,-27.80373004531941 -15,-32.465246735834974 -14,-37.531109885139955 -13,-42.95573582107391 -12,-48.67522559599717 -11,-54.60744266397094 -10,-60.653065971263345 -9,-66.69768108584744 -8,-72.61490370736908 -7,-78.27045382418682 -6,-83.5270211411272 -5,-88.24969025845955 -4,-92.31163463866358 -3,-95.59974818331 -2,-98.01986733067552 -1,-99.50124791926824 0,-100 1,-99.50124791926824 2,-98.01986733067552 3,-95.59974818331 4,-92.31163463866358 5,-88.24969025845955 6,-83.5270211411272 7,-78.27045382418682 8,-72.61490370736908 9,-66.69768108584744 10,-60.653065971263345 11,-54.60744266397094 12,-48.67522559599717 13,-42.95573582107391 14,-37.531109885139955 15,-32.465246735834974 16,-27.80373004531941 17,-23.57460765558636 18,-19.789869908361464 19,-16.44744565771549 20,-13.53352832366127 21,-11.025052530448521 22,-8.89216174593863 23,-7.100535373963702 24,-5.613476283413372 25,-4.393693362340742 26,-3.404745473459933 27,-2.612140985391822 28,-1.9841094744370298 29,-1.4920786069067842 30,-1.1108996538242306 31,-0.8188701014374075 32,-0.5976022895005938 33,-0.43178400076330814 34,-0.3088715408236772 35,-0.21874911181828852 36,-0.1533810679324463 37,-0.10647662366679196 38,-0.07318024188804728 39,-0.049795542150327395 40,-0.033546262790251184"
-                stroke="black"
-                stroke-width="1"
-                fill="none"/>
-      <text x="0"
-            y="15"
-            text-anchor="middle"
-            fill="black"
-            font-size="5">
-         <tspan>Peak =100; </tspan>
-         <tspan fill="tomato">μ = 0.0</tspan>
-         <tspan>; </tspan>
-         <tspan fill="mediumturquoise">σ = 1.0</tspan>
-      </text>
-   </g>
-</svg>
+                }</style><g><g class="h_ruling"><line x1="-50" y1="0" x2="50" y2="0" stroke="lightgray"/><text x="-52" y="0" alignment-baseline="central">0</text><line x1="-50" y1="-10" x2="50" y2="-10" stroke="lightgray"/><text x="-52" y="-10" alignment-baseline="central">10</text><line x1="-50" y1="-20" x2="50" y2="-20" stroke="lightgray"/><text x="-52" y="-20" alignment-baseline="central">20</text><line x1="-50" y1="-30" x2="50" y2="-30" stroke="lightgray"/><text x="-52" y="-30" alignment-baseline="central">30</text><line x1="-50" y1="-40" x2="50" y2="-40" stroke="lightgray"/><text x="-52" y="-40" alignment-baseline="central">40</text><line x1="-50" y1="-50" x2="50" y2="-50" stroke="lightgray"/><text x="-52" y="-50" alignment-baseline="central">50</text><line x1="-50" y1="-60" x2="50" y2="-60" stroke="lightgray"/><text x="-52" y="-60" alignment-baseline="central">60</text><line x1="-50" y1="-70" x2="50" y2="-70" stroke="lightgray"/><text x="-52" y="-70" alignment-baseline="central">70</text><line x1="-50" y1="-80" x2="50" y2="-80" stroke="lightgray"/><text x="-52" y="-80" alignment-baseline="central">80</text><line x1="-50" y1="-90" x2="50" y2="-90" stroke="lightgray"/><text x="-52" y="-90" alignment-baseline="central">90</text><line x1="-50" y1="-100" x2="50" y2="-100" stroke="lightgray"/><text x="-52" y="-100" alignment-baseline="central">100</text></g><g class="stddev"><line x1="-30" y1="0" x2="-30" y2="-100" stroke="mediumturquoise"/><text x="-30" y="4">-3.0</text><text x="-30" y="8">-3σ</text><line x1="-20" y1="0" x2="-20" y2="-100" stroke="mediumturquoise"/><text x="-20" y="4">-2.0</text><text x="-20" y="8">-2σ</text><line x1="-10" y1="0" x2="-10" y2="-100" stroke="mediumturquoise"/><text x="-10" y="4">-1.0</text><text x="-10" y="8">-1σ</text><line x1="10" y1="0" x2="10" y2="-100" stroke="mediumturquoise"/><text x="10" y="4">1.0</text><text x="10" y="8">1σ</text><line x1="20" y1="0" x2="20" y2="-100" stroke="mediumturquoise"/><text x="20" y="4">2.0</text><text x="20" y="8">2σ</text><line x1="30" y1="0" x2="30" y2="-100" stroke="mediumturquoise"/><text x="30" y="4">3.0</text><text x="30" y="8">3σ</text></g><g class="mean"><line x1="0" y1="0" x2="0" y2="-100" stroke="tomato"/><text x="0" y="4" text-anchor="middle">0</text></g><text x="0" y="8" text-anchor="middle" fill="tomato" font-size="3">μ</text><line x1="-40" y1="-0" x2="40" y2="-0" class="h_ruling" stroke="lightgray"/><line x1="-40" y1="-100" x2="40" y2="-100" class="h_ruling" stroke="lightgray"/><polyline points="-40,-0.033546262790251184 -39,-0.049795542150327395 -38,-0.07318024188804728 -37,-0.10647662366679196 -36,-0.1533810679324463 -35,-0.21874911181828852 -34,-0.3088715408236772 -33,-0.43178400076330814 -32,-0.5976022895005938 -31,-0.8188701014374075 -30,-1.1108996538242306 -29,-1.4920786069067842 -28,-1.9841094744370298 -27,-2.612140985391822 -26,-3.404745473459933 -25,-4.393693362340742 -24,-5.613476283413372 -23,-7.100535373963702 -22,-8.89216174593863 -21,-11.025052530448521 -20,-13.53352832366127 -19,-16.44744565771549 -18,-19.789869908361464 -17,-23.57460765558636 -16,-27.80373004531941 -15,-32.465246735834974 -14,-37.531109885139955 -13,-42.95573582107391 -12,-48.67522559599717 -11,-54.60744266397094 -10,-60.653065971263345 -9,-66.69768108584744 -8,-72.61490370736908 -7,-78.27045382418682 -6,-83.5270211411272 -5,-88.24969025845955 -4,-92.31163463866358 -3,-95.59974818331 -2,-98.01986733067552 -1,-99.50124791926824 0,-100 1,-99.50124791926824 2,-98.01986733067552 3,-95.59974818331 4,-92.31163463866358 5,-88.24969025845955 6,-83.5270211411272 7,-78.27045382418682 8,-72.61490370736908 9,-66.69768108584744 10,-60.653065971263345 11,-54.60744266397094 12,-48.67522559599717 13,-42.95573582107391 14,-37.531109885139955 15,-32.465246735834974 16,-27.80373004531941 17,-23.57460765558636 18,-19.789869908361464 19,-16.44744565771549 20,-13.53352832366127 21,-11.025052530448521 22,-8.89216174593863 23,-7.100535373963702 24,-5.613476283413372 25,-4.393693362340742 26,-3.404745473459933 27,-2.612140985391822 28,-1.9841094744370298 29,-1.4920786069067842 30,-1.1108996538242306 31,-0.8188701014374075 32,-0.5976022895005938 33,-0.43178400076330814 34,-0.3088715408236772 35,-0.21874911181828852 36,-0.1533810679324463 37,-0.10647662366679196 38,-0.07318024188804728 39,-0.049795542150327395 40,-0.033546262790251184" stroke="black" stroke-width="1" fill="none"/><text x="0" y="15" text-anchor="middle" fill="black" font-size="5"><tspan>Peak =100; </tspan><tspan fill="tomato">μ = 0.0</tspan><tspan>; </tspan><tspan fill="mediumturquoise">σ = 1.0</tspan></text></g></svg>
