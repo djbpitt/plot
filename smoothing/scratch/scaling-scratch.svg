@@ -589,7 +589,7 @@
    <circle cx="20" cy="-125" r="1.5" fill="blue" fill-opacity=".5"/>
    <circle cx="20" cy="-245" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="20"
-           cy="-240.10000000000002"
+           cy="-240.09999999999997"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -659,7 +659,7 @@
    <circle cx="40" cy="-31.25" r="1.5" fill="blue" fill-opacity=".5"/>
    <circle cx="40" cy="-235" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="40"
-           cy="-220.9"
+           cy="-220.89999999999998"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -776,7 +776,7 @@
    <circle cx="70" cy="-3.90625" r="1.5" fill="blue" fill-opacity=".5"/>
    <circle cx="70" cy="-220" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="70"
-           cy="-193.60000000000002"
+           cy="-193.6"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -819,7 +819,7 @@
            fill-opacity=".5"/>
    <circle cx="80" cy="-215" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="80"
-           cy="-184.9"
+           cy="-184.89999999999998"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -862,7 +862,7 @@
            fill-opacity=".5"/>
    <circle cx="90" cy="-210" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="90"
-           cy="-176.4"
+           cy="-176.39999999999998"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -901,7 +901,7 @@
            fill-opacity=".5"/>
    <circle cx="100" cy="-205" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="100"
-           cy="-168.10000000000002"
+           cy="-168.09999999999997"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -944,7 +944,7 @@
            fill-opacity=".5"/>
    <circle cx="110" cy="-200" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="110"
-           cy="-160"
+           cy="-160.00000000000003"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -995,7 +995,7 @@
            fill-opacity=".5"/>
    <circle cx="120" cy="-195" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="120"
-           cy="-152.1"
+           cy="-152.10000000000002"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -1187,7 +1187,7 @@
            fill-opacity=".5"/>
    <circle cx="160" cy="-175" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="160"
-           cy="-122.5"
+           cy="-122.49999999999999"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -1238,7 +1238,7 @@
            fill-opacity=".5"/>
    <circle cx="170" cy="-170" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="170"
-           cy="-115.60000000000001"
+           cy="-115.60000000000002"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -1473,7 +1473,7 @@
            fill-opacity=".5"/>
    <circle cx="220" cy="-145" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="220"
-           cy="-84.10000000000001"
+           cy="-84.1"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -1814,7 +1814,7 @@
            fill-opacity=".5"/>
    <circle cx="290" cy="-110" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="290"
-           cy="-48.400000000000006"
+           cy="-48.4"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -1865,7 +1865,7 @@
            fill-opacity=".5"/>
    <circle cx="300" cy="-105" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="300"
-           cy="-44.1"
+           cy="-44.099999999999994"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -1904,7 +1904,7 @@
            fill-opacity=".5"/>
    <circle cx="310" cy="-100" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="310"
-           cy="-40"
+           cy="-40.00000000000001"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -2057,7 +2057,7 @@
            fill-opacity=".5"/>
    <circle cx="340" cy="-85" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="340"
-           cy="-28.900000000000002"
+           cy="-28.900000000000006"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -2351,7 +2351,7 @@
            fill-opacity=".5"/>
    <circle cx="400" cy="-55" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="400"
-           cy="-12.100000000000001"
+           cy="-12.1"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -2398,7 +2398,7 @@
            fill-opacity=".5"/>
    <circle cx="410" cy="-50" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="410"
-           cy="-10"
+           cy="-10.000000000000002"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -2653,7 +2653,7 @@
            fill-opacity=".5"/>
    <circle cx="460" cy="-25" r="1.5" fill="coral" fill-opacity="0.5"/>
    <circle cx="460"
-           cy="-2.5"
+           cy="-2.5000000000000004"
            r="1.5"
            fill="darkorchid"
            fill-opacity="0.5"/>
@@ -2895,7 +2895,7 @@
              stroke-width="1"
              stroke-opacity="0.5"
              fill="none"/>
-   <polyline points="10,-250 20,-240.09999999999997 30,-230.39999999999998 40,-220.9 50,-211.60000000000002 60,-202.5 70,-193.6 80,-184.9 90,-176.4 100,-168.1 110,-160 120,-152.1 130,-144.4 140,-136.9 150,-129.6 160,-122.50000000000001 170,-115.6 180,-108.89999999999999 190,-102.4 200,-96.1 210,-90 220,-84.1 230,-78.4 240,-72.89999999999999 250,-67.60000000000001 260,-62.5 270,-57.599999999999994 280,-52.900000000000006 290,-48.4 300,-44.1 310,-40 320,-36.1 330,-32.4 340,-28.9 350,-25.6 360,-22.5 370,-19.6 380,-16.900000000000002 390,-14.399999999999999 400,-12.1 410,-10 420,-8.1 430,-6.4 440,-4.9 450,-3.5999999999999996 460,-2.5 470,-1.6 480,-0.8999999999999999 490,-0.4 500,-0.1"
+   <polyline points="10,-250 20,-240.09999999999997 30,-230.4 40,-220.89999999999998 50,-211.60000000000002 60,-202.5 70,-193.6 80,-184.89999999999998 90,-176.39999999999998 100,-168.09999999999997 110,-160.00000000000003 120,-152.10000000000002 130,-144.4 140,-136.9 150,-129.6 160,-122.49999999999999 170,-115.60000000000002 180,-108.9 190,-102.4 200,-96.10000000000001 210,-90 220,-84.1 230,-78.4 240,-72.9 250,-67.60000000000001 260,-62.5 270,-57.6 280,-52.900000000000006 290,-48.4 300,-44.099999999999994 310,-40.00000000000001 320,-36.1 330,-32.4 340,-28.900000000000006 350,-25.6 360,-22.5 370,-19.6 380,-16.900000000000002 390,-14.4 400,-12.1 410,-10.000000000000002 420,-8.1 430,-6.4 440,-4.9 450,-3.6 460,-2.5000000000000004 470,-1.6 480,-0.9 490,-0.4 500,-0.1"
              stroke="darkorchid"
              stroke-width="1"
              stroke-opacity="0.5"
@@ -2958,7 +2958,7 @@
          <tspan x="20" dy="14" fill="darkgoldenrod">Gaussian (σ = 5, 10, 15)</tspan>
          <tspan x="20" dy="14" fill="coral">Triangular: (N - d)/N; 50/50, 49/50, 48/50,
                         47/50, …</tspan>
-         <tspan x="20" dy="14" fill="darkviolet">Parabolic: ((N + 1 - d)/N)<tspan dy="-4" font-size="8">2</tspan>
+         <tspan x="20" dy="14" fill="darkviolet">Parabolic: ((N - d)/N)<tspan dy="-4" font-size="8">2</tspan>
             <tspan dy="4"> </tspan>
          </tspan>
          <tspan x="20" dy="14" fill="brown">Parabolic: 1 - (d/N)<tspan dy="-4" font-size="8">2</tspan>
