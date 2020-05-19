@@ -26,6 +26,7 @@
         djb:split-points#1
         djb:random-sequence#1
         djb:get-weights-scale#3
+        djb:get-weights-scale#2
         djb:weighted-average#4
         djb:gaussian#4
         djb:round-to-odd#1
@@ -104,7 +105,7 @@
         <!--                                                              -->
         <!-- Parameters:                                                  -->
         <!--   f:kernel as xs:string : gaussian, rectangular, exponential -->
-        <!--   f: window_size as xs:integer : width of window             -->
+        <!--   f:window_size as xs:integer : width of window              -->
         <!--   f:stddev as xs:integer : controls width of bell            -->
         <!--                                                              -->
         <!-- Returns:                                                     -->
@@ -112,7 +113,8 @@
         <!--                                                              -->
         <!-- Notes:                                                       -->
         <!--   Gaussian mean = 0, peak = 1                                -->
-        <!--   f:stddev is ignored silently except for Gaussian           -->
+        <!--   f:stddev: is ignored silently except for Gaussian          -->
+        <!--             defaults to 5 if not specified                   -->
         <!--   Return full width of window (for end values)               -->
         <!-- ============================================================ -->
         <xsl:param name="f:kernel" as="xs:string"/>
@@ -144,7 +146,36 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-    
+
+    <xsl:function name="djb:get-weights-scale" as="xs:double+">
+        <!-- ============================================================ -->
+        <!-- djb:get=weights-scale#2                                      -->
+        <!--                                                              -->
+        <!-- Returns sequence of scaling values for different kernels     -->
+        <!-- Calls djb:get-weights-scale#3 with σ =5                      -->
+        <!--                                                              -->
+        <!-- Parameters:                                                  -->
+        <!--   f:kernel as xs:string : gaussian, rectangular, exponential -->
+        <!--   f: window_size as xs:integer : width of window             -->
+        <!--                                                              -->
+        <!-- Returns:                                                     -->
+        <!--   xs:double+ : weights to be applied in scaling              -->
+        <!--                                                              -->
+        <!-- Notes:                                                       -->
+        <!--   Gaussian mean = 0, peak = 1                                -->
+        <!--   f:stddev is ignored silently except for Gaussian           -->
+        <!--   Return full width of window (for end values)               -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:kernel" as="xs:string"/>
+        <xsl:param name="f:window-size" as="xs:integer"/>
+        <xsl:if test="$f:window-size mod 2 eq 0 or $f:window-size lt 3">
+            <xsl:message terminate="yes">Window size must be odd integer greater than
+                3</xsl:message>
+        </xsl:if>
+        <!-- default to σ = 5 if not specified -->
+        <xsl:sequence select="djb:get-weights-scale($f:kernel, $f:window-size, 5)"/>
+    </xsl:function>
+
     <xsl:function name="djb:weighted-average" as="xs:double">
         <!-- ============================================================ -->
         <!-- djb:weighted-average#4                                       -->
