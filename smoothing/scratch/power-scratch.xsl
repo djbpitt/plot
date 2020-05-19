@@ -19,7 +19,10 @@
     <xsl:variable name="xScale" as="xs:integer" select="2"/>
     <xsl:variable name="yScale" as="xs:integer" select="-100"/>
     <xsl:variable name="n" as="xs:integer" select="100"/>
-    <xsl:variable name="windowSize" as="xs:integer" select="25"/>
+    <xsl:variable name="windowSize-small" as="xs:integer" select="3"/>
+    <xsl:variable name="windowSize-mid" as="xs:integer" select="5"/>
+    <xsl:variable name="windowSize-large" as="xs:integer" select="7"/>
+    <xsl:variable name="windowSize-jumbo" as="xs:integer" select="33"/>
     <xsl:variable name="allY" as="xs:double+" select="djb:random-sequence($n + 1) ! (. * $yScale)"/>
     <xsl:variable name="points" as="xs:string+"
         select="
@@ -33,8 +36,14 @@
     <xsl:variable name="m" as="xs:double" select="$regression[2]?m"/>
     <xsl:variable name="b" as="xs:double" select="$regression[2]?b"/>
     <xsl:variable name="adjustedY" as="xs:double+" select="$allY"/>
-    <xsl:variable name="weights" as="xs:double+"
-        select="djb:get-weights-scale('exponential', $windowSize, 1)"/>
+    <xsl:variable name="weights-small" as="xs:double+"
+        select="djb:get-weights-scale('exponential', $windowSize-small, 1)"/>
+    <xsl:variable name="weights-mid" as="xs:double+"
+        select="djb:get-weights-scale('exponential', $windowSize-mid, 1)"/>
+    <xsl:variable name="weights-large" as="xs:double+"
+        select="djb:get-weights-scale('exponential', $windowSize-large, 1)"/>
+    <xsl:variable name="weights-jumbo" as="xs:double+"
+        select="djb:get-weights-scale('exponential', $windowSize-jumbo, 1)"/>
     <!-- ================================================================ -->
 
     <!-- ================================================================ -->
@@ -46,13 +55,24 @@
                 #regression line {
                     stroke: red;
                     stroke-width: 0.5;
-                    stroke-opacity: 0.5;
+                    stroke-opacity: 0.33;
                 }
-                #exponential .spline {
-                    stroke: green;
+                .spline {
                     stroke-width: 0.5;
-                    stroke-opacity: 0.5;
+                    stroke-opacity: 0.33;
                     fill: none;
+                }
+                #exponential-small .spline {
+                    stroke: darkgoldenrod;
+                }
+                #exponential-mid .spline {
+                    stroke: blue;
+                }
+                #exponential-large .spline {
+                    stroke: green;
+                }
+                #exponential-jumbo .spline {
+                    stroke: purple;
                 }</style>
             <!-- ======================================================== -->
             <!-- Draw ruling lines                                        -->
@@ -70,7 +90,13 @@
             <line x1="0" y1="{$b}" x2="{$n * $xScale}" y2="{$b}" stroke="lightgray"
                 stroke-width="0.5" stroke-linecap="square"/>
             <text x="{$n * $xScale div 2}" y="{$yScale - 5}" text-anchor="middle" fill="black" font-size="4">
-                <tspan>n = <xsl:value-of select="$n"/>; window = <xsl:value-of select="$windowSize"/>; weight(y) = 1</tspan>
+                n = <xsl:value-of select="$n"/>; 
+                    window = 
+                    <tspan fill="darkgoldenrod"><xsl:value-of select="$windowSize-small"/></tspan>, 
+                    <tspan fill="blue"><xsl:value-of select="$windowSize-mid"/></tspan>, 
+                    <tspan fill="green"><xsl:value-of select="$windowSize-large"/></tspan>, 
+                    <tspan fill="purple"><xsl:value-of select="$windowSize-jumbo"/></tspan>; 
+                    weight(y) = 1
                 <tspan dx="-1" dy="-2" font-size="3">-d</tspan>
             </text>
             <!-- ======================================================== -->
@@ -90,23 +116,77 @@
             <!-- ======================================================== -->
             <!-- Plot y = x^-d, where d = distance from focal point       -->
             <!-- ======================================================== -->
-            <xsl:variable name="adjustedY" as="xs:double+">
+            <xsl:variable name="adjustedY-small" as="xs:double+">
                 <xsl:for-each select="0 to $n">
                     <xsl:sequence
-                        select="djb:weighted-average(current(), $windowSize, $allY, $weights)"
+                        select="djb:weighted-average(current(), $windowSize-small, $allY, $weights-small)"
                     />
                 </xsl:for-each>
             </xsl:variable>
-            <xsl:variable name="adjustedPoints"
+            <xsl:variable name="adjustedPoints-small"
                 select="
                     for-each-pair(
                     0 to $n,
-                    $adjustedY,
+                    $adjustedY-small,
                     function ($a, $b) {
                         string-join(($a * $xScale, $b), ',')
                     })"/>
-            <g id="exponential">
-                <xsl:sequence select="djb:spline($adjustedPoints, 0.4)"/>
+            <xsl:variable name="adjustedY-mid" as="xs:double+">
+                <xsl:for-each select="0 to $n">
+                    <xsl:sequence
+                        select="djb:weighted-average(current(), $windowSize-mid, $allY, $weights-mid)"
+                    />
+                </xsl:for-each>
+            </xsl:variable>
+            <xsl:variable name="adjustedPoints-mid"
+                select="
+                    for-each-pair(
+                    0 to $n,
+                    $adjustedY-mid,
+                    function ($a, $b) {
+                        string-join(($a * $xScale, $b), ',')
+                    })"/>
+            <xsl:variable name="adjustedY-large" as="xs:double+">
+                <xsl:for-each select="0 to $n">
+                    <xsl:sequence
+                        select="djb:weighted-average(current(), $windowSize-large, $allY, $weights-large)"
+                    />
+                </xsl:for-each>
+            </xsl:variable>
+            <xsl:variable name="adjustedPoints-large"
+                select="
+                    for-each-pair(
+                    0 to $n,
+                    $adjustedY-large,
+                    function ($a, $b) {
+                        string-join(($a * $xScale, $b), ',')
+                    })"/>
+            <xsl:variable name="adjustedY-jumbo" as="xs:double+">
+                <xsl:for-each select="0 to $n">
+                    <xsl:sequence
+                        select="djb:weighted-average(current(), $windowSize-jumbo, $allY, $weights-jumbo)"
+                    />
+                </xsl:for-each>
+            </xsl:variable>
+            <xsl:variable name="adjustedPoints-jumbo"
+                select="
+                    for-each-pair(
+                    0 to $n,
+                    $adjustedY-jumbo,
+                    function ($a, $b) {
+                        string-join(($a * $xScale, $b), ',')
+                    })"/>
+            <g id="exponential-small">
+                <xsl:sequence select="djb:spline($adjustedPoints-small, 0.4)"/>
+            </g>
+            <g id="exponential-mid">
+                <xsl:sequence select="djb:spline($adjustedPoints-mid, 0.4)"/>
+            </g>
+            <g id="exponential-large">
+                <xsl:sequence select="djb:spline($adjustedPoints-large, 0.4)"/>
+            </g>
+            <g id="exponential-jumbo">
+                <xsl:sequence select="djb:spline($adjustedPoints-jumbo, 0.4)"/>
             </g>
         </svg>
     </xsl:template>
