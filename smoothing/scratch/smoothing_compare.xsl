@@ -167,8 +167,8 @@
                     <tspan x="10" dy="7" fill="gray">
                         <xsl:value-of select="'Y intercept of regression line (' || format-number(-1 * $b, '0.0') || ')'"/>
                     </tspan>
-                    <tspan x="10" dy="7" fill="blue">Rectangular kernal</tspan>
-                    <tspan x="10" dy="7" fill="green">Gaussian kernal (σ = 5)</tspan>
+                    <tspan x="10" dy="7" fill="blue">Rectangular kernel</tspan>
+                    <tspan x="10" dy="7" fill="green">Gaussian kernel (σ = 5)</tspan>
                     <tspan x="10" dy="7" fill="indigo">Exponential kernel (y = 1 - 2<tspan dy="-2" font-size="4">-d</tspan><tspan dy="2">)</tspan></tspan>
                     <tspan x="10" dy="7" fill="darkgoldenrod">Parabolic kernel (y = 1 - (d/N)<tspan dy="-2" font-size="4">2</tspan><tspan dy="2">)</tspan></tspan>
                 </text>
