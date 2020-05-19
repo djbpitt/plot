@@ -14,8 +14,7 @@
                 <xsl:variable name="yPos" as="xs:integer" select="current() * $yScale"/>
                 <line x1="{$xScale}" y1="-{$yPos}" x2="{50 * $xScale}" y2="-{$yPos}"
                     stroke="lightgray" stroke-width="0.5" stroke-linecap="square"/>
-                <text x="{$xScale div 2}" y="-{$yPos}" fill="black" text-anchor="end"
-                    alignment-baseline="central" font-size="6">
+                <text x="{$xScale div 2}" y="-{$yPos}" fill="black" text-anchor="end" alignment-baseline="central" font-size="6">
                     <xsl:value-of select="(current() div 10) ! format-number(., '0.0')"/>
                 </text>
             </xsl:for-each>
@@ -48,8 +47,7 @@
                 <!-- parabolic -->
                 <circle cx="{$xPos}" cy="{($yScale div 250) * -1 * math:pow((51 - current()), 2)}"
                     r="1.5" fill="darkorchid" fill-opacity="0.5"/>
-                <circle cx="{$xPos}"
-                    cy="{($yScale * -10) - ($yScale div -250) * math:pow(current(), 2 )}" r="1.5"
+                <circle cx="{$xPos}" cy="{(1 - math:pow(current() div 50, 2)) * $yScale * -10}" r="1.5"
                     fill="brown" fill-opacity="0.5"/>
                 <!-- gaussian -->
                 <circle cx="{$xPos}" cy="-{$yScale * djb:gaussian(current() - 1, 10, 0, 5)}" r="1.5"
@@ -83,7 +81,7 @@
                 stroke="darkorchid" stroke-width="1" stroke-opacity="0.5" fill="none"/>
             <polyline
                 points="{for $i in (1 to 50) return string-join(($i * $xScale, 
-                ($yScale * -10) - (($yScale div -250) * math:pow($i, 2))
+                (1 - math:pow($i div 50, 2)) * $yScale * -10
                 ), ',')}"
                 stroke="brown" stroke-width="1" stroke-opacity="0.5" fill="none"/>
             <xsl:for-each select="5, 10, 15">
@@ -99,8 +97,7 @@
             <!-- Chart labels -->
             <text x="{$xScale * 25}" y="25" text-anchor="middle" font-size="12">Distance from window
                 focus point</text>
-            <text x="-15" y="-{$yScale * 5}" text-anchor="middle" font-size="12" writing-mode="tb"
-                >Weight</text>
+            <text x="-15" y="-{$yScale * 5}" text-anchor="middle" font-size="12" writing-mode="tb">Weight</text>
             <text x="{$xScale * 25}" y="-{$yScale * 11}" text-anchor="middle" font-size="16">Sample
                 scaling functions</text>
             <!-- Legend -->
@@ -118,15 +115,12 @@
                     <tspan x="30" dy="14" fill="green">3/(d + 3); 3/3, 3/4, 3/5, 3/6, …</tspan>
                     <tspan x="30" dy="14" fill="indigo">10/(d + 10); 10/10, 10/11, 10/12, 10/13,
                         …</tspan>
-                    <tspan x="20" dy="14" fill="blue">Exponential: 2<tspan font-size="8" dy="-4"
-                            >-d</tspan><tspan dy="4">; 1/1, 1/2, 1/4, 1/8, …</tspan></tspan>
+                    <tspan x="20" dy="14" fill="blue">Exponential: 2<tspan font-size="8" dy="-4">-d</tspan><tspan dy="4">; 1/1, 1/2, 1/4, 1/8, …</tspan></tspan>
                     <tspan x="20" dy="14" fill="darkgoldenrod">Gaussian (σ = 5, 10, 15)</tspan>
                     <tspan x="20" dy="14" fill="coral">Triangular: (N - d)/N; 50/50, 49/50, 48/50,
                         47/50, …</tspan>
-                    <tspan x="20" dy="14" fill="darkviolet">Parabolic: ((N + 1 - d)/N)<tspan dy="-4"
-                            font-size="8">2</tspan><tspan dy="4">&#xa0;</tspan></tspan>
-                    <tspan x="20" dy="14" fill="brown">Parabolic: (d/N)<tspan dy="-4" font-size="8"
-                            >2</tspan></tspan>
+                    <tspan x="20" dy="14" fill="darkviolet">Parabolic: ((N + 1 - d)/N)<tspan dy="-4" font-size="8">2</tspan><tspan dy="4">&#xa0;</tspan></tspan>
+                    <tspan x="20" dy="14" fill="brown">Parabolic: 1 - (d/N)<tspan dy="-4" font-size="8">2</tspan></tspan>
                 </text>
             </g>
         </svg>
