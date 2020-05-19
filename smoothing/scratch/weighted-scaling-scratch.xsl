@@ -8,7 +8,7 @@
     <!-- ================================================================ -->
     <!-- Packages                                                         -->
     <!-- ================================================================ -->
-    <xsl:use-package name="http://www.obdurodon.org/plot_lib"/>
+    <xsl:use-package name="http://www.obdurodon.org/plot-lib"/>
     <xsl:use-package name="http://www.obdurodon.org/smoothing"/>
     <xsl:use-package name="http://www.obdurodon.org/spline"/>
     <xsl:use-package name="http://www.obdurodon.org/regression"/>
@@ -29,30 +29,20 @@
             })"/>
 
     <!-- ================================================================ -->
-    <!-- Create list of weights the length of the window                  -->
+    <!-- Create list of weights for the length of the window              -->
     <!-- $stddev needed only for Gaussian                                 -->
     <!-- ================================================================ -->
-    <!-- test window is 2/3 of all points-->
-    <xsl:variable name="window-small" as="xs:integer" select="3"/>
-    <xsl:variable name="window-mid" as="xs:integer"
-        select="djb:round-to-odd(xs:integer(round(count($allY) div 3)))"/>
-    <xsl:variable name="window-default" as="xs:integer"
-        select="djb:round-to-odd(xs:integer(round(2 * count($allY) div 3)))"/>
     <xsl:variable name="stddev" as="xs:double" select="5"/>
-    <!--<xsl:variable name="weights" as="xs:double+" select="djb:gaussian_weights($window, $stddev)"/>-->
+    <!-- ================================================================ -->
+    <!-- Gaussian, small window (3 points)                                -->
+    <!-- ================================================================ -->
+    <xsl:variable name="window-small" as="xs:integer" select="3"/>
+    <xsl:variable name="small-gaussian-weights" as="xs:double+"
+        select="djb:get-weights-scale('gaussian', $window-small, $stddev)"/>
     <xsl:variable name="adjustedY-small" as="xs:double+">
         <xsl:for-each select="1 to count($points)">
-            <xsl:sequence select="djb:weighted-average(current(), $allY, $window-small, $stddev)"/>
-        </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="adjustedY-mid" as="xs:double+">
-        <xsl:for-each select="1 to count($points)">
-            <xsl:sequence select="djb:weighted-average(current(), $allY, $window-mid, $stddev)"/>
-        </xsl:for-each>
-    </xsl:variable>
-    <xsl:variable name="adjustedY-default" as="xs:double+">
-        <xsl:for-each select="1 to count($points)">
-            <xsl:sequence select="djb:weighted-average(current(), $allY, $window-default, $stddev)"
+            <xsl:sequence
+                select="djb:weighted-average(current(), $window-small, $allY, $small-gaussian-weights)"
             />
         </xsl:for-each>
     </xsl:variable>
@@ -61,17 +51,48 @@
             for $x in (1 to count($adjustedY-small))
             return
                 string-join(($x * $xScale, -1 * $adjustedY-small[$x]), ',')"/>
+    <!-- ================================================================ -->
+    <!-- Gaussian, medium window (1/3 of points)                          -->
+    <!-- ================================================================ -->
+    <xsl:variable name="window-mid" as="xs:integer"
+        select="djb:round-to-odd(xs:integer(round(count($allY) div 3)))"/>
+    <xsl:variable name="mid-gaussian-weights" as="xs:double+"
+        select="djb:get-weights-scale('gaussian', $window-mid, $stddev)"/>
+    <xsl:variable name="adjustedY-mid" as="xs:double+">
+        <xsl:for-each select="1 to count($points)">
+            <xsl:sequence
+                select="djb:weighted-average(current(), $window-mid, $allY, $mid-gaussian-weights)"
+            />
+        </xsl:for-each>
+    </xsl:variable>
     <xsl:variable name="adjustedPoints-mid" as="xs:string+"
         select="
             for $x in (1 to count($adjustedY-mid))
             return
                 string-join(($x * $xScale, -1 * $adjustedY-mid[$x]), ',')"/>
+    <!-- ================================================================ -->
+    <!-- Gaussian, default window (2/3 of points)                         -->
+    <!-- ================================================================ -->
+    <xsl:variable name="window-default" as="xs:integer"
+        select="djb:round-to-odd(xs:integer(round(2 * count($allY) div 3)))"/>
+    <xsl:variable name="default-gaussian-weights" as="xs:double+"
+        select="djb:get-weights-scale('gaussian', $window-default, $stddev)"/>
+    <xsl:variable name="adjustedY-default" as="xs:double+">
+        <xsl:for-each select="1 to count($points)">
+            <xsl:sequence
+                select="djb:weighted-average(current(), $window-default, $allY, $default-gaussian-weights)"
+            />
+        </xsl:for-each>
+    </xsl:variable>
     <xsl:variable name="adjustedPoints-default" as="xs:string+"
         select="
             for $x in (1 to count($adjustedY-default))
             return
                 string-join(($x * $xScale, -1 * $adjustedY-default[$x]), ',')"/>
 
+    <!-- ================================================================ -->
+    <!-- Main                                                             -->
+    <!-- ================================================================ -->
     <xsl:template name="xsl:initial-template">
         <svg xmlns="http://www.w3.org/2000/svg"
             viewBox="-10 -110 {count($points) * $xScale + 20} 120">
