@@ -41,11 +41,12 @@
     <!-- Gaussian values                                                  -->
     <!-- ================================================================ -->
     <xsl:variable name="stddev" as="xs:double" select="5"/>
-    <xsl:variable name="weights" as="xs:double+"
+    <xsl:variable name="gaussian-weights" as="xs:double+"
         select="djb:get-weights-scale('gaussian', $window, $stddev)"/>
     <xsl:variable name="gaussian-Ys" as="xs:double+">
         <xsl:for-each select="1 to count($points)">
-            <xsl:sequence select="djb:weighted-average(current(), $window, $allY, $weights)"/>
+            <xsl:sequence
+                select="djb:weighted-average(current(), $window, $allY, $gaussian-weights)"/>
         </xsl:for-each>
     </xsl:variable>
     <xsl:variable name="gaussian-points" as="xs:string+"
@@ -53,6 +54,29 @@
             for $x in (1 to count($gaussian-Ys))
             return
                 string-join(($x * $xScale, -100 * $gaussian-Ys[$x]), ',')"/>
+
+    <!-- ================================================================ -->
+    <!-- Exponential values                                               -->
+    <!-- ================================================================ -->
+    <xsl:variable name="exponential-weights" as="xs:double+"
+        select="djb:get-weights-scale('exponential', $window)"/>
+    <xsl:variable name="exponential-Ys" as="xs:double+">
+        <xsl:for-each select="1 to count($points)">
+            <xsl:sequence
+                select="djb:weighted-average(current(), $window, $allY, $exponential-weights)"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="exponential-points" as="xs:string+"
+        select="
+            for $x in (1 to count($exponential-Ys))
+            return
+                string-join(($x * $xScale, -100 * $exponential-Ys[$x]), ',')"/>
+
+    <!-- ================================================================ -->
+    <!-- Parabolic values                                                 -->
+    <!-- ================================================================ -->
+    <xsl:variable name="parabolic-weights" as="xs:double+" select="1"/>
+
 
     <!-- ================================================================ -->
     <!-- Main                                                             -->
@@ -68,6 +92,12 @@
                 }
                 #gaussian {
                     stroke: green;
+                    stroke-width: 0.5;
+                    stroke-opacity: 0.5;
+                    fill: none;
+                }
+                #exponential {
+                    stroke: indigo;
                     stroke-width: 0.5;
                     stroke-opacity: 0.5;
                     fill: none;
@@ -136,6 +166,13 @@
                 <!-- ==================================================== -->
                 <g id="gaussian">
                     <xsl:sequence select="djb:spline($gaussian-points, 0.45)"/>
+                </g>
+
+                <!-- ==================================================== -->
+                <!-- Plot exponential smoothing spline                    -->
+                <!-- ==================================================== -->
+                <g id="exponential">
+                    <xsl:sequence select="djb:spline($exponential-points, 0.45)"/>
                 </g>
 
                 <!-- ==================================================== -->
