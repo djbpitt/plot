@@ -139,6 +139,11 @@
                 <!-- 1/1, 1/2, 1/4, 1/8, ... -->
                 <xsl:sequence select="(0 to ($f:window-size)) ! (math:pow(2, -1 * .))"/>
             </xsl:when>
+            <xsl:when test="$f:kernel eq 'parabolic-down'">
+                <!-- y = 1 - (d/N)^2 -->
+                <xsl:sequence
+                    select="(0 to ($f:window-size)) ! (1 - math:pow(. div $f:window-size, 2))"/>
+            </xsl:when>
             <xsl:otherwise>
                 <xsl:message terminate="yes"
                     select="'Invalid kernel (' || $f:kernel || '); must be one of: gaussian, rectangular, or exponential'"

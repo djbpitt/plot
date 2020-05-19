@@ -75,8 +75,20 @@
     <!-- ================================================================ -->
     <!-- Parabolic values                                                 -->
     <!-- ================================================================ -->
-    <xsl:variable name="parabolic-weights" as="xs:double+" select="1"/>
-
+    <xsl:variable name="parabolic-weights" as="xs:double+"
+        select="djb:get-weights-scale('parabolic-down', $window)"/>
+    <xsl:variable name="parabolic-Ys" as="xs:double+">
+        <xsl:for-each select="1 to count($points)">
+            <xsl:sequence
+                select="djb:weighted-average(current(), $window, $allY, $parabolic-weights)"/>
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="parabolic-points" as="xs:string+"
+        select="
+            for $x in (1 to count($parabolic-Ys))
+            return
+                string-join(($x * $xScale, -100 * $parabolic-Ys[$x]), ',')
+            "/>
 
     <!-- ================================================================ -->
     <!-- Main                                                             -->
@@ -98,6 +110,12 @@
                 }
                 #exponential {
                     stroke: indigo;
+                    stroke-width: 0.5;
+                    stroke-opacity: 0.5;
+                    fill: none;
+                }
+                #parabolic {
+                    stroke: darkgoldenrod;
                     stroke-width: 0.5;
                     stroke-opacity: 0.5;
                     fill: none;
@@ -173,6 +191,13 @@
                 <!-- ==================================================== -->
                 <g id="exponential">
                     <xsl:sequence select="djb:spline($exponential-points, 0.45)"/>
+                </g>
+
+                <!-- ==================================================== -->
+                <!-- Plot parabolic smoothing spline                      -->
+                <!-- ==================================================== -->
+                <g id="parabolic">
+                    <xsl:sequence select="djb:spline($parabolic-points, 0.45)"/>
                 </g>
 
                 <!-- ==================================================== -->
