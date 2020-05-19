@@ -135,7 +135,7 @@
                 <!-- Plot Gaussian smoothing spline                       -->
                 <!-- ==================================================== -->
                 <g id="gaussian">
-                    <xsl:sequence select="djb:spline($gaussian-points, 0.4)"/>
+                    <xsl:sequence select="djb:spline($gaussian-points, 0.45)"/>
                 </g>
 
                 <!-- ==================================================== -->
