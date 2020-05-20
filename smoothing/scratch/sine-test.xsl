@@ -13,37 +13,6 @@
     <xsl:use-package name="http://www.obdurodon.org/regression"/>
 
     <!-- ================================================================ -->
-    <!-- Functions                                                        -->
-    <!-- ================================================================ -->
-    <!-- djb:recenter#3                                                   -->
-    <!--                                                                  -->
-    <!-- Adjusts and recenters doubles, returns adjusted values           -->
-    <!--                                                                  -->
-    <!-- Parameters                                                       -->
-    <!--   $f:input-values as xs:double+ : all input values               -->
-    <!--   $f:a as xs:double : new minimum value                          -->
-    <!--   $f:b as xs:double : new maximum value                          -->
-    <!--                                                                  -->
-    <!-- Returns                                                          -->
-    <!--   xs:double+                                                     -->
-    <!--                                                                  -->
-    <!-- Note: https://stackoverflow.com/questions/5294955/how-to-scale-down-a-range-of-numbers-with-a-known-min-and-max-value -->
-    <!--            (b - a)(x - min)                                      -->
-    <!--    f(x) =  ——————————————   + a                                  -->
-    <!--                max - min                                         -->
-    <!-- ================================================================ -->
-    <xsl:function name="djb:recenter" as="xs:double+">
-        <xsl:param name="f:input-values" as="xs:double+"/>
-        <xsl:param name="f:a" as="xs:double"/>
-        <xsl:param name="f:b" as="xs:double"/>
-        <xsl:variable name="f:min" as="xs:double" select="min($f:input-values)"/>
-        <xsl:variable name="f:max" as="xs:double" select="max($f:input-values)"/>
-        <xsl:variable name="f:recentered-values"
-            select="$f:input-values ! (((($f:b - $f:a) * -1 * (. - $f:min)) div ($f:max - $f:min)) + $f:a)"/>
-        <xsl:sequence select="$f:recentered-values"/>
-    </xsl:function>
-
-    <!-- ================================================================ -->
     <!-- Stylesheet variables                                             -->
     <!-- ================================================================ -->
     <xsl:variable name="xScale" as="xs:integer" select="10"/>
@@ -71,7 +40,7 @@
     <xsl:variable name="points" as="xs:string+"
         select="
             for-each-pair($allX, $allY-with-jitter, function ($a, $b) {
-                string-join(($a * $xScale, $b), ',')
+                string-join(($a * $xScale, $b * -1), ',')
             })"/>
 
     <!-- ================================================================ -->
