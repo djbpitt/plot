@@ -31,6 +31,7 @@
         djb:gaussian#4
         djb:round-to-odd#1
         djb:expand-to-tenths#1
+        djb:recenter#3
         "/>
     <xsl:function name="djb:validate-points" as="xs:boolean">
         <!-- ================================================================= -->
@@ -306,6 +307,60 @@
         <xsl:param name="input" as="xs:integer"/>
         <xsl:sequence select="(2 * floor($input div 2) + 1) => xs:integer()"/>
     </xsl:function>
+
+    <xsl:function name="djb:recenter" as="xs:double+">
+        <!-- ================================================================ -->
+        <!-- djb:recenter#3                                                   -->
+        <!--                                                                  -->
+        <!-- Adjusts and recenters doubles, returns adjusted values           -->
+        <!--                                                                  -->
+        <!-- Parameters                                                       -->
+        <!--   $f:input-values as xs:double+ : all input values               -->
+        <!--   $f:a as xs:double : new minimum value                          -->
+        <!--   $f:b as xs:double : new maximum value                          -->
+        <!--                                                                  -->
+        <!-- Returns                                                          -->
+        <!--   xs:double+                                                     -->
+        <!--                                                                  -->
+        <!-- Note: https://stackoverflow.com/questions/5294955/how-to-scale-down-a-range-of-numbers-with-a-known-min-and-max-value -->
+        <!--            (b - a)(x - min)                                      -->
+        <!--    f(x) =  ——————————————   + a                                  -->
+        <!--                max - min                                         -->
+        <!-- ================================================================ -->
+        <xsl:param name="f:input-values" as="xs:double+"/>
+        <xsl:param name="f:a" as="xs:double"/>
+        <xsl:param name="f:b" as="xs:double"/>
+        <xsl:variable name="f:min" as="xs:double" select="min($f:input-values)"/>
+        <xsl:variable name="f:max" as="xs:double" select="max($f:input-values)"/>
+        <xsl:variable name="f:recentered-values"
+            select="$f:input-values ! (((($f:b - $f:a) * (. - $f:min)) div ($f:max - $f:min)) + $f:a)"/>
+        <xsl:sequence select="$f:recentered-values"/>
+    </xsl:function>
+    
+    <xsl:function name="djb:expand-to-tenths" as="xs:double+">
+        <!-- ============================================================ -->
+        <!-- djb:expand-to-tenths#1                                       -->
+        <!--                                                              -->
+        <!-- Converts integer range to range of tenths                    -->
+        <!--                                                              -->
+        <!-- Parameter                                                    -->
+        <!--   $f:half as xs:integer : upper bound of symmetrical range   -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   xs:double+ : symmetrical range in tenths                   -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:half" as="xs:integer"/>
+        <xsl:if test="$f:half le 0">
+            <xsl:message terminate="yes">Input must be a positive integer</xsl:message>
+        </xsl:if>
+        <xsl:sequence
+            select="
+            for $i in (-10 * $f:half to 10 * $f:half)
+            return
+            $i div 10"
+        />
+    </xsl:function>
+    
     <!-- ================================================================ -->
 
     <!-- ================================================================ -->
@@ -391,30 +446,6 @@
             (for $i in 2 to count($f:seq)
             return
             $f:seq[$i] ge $f:seq[$i - 1]) => djb:uniform()"
-        />
-    </xsl:function>
-
-    <xsl:function name="djb:expand-to-tenths" as="xs:double+">
-        <!-- ============================================================ -->
-        <!-- djb:expand-to-tenths#1                                       -->
-        <!--                                                              -->
-        <!-- Converts integer range to range of tenths                    -->
-        <!--                                                              -->
-        <!-- Parameter                                                    -->
-        <!--   $f:half as xs:integer : upper bound of symmetrical range   -->
-        <!--                                                              -->
-        <!-- Returns                                                      -->
-        <!--   xs:double+ : symmetrical range in tenths                   -->
-        <!-- ============================================================ -->
-        <xsl:param name="f:half" as="xs:integer"/>
-        <xsl:if test="$f:half le 0">
-            <xsl:message terminate="yes">Input must be a positive integer</xsl:message>
-        </xsl:if>
-        <xsl:sequence
-            select="
-            for $i in (-10 * $f:half to 10 * $f:half)
-            return
-            $i div 10"
         />
     </xsl:function>
 
