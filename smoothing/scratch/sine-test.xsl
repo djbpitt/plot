@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:djb="http://www.obdurodon.org"
+    xmlns:f="http://www.obdurodon.org/function-variables"
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     version="3.0">
     <xsl:output method="xml" indent="yes"/>
@@ -14,16 +15,32 @@
     <!-- ================================================================ -->
     <!-- Functions                                                        -->
     <!-- ================================================================ -->
+    <!-- djb:recenter#3                                                   -->
+    <!--                                                                  -->
+    <!-- Adjusts and recenters doubles, returns adjusted values           -->
+    <!--                                                                  -->
+    <!-- Parameters                                                       -->
+    <!--   $f:input-values as xs:double+ : all input values               -->
+    <!--   $f:a as xs:double : new minimum value                          -->
+    <!--   $f:b as xs:double : new maximum value                          -->
+    <!--                                                                  -->
+    <!-- Returns                                                          -->
+    <!--   xs:double+                                                     -->
+    <!--                                                                  -->
+    <!-- Note: https://stackoverflow.com/questions/5294955/how-to-scale-down-a-range-of-numbers-with-a-known-min-and-max-value -->
+    <!--            (b - a)(x - min)                                      -->
+    <!--    f(x) =  ——————————————   + a                                  -->
+    <!--                max - min                                         -->
+    <!-- ================================================================ -->
     <xsl:function name="djb:recenter" as="xs:double+">
-        <!-- adjusts range to 0 to 100 -->
-        <xsl:param name="input-Y" as="xs:double+"/>
-        <xsl:variable name="min-inputY" as="xs:double" select="min($input-Y)"/>
-        <xsl:variable name="max-inputY" as="xs:double" select="max($input-Y)"/>
-        <xsl:variable name="recentered-Y"
-            select="$input-Y ! (-100 * (. - $min-inputY) div ($max-inputY - $min-inputY))"/>
-        <xsl:sequence select="$recentered-Y"/>
-        <!--<xsl:message select="$input-Y => count()"/>
-        <xsl:message select="$recentered-Y => count()"/>-->
+        <xsl:param name="f:input-values" as="xs:double+"/>
+        <xsl:param name="f:a" as="xs:double"/>
+        <xsl:param name="f:b" as="xs:double"/>
+        <xsl:variable name="f:min" as="xs:double" select="min($f:input-values)"/>
+        <xsl:variable name="f:max" as="xs:double" select="max($f:input-values)"/>
+        <xsl:variable name="f:recentered-values"
+            select="$f:input-values ! (((($f:b - $f:a) * -1 * (. - $f:min)) div ($f:max - $f:min)) + $f:a)"/>
+        <xsl:sequence select="$f:recentered-values"/>
     </xsl:function>
 
     <!-- ================================================================ -->
@@ -50,7 +67,7 @@
             (
             for $i in (1 to count($allX))
             return
-                (math:sin($allX[$i])) + $jitters[position() eq $i]) => djb:recenter()"/>
+                (math:sin($allX[$i])) + $jitters[position() eq $i]) => djb:recenter(0, 100)"/>
     <xsl:variable name="points" as="xs:string+"
         select="
             for-each-pair($allX, $allY-with-jitter, function ($a, $b) {
