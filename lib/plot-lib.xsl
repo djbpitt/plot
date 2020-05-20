@@ -4,7 +4,6 @@
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     xmlns:djb="http://www.obdurodon.org" xmlns:f="http://www.obdurodon.org/function-variables"
     version="3.0">
-
     <!-- ================================================================= -->
     <!-- Library for statistical plotting in native XSLT                   -->
     <!-- Author: David J. Birnbaum, djbpitt@gmail.com                      -->
@@ -16,7 +15,6 @@
     <!-- All function variables are in f: namespace                        -->
     <!-- Multi-word names are hyphenated (except f:allX, f:allY)           -->
     <!-- ================================================================= -->
-
     <!-- ================================================================= -->
     <!-- Public (final) functions                                          -->
     <!-- ================================================================= -->
@@ -63,7 +61,6 @@
             "
         />
     </xsl:function>
-
     <xsl:function name="djb:split-points" as="xs:string+">
         <!-- ================================================================= -->
         <!-- djb:split-points#1                                                -->
@@ -83,7 +80,6 @@
         <xsl:param name="f:all-points" as="xs:string"/>
         <xsl:sequence select="tokenize(normalize-space($f:all-points), ' ')"/>
     </xsl:function>
-
     <xsl:function name="djb:random-sequence" as="xs:double*">
         <!-- ============================================================ -->
         <!-- djb:random-sequence#1                                        -->
@@ -98,7 +94,6 @@
             </xsl:next-iteration>
         </xsl:iterate>
     </xsl:function>
-
     <xsl:function name="djb:get-weights-scale" as="xs:double+">
         <!-- ============================================================ -->
         <!-- djb:get=weights-scale#3                                      -->
@@ -153,7 +148,6 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-
     <xsl:function name="djb:get-weights-scale" as="xs:double+">
         <!-- ============================================================ -->
         <!-- djb:get=weights-scale#2                                      -->
@@ -182,7 +176,6 @@
         <!-- default to σ = 5 if not specified -->
         <xsl:sequence select="djb:get-weights-scale($f:kernel, $f:window-size, 5)"/>
     </xsl:function>
-
     <xsl:function name="djb:weighted-average" as="xs:double">
         <!-- ============================================================ -->
         <!-- djb:weighted-average#4                                       -->
@@ -265,7 +258,6 @@
             "/>
         <xsl:sequence select="$f:sum-weighted-values div $f:sum-applied-weights"/>
     </xsl:function>
-
     <xsl:function name="djb:gaussian" as="xs:double">
         <!-- ============================================================ -->
         <!-- djb:gaussian#4 as xs:double                                  -->
@@ -292,7 +284,6 @@
             select="$f:peak * math:exp(-1 * (math:pow(($f:x - $f:mean), 2)) div (2 * math:pow($f:stddev, 2)))"
         />
     </xsl:function>
-
     <xsl:function name="djb:round-to-odd" as="xs:integer">
         <!-- ============================================================ -->
         <!-- djb:round-to-odd#1                                           -->
@@ -307,7 +298,6 @@
         <xsl:param name="input" as="xs:integer"/>
         <xsl:sequence select="(2 * floor($input div 2) + 1) => xs:integer()"/>
     </xsl:function>
-
     <xsl:function name="djb:recenter" as="xs:double+">
         <!-- ================================================================ -->
         <!-- djb:recenter#3                                                   -->
@@ -336,7 +326,6 @@
             select="$f:input-values ! (((($f:b - $f:a) * (. - $f:min)) div ($f:max - $f:min)) + $f:a)"/>
         <xsl:sequence select="$f:recentered-values"/>
     </xsl:function>
-    
     <xsl:function name="djb:expand-to-tenths" as="xs:double+">
         <!-- ============================================================ -->
         <!-- djb:expand-to-tenths#1                                       -->
@@ -359,10 +348,7 @@
             return
             $i div 10"
         />
-    </xsl:function>
-    
-    <!-- ================================================================ -->
-
+    </xsl:function> ======= >>>>>>> 5561b4184c092ed94ffa98d9059d60821a97b77f <!-- ================================================================ -->
     <!-- ================================================================ -->
     <!-- Private functions                                                -->
     <!-- ================================================================ -->
@@ -389,7 +375,6 @@
             select="$f:float-regex || ',' || $f:float-regex"/>
         <xsl:sequence select="matches($f:input-point, $f:point-regex)"/>
     </xsl:function>
-
     <xsl:function name="djb:validate-monotonic-X" as="xs:boolean">
         <!-- ================================================================= -->
         <!-- djb:validate-monotonic-X#1                                        -->
@@ -407,7 +392,6 @@
             select="$f:point-pairs ! tokenize(., ',')[1] ! number(.)"/>
         <xsl:sequence select="djb:monotonic($f:allX)"/>
     </xsl:function>
-
     <xsl:function name="djb:uniform" as="xs:boolean">
         <!-- ============================================================ -->
         <!-- djb:uniform#1                                                -->
@@ -426,7 +410,6 @@
         <xsl:param name="f:seq" as="item()+"/>
         <xsl:sequence select="not(head($f:seq) != tail($f:seq))"/>
     </xsl:function>
-
     <xsl:function name="djb:monotonic" as="xs:boolean">
         <!-- ============================================================ -->
         <!-- djb:monotonic#1                                              -->
@@ -448,7 +431,6 @@
             $f:seq[$i] ge $f:seq[$i - 1]) => djb:uniform()"
         />
     </xsl:function>
-
     <xsl:function name="djb:gaussian-weights" as="xs:double+">
         <!-- ============================================================ -->
         <!-- djb:gaussian-weights#2                                       -->
