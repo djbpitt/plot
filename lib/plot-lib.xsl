@@ -30,6 +30,7 @@
         djb:weighted-average#4
         djb:gaussian#4
         djb:round-to-odd#1
+        djb:expand-to-tenths#1
         "/>
     <xsl:function name="djb:validate-points" as="xs:boolean">
         <!-- ================================================================= -->
