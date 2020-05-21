@@ -65,6 +65,25 @@
     <xsl:variable name="window" as="xs:integer" select="25"/>
 
     <!-- ================================================================ -->
+    <!-- Rectangular values                                               -->
+    <!-- ================================================================ -->
+    <xsl:variable name="rectangular-weights" as="xs:double+"
+        select="djb:get-weights-scale('rectangular', $window)"/>
+    <xsl:variable name="rectangular-Ys" as="xs:double+">
+        <xsl:for-each select="1 to count($points)">
+            <xsl:sequence
+                select="djb:weighted-average(current(), $window, $allY-with-jitter, $rectangular-weights)"
+            />
+        </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="rectangular-points" as="xs:string+"
+        select="
+            for $x in (1 to $n)
+            return
+                string-join((($x - 1) * $xScale, $rectangular-Ys[$x]), ',')
+            "/>
+
+    <!-- ================================================================ -->
     <!-- Gaussian values                                                  -->
     <!-- ================================================================ -->
     <xsl:variable name="stddev" as="xs:double" select="5"/>
@@ -125,23 +144,24 @@
     <!-- ================================================================ -->
     <xsl:template name="xsl:initial-template">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -115 {$n * $xScale + 30} 195">
+            <!-- js highlights on mouseover -->
             <script type="text/javascript"><![CDATA[
-            window.addEventListener('DOMContentLoaded', init, false);
-            function init() {
-                var rects = document.getElementsByClassName('toggle');
-                for (var i = 0; i < rects.length; i++) {
-                    rects[i].addEventListener('mouseover', emphasize, false);
-                    rects[i].addEventListener('mouseout', deemphasize, false);
+                window.addEventListener('DOMContentLoaded', init, false);
+                function init() {
+                    var rects = document.getElementsByClassName('toggle');
+                    for (var i = 0; i < rects.length; i++) {
+                        rects[i].addEventListener('mouseover', emphasize, false);
+                        rects[i].addEventListener('mouseout', deemphasize, false);
+                    }
                 }
-            }
-            function emphasize() {
-                var target = this.id.substring(0, this.id.indexOf('-'));
-                document.getElementById(target).classList.add('highlight');
-            }
-            function deemphasize() {
-                var target = this.id.substring(0, this.id.indexOf('-'));
-                document.getElementById(target).classList.remove('highlight');
-            }//]]></script>
+                function emphasize() {
+                    var target = this.id.substring(0, this.id.indexOf('-'));
+                    document.getElementById(target).classList.add('highlight');
+                }
+                function deemphasize() {
+                    var target = this.id.substring(0, this.id.indexOf('-'));
+                    document.getElementById(target).classList.remove('highlight');
+                }//]]></script>
             <style type="text/css">
                 .spline {
                     stroke-width: 0.5;
@@ -229,7 +249,8 @@
                 <!-- ==================================================== -->
                 <g id="rectangular">
                     <!--<polyline points="{djb:smoothing($points, $window)}"/>-->
-                    <xsl:sequence select="djb:smoothing($points, $window) => djb:spline(0.4)"/>
+                    <xsl:sequence
+                        select="djb:smoothing($rectangular-points, $window) => djb:spline(0.4)"/>
                 </g>
 
                 <!-- ==================================================== -->
