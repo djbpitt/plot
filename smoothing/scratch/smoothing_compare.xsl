@@ -19,7 +19,7 @@
     <!-- ================================================================ -->
     <!-- Data                                                             -->
     <!-- ================================================================ -->
-    <xsl:variable name="allX" as="xs:double+" select="0 to 50"/>
+    <xsl:variable name="allX" as="xs:double+" select="0 to 100"/>
     <xsl:variable name="allY" as="xs:double+" select="($allX ! math:sin(.)) ! (. * -50 - 50)"/>
     <xsl:variable name="n" as="xs:integer" select="count($allX)"/>
     <xsl:variable name="allX-tenths" as="xs:double+"
@@ -62,7 +62,7 @@
     <!-- ================================================================ -->
     <!-- Smoothing parameters                                             -->
     <!-- ================================================================ -->
-    <xsl:variable name="window" as="xs:integer" select="25"/>
+    <xsl:variable name="window" as="xs:integer" select="33"/>
 
     <!-- ================================================================ -->
     <!-- Rectangular values                                               -->
@@ -209,7 +209,7 @@
                 </text>
                 <text x="{($n - 1) * $xScale + 8}" y="-100" font-size="3" fill="lightgray" text-anchor="end" alignment-baseline="central">100.0</text>
                 <text x="{($n - 1) * $xScale + 8}" y="0" font-size="3" fill="lightgray" text-anchor="end" alignment-baseline="central">0.0</text>
-                <text x="{($n - 1) * $xScale + 8}" y="{$m * 200 + $b}" fill="red" fill-opacity="0.5" font-size="3" text-anchor="end" alignment-baseline="central">
+                <text x="{($n - 1) * $xScale + 8}" y="{$m * (($n - 1) * $xScale) + $b}" fill="red" fill-opacity="0.5" font-size="3" text-anchor="end" alignment-baseline="central">
                     <xsl:value-of select="format-number(-1 * ($m * (($n - 1) * $xScale) + $b), '0.0')"/>
                 </text>
 
@@ -287,7 +287,7 @@
                     = ' || $window || ')'"/>
                 </text>
             </g>
-            <g transform="translate(50, 15)">
+            <g transform="translate({(($n - 1) * $xScale) div 2 - 50}, 15)">
                 <rect x="0" y="0" width="100" height="51" fill="ghostwhite" stroke="black"
                     stroke-width="0.5"/>
                 <!-- boxes are clickable -->
