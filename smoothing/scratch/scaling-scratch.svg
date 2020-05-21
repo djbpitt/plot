@@ -2929,7 +2929,7 @@
          writing-mode="tb">Weight</text>
    <text x="250" y="-275" text-anchor="middle" font-size="16">Sample
                 scaling functions</text>
-   <g transform="translate(0, 50)">
+   <g transform="translate(90, 50)">
       <rect x="0"
             y="-5"
             height="133"

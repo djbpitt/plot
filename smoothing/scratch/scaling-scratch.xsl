@@ -101,7 +101,7 @@
             <text x="{$xScale * 25}" y="-{$yScale * 11}" text-anchor="middle" font-size="16">Sample
                 scaling functions</text>
             <!-- Legend -->
-            <g transform="translate(0, 50)">
+            <g transform="translate({$xScale * 25 - 160}, 50)">
                 <rect x="0" y="-5" height="133" width="320" stroke="black" stroke-width="0.5"
                     fill="ghostwhite"/>
                 <xsl:for-each
