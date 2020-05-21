@@ -19,7 +19,7 @@
     <!-- ================================================================ -->
     <!-- Data                                                             -->
     <!-- ================================================================ -->
-    <xsl:variable name="allX" as="xs:double+" select="0 to 100"/>
+    <xsl:variable name="allX" as="xs:double+" select="0 to 50"/>
     <xsl:variable name="allY" as="xs:double+" select="($allX ! math:sin(.)) ! (. * -50 - 50)"/>
     <xsl:variable name="n" as="xs:integer" select="count($allX)"/>
     <xsl:variable name="allX-tenths" as="xs:double+"
@@ -62,7 +62,7 @@
     <!-- ================================================================ -->
     <!-- Smoothing parameters                                             -->
     <!-- ================================================================ -->
-    <xsl:variable name="window" as="xs:integer" select="33"/>
+    <xsl:variable name="window" as="xs:integer" select="15"/>
 
     <!-- ================================================================ -->
     <!-- Rectangular values                                               -->
@@ -291,18 +291,18 @@
                 <rect x="0" y="0" width="100" height="51" fill="ghostwhite" stroke="black"
                     stroke-width="0.5"/>
                 <!-- boxes are clickable -->
-                <rect x="2" y="1" width="5" height="5" fill="black" class="toggle" id="data-box"/>
-                <rect x="2" y="8" width="5" height="5" fill="red" class="toggle" id="regression-box"/>
-                <rect x="2" y="15" width="5" height="5" fill="gray"/>
-                <rect x="2" y="22" width="5" height="5" fill="blue" class="toggle"
+                <rect x="2" y="2" width="5" height="5" fill="black" class="toggle" id="data-box"/>
+                <rect x="2" y="9" width="5" height="5" fill="red" class="toggle" id="regression-box"/>
+                <rect x="2" y="16" width="5" height="5" fill="gray"/>
+                <rect x="2" y="23" width="5" height="5" fill="blue" class="toggle"
                     id="rectangular-box"/>
-                <rect x="2" y="29" width="5" height="5" fill="green" class="toggle"
+                <rect x="2" y="30" width="5" height="5" fill="green" class="toggle"
                     id="gaussian-box"/>
-                <rect x="2" y="36" width="5" height="5" fill="indigo" class="toggle"
+                <rect x="2" y="37" width="5" height="5" fill="indigo" class="toggle"
                     id="exponential-box"/>
-                <rect x="2" y="43" width="5" height="5" fill="darkgoldenrod" class="toggle"
+                <rect x="2" y="44" width="5" height="5" fill="darkgoldenrod" class="toggle"
                     id="parabolic-box"/>
-                <text x="10" y="6" fill="black" font-size="5">
+                <text x="10" y="6" fill="black" font-size="5" alignment-baseline="central">
                     <tspan>Actual data (101 points)</tspan>
                     <tspan x="10" dy="7" fill="red">
                         <xsl:value-of select="'Regression line (' || format-number(-1 * $b, '0.0') || '–' || format-number(-1 * ($m * 200 + $b), '0.0') || ')'"/>
