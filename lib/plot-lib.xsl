@@ -143,7 +143,7 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:message terminate="yes"
-                    select="'Invalid kernel (' || $f:kernel || '); must be one of: gaussian, rectangular, or exponential'"
+                    select="'Invalid kernel (' || $f:kernel || '); must be one of: gaussian, rectangular, exponential, or parabolic-down'"
                 />
             </xsl:otherwise>
         </xsl:choose>
