@@ -16,14 +16,21 @@
         <xsl:sequence select="-1 * $a * math:pow($x, 2) - $c"/>
     </xsl:function>
     <xsl:template name="xsl:initial-template">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-110 -110 220 220">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-210 -210 420 420">
+            <defs>
+                <clipPath id="cut-left-side">
+                    <rect x="0" y="-100" width="100" height="100"/>
+                </clipPath>
+                <clipPath id="cut-right-side">
+                    <rect x="0" y="-100" width="100" height="100"/>
+                </clipPath>
+            </defs>
             <!-- X axis and horizontal ruling -->
             <xsl:for-each select="-100 to 100">
                 <xsl:if test="current() mod 5 eq 0">
                     <line x1="-100" y1="{current()}" x2="100" y2="{current()}" stroke="lightgray"
                         stroke-width="0.5"/>
-                    <text x="-1" y="{current()}" font-size="3" fill="cornflowerblue"
-                        text-anchor="end">
+                    <text x="-1" y="{current()}" font-size="3" fill="cornflowerblue" text-anchor="end">
                         <xsl:value-of select="current()"/>
                     </text>
                 </xsl:if>
@@ -34,8 +41,7 @@
                 <xsl:if test="current() mod 5 eq 0">
                     <line x1="{current()}" y1="-100" x2="{current()}" y2="100" stroke="lightgray"
                         stroke-width="0.5"/>
-                    <text x="{current()}" y="3" font-size="3" fill="cornflowerblue"
-                        text-anchor="middle">
+                    <text x="{current()}" y="3" font-size="3" fill="cornflowerblue" text-anchor="middle">
                         <xsl:value-of select="current()"/>
                     </text>
                 </xsl:if>
@@ -44,28 +50,31 @@
             <!-- plot downward parabola points with vertex at (0,maxY)-->
             <xsl:variable name="maxX" as="xs:integer" select="100"/>
             <xsl:variable name="minX" as="xs:integer" select="0"/>
-            <xsl:for-each select="$minX to $maxX">
-                <!--
+            <!--<xsl:for-each select="$minX to $maxX">
+                <!-\-
                     assume symmetry across the Y axis
                     SVG Y values are inverted by function, so plat as if in normal Cartesian space
                     $x: X value of point to plot; subtract full value to shift vertex horizontally
                         (may need to adjust range, since plots from original minX to maxX)
                     $a: 1 div $maxX to spread over full range horizontally
                     $c: shift vertically (per normal Cartesian Y)
-                -->
+                -\->
                 <xsl:variable name="x"/>
                 <circle cx="{current()}"
                     cy="{djb:plot-parabola-Y(current(), -1 div $maxX, 0, $maxX)}" r="0.75"
                     stroke="green" stroke-width="0.5" fill="none"/>
-                <path d="M-100,0 Q0,-200 100,0" stroke="green" stroke-width="0.25" fill="none"/>
-            </xsl:for-each>
+            </xsl:for-each>-->
+            <path d="M-100,0 Q0,-200 100,0" stroke="green" stroke-width="0.25" fill="none"
+                clip-path="url(#cut-left-side)"/>
             <!-- plot upward parabola points with vertex at (maxX,0) -->
-            <xsl:for-each select="$minX to $maxX">
+            <!--<xsl:for-each select="$minX to $maxX">
                 <circle cx="{current()}"
                     cy="{djb:plot-parabola-Y(current() - $maxX, 1 div $maxX, 0, 0)}" r="0.75"
                     fill="none" stroke="red" stroke-width="0.25"/>
-                <path d="M0,-100 Q100,100 200,-100" stroke="red" stroke-width="0.25" fill="none"/>
-            </xsl:for-each>
+            </xsl:for-each>-->
+            <path d="M0,-100 Q100,100 200,-100" stroke="red" stroke-width="0.25" fill="none"
+                clip-path="url(#cut-right-side)"/>
+            <rect x="0" y="-100" width="100" height="100" stroke="black" fill="none"/>
         </svg>
     </xsl:template>
 </xsl:stylesheet>
