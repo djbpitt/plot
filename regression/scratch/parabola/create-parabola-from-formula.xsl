@@ -18,10 +18,7 @@
     <xsl:template name="xsl:initial-template">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-210 -210 420 420">
             <defs>
-                <clipPath id="cut-left-side">
-                    <rect x="0" y="-100" width="100" height="100"/>
-                </clipPath>
-                <clipPath id="cut-right-side">
+                <clipPath id="only-upper-left">
                     <rect x="0" y="-100" width="100" height="100"/>
                 </clipPath>
             </defs>
@@ -65,7 +62,7 @@
                     stroke="green" stroke-width="0.5" fill="none"/>
             </xsl:for-each>-->
             <path d="M-100,0 Q0,-200 100,0" stroke="green" stroke-width="0.25" fill="none"
-                clip-path="url(#cut-left-side)"/>
+                clip-path="url(#only-upper-left)"/>
             <!-- plot upward parabola points with vertex at (maxX,0) -->
             <!--<xsl:for-each select="$minX to $maxX">
                 <circle cx="{current()}"
@@ -73,7 +70,7 @@
                     fill="none" stroke="red" stroke-width="0.25"/>
             </xsl:for-each>-->
             <path d="M0,-100 Q100,100 200,-100" stroke="red" stroke-width="0.25" fill="none"
-                clip-path="url(#cut-right-side)"/>
+                clip-path="url(#only-upper-left)"/>
             <rect x="0" y="-100" width="100" height="100" stroke="black" fill="none"/>
         </svg>
     </xsl:template>
