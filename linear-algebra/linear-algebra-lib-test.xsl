@@ -70,6 +70,16 @@
                 ],
                 [
                     [
+                        [3, 4, 2]
+                    ],
+                    [
+                        [13, 9, 7, 15],
+                        [8, 7, 4, 6],
+                        [6, 4, 0, 3]
+                    ]
+                ],
+                [
+                    [
                         [4],
                         [5],
                         [6]
@@ -86,6 +96,26 @@
                         [4],
                         [5],
                         [6]
+                    ]
+                ],
+                [
+                    [
+                        [1, 2],
+                        [3, 4]
+                    ],
+                    [
+                        [2, 0],
+                        [1, 2]
+                    ]
+                ],
+                [
+                    [
+                        [2, 0],
+                        [1, 2]
+                    ],
+                    [
+                        [1, 2],
+                        [3, 4]
                     ]
                 ]"
         />
@@ -124,6 +154,9 @@
             </head>
             <body>
                 <h1>Dot product tests</h1>
+                <p>Examples from <a
+                        href="https://www.mathsisfun.com/algebra/matrix-multiplying.html"
+                        >https://www.mathsisfun.com/algebra/matrix-multiplying.html</a></p>
                 <xsl:for-each select="$tests">
                     <xsl:variable name="left-matrix" as="array(array(*))" select="current()(1)"/>
                     <xsl:variable name="right-matrix" as="array(array(*))" select="current()(2)"/>
