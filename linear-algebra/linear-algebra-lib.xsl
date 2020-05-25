@@ -49,7 +49,8 @@
         <!-- ============================================================ -->
         <!-- Validate input                                               -->
         <!-- ============================================================ -->
-        <xsl:if test="$f:right-column-count ne $f:left-row-count">
+        <xsl:if
+            test="$f:right-column-count ne $f:left-row-count and $f:left-column-count ne $f:right-row-count">
             <xsl:message terminate="yes"
                 select="
                 'Left row count (' || 
@@ -77,17 +78,23 @@
         <xsl:variable name="f:output-rows" as="array(*)+">
             <xsl:for-each select="1 to $f:left-row-count">
                 <xsl:variable name="f:left-row-pos" as="xs:integer" select="current()"/>
-                <xsl:for-each select="1 to $f:right-column-count">
-                    <!-- create output row for each column in right matrix-->
-                    <xsl:variable name="f:right-column-pos" as="xs:integer" select="current()"/>
-                    <xsl:variable name="f:output-row" as="array(*)"
-                        select="
+                <xsl:variable name="f:output-row" as="xs:double+">
+                    <xsl:for-each select="1 to $f:right-column-count">
+                        <xsl:variable name="f:output-row-item" as="xs:double">
+                            <!-- create output row for each column in right matrix-->
+                            <xsl:variable name="f:right-column-pos" select="current()"/>
+                            <xsl:sequence
+                                select="
                         array {(for $i in 1 to $f:right-row-count 
                         return $f:left-matrix($f:left-row-pos)($i) * $f:right-matrix($i)($f:right-column-pos))
                         => sum()
-                        }"/>
-                    <xsl:sequence select="array {$f:output-row}"/>
-                </xsl:for-each>
+                        }"
+                            />
+                        </xsl:variable>
+                        <xsl:sequence select="$f:output-row-item"/>
+                    </xsl:for-each>
+                </xsl:variable>
+                <xsl:sequence select="array {$f:output-row ! .}"/>
             </xsl:for-each>
         </xsl:variable>
         <xsl:sequence select="array {$f:output-rows}"/>
@@ -97,14 +104,16 @@
     <!-- Main                                                             -->
     <!-- ================================================================ -->
     <xsl:template name="initial">
-        <xsl:variable name="left-matrix" as="array(*)"
-            select="array { array {1, 2, 3}, array {4, 5, 6}}"/>
-        <xsl:variable name="right-matrix" as="array(*)"
-            select="array { array {7, 8}, array {9, 10}, array {11, 12}}"/>
-        <root>
-            <xsl:variable name="dot-product" as="array(*)"
-                select="djb:dot-product($left-matrix, $right-matrix)"/>
-            <xsl:sequence select="array:size($dot-product)"/>
-        </root>
+        <xsl:variable name="left-matrix" as="array(array(*))" select="[[4], [5], [6]]"/>
+        <xsl:variable name="right-matrix" as="array(array(*))" select="[[1, 2, 3]]"/>
+        <xsl:variable name="dot-product" as="array(array(*))"
+            select="djb:dot-product($left-matrix, $right-matrix)"/>
+        <output-matrix>
+            <xsl:for-each select="1 to array:size($dot-product)">
+                <row n="{current()}">
+                    <xsl:sequence select="$dot-product(current())"/>
+                </row>
+            </xsl:for-each>
+        </output-matrix>
     </xsl:template>
 </xsl:package>
