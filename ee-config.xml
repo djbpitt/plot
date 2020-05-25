@@ -24,5 +24,7 @@
                sourceLocation="lib/plot-lib.xsl"/>
           <package name="http://www.obdurodon.org/smoothing" version="1.0"
                sourceLocation="smoothing/smoothing.xsl"/>
+          <package name="http://www.obdurodon.org/linear-algebra-lib" version="1.0"
+               sourceLocation="linear-algebra/linear-algebra-lib.xsl"/>
      </xsltPackages>
 </configuration>
