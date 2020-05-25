@@ -1,5 +1,7 @@
 # plot
 
+**[NB: Documentation is out of sync with development]**
+
 ## Summary
 
 XSLT functions for SVG plotting
