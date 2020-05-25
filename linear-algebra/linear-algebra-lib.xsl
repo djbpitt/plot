@@ -9,7 +9,7 @@
     <!-- ================================================================ -->
     <!-- Control default behavior of debug messaging                      -->
     <!-- ================================================================ -->
-    <xsl:param name="debug" static="yes" as="xs:boolean" select="true()"/>
+    <xsl:param name="debug" static="yes" as="xs:boolean" select="false()"/>
 
     <!-- ================================================================ -->
     <!-- Final functions, templates and variables                         -->

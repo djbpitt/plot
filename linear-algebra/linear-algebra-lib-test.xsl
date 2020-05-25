@@ -14,34 +14,41 @@
     <!-- ================================================================ -->
     <!-- Functions                                                        -->
     <!-- ================================================================ -->
-    <xsl:function name="djb:dump-matrix-cells" as="element(html:div)">
+    <xsl:function name="djb:dump-matrix-cells" as="element(html:table)">
         <xsl:param name="input" as="array(array(*)*)"/>
-        <div class="cells">
+        <xsl:variable name="column-count" as="xs:integer" select="array:size($input(1))"/>
+        <table>
+            <tr>
+                <th>&#xa0;</th>
+                <xsl:for-each select="1 to $column-count">
+                    <th>
+                        <xsl:value-of select="current()"/>
+                    </th>
+                </xsl:for-each>
+            </tr>
             <xsl:for-each select="1 to array:size($input)">
                 <xsl:variable name="row-number" as="xs:integer" select="current()"/>
-                <xsl:for-each select="1 to array:size($input(1))">
-                    <xsl:variable name="column-number" select="current()"/>
-                    <div class="cell">
-                        <xsl:sequence
-                            select="concat('(', $row-number, ',', $column-number, '): '), $input($row-number)($column-number)"
-                        />
-                    </div>
-                </xsl:for-each>
+                <tr>
+                    <th>
+                        <xsl:value-of select="current()"/>
+                    </th>
+                    <xsl:for-each select="1 to array:size($input(1))">
+                        <xsl:variable name="column-number" select="current()"/>
+                        <td>
+                            <xsl:sequence select="$input($row-number)($column-number)"/>
+                        </td>
+                    </xsl:for-each>
+                </tr>
             </xsl:for-each>
-        </div>
+        </table>
     </xsl:function>
-    <xsl:function name="djb:get-matrix-dimensions" as="element(html:h3)">
+    <xsl:function name="djb:get-matrix-dimensions" as="xs:string">
         <xsl:param name="input" as="array(array(*)*)"/>
         <xsl:variable name="row-count" as="xs:integer" select="array:size($input)"/>
         <xsl:variable name="column-count" as="xs:integer" select="array:size($input(1))"/>
         <h3 class="dimensions">
             <xsl:sequence select="string-join(($row-count, $column-count), ' x ')"/>
         </h3>
-    </xsl:function>
-    <xsl:function name="djb:dump-matrix" as="element()+">
-        <xsl:param name="input" as="array(array(*)+)"/>
-        <xsl:sequence select="djb:get-matrix-dimensions($input)"/>
-        <xsl:sequence select="djb:dump-matrix-cells($input)"/>
     </xsl:function>
 
     <!-- ================================================================ -->
@@ -91,6 +98,29 @@
         <html>
             <head>
                 <title>Dot-product tests</title>
+                <style type="text/css">
+                    .table-wrapper {
+                        display: flex;
+                        padding-bottom: 1em;
+                    }
+                    .table-wrapper > section {
+                        margin: 0 1em;
+                    }
+                    table,
+                    tr,
+                    th,
+                    td {
+                        border: black 1px solid;
+                        border-collapse: collapse;
+                        padding: .5em;
+                    }
+                    table {
+                        margin: auto;
+                    }
+                    th,
+                    td {
+                        text-align: right;
+                    }</style>
             </head>
             <body>
                 <h1>Dot product tests</h1>
@@ -99,25 +129,39 @@
                     <xsl:variable name="right-matrix" as="array(array(*))" select="current()(2)"/>
                     <xsl:variable name="dot-product" as="array(array(*))"
                         select="djb:dot-product($left-matrix, $right-matrix)"/>
-                    <div>
+                    <section>
+                        <hr/>
                         <h2>
                             <xsl:text>Test #</xsl:text>
                             <xsl:value-of select="position()"/>
                         </h2>
-                        <div class="input-left-matrix">
-                            <h3>
-                                <xsl:text>Input (</xsl:text>
-                                <xsl:sequence select="djb:dump-matrix($left-matrix)"/>
-                                <xsl:text>)</xsl:text>
-                            </h3>
-                        </div>
-                        <div class="input-right-matrix">
-                            <xsl:sequence select="djb:dump-matrix($right-matrix)"/>
-                        </div>
-                        <div class="output-matrix">
-                            <xsl:sequence select="djb:dump-matrix($dot-product)"/>
-                        </div>
-                    </div>
+                        <section class="table-wrapper">
+                            <section>
+                                <h3>
+                                    <xsl:text>Left input (</xsl:text>
+                                    <xsl:sequence select="djb:get-matrix-dimensions($left-matrix)"/>
+                                    <xsl:text>)</xsl:text>
+                                </h3>
+                                <xsl:sequence select="djb:dump-matrix-cells($left-matrix)"/>
+                            </section>
+                            <section>
+                                <h3>
+                                    <xsl:text>Right input (</xsl:text>
+                                    <xsl:sequence select="djb:get-matrix-dimensions($right-matrix)"/>
+                                    <xsl:text>)</xsl:text>
+                                </h3>
+                                <xsl:sequence select="djb:dump-matrix-cells($right-matrix)"/>
+                            </section>
+                            <section>
+                                <h3>
+                                    <xsl:text>Output (</xsl:text>
+                                    <xsl:sequence select="djb:get-matrix-dimensions($dot-product)"/>
+                                    <xsl:text>)</xsl:text>
+                                </h3>
+                                <xsl:sequence select="djb:dump-matrix-cells($dot-product)"/>
+                            </section>
+                        </section>
+                    </section>
                 </xsl:for-each>
             </body>
         </html>
