@@ -30,13 +30,13 @@
             </xsl:for-each>
         </div>
     </xsl:function>
-    <xsl:function name="djb:get-matrix-dimensions" as="element(html:div)">
+    <xsl:function name="djb:get-matrix-dimensions" as="element(html:h3)">
         <xsl:param name="input" as="array(array(*)*)"/>
         <xsl:variable name="row-count" as="xs:integer" select="array:size($input)"/>
         <xsl:variable name="column-count" as="xs:integer" select="array:size($input(1))"/>
-        <div class="dimensions">
+        <h3 class="dimensions">
             <xsl:sequence select="string-join(($row-count, $column-count), ' x ')"/>
-        </div>
+        </h3>
     </xsl:function>
     <xsl:function name="djb:dump-matrix" as="element()+">
         <xsl:param name="input" as="array(array(*)+)"/>
@@ -105,7 +105,11 @@
                             <xsl:value-of select="position()"/>
                         </h2>
                         <div class="input-left-matrix">
-                            <xsl:sequence select="djb:dump-matrix($left-matrix)"/>
+                            <h3>
+                                <xsl:text>Input (</xsl:text>
+                                <xsl:sequence select="djb:dump-matrix($left-matrix)"/>
+                                <xsl:text>)</xsl:text>
+                            </h3>
                         </div>
                         <div class="input-right-matrix">
                             <xsl:sequence select="djb:dump-matrix($right-matrix)"/>
