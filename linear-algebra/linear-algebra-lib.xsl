@@ -22,8 +22,8 @@
     <!-- ================================================================ -->
     <xsl:expose component="function" visibility="final"
         names="
-        djb:dot-product#2
         djb:transpose-matrix#1
+        djb:dot-product#2
         "/>
 
     <!-- ================================================================ -->
@@ -34,10 +34,10 @@
         <!-- djb:transpose-matrix#1                                       -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
-        <!--   $f:input-matrix as array(array(*)*) : m x n matrix         -->
+        <!--   $f:input-matrix as array(array(*)+) : m x n matrix         -->
         <!--                                                              -->
         <!-- Returns:                                                     -->
-        <!--   array(array(*)*) : n x m transpose of input                -->
+        <!--   array(array(*)+) : n x m transpose of input                -->
         <!--                                                              -->
         <!-- Notes:                                                       -->
         <!--   Matrices are arrays (rows) of arrays (row values)          -->
