@@ -30,6 +30,7 @@
         djb:round-to-odd#1
         djb:expand-to-tenths#1
         djb:recenter#3
+        djb:uniform#1
         "/>
     <xsl:function name="djb:validate-points" as="xs:boolean">
         <!-- ================================================================= -->
@@ -356,6 +357,24 @@
             $i div 10"
         />
     </xsl:function>
+    <xsl:function name="djb:uniform" as="xs:boolean">
+        <!-- ============================================================ -->
+        <!-- djb:uniform#1                                                -->
+        <!--                                                              -->
+        <!-- Returns True iff all items in sequence are equal             -->
+        <!--                                                              -->
+        <!-- Parameter                                                    -->
+        <!--   $f:seq as item()+ : sequence of any datatype               -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   xs:boolean : True iff all items in $seq are equal          -->
+        <!--                                                              -->
+        <!-- Note: O(n) counterpart to O(n^2) not($seq != $seq)           -->
+        <!--   (from Michael Kay over xml.com Slack                       -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:seq" as="item()+"/>
+        <xsl:sequence select="not(head($f:seq) != tail($f:seq))"/>
+    </xsl:function>
     <!-- ================================================================ -->
     <!-- ================================================================ -->
     <!-- Private functions                                                -->
@@ -399,24 +418,6 @@
         <xsl:variable name="f:allX" as="xs:double+"
             select="$f:point-pairs ! tokenize(., ',')[1] ! number(.)"/>
         <xsl:sequence select="djb:monotonic($f:allX)"/>
-    </xsl:function>
-    <xsl:function name="djb:uniform" as="xs:boolean">
-        <!-- ============================================================ -->
-        <!-- djb:uniform#1                                                -->
-        <!--                                                              -->
-        <!-- Returns True iff all items in sequence are equal             -->
-        <!--                                                              -->
-        <!-- Parameter                                                    -->
-        <!--   $f:seq as item()+ : sequence of any datatype               -->
-        <!--                                                              -->
-        <!-- Returns                                                      -->
-        <!--   xs:boolean : True iff all items in $seq are equal          -->
-        <!--                                                              -->
-        <!-- Note: O(n) counterpart to O(n^2) not($seq != $seq)           -->
-        <!--   (from Michael Kay over xml.com Slack                       -->
-        <!-- ============================================================ -->
-        <xsl:param name="f:seq" as="item()+"/>
-        <xsl:sequence select="not(head($f:seq) != tail($f:seq))"/>
     </xsl:function>
     <xsl:function name="djb:monotonic" as="xs:boolean">
         <!-- ============================================================ -->
