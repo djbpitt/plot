@@ -5,7 +5,13 @@
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     xmlns:djb="http://www.obdurodon.org" xmlns:f="http://www.obdurodon.org/function-variables"
     version="3.0">
-    <xsl:output method="xml" indent="yes"/>
+    <!-- ================================================================ -->
+    <!-- Packages                                                         -->
+    <!--                                                                  -->
+    <!-- Uses djb:uniform#1 to check length of matrix rows                -->
+    <!-- ================================================================ -->
+    <xsl:use-package name="http://www.obdurodon.org/plot-lib"/>
+
     <!-- ================================================================ -->
     <!-- Control default behavior of debug messaging                      -->
     <!-- ================================================================ -->
@@ -19,23 +25,26 @@
     <!-- ================================================================ -->
     <!-- Functions                                                        -->
     <!-- ================================================================ -->
-    <xsl:function name="djb:dot-product">
+    <xsl:function name="djb:dot-product" as="array(array(*)*)">
         <!-- ============================================================ -->
         <!-- djb:dot-product#2                                            -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
-        <!--   $f:left-matrix as array(*) : m x n matrix                  -->
-        <!--   $f:right-matrix as array(*) : vector (1-d matrix)          -->
+        <!--   $f:left-matrix as array(array(*)*) : m x n matrix          -->
+        <!--   $f:right-matrix as array(array(*)*) : n x p matrix         -->
+        <!--                                                              -->
+        <!-- Returns:                                                     -->
+        <!--   array(array(*)*) : dot product of input matrices           -->
         <!--                                                              -->
         <!-- Notes:                                                       -->
         <!--   Matrices are arrays (rows) of arrays (row values)          -->
-        <!--   Validates that length of right matrix row = left row count -->
-        <!--                                                              -->
-        <!-- TODO:                                                        -->
-        <!--   Validate that all rows in left matrix have same length     -->
+        <!--     E.g.: [ [ 1, 2 ], [3, 4] ]                               -->
+        <!--   Validation:                                                -->
+        <!--     Left column count = right row count                      -->
+        <!--     Input matrix rows have uniform length                    -->
         <!-- ============================================================ -->
-        <xsl:param name="f:left-matrix" as="array(*)"/>
-        <xsl:param name="f:right-matrix" as="array(*)"/>
+        <xsl:param name="f:left-matrix" as="array(array(*)*)"/>
+        <xsl:param name="f:right-matrix" as="array(array(*)*)"/>
         <!-- ============================================================ -->
         <!-- Local variables                                              -->
         <!-- ============================================================ -->
@@ -48,16 +57,21 @@
         <!-- ============================================================ -->
         <!-- Validate input                                               -->
         <!-- ============================================================ -->
-        <xsl:if
-            test="$f:right-column-count ne $f:left-row-count and $f:left-column-count ne $f:right-row-count">
+        <xsl:if test="$f:left-column-count ne $f:right-row-count">
             <xsl:message terminate="yes"
                 select="
-                'Left row count (' || 
-                $f:left-row-count || 
-                ') and right column count(' || 
-                $f:right-column-count || ') must match'"
+                'Left column count (' || 
+                $f:left-column-count || 
+                ') and right row count(' || 
+                $f:right-row-count || ') must match'"
             />
         </xsl:if>
+        <xsl:for-each select="$f:left-matrix, $f:right-matrix">
+            <xsl:if test="not(djb:uniform(array:for-each(current(), array:size#1)))">
+                <xsl:message terminate="yes"
+                    select="'Invalid input: matrix has rows of different lengths'"/>
+            </xsl:if>
+        </xsl:for-each>
         <!-- ============================================================ -->
         <!-- Debug messages                                               -->
         <!-- ============================================================ -->
