@@ -66,12 +66,14 @@
                 $f:right-row-count || ') must match'"
             />
         </xsl:if>
-        <xsl:for-each select="$f:left-matrix, $f:right-matrix">
-            <xsl:if test="not(djb:uniform(array:for-each(current(), array:size#1)))">
-                <xsl:message terminate="yes"
-                    select="'Invalid input: matrix has rows of different lengths'"/>
-            </xsl:if>
-        </xsl:for-each>
+        <xsl:variable name="left-row-sizes" as="xs:integer+"
+            select="array:for-each($f:left-matrix, array:size#1)"/>
+        <xsl:variable name="right-row-sizes" as="xs:integer+"
+            select="array:for-each($f:right-matrix, array:size#1)"/>
+        <xsl:if test="not(djb:uniform($left-row-sizes) and djb:uniform($right-row-sizes))">
+            <xsl:message terminate="yes"
+                select="'Invalid input: matrix has rows of different lengths'"/>
+        </xsl:if>
         <!-- ============================================================ -->
         <!-- Debug messages                                               -->
         <!-- ============================================================ -->
