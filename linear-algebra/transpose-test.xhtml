@@ -3,7 +3,7 @@
   SYSTEM "about:legacy-compat">
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
-      <title>Transpose-matrix tests</title>
+      <title>Matrix transpose tests</title>
       <style type="text/css">
                     .table-wrapper {
                         display: flex;
@@ -26,9 +26,16 @@
                     th,
                     td {
                         text-align: right;
+                    }
+                    h3 {
+                        text-align: center;
                     }</style>
    </head>
    <body>
+      <h1>Matrix transpose tests</h1>
+      <p>Examples from <a href="https://www.mathsisfun.com/algebra/matrix-multiplying.html">https://www.mathsisfun.com/algebra/matrix-multiplying.html</a>
+      </p>
+      <hr/>
       <section class="table-wrapper">
          <section>
             <h3>Input (2 x 3)</h3>
@@ -75,6 +82,253 @@
                   <th>3</th>
                   <td>3</td>
                   <td>6</td>
+               </tr>
+            </table>
+         </section>
+      </section>
+      <hr/>
+      <section class="table-wrapper">
+         <section>
+            <h3>Input (3 x 2)</h3>
+            <table>
+               <tr>
+                  <th> </th>
+                  <th>1</th>
+                  <th>2</th>
+               </tr>
+               <tr>
+                  <th>1</th>
+                  <td>7</td>
+                  <td>8</td>
+               </tr>
+               <tr>
+                  <th>2</th>
+                  <td>9</td>
+                  <td>10</td>
+               </tr>
+               <tr>
+                  <th>3</th>
+                  <td>11</td>
+                  <td>12</td>
+               </tr>
+            </table>
+         </section>
+         <section>
+            <h3>Output (2 x 3)</h3>
+            <table>
+               <tr>
+                  <th> </th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+               </tr>
+               <tr>
+                  <th>1</th>
+                  <td>7</td>
+                  <td>9</td>
+                  <td>11</td>
+               </tr>
+               <tr>
+                  <th>2</th>
+                  <td>8</td>
+                  <td>10</td>
+                  <td>12</td>
+               </tr>
+            </table>
+         </section>
+      </section>
+      <hr/>
+      <section class="table-wrapper">
+         <section>
+            <h3>Input (3 x 1)</h3>
+            <table>
+               <tr>
+                  <th> </th>
+                  <th>1</th>
+               </tr>
+               <tr>
+                  <th>1</th>
+                  <td>4</td>
+               </tr>
+               <tr>
+                  <th>2</th>
+                  <td>5</td>
+               </tr>
+               <tr>
+                  <th>3</th>
+                  <td>6</td>
+               </tr>
+            </table>
+         </section>
+         <section>
+            <h3>Output (1 x 3)</h3>
+            <table>
+               <tr>
+                  <th> </th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+               </tr>
+               <tr>
+                  <th>1</th>
+                  <td>4</td>
+                  <td>5</td>
+                  <td>6</td>
+               </tr>
+            </table>
+         </section>
+      </section>
+      <hr/>
+      <section class="table-wrapper">
+         <section>
+            <h3>Input (1 x 3)</h3>
+            <table>
+               <tr>
+                  <th> </th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+               </tr>
+               <tr>
+                  <th>1</th>
+                  <td>3</td>
+                  <td>4</td>
+                  <td>2</td>
+               </tr>
+            </table>
+         </section>
+         <section>
+            <h3>Output (3 x 1)</h3>
+            <table>
+               <tr>
+                  <th> </th>
+                  <th>1</th>
+               </tr>
+               <tr>
+                  <th>1</th>
+                  <td>3</td>
+               </tr>
+               <tr>
+                  <th>2</th>
+                  <td>4</td>
+               </tr>
+               <tr>
+                  <th>3</th>
+                  <td>2</td>
+               </tr>
+            </table>
+         </section>
+      </section>
+      <hr/>
+      <section class="table-wrapper">
+         <section>
+            <h3>Input (2 x 2)</h3>
+            <table>
+               <tr>
+                  <th> </th>
+                  <th>1</th>
+                  <th>2</th>
+               </tr>
+               <tr>
+                  <th>1</th>
+                  <td>1</td>
+                  <td>2</td>
+               </tr>
+               <tr>
+                  <th>2</th>
+                  <td>3</td>
+                  <td>4</td>
+               </tr>
+            </table>
+         </section>
+         <section>
+            <h3>Output (2 x 2)</h3>
+            <table>
+               <tr>
+                  <th> </th>
+                  <th>1</th>
+                  <th>2</th>
+               </tr>
+               <tr>
+                  <th>1</th>
+                  <td>1</td>
+                  <td>3</td>
+               </tr>
+               <tr>
+                  <th>2</th>
+                  <td>2</td>
+                  <td>4</td>
+               </tr>
+            </table>
+         </section>
+      </section>
+      <hr/>
+      <section class="table-wrapper">
+         <section>
+            <h3>Input (3 x 4)</h3>
+            <table>
+               <tr>
+                  <th> </th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+               </tr>
+               <tr>
+                  <th>1</th>
+                  <td>13</td>
+                  <td>9</td>
+                  <td>7</td>
+                  <td>15</td>
+               </tr>
+               <tr>
+                  <th>2</th>
+                  <td>8</td>
+                  <td>7</td>
+                  <td>4</td>
+                  <td>6</td>
+               </tr>
+               <tr>
+                  <th>3</th>
+                  <td>6</td>
+                  <td>4</td>
+                  <td>0</td>
+                  <td>3</td>
+               </tr>
+            </table>
+         </section>
+         <section>
+            <h3>Output (4 x 3)</h3>
+            <table>
+               <tr>
+                  <th> </th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+               </tr>
+               <tr>
+                  <th>1</th>
+                  <td>13</td>
+                  <td>8</td>
+                  <td>6</td>
+               </tr>
+               <tr>
+                  <th>2</th>
+                  <td>9</td>
+                  <td>7</td>
+                  <td>4</td>
+               </tr>
+               <tr>
+                  <th>3</th>
+                  <td>7</td>
+                  <td>4</td>
+                  <td>0</td>
+               </tr>
+               <tr>
+                  <th>4</th>
+                  <td>15</td>
+                  <td>6</td>
+                  <td>3</td>
                </tr>
             </table>
          </section>

@@ -44,16 +44,48 @@
     </xsl:function>
 
     <xsl:template name="xsl:initial-template">
-        <xsl:variable name="input-matrix" as="array(array(xs:integer+)+)"
-            select="
-                [
-                    [1, 2, 3],
-                    [4, 5, 6]
-                ]"/>
-        <xsl:variable name="transposed-matrix" select="djb:transpose-matrix($input-matrix)"/>
+        <!-- ================================================================ -->
+        <!-- Stylesheet variables: test data                                  -->
+        <!--                                                                  -->
+        <!-- $tests : array (example) contains two arrays (input and output)  -->
+        <!--   each of which contains arrays (rows) of integers               -->
+        <!-- ================================================================ -->
+        <xsl:variable name="tests" as="array(array(xs:integer+)+)+">
+            <xsl:sequence
+                select="
+                    [
+                        [1, 2, 3],
+                        [4, 5, 6]
+                    ],
+                    [
+                        [7, 8],
+                        [9, 10],
+                        [11, 12]
+                    ],
+                    [
+                        [4],
+                        [5],
+                        [6]
+                    ],
+                    [
+                        [3, 4, 2]
+                    ],
+                    [
+                        [1, 2],
+                        [3, 4]
+                    ],
+                    [
+                        [13, 9, 7, 15],
+                        [8, 7, 4, 6],
+                        [6, 4, 0, 3]
+                    ]
+                    "
+            />
+        </xsl:variable>
+
         <html>
             <head>
-                <title>Transpose-matrix tests</title>
+                <title>Matrix transpose tests</title>
                 <style type="text/css">
                     .table-wrapper {
                         display: flex;
@@ -76,27 +108,41 @@
                     th,
                     td {
                         text-align: right;
+                    }
+                    h3 {
+                        text-align: center;
                     }</style>
             </head>
             <body>
-                <section class="table-wrapper">
-                    <section>
-                        <h3>
-                            <xsl:text>Input (</xsl:text>
-                            <xsl:sequence select="djb:get-matrix-dimensions($input-matrix)"/>
-                            <xsl:text>)</xsl:text>
-                        </h3>
-                        <xsl:sequence select="djb:dump-matrix-cells($input-matrix)"/>
+                <h1>Matrix transpose tests</h1>
+                <p>Examples from <a
+                        href="https://www.mathsisfun.com/algebra/matrix-multiplying.html"
+                        >https://www.mathsisfun.com/algebra/matrix-multiplying.html</a></p>
+                <xsl:for-each select="$tests">
+                    <xsl:variable name="input-matrix" as="array(array(xs:integer+)+)"
+                        select="current()"/>
+                    <xsl:variable name="transposed-matrix" as="array(array(xs:integer+)+)"
+                        select="djb:transpose-matrix($input-matrix)"/>
+                    <hr/>
+                    <section class="table-wrapper">
+                        <section>
+                            <h3>
+                                <xsl:text>Input (</xsl:text>
+                                <xsl:sequence select="djb:get-matrix-dimensions($input-matrix)"/>
+                                <xsl:text>)</xsl:text>
+                            </h3>
+                            <xsl:sequence select="djb:dump-matrix-cells($input-matrix)"/>
+                        </section>
+                        <section>
+                            <h3>
+                                <xsl:text>Output (</xsl:text>
+                                <xsl:sequence select="djb:get-matrix-dimensions($transposed-matrix)"/>
+                                <xsl:text>)</xsl:text>
+                            </h3>
+                            <xsl:sequence select="djb:dump-matrix-cells($transposed-matrix)"/>
+                        </section>
                     </section>
-                    <section>
-                        <h3>
-                            <xsl:text>Output (</xsl:text>
-                            <xsl:sequence select="djb:get-matrix-dimensions($transposed-matrix)"/>
-                            <xsl:text>)</xsl:text>
-                        </h3>
-                        <xsl:sequence select="djb:dump-matrix-cells($transposed-matrix)"/>
-                    </section>
-                </section>
+                </xsl:for-each>
             </body>
         </html>
     </xsl:template>
