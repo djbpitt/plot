@@ -53,8 +53,11 @@
 
     <!-- ================================================================ -->
     <!-- Stylesheet variables: test data                                  -->
+    <!--                                                                  -->
+    <!-- $tests : array (example) contains two arrays (input and output)  -->
+    <!--   each of which contains arrays (rows) of integers               -->
     <!-- ================================================================ -->
-    <xsl:variable name="tests" as="array(array(*)*)+">
+    <xsl:variable name="tests" as="array(array(array(xs:integer+)+)+)+">
         <xsl:sequence
             select="
                 [
