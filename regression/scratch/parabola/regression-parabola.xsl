@@ -8,7 +8,7 @@
     <!-- ================================================================ -->
     <!-- Stylesheet static parameters                                     -->
     <!-- ================================================================ -->
-    <xsl:param name="debug" static="yes" as="xs:boolean" select="false()"/>
+    <xsl:param name="debug" static="yes" as="xs:boolean" select="true()"/>
 
     <!-- ================================================================ -->
     <!-- Output configuration                                             -->
@@ -120,15 +120,46 @@
         />
     </xsl:function>
 
+    <xsl:function name="djb:compute-X-where-Y-equals-zero" as="xs:double*">
+        <!-- https://math.stackexchange.com/questions/2332389/quadratic-equation-x-and-y-formula -->
+        <!-- NB: could return 0, 1, or 2 values -->
+        <xsl:param name="a" as="xs:double"/>
+        <xsl:param name="b" as="xs:double"/>
+        <xsl:param name="c" as="xs:double"/>
+        <xsl:variable name="discriminant" as="xs:double" select="math:pow($b, 2) - 4 * $a * $c"/>
+        <xsl:sequence
+            select="((-1 * $b + math:sqrt($discriminant)) div (2 * $a), (-1 * $b - math:sqrt($discriminant)) div (2 * $a))"
+        />
+    </xsl:function>
+
+    <xsl:function name="djb:compute-Y-from-X-parabola" as="xs:double">
+        <xsl:param name="f:x" as="xs:double"/>
+        <xsl:param name="f:a" as="xs:double"/>
+        <xsl:param name="f:b" as="xs:double"/>
+        <xsl:param name="f:c" as="xs:double"/>
+        <xsl:sequence select="$f:a * math:pow($f:x, 2) + $f:b * $f:x + $f:c"/>
+    </xsl:function>
+
+    <xsl:function name="djb:compute-vertex-X-of-parabola" as="xs:double">
+        <xsl:param name="f:a" as="xs:double"/>
+        <xsl:param name="f:b" as="xs:double"/>
+        <xsl:sequence select="(-1 * $f:b) div (2 * $f:a)"/>
+    </xsl:function>
     <!-- ================================================================ -->
     <!-- Stylesheet variables                                             -->
     <!-- ================================================================ -->
-    <xsl:variable name="points" as="xs:string+" select="'2,3', '4,6', '6,4'"/>
+    <!--<xsl:variable name="points" as="xs:string+"
+        select="'5,-49', '10,-36', '15,-25', '20,-16', '25,-9', '30,-4'"/>-->
+    <xsl:variable name="points" as="xs:string+"
+        select="'0,-49', '10,-36', '15,-25', '20,-25', '25,-36', '30,-49'"/>
 
     <!-- ================================================================ -->
     <!-- Main                                                             -->
     <!-- ================================================================ -->
     <xsl:template name="xsl:initial-template">
+        <!-- ============================================================ -->
+        <!-- Compute all X and Y; a, b, c                                 -->
+        <!-- ============================================================ -->
         <xsl:variable name="allX" as="xs:double+"
             select="$points ! substring-before(., ',') ! number()"/>
         <xsl:variable name="allY" as="xs:double+"
@@ -140,19 +171,80 @@
             <xsl:message select="'b: ', $parameters('b')"/>
             <xsl:message select="'c: ', $parameters('c')"/>
         </xsl:if>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-11 -11 22 22">
-            <!-- axes -->
-            <line x1="-10" y1="0" x2="10" y2="0" stroke="gray" stroke-width="0.25"/>
-            <line x1="0" y1="-10" x2="0" y2="10" stroke="gray" stroke-width="0.25"/>
-            <!-- points -->
+        <xsl:variable name="a" as="xs:double" select="$parameters('a')"/>
+        <xsl:variable name="b" as="xs:double" select="$parameters('b')"/>
+        <xsl:variable name="c" as="xs:double" select="$parameters('c')"/>
+        <!-- ============================================================ -->
+        <!-- Create SVG output                                            -->
+        <!--                                                              -->
+        <!-- Clip parabola to fit viewBox inside margins                  -->
+        <!-- ============================================================ -->
+        <xsl:variable name="width" as="xs:integer" select="100"/>
+        <xsl:variable name="height" as="xs:integer" select="100"/>
+        <xsl:variable name="margin" as="xs:integer" select="10"/>
+        <svg xmlns="http://www.w3.org/2000/svg"
+            viewBox="{-1 * $margin} {-1 * ($height + $margin)} {$width + 2 * $margin} {$height + 2 * $margin}">
+            <defs>
+                <clipPath id="clipPath-parabola">
+                    <rect x="0" y="-{$height}" width="{$width}" height="{$height}"/>
+                </clipPath>
+            </defs>
+            <!-- ======================================================== -->
+            <!-- Plot axes                                                -->
+            <!-- ======================================================== -->
+            <line x1="0" y1="0" x2="{$width}" y2="0" stroke="gray" stroke-width="0.25"
+                stroke-linecap="square"/>
+            <line x1="0" y1="{-1 * $height}" x2="0" y2="0" stroke="gray" stroke-width="0.25"
+                stroke-linecap="square"/>
+            <!-- ======================================================== -->
+            <!-- Plot all input points                                    -->
+            <!-- ======================================================== -->
             <xsl:for-each select="1 to count($allX)">
                 <circle cx="{$allX[current()]}" cy="{$allY[current()]}" r="0.5" fill="black"/>
             </xsl:for-each>
-            <xsl:for-each select="0 to 10">
-                <circle cx="{current()}"
-                    cy="{$parameters('a') * math:pow(current(), 2) + $parameters('b') * current() + $parameters('c')}"
-                    r="0.25" fill="red"/>
-            </xsl:for-each>
+            <!-- ======================================================== -->
+            <!-- Plot vertex                                              -->
+            <!-- ======================================================== -->
+            <xsl:variable name="vertexX" as="xs:double"
+                select="djb:compute-vertex-X-of-parabola($a, $b)"/>
+            <xsl:variable name="vertexY" as="xs:double"
+                select="djb:compute-Y-from-X-parabola($vertexX, $a, $b, $c)"/>
+            <xsl:if test="$debug">
+                <circle cx="{$vertexX}" cy="{$vertexY}" r="0.5" stroke="green" stroke-width="0.1"
+                    fill="none" class="vertex"/>
+            </xsl:if>
+            <!-- ======================================================== -->
+            <!-- Plot parabola as quadratic Bézier curve                  -->
+            <!-- http://apex.infogridpacific.com/dcp/svg-primitives-parabolas.html -->
+            <!-- If a > 0, points down (SVG coordinates), else up         -->
+            <!-- ======================================================== -->
+            <xsl:variable name="parabola-direction" as="xs:integer"
+                select="-1 * xs:integer($a div (abs($a)))"/>
+            <xsl:variable name="bezier-start-X" as="xs:double+" select="0"/>
+            <xsl:variable name="bezier-start-Y" as="xs:double"
+                select="djb:compute-Y-from-X-parabola($bezier-start-X, $a, $b, $c)"/>
+            <xsl:variable name="bezier-end-X" as="xs:double+" select="2 * $vertexX"/>
+            <xsl:variable name="bezier-end-Y" as="xs:double"
+                select="djb:compute-Y-from-X-parabola($bezier-end-X, $a, $b, $c)"/>
+            <xsl:variable name="Y-diff" as="xs:double" select="abs($bezier-start-Y - $vertexY)"/>
+            <xsl:variable name="control-X" as="xs:double" select="$vertexX"/>
+            <xsl:variable name="control-Y" as="xs:double"
+                select="$parabola-direction * ($vertexY + $Y-diff)"/>
+            <xsl:if test="$debug">
+                <circle cx="{$bezier-start-X}" cy="{$bezier-start-Y}" r="0.5" fill="pink"
+                    class="bezier-start"/>
+                <circle cx="{$bezier-end-X}" cy="{$bezier-end-Y}" r="0.5" fill="pink"
+                    class="bezier-end"/>
+                <circle cx="{$control-X}" cy="{$control-Y}" r="0.5" fill="blue" class="control"/>
+                <xsl:message
+                    select="'bezier-start: ', string-join(($bezier-start-X, $bezier-start-Y), ',')"/>
+                <xsl:message
+                    select="'bezier-end: ', string-join(($bezier-end-X, $bezier-end-Y), ',')"/>
+                <xsl:message select="'control: ', string-join(($control-X, $control-Y), ',')"/>
+            </xsl:if>
+            <path
+                d="M{$bezier-start-X},{$bezier-start-Y} Q{$control-X},{$control-Y} {$bezier-end-X},{$bezier-end-Y}"
+                stroke="red" stroke-width="0.5" fill="none" clip-path="url(#clipPath-parabola)"/>
         </svg>
     </xsl:template>
 </xsl:stylesheet>
