@@ -20,11 +20,69 @@
     <!-- ================================================================ -->
     <!-- Final functions, templates and variables                         -->
     <!-- ================================================================ -->
-    <xsl:expose component="function" names="djb:dot-product#2" visibility="final"/>
+    <xsl:expose component="function" visibility="final"
+        names="
+        djb:transpose-matrix#1
+        djb:dot-product#2
+        "/>
 
     <!-- ================================================================ -->
     <!-- Functions                                                        -->
     <!-- ================================================================ -->
+    <xsl:function name="djb:transpose-matrix" as="array(array(*)+)">
+        <!-- ============================================================ -->
+        <!-- djb:transpose-matrix#1                                       -->
+        <!--                                                              -->
+        <!-- Parameters:                                                  -->
+        <!--   $f:input-matrix as array(array(*)+) : m x n matrix         -->
+        <!--                                                              -->
+        <!-- Returns:                                                     -->
+        <!--   array(array(*)+) : n x m transpose of input                -->
+        <!--                                                              -->
+        <!-- Notes:                                                       -->
+        <!--   Matrices are arrays (rows) of arrays (row values)          -->
+        <!--     E.g.: [ [ 1, 2 ], [3, 4] ]                               -->
+        <!--   Validation:                                                -->
+        <!--     Input matrix rows have uniform length                    -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:input-matrix" as="array(array(xs:integer+)+)"/>
+
+        <!-- ============================================================ -->
+        <!-- Local variables                                              -->
+        <!-- ============================================================ -->
+        <xsl:variable name="input-row-sizes" as="xs:integer+"
+            select="array:for-each($f:input-matrix, array:size#1)"/>
+        <xsl:variable name="f:input-column-count" as="xs:integer"
+            select="array:size($f:input-matrix(1))"/>
+
+        <!-- ============================================================ -->
+        <!-- Validate input                                               -->
+        <!-- ============================================================ -->
+        <xsl:if test="not(djb:uniform($input-row-sizes))">
+            <xsl:message terminate="yes"
+                select="'Invalid input: matrix has rows of different lengths'"/>
+        </xsl:if>
+
+        <!-- ============================================================ -->
+        <!-- Compute transposed matrix                                    -->
+        <!-- ============================================================ -->
+        <xsl:variable name="f:output-rows" as="array(xs:integer+)+">
+            <xsl:for-each select="1 to $f:input-column-count">
+                <xsl:variable name="f:input-column-pos" as="xs:integer" select="current()"/>
+                <xsl:variable name="f:output-row-contents" as="xs:integer+"
+                    select="
+                    for $f:input-row-pos in (1 to array:size($f:input-matrix))
+                    return $f:input-matrix($f:input-row-pos)($f:input-column-pos)
+                    "/>
+                <xsl:sequence select="array {$f:output-row-contents}"/>
+            </xsl:for-each>
+        </xsl:variable>
+        <!-- ============================================================ -->
+        <!-- Return result                                                -->
+        <!-- ============================================================ -->
+        <xsl:sequence select="array {$f:output-rows}"/>
+    </xsl:function>
+
     <xsl:function name="djb:dot-product" as="array(array(*)*)">
         <!-- ============================================================ -->
         <!-- djb:dot-product#2                                            -->
