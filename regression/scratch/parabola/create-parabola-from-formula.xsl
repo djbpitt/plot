@@ -50,7 +50,7 @@
             <!--<xsl:for-each select="$minX to $maxX">
                 <!-\-
                     assume symmetry across the Y axis
-                    SVG Y values are inverted by function, so plat as if in normal Cartesian space
+                    SVG Y values are inverted by function, so plot as if in normal Cartesian space
                     $x: X value of point to plot; subtract full value to shift vertex horizontally
                         (may need to adjust range, since plots from original minX to maxX)
                     $a: 1 div $maxX to spread over full range horizontally
