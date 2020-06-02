@@ -5,6 +5,7 @@
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     version="3.0">
     <!--
+        Formula for plotting parabolic segment as quadratic Bézier curve documented at:
         https://math.stackexchange.com/questions/335226/convert-segment-of-parabola-to-quadratic-bezier-curve
     -->
     <xsl:output method="xml" indent="yes"/>
@@ -17,6 +18,7 @@
         <!-- djb:compute-derivative#3                                     -->
         <!--                                                              -->
         <!-- Return first derivative of quadratic (only) function         -->
+        <!--   f′(x) = 2ax + b                                            -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
         <!--   $f:x : X coordinate                                        -->
@@ -149,7 +151,7 @@
             <xsl:variable name="controlY" as="xs:double"
                 select="-1 * djb:compute-control-Y($x1, $x2, $a, $b, $c)"/>
             <!-- ======================================================== -->
-            <!-- Plot parabola segment                                    -->
+            <!-- Plot parabolic segment                                   -->
             <!-- ======================================================== -->
             <path d="M{$x1},{$y1} Q{$controlX},{$controlY} {$x2},{$y2}" stroke="red"
                 stroke-width="1" fill="none"/>
