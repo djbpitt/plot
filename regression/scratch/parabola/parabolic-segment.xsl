@@ -8,6 +8,7 @@
         https://math.stackexchange.com/questions/335226/convert-segment-of-parabola-to-quadratic-bezier-curve
     -->
     <xsl:output method="xml" indent="yes"/>
+
     <!-- ================================================================ -->
     <!-- Functions                                                        -->
     <!-- ================================================================ -->
@@ -28,8 +29,9 @@
         <xsl:param name="f:x" as="xs:double"/>
         <xsl:param name="f:a" as="xs:double"/>
         <xsl:param name="f:b" as="xs:double"/>
-        <xsl:sequence select="2 * $f:a * $f:x + $f:b"/>
+        <xsl:sequence select="(2 * $f:a * $f:x) + $f:b"/>
     </xsl:function>
+
     <xsl:function name="djb:compute-parabolic-Y" as="xs:double">
         <!-- ============================================================ -->
         <!-- djb:compute-parabolic-Y#4                                    -->
@@ -51,6 +53,7 @@
         <xsl:param name="f:c" as="xs:double"/>
         <xsl:sequence select="math:pow($f:x, 2) * $f:a + $f:x * $f:b + $f:c"/>
     </xsl:function>
+
     <xsl:function name="djb:compute-control-x" as="xs:double">
         <!-- ============================================================ -->
         <!-- djb:compute-control-X#2                                      -->
@@ -67,6 +70,32 @@
         <xsl:param name="f:x1" as="xs:double"/>
         <xsl:param name="f:x2" as="xs:double"/>
         <xsl:sequence select="($f:x1 + $f:x2) div 2"/>
+    </xsl:function>
+
+    <xsl:function name="djb:compute-control-Y" as="xs:double">
+        <!-- ============================================================ -->
+        <!-- djb:compute-control-Y#5                                      -->
+        <!--                                                              -->
+        <!-- Return Y coordinate of quadratic Bézier control point        -->
+        <!--                                                              -->
+        <!-- Parameters:                                                  -->
+        <!--   $f:x1 : X coordinate of segment start point                -->
+        <!--   $f:x2 : X coordinate of segment end point                  -->
+        <!--                                                              -->
+        <!-- Returns:                                                     -->
+        <!--   xs:double : Y coordinate of quadratic Bézier control point -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:x1" as="xs:double"/>
+        <xsl:param name="f:x2" as="xs:double"/>
+        <xsl:param name="f:a" as="xs:double"/>
+        <xsl:param name="f:b" as="xs:double"/>
+        <xsl:param name="f:c" as="xs:double"/>
+        <xsl:sequence
+            select="
+                djb:compute-parabolic-Y($f:x1, $f:a, $f:b, $f:c) +
+                djb:compute-derivative($f:x1, $f:a, $f:b) * (($f:x2 - $f:x1) div 2)
+                "
+        />
     </xsl:function>
 
     <!-- ================================================================ -->
@@ -101,8 +130,10 @@
             <!-- ======================================================== -->
             <xsl:variable name="x1" as="xs:double" select="5"/>
             <xsl:variable name="x2" as="xs:double" select="36"/>
-            <xsl:variable name="y1" as="xs:double" select="-1 * djb:compute-parabolic-Y($x1, $a, $b, $c)"/>
-            <xsl:variable name="y2" as="xs:double" select="-1 * djb:compute-parabolic-Y($x2, $a, $b, $c)"/>
+            <xsl:variable name="y1" as="xs:double"
+                select="-1 * djb:compute-parabolic-Y($x1, $a, $b, $c)"/>
+            <xsl:variable name="y2" as="xs:double"
+                select="-1 * djb:compute-parabolic-Y($x2, $a, $b, $c)"/>
             <line x1="{$x1}" y1="-110" x2="{$x1}" y2="10" stroke="lightblue" stroke-width="0.25"/>
             <line x1="{$x2}" y1="-110" x2="{$x2}" y2="10" stroke="lightblue" stroke-width="0.25"/>
             <!-- ======================================================== -->
@@ -116,7 +147,7 @@
             <!-- ======================================================== -->
             <xsl:variable name="controlX" as="xs:double" select="djb:compute-control-x($x1, $x2)"/>
             <xsl:variable name="controlY" as="xs:double"
-                select="-1 * ($y1 + djb:compute-derivative($x1, $a, $b) * ($x2 - $x1) div 2)"/>
+                select="-1 * djb:compute-control-Y($x1, $x2, $a, $b, $c)"/>
             <!-- ======================================================== -->
             <!-- Plot parabola segment                                    -->
             <!-- ======================================================== -->
