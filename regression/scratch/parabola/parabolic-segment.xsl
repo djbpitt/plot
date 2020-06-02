@@ -154,7 +154,7 @@
             <!-- Plot parabolic segment                                   -->
             <!-- ======================================================== -->
             <path d="M{$x1},{$y1} Q{$controlX},{$controlY} {$x2},{$y2}" stroke="red"
-                stroke-width="1" fill="none"/>
+                stroke-width="1" stroke-opacity="0.5" fill="none"/>
         </svg>
     </xsl:template>
 </xsl:stylesheet>
