@@ -15,7 +15,7 @@
     <!-- ================================================================ -->
     <!-- Control default behavior of debug messaging                      -->
     <!-- ================================================================ -->
-    <xsl:param name="debug" static="yes" as="xs:boolean" select="false()"/>
+    <xsl:param name="debug" as="xs:boolean" select="true()"/>
 
     <!-- ================================================================ -->
     <!-- Final functions, templates and variables                         -->
@@ -259,12 +259,15 @@
         <xsl:param name="f:a" as="xs:double"/>
         <xsl:param name="f:b" as="xs:double"/>
         <xsl:param name="f:c" as="xs:double"/>
-        <xsl:sequence
+        <xsl:variable name="f:result" as="xs:double"
             select="
             djb:compute-parabolic-Y($f:x1, $f:a, $f:b, $f:c) +
             djb:compute-derivative($f:x1, $f:a, $f:b) * (($f:x2 - $f:x1) div 2)
-            "
-        />
+            "/>
+        <xsl:sequence select="$f:result"/>
+        <xsl:if test="$debug">
+            <xsl:message select="'control-Y: ', $f:result"/>
+        </xsl:if>
     </xsl:function>
 
     <xsl:function name="djb:compute-vertex-X" as="xs:double">

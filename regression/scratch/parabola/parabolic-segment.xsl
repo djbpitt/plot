@@ -104,9 +104,9 @@
     <!-- Stylesheet variables (arbitrary, for testing)                    -->
     <!-- ================================================================ -->
     <xsl:variable name="allX" as="xs:double" select="(-10 to 100) ! xs:double(.)"/>
-    <xsl:variable name="a" as="xs:double" select=".05"/>
-    <xsl:variable name="b" as="xs:double" select=".025"/>
-    <xsl:variable name="c" as="xs:double" select="2"/>
+    <xsl:variable name="a" as="xs:double" select=".015"/>
+    <xsl:variable name="b" as="xs:double" select=".015"/>
+    <xsl:variable name="c" as="xs:double" select="3"/>
 
     <!-- ================================================================ -->
     <!-- Main                                                             -->
@@ -131,7 +131,7 @@
             <!-- Arbitrary endpoints of parabola segment, for testing     -->
             <!-- ======================================================== -->
             <xsl:variable name="x1" as="xs:double" select="5"/>
-            <xsl:variable name="x2" as="xs:double" select="36"/>
+            <xsl:variable name="x2" as="xs:double" select="66"/>
             <xsl:variable name="y1" as="xs:double"
                 select="-1 * djb:compute-parabolic-Y($x1, $a, $b, $c)"/>
             <xsl:variable name="y2" as="xs:double"
@@ -150,11 +150,15 @@
             <xsl:variable name="controlX" as="xs:double" select="djb:compute-control-x($x1, $x2)"/>
             <xsl:variable name="controlY" as="xs:double"
                 select="-1 * djb:compute-control-Y($x1, $x2, $a, $b, $c)"/>
+            <xsl:message select="'control: ', $controlX, ',', $controlY"/>
             <!-- ======================================================== -->
             <!-- Plot parabolic segment                                   -->
             <!-- ======================================================== -->
             <path d="M{$x1},{$y1} Q{$controlX},{$controlY} {$x2},{$y2}" stroke="red"
                 stroke-width="1" stroke-opacity="0.5" fill="none"/>
+            <xsl:message select="'x1: ', $x1, ',', $y1"/>
+            <xsl:message select="'x2: ', $x2, ',', $y2"/>
+            <xsl:message select="'a: ', $a, '; b: ', $b, '; c: ', $c"/>
         </svg>
     </xsl:template>
 </xsl:stylesheet>
