@@ -10,7 +10,7 @@
         djb:regression-line#1
         djb:compute-regression-parameters#1
         djb:plot-parabolic-segment#5
-        "/>    
+        "/>
     <!-- ================================================================ -->
     <!-- Package dependencies                                             -->
     <!-- ================================================================ -->
@@ -43,7 +43,8 @@
         <!--   b = ( ∑y − m∑x ) / n                                       -->
         <!-- ============================================================ -->
         <xsl:if test="not(djb:validate-points($f:point-pairs))">
-            <xsl:message terminate="yes" select="'Invalid points: ' || $f:point-pairs"/>
+            <xsl:message terminate="yes"
+                select="'Invalid points: ' || string-join($f:point-pairs, '; ')"/>
         </xsl:if>
         <xsl:variable name="f:n" as="xs:integer" select="count($f:point-pairs)"/>
         <xsl:variable name="f:allX" as="xs:double+"
@@ -52,12 +53,11 @@
             select="$f:point-pairs ! substring-after(., ',') ! number(.)"/>
         <xsl:variable name="f:sumXY" as="xs:double+"
             select="
-            (for $i in 1 to $f:n
-            return
-            $f:allX[$i] * $f:allY[$i]) => sum()"/>
+            for-each-pair($f:allX, $f:allY, function ($a, $b) {$a * $b}) => sum()"/>
         <xsl:variable name="f:sumX" as="xs:double" select="sum($f:allX)"/>
         <xsl:variable name="f:sumY" as="xs:double" select="sum($f:allY)"/>
-        <xsl:variable name="f:sumX2" as="xs:double" select="$f:allX ! math:pow(., 2) => sum()"/>
+        <xsl:variable name="f:sumX2" as="xs:double" select="($f:allX ! math:pow(., 2)) => sum()"/>
+        <xsl:message select="$f:allX ! math:pow(., 2)"/>
         <xsl:variable name="f:m" as="xs:double"
             select="($f:n * $f:sumXY - $f:sumX * $f:sumY) div ($f:n * $f:sumX2 - math:pow($f:sumX, 2))"/>
         <xsl:variable name="f:b" as="xs:double" select="($f:sumY - $f:m * $f:sumX) div $f:n"/>
@@ -65,11 +65,17 @@
         <!-- Return value                                                 -->
         <!-- ============================================================ -->
         <g xmlns="http://www.w3.org/2000/svg">
-            <line x1="{min($f:allX)}" y1="{$f:b}" x2="{max($f:allX)}"
+            <line x1="{0}" y1="{$f:b}" x2="{max($f:allX)}"
                 y2="{$f:m * max($f:allX) + $f:b}" class="regression"/>
         </g>
         <xsl:if test="$f:debug">
-            <xsl:sequence select="map {'m' : $f:m, 'b' : $f:b}"/>
+            <xsl:message select="'sum of X = ', $f:sumX"/>
+            <xsl:message select="'sum of Y = ', $f:sumY"/>
+            <xsl:message select="'mean X = ', avg($f:allX)"/>
+            <xsl:message select="'mean Y = ' , avg($f:allY)"/>
+            <xsl:message select="'sum of squares = ', $f:sumX2"/>
+            <xsl:message select="'sum of products = ', $f:sumXY"/>
+            <xsl:message select="map {'m' : $f:m, 'b' : $f:b}"/>
         </xsl:if>
     </xsl:function>
 
