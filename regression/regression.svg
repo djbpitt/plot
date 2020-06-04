@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="30 -230 460 270">
+   <defs>
+      <clipPath id="clip">
+         <rect x="50" y="-200" width="400" height="200"/>
+      </clipPath>
+   </defs>
    <style type="text/css">
                 
                 .regression {
@@ -340,25 +345,27 @@
                 dependent variable</text>
    <text x="250" y="-215" text-anchor="middle" font-size="8">Sample regression line</text>
    <g>
-      <polyline points="50,-182 100,-166 150,-87 200,-191 250,-106 300,-73 350,-60 400,-186 450,-118"
+      <polyline points="50,-8 100,-24 150,-28 200,-70 250,-72 300,-90 350,-134 400,-170 450,-188"
                 stroke="black"
                 stroke-width="1"
                 fill="none"/>
-      <circle cx="50" cy="-182" r="2" fill="black"/>
-      <circle cx="100" cy="-166" r="2" fill="black"/>
-      <circle cx="150" cy="-87" r="2" fill="black"/>
-      <circle cx="200" cy="-191" r="2" fill="black"/>
-      <circle cx="250" cy="-106" r="2" fill="black"/>
-      <circle cx="300" cy="-73" r="2" fill="black"/>
-      <circle cx="350" cy="-60" r="2" fill="black"/>
-      <circle cx="400" cy="-186" r="2" fill="black"/>
-      <circle cx="450" cy="-118" r="2" fill="black"/>
-      <g>
-         <line x1="50"
-               y1="-160.55555555555554"
-               x2="450"
-               y2="-105.35555555555555"
-               class="regression"/>
+      <circle cx="50" cy="-8" r="2" fill="black"/>
+      <circle cx="100" cy="-24" r="2" fill="black"/>
+      <circle cx="150" cy="-28" r="2" fill="black"/>
+      <circle cx="200" cy="-70" r="2" fill="black"/>
+      <circle cx="250" cy="-72" r="2" fill="black"/>
+      <circle cx="300" cy="-90" r="2" fill="black"/>
+      <circle cx="350" cy="-134" r="2" fill="black"/>
+      <circle cx="400" cy="-170" r="2" fill="black"/>
+      <circle cx="450" cy="-188" r="2" fill="black"/>
+      <g clip-path="url(#clip)">
+         <g>
+            <line x1="0"
+                  y1="28.72222222222222"
+                  x2="450"
+                  y2="-179.77777777777777"
+                  class="regression"/>
+         </g>
       </g>
    </g>
 </svg>

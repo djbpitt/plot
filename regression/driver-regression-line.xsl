@@ -4,6 +4,7 @@
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     version="3.0">
     <xsl:output method="xml" indent="yes"/>
+    <xsl:param name="debug" as="xs:boolean"/>
     <xsl:use-package name="http://www.obdurodon.org/regression"/>
     <!-- ================================================================= -->
     <!-- Sample regression line plotting (with fake data)                  -->
@@ -15,18 +16,23 @@
     <!-- ================================================================= -->
     <xsl:variable name="points" as="xs:string+"
         select="
-            '50,-182',
-            '100,-166',
-            '150,-87',
-            '200,-191',
-            '250,-106',
-            '300,-73',
-            '350,-60',
-            '400,-186',
-            '450,-118'"/>
+            '50,-8',
+            '100,-24',
+            '150,-28',
+            '200,-70',
+            '250,-72',
+            '300,-90',
+            '350,-134',
+            '400,-170',
+            '450,-188'"/>
     <xsl:template name="xsl:initial-template">
-        <xsl:variable name="result" as="item()+" select="djb:regression-line($points)"/>
+        <xsl:variable name="result" as="item()+" select="djb:regression-line($points, true())"/>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="30 -230 460 270">
+            <defs>
+                <clipPath id="clip">
+                    <rect x="50" y="-200" width="400" height="200"/>
+                </clipPath>
+            </defs>
             <style type="text/css">
                 <![CDATA[
                 .regression {
@@ -48,8 +54,7 @@
                 <xsl:variable name="yPos" as="xs:integer" select="current() * -10"/>
                 <line x1="50" y1="{$yPos}" x2="450" y2="{$yPos}" stroke="lightgray"
                     stroke-width="0.5" stroke-linecap="square"/>
-                <text x="47" y="{$yPos}" text-anchor="end" alignment-baseline="central"
-                    font-size="4">
+                <text x="47" y="{$yPos}" text-anchor="end" alignment-baseline="central" font-size="4">
                     <xsl:value-of select="-1 * $yPos"/>
                 </text>
             </xsl:for-each>
@@ -63,8 +68,13 @@
                     <circle cx="{substring-before(current(), ',')}"
                         cy="{substring-after(current(), ',')}" r="2" fill="black"/>
                 </xsl:for-each>
-                <xsl:sequence select="$result"/>
+                <g clip-path="url(#clip)">
+                    <xsl:sequence select="$result[1]"/>
+                </g>
             </g>
         </svg>
+        <xsl:if test="$debug">
+            <xsl:message select="$result[2]"/>
+        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
