@@ -15,7 +15,7 @@
     <!-- ================================================================ -->
     <!-- Control default behavior of debug messaging                      -->
     <!-- ================================================================ -->
-    <xsl:param name="debug" as="xs:boolean" select="true()"/>
+    <xsl:param name="debug" as="xs:boolean" select="false()"/>
 
     <!-- ================================================================ -->
     <!-- Final functions, templates and variables                         -->
