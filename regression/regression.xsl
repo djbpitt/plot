@@ -4,6 +4,15 @@
     xmlns:djb="http://www.obdurodon.org" xmlns:f="http://www.obdurodon.org/function-variables"
     xmlns:svg="http://www.w3.org/2000/svg" xmlns:math="http://www.w3.org/2005/xpath-functions/math"
     exclude-result-prefixes="#all" version="3.0">
+
+    <!-- ================================================================ -->
+    <!-- Stylesheet parameters                                            -->
+    <!-- ================================================================ -->
+    <!--<xsl:param name="debug" as="xs:boolean"/>-->
+
+    <!-- ================================================================ -->
+    <!-- Public (final) functions                                         -->
+    <!-- ================================================================ -->
     <xsl:expose component="function" visibility="final"
         names="
         djb:regression-line#2 
@@ -11,13 +20,16 @@
         djb:compute-regression-parameters#1
         djb:plot-parabolic-segment#5
         "/>
+
     <!-- ================================================================ -->
     <!-- Package dependencies                                             -->
     <!-- ================================================================ -->
     <xsl:use-package name="http://www.obdurodon.org/plot-lib"/>
     <xsl:use-package name="http://www.obdurodon.org/linear-algebra-lib"/>
-    <!-- ================================================================ -->
 
+    <!-- ================================================================ -->
+    <!-- Function declarations                                            -->
+    <!-- ================================================================ -->
     <xsl:function name="djb:regression-line" as="item()+">
         <!-- ============================================================ -->
         <!-- djb:regression-line#2                                        -->

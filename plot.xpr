@@ -36,6 +36,10 @@
                         <String>saxon.latest.use.config.file</String>
                         <Boolean>true</Boolean>
                     </entry>
+                    <entry>
+                        <String>storage.level.scenario.associations</String>
+                        <Boolean>false</Boolean>
+                    </entry>
                 </serializableOrderedMap>
             </serialized>
         </options>

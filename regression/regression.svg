@@ -360,8 +360,8 @@
       <circle cx="450" cy="-188" r="2" fill="black"/>
       <g clip-path="url(#clip)">
          <g>
-            <line x1="0"
-                  y1="28.72222222222222"
+            <line x1="50"
+                  y1="5.555555555555557"
                   x2="450"
                   y2="-179.77777777777777"
                   class="regression"/>

@@ -5,17 +5,15 @@
     xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="#all"
     xmlns:djb="http://www.obdurodon.org" xmlns:f="http://www.obdurodon.org/function-variables"
     version="3.0">
+
+    <xsl:param name="debug" as="xs:boolean"/>
+
     <!-- ================================================================ -->
     <!-- Packages                                                         -->
     <!--                                                                  -->
     <!-- Uses djb:uniform#1 to check length of matrix rows                -->
     <!-- ================================================================ -->
     <xsl:use-package name="http://www.obdurodon.org/plot-lib"/>
-
-    <!-- ================================================================ -->
-    <!-- Control default behavior of debug messaging                      -->
-    <!-- ================================================================ -->
-    <xsl:param name="debug" as="xs:boolean" select="false()"/>
 
     <!-- ================================================================ -->
     <!-- Final functions, templates and variables                         -->
@@ -30,7 +28,7 @@
         djb:compute-control-Y#5
         djb:compute-vertex-X#2
         "/>
-
+    
     <!-- ================================================================ -->
     <!-- Functions                                                        -->
     <!-- ================================================================ -->
