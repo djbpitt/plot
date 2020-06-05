@@ -65,7 +65,7 @@
         <!-- Return value                                                 -->
         <!-- ============================================================ -->
         <g xmlns="http://www.w3.org/2000/svg">
-            <line x1="{0}" y1="{$f:b}" x2="{max($f:allX)}"
+            <line x1="{min($f:allX)}" y1="{$f:m * min($f:allX) + $f:b}" x2="{max($f:allX)}"
                 y2="{$f:m * max($f:allX) + $f:b}" class="regression"/>
         </g>
         <xsl:if test="$f:debug">
