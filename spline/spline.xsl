@@ -38,7 +38,7 @@
         <xsl:sequence select="$f:point-pairs ! substring-before(., ',') ! xs:double(.)"/>
     </xsl:function>
 
-    <xsl:function name="djb:extract-yS" as="xs:double+">
+    <xsl:function name="djb:extract-Ys" as="xs:double+">
         <!-- ============================================================= -->
         <!-- extract-Ys                                                    -->
         <!-- ============================================================= -->
@@ -544,7 +544,7 @@
         <!-- Helper functions compute variables from parameters            -->
         <!-- ============================================================= -->
         <xsl:variable name="f:xPoints" as="xs:double+" select="djb:extract-Xs($f:point-pairs)"/>
-        <xsl:variable name="f:yPoints" as="xs:double+" select="djb:extract-yS($f:point-pairs)"/>
+        <xsl:variable name="f:yPoints" as="xs:double+" select="djb:extract-Ys($f:point-pairs)"/>
         <xsl:variable name="f:dir-Xs" as="xs:double+" select="djb:create-dir-Xs($f:xPoints)"/>
         <xsl:variable name="f:dir-Ys" as="xs:double+" select="djb:create-dir-Ys($f:yPoints)"/>
         <xsl:variable name="f:lengths" as="xs:double+"

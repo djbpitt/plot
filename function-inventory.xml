@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="function-inventory.rnc" type="application/relax-ng-compact-syntax"?>
+<functions>
+    <package name="plot-lib" url="lib/plot-lib.xsl">
+        <final>
+            <function>
+                <name>djb:expand-to-tenths</name>
+                <description>Convert integer range to range of tenths.</description>
+                <arity>1 (<code>$half as xs:integer</code>)</arity>
+                <note>Can be used to approximate a curve by plotting intermediate values with fine
+                    granularity. The input, a positive integer, is the upper bound of the desired
+                    symmetrical range, centered on 0. Can be recentered with
+                        <code>djb:recenter()</code>.</note>
+            </function>
+            <function>
+                <name>djb:gaussian</name>
+                <description>Gaussian Y value corresponding to input X.</description>
+                <arity>4 (<code>$x as xs:double</code>, <code>$peak as xs:double</code>,
+                        <code>center as xs:double</code>, <code>$stddev as xs:double</code>.</arity>
+                <note><code>$center</code> is the mean, <code>$peak</code> is the height at the
+                    mean. Used by <code>djb:get-gaussian-weights()</code>, which is used by
+                        <code>djb:get-weights-scale()</code>. Public so that we can also draw a
+                    Gaussian curve directly.</note>
+            </function>
+            <function>
+                <name>djb:get-weights-scale</name>
+                <description>Return sequence of scaling values for different smoothing
+                    kernels.</description>
+                <arity>3 (<code>$kernal as xs:string ()</code>, <code>$window-size as
+                        xs:integer</code>, <code>$stddev as xs:integer</code>). 2 (omits gaussian
+                    kernel and <code>$stddev</code>).</arity>
+            </function>
+            <function>
+                <name>djb:random-sequence</name>
+                <description>Create a specified number of random doubles between 0 and
+                    1.</description>
+                <arity>1 (<code>$count as xs:integer</code>)</arity>
+            </function>
+            <function>
+                <name>djb:recenter</name>
+                <description>Adjust a recenter sequence of doubles, returned rescaled
+                    sequence.</description>
+                <arity>3 (<code>$input-values as xs:double+</code>, <code>$new-min as
+                        xs:double</code>, <code>$new-max as xs:double</code>)</arity>
+            </function>
+            <function>
+                <name>djb:round-to-odd</name>
+                <description>Found even integer up to odd, return odd unchanged.</description>
+                <arity>1 (<code>$input as xs:integer</code>)</arity>
+                <note>Window size for smoothing must be odd. If it is computed from data (e.g.,
+                        <code>n idiv 3</code>), this ensures that the value is always a positive odd
+                    integer.</note>
+            </function>
+            <function>
+                <name>djb:split-points</name>
+                <description>Split SVG <code>@points</code> into individual strings for each
+                    point.</description>
+                <arity>1 (<code>$points as xs:string</code>)</arity>
+                <note>Is this used? If not, remove.</note>
+            </function>
+            <function>
+                <name>djb:uniform</name>
+                <description>True iff all items in sequence are equal.</description>
+                <arity>1 (<code>$seq as item()+</code>)</arity>
+            </function>
+            <function>
+                <name>djb:validate-points</name>
+                <description>Validate cardinality and lexical form of input points. 1) At least
+                    three points, lexical form <code>X,Y</code>, monotonic X.</description>
+                <arity>1 (<code>$points as xs:string+</code>></arity>
+            </function>
+            <function>
+                <name>djb:weighted-average</name>
+                <description>Smoothed value for current point.</description>
+                <arity>4 (<code>$focus as xs:integer</code>, <code>$window-size as
+                    xs:integer</code>, <code>$input-values as xs:double+</code>, <code>$weights as
+                        xs:double+</code>).</arity>
+                <note><code>$weights</code> are created separately because
+                        <code>djb:weighted-average()</code> is called for every point, and weights
+                    need to be computed only once for the entire set of points. Modify this to
+                    create smoothed values for all points as a single call, in which case it can
+                    call <code>djb:get-weights-scale()</code> directly, and only once?</note>
+            </function>
+        </final>
+        <private>
+            <function>
+                <name>djb:gaussian-weights</name>
+                <description>Sequence of values for Gaussian weighting.</description>
+                <arity>1 (<code>$window-size as xs:integer</code>, <code>$stddev as
+                    xs:double</code>)</arity>
+                <note>Mean = 0, peak = 1. Calls <code>djb:gaussian()</code> to create each. Can be
+                    consolidated if creation of weighting scale is folded into weighting of points,
+                    processing the whole sequence at once.</note>
+            </function>
+            <function>
+                <name>djb:validate-monotonic</name>
+                <description>True iff sequence is monotonic (in either direction).</description>
+                <arity>1 (<code>$seq as xs:double+</code>)</arity>
+            </function>
+            <function>
+                <name>djb:monotonic-X</name>
+                <description>True iff X values of <code>X,Y</code> points are monotonic. Uses
+                        <code>djb:monotonic()</code>.</description>
+                <arity>1 (<code>$input-points as xs:string+</code>)</arity>
+            </function>
+            <function>
+                <name>djb:validate-point-regex</name>
+                <description/>
+                <arity>1 (<code>$input-point as xs:string</code>)</arity>
+                <note>Validates point against regex: X and Y are floats with optional signs. Point
+                    must be in <code>X,Y</code> form. Uses <code>djb:validate-point-regex()</code>
+                    to validate each half; this function verifies that the pair is lexically
+                    well-formed.</note>
+            </function>
+        </private>
+    </package>
+    <package name="linear-algebra" url="linear-algebra/linear-algebra-lib.xsl">
+        <final>
+            <function>
+                <name>djb:compute-control-X</name>
+                <description/>
+                <arity/>
+            </function>
+            <function>
+                <name>djb:compute-control-Y</name>
+                <description/>
+                <arity/>
+            </function>
+            <function>
+                <name>djb:compute-derivative</name>
+                <description/>
+                <arity/>
+            </function>
+            <function>
+                <name>djb:compute-parabolic-Y</name>
+                <description/>
+                <arity/>
+            </function>
+            <function>
+                <name>djb:compute-vertex-X</name>
+                <description/>
+                <arity/>
+            </function>
+            <function>
+                <name>djb:dot-product</name>
+                <description/>
+                <arity/>
+            </function>
+            <function>
+                <name>djb:transpose-matrix</name>
+                <description/>
+                <arity/>
+            </function>
+        </final>
+    </package>
+    <package name="regression" url="regression/regression.xsl">
+        <final>
+            <function>
+                <name>djb:regression-line</name>
+                <description/>
+                <arity/>
+            </function>
+            <function>
+                <name>djb:compute-regression-parameters</name>
+                <description/>
+                <arity/>
+            </function>
+            <function>
+                <name>djb:plot-parabolic-segment</name>
+                <description/>
+                <arity/>
+            </function>
+        </final>
+    </package>
+    <package name="smoothing" url="smoothing/smoothing.xsl">
+        <final>
+            <function>
+                <name>djb:smoothing</name>
+                <description/>
+                <arity/>
+            </function>
+        </final>
+    </package>
+    <package name="spline" url="spline/spline.xsl">
+        <final>
+            <function name="djb:spline"/>
+        </final>
+        <private>
+            <function name="djb:create-anchor1-Xs"/>
+            <function name="djb:create-anchor1-Ys"/>
+            <function name="djb:create-anchor2-Xs"/>
+            <function name="djb:create-anchor2-Ys"/>
+            <function name="djb:create-angle1s"/>
+            <function name="djb:create-angle2s"/>
+            <function name="djb:create-diagnostics"/>
+            <function name="djb:create-dir-Xs"/>
+            <function name="djb:create-dir-Ys"/>
+            <function name="djb:create-in-anchor-lengths"/>
+            <function name="djb:create-lengths"/>
+            <function name="djb:create-normal1-Xs"/>
+            <function name="djb:create-normal1-Ys"/>
+            <function name="djb:create-normal2-Xs"/>
+            <function name="djb:create-normal2-Ys"/>
+            <function name="djb:create-out-anchor-lengths"/>
+            <function name="djb:create-seg-lengths"/>
+            <function name="djb:create-total-anchor-lengths"/>
+            <function name="djb:create-unit-Xs"/>
+            <function name="djb:create-unit-Ys"/>
+            <function name="djb:create-xLengths"/>
+            <function name="djb:create-yLengths"/>
+            <function name="djb:extract-Xs"/>
+            <function name="djb:extract-Ys"/>
+        </private>
+    </package>
+</functions>

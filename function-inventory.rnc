@@ -1,0 +1,33 @@
+start = functions
+functions = element functions { package+ }
+package = element package { packageName, url, final?, private? }
+packageName =
+    attribute name {
+        xsd:string { minLength = "1" }
+    }
+url =
+    attribute url {
+        xsd:string { minLength = "1" }
+    }
+final = element final { function+ }
+private = element private { function+ }
+function = element function { name, description, arity, note? }
+name =
+    element name {
+        xsd:string { minLength = "1" }
+    }
+description =
+    element description {
+        mixed { code+ }
+        | xsd:string { minLength = "1" }
+    }
+arity =
+    element arity {
+        mixed { code+ }
+        | xsd:string { minLength = "1" }
+    }
+note =
+    element note {
+        mixed { code* }
+    }
+code = element code { text }

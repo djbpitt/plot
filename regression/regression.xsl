@@ -15,7 +15,7 @@
     <!-- ================================================================ -->
     <xsl:expose component="function" visibility="final"
         names="
-        djb:regression-line#2 
+        djb:regression-line#2
         djb:regression-line#1
         djb:compute-regression-parameters#1
         djb:plot-parabolic-segment#5

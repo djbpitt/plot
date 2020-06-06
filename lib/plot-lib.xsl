@@ -20,17 +20,17 @@
     <!-- ================================================================= -->
     <xsl:expose component="function" visibility="final"
         names="
-        djb:validate-points#1 
-        djb:split-points#1
-        djb:random-sequence#1
+        djb:expand-to-tenths#1
+        djb:gaussian#4
         djb:get-weights-scale#3
         djb:get-weights-scale#2
-        djb:weighted-average#4
-        djb:gaussian#4
-        djb:round-to-odd#1
-        djb:expand-to-tenths#1
+        djb:random-sequence#1
         djb:recenter#3
+        djb:round-to-odd#1
+        djb:split-points#1
         djb:uniform#1
+        djb:validate-points#1 
+        djb:weighted-average#4
         "/>
     <xsl:function name="djb:validate-points" as="xs:boolean">
         <!-- ================================================================= -->
@@ -84,7 +84,7 @@
     <xsl:function name="djb:random-sequence" as="xs:double*">
         <!-- ============================================================ -->
         <!-- djb:random-sequence#1                                        -->
-        <!-- Create a specified number of random numbers -100 < n < 0     -->
+        <!-- Create a specified number of random numbers 0 < n < 1        -->
         <!-- ============================================================ -->
         <xsl:param name="count" as="xs:integer"/>
         <xsl:iterate select="1 to $count">
@@ -103,6 +103,7 @@
         <!--                                                              -->
         <!-- Parameters:                                                  -->
         <!--   f:kernel as xs:string : gaussian, rectangular, exponential -->
+        <!--     parabolic-up, parabolic-down                             -->
         <!--   f:window_size as xs:integer : width of window              -->
         <!--   f:stddev as xs:integer : controls width of bell            -->
         <!--                                                              -->
@@ -192,8 +193,8 @@
         <!--                                                              -->
         <!-- Parameters:                                                  -->
         <!--   $f:focus as xs:integer : offset of focus point             -->
-        <!--   $f:window_size as xs:integer : width of window (odd, > 3)  -->
-        <!--   $f:input_values as xs:double+ : all Y values               -->
+        <!--   $f:window-size as xs:integer : width of window (odd, > 3)  -->
+        <!--   $f:input-values as xs:double+ : all Y values               -->
         <!--   $f:weights : weights scale (from djb:get-weights-scale)    -->
         <!--                                                              -->
         <!-- Returns:                                                     -->
@@ -314,8 +315,8 @@
         <!--                                                                  -->
         <!-- Parameters                                                       -->
         <!--   $f:input-values as xs:double+ : all input values               -->
-        <!--   $f:a as xs:double : new minimum value                          -->
-        <!--   $f:b as xs:double : new maximum value                          -->
+        <!--   $f:new-min as xs:double : new minimum value                    -->
+        <!--   $f:new-max as xs:double : new maximum value                    -->
         <!--                                                                  -->
         <!-- Returns                                                          -->
         <!--   xs:double+                                                     -->
@@ -326,12 +327,12 @@
         <!--                max - min                                         -->
         <!-- ================================================================ -->
         <xsl:param name="f:input-values" as="xs:double+"/>
-        <xsl:param name="f:a" as="xs:double"/>
-        <xsl:param name="f:b" as="xs:double"/>
-        <xsl:variable name="f:min" as="xs:double" select="min($f:input-values)"/>
-        <xsl:variable name="f:max" as="xs:double" select="max($f:input-values)"/>
+        <xsl:param name="f:new-min" as="xs:double"/>
+        <xsl:param name="f:new-max" as="xs:double"/>
+        <xsl:variable name="f:old-min" as="xs:double" select="min($f:input-values)"/>
+        <xsl:variable name="f:old-max" as="xs:double" select="max($f:input-values)"/>
         <xsl:variable name="f:recentered-values"
-            select="$f:input-values ! (((($f:b - $f:a) * (. - $f:min)) div ($f:max - $f:min)) + $f:a)"/>
+            select="$f:input-values ! (((($f:new-max - $f:new-min) * (. - $f:old-min)) div ($f:old-max - $f:old-min)) + $f:new-min)"/>
         <xsl:sequence select="$f:recentered-values"/>
     </xsl:function>
     <xsl:function name="djb:expand-to-tenths" as="xs:double+">
@@ -447,8 +448,8 @@
         <!-- Returns sequence of values for Gaussian weighting            -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
-        <!--   window_size as xs:integer : width of window                -->
-        <!--   stddev as xs:integer : controls width of bell              -->
+        <!--   window-size as xs:integer : width of window                -->
+        <!--   stddev as xs:double : controls width of bell               -->
         <!--                                                              -->
         <!-- Returns:                                                     -->
         <!--   xs:double+ : weights to be applied in scaling              -->
