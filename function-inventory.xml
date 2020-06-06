@@ -68,6 +68,8 @@
                 <description>Validate cardinality and lexical form of input points. 1) At least
                     three points, lexical form <code>X,Y</code>, monotonic X.</description>
                 <arity>1 (<code>$points as xs:string+</code>></arity>
+                <note>The individual points are validated by calling
+                        <code>djb:validate-point()</code>.</note>
             </function>
             <function>
                 <name>djb:weighted-average</name>
@@ -105,7 +107,9 @@
             </function>
             <function>
                 <name>djb:validate-point-regex</name>
-                <description/>
+                <description>Validate a single point against <code>X,Y</code> regex, where
+                        <code>X</code> and <code>Y</code> are doubles with optional
+                    signs.</description>
                 <arity>1 (<code>$input-point as xs:string</code>)</arity>
                 <note>Validates point against regex: X and Y are floats with optional signs. Point
                     must be in <code>X,Y</code> form. Uses <code>djb:validate-point-regex()</code>

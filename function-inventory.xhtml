@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>Function inventory</title>
+      <link type="text/css"
+            rel="stylesheet"
+            href="http://www.obdurodon.org/css/style.css"/>
+   </head>
+   <body>
+      <h1>Function inventory</h1>
+      <hr/>
+      <section id="plot-lib">
+         <h2>Package: plot-lib (lib/plot-lib.xsl)</h2>
+         <dl>
+            <h3>Final</h3>
+            <dt>
+               <code>djb:expand-to-tenths</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Convert integer range to range of tenths.</li>
+                  <li>
+                     <strong>Arity: </strong>1 (<code>$half as xs:integer</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Can be used to approximate a curve by plotting intermediate values with fine
+                    granularity. The input, a positive integer, is the upper bound of the desired
+                    symmetrical range, centered on 0. Can be recentered with
+                        <code>djb:recenter()</code>.</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:gaussian</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Gaussian Y value corresponding to input X.</li>
+                  <li>
+                     <strong>Arity: </strong>4 (<code>$x as xs:double</code>, <code>$peak as xs:double</code>,
+                        <code>center as xs:double</code>, <code>$stddev as xs:double</code>.</li>
+                  <li>
+                     <strong>Note: </strong>
+                     <code>$center</code> is the mean, <code>$peak</code> is the height at the
+                    mean. Used by <code>djb:get-gaussian-weights()</code>, which is used by
+                        <code>djb:get-weights-scale()</code>. Public so that we can also draw a
+                    Gaussian curve directly.</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:get-weights-scale</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Return sequence of scaling values for different smoothing
+                    kernels.</li>
+                  <li>
+                     <strong>Arity: </strong>3 (<code>$kernal as xs:string ()</code>, <code>$window-size as
+                        xs:integer</code>, <code>$stddev as xs:integer</code>). 2 (omits gaussian
+                    kernel and <code>$stddev</code>).</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:random-sequence</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Create a specified number of random doubles between 0 and
+                    1.</li>
+                  <li>
+                     <strong>Arity: </strong>1 (<code>$count as xs:integer</code>)</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:recenter</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Adjust a recenter sequence of doubles, returned rescaled
+                    sequence.</li>
+                  <li>
+                     <strong>Arity: </strong>3 (<code>$input-values as xs:double+</code>, <code>$new-min as
+                        xs:double</code>, <code>$new-max as xs:double</code>)</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:round-to-odd</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Found even integer up to odd, return odd unchanged.</li>
+                  <li>
+                     <strong>Arity: </strong>1 (<code>$input as xs:integer</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Window size for smoothing must be odd. If it is computed from data (e.g.,
+                        <code>n idiv 3</code>), this ensures that the value is always a positive odd
+                    integer.</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:split-points</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Split SVG <code>@points</code> into individual strings for each
+                    point.</li>
+                  <li>
+                     <strong>Arity: </strong>1 (<code>$points as xs:string</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Is this used? If not, remove.</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:uniform</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>True iff all items in sequence are equal.</li>
+                  <li>
+                     <strong>Arity: </strong>1 (<code>$seq as item()+</code>)</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:validate-points</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Validate cardinality and lexical form of input points. 1) At least
+                    three points, lexical form <code>X,Y</code>, monotonic X.</li>
+                  <li>
+                     <strong>Arity: </strong>1 (<code>$points as xs:string+</code>&gt;</li>
+                  <li>
+                     <strong>Note: </strong>The individual points are validated by calling
+                        <code>djb:validate-point()</code>.</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:weighted-average</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Smoothed value for current point.</li>
+                  <li>
+                     <strong>Arity: </strong>4 (<code>$focus as xs:integer</code>, <code>$window-size as
+                    xs:integer</code>, <code>$input-values as xs:double+</code>, <code>$weights as
+                        xs:double+</code>).</li>
+                  <li>
+                     <strong>Note: </strong>
+                     <code>$weights</code> are created separately because
+                        <code>djb:weighted-average()</code> is called for every point, and weights
+                    need to be computed only once for the entire set of points. Modify this to
+                    create smoothed values for all points as a single call, in which case it can
+                    call <code>djb:get-weights-scale()</code> directly, and only once?</li>
+               </ul>
+            </dd>
+            <h3>Private</h3>
+            <dt>
+               <code>djb:gaussian-weights</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Sequence of values for Gaussian weighting.</li>
+                  <li>
+                     <strong>Arity: </strong>1 (<code>$window-size as xs:integer</code>, <code>$stddev as
+                    xs:double</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Mean = 0, peak = 1. Calls <code>djb:gaussian()</code> to create each. Can be
+                    consolidated if creation of weighting scale is folded into weighting of points,
+                    processing the whole sequence at once.</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:monotonic-X</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>True iff X values of <code>X,Y</code> points are monotonic. Uses
+                        <code>djb:monotonic()</code>.</li>
+                  <li>
+                     <strong>Arity: </strong>1 (<code>$input-points as xs:string+</code>)</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:validate-monotonic</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>True iff sequence is monotonic (in either direction).</li>
+                  <li>
+                     <strong>Arity: </strong>1 (<code>$seq as xs:double+</code>)</li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:validate-point-regex</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Validate a single point against <code>X,Y</code> regex, where
+                        <code>X</code> and <code>Y</code> are doubles with optional
+                    signs.</li>
+                  <li>
+                     <strong>Arity: </strong>1 (<code>$input-point as xs:string</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Validates point against regex: X and Y are floats with optional signs. Point
+                    must be in <code>X,Y</code> form. Uses <code>djb:validate-point-regex()</code>
+                    to validate each half; this function verifies that the pair is lexically
+                    well-formed.</li>
+               </ul>
+            </dd>
+         </dl>
+      </section>
+      <hr/>
+      <section id="linear-algebra">
+         <h2>Package: linear-algebra (linear-algebra/linear-algebra-lib.xsl)</h2>
+         <dl>
+            <h3>Final</h3>
+            <dt>
+               <code>djb:compute-control-X</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:compute-control-Y</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:compute-derivative</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:compute-parabolic-Y</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:compute-vertex-X</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:dot-product</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:transpose-matrix</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
+            </dd>
+         </dl>
+      </section>
+      <hr/>
+      <section id="regression">
+         <h2>Package: regression (regression/regression.xsl)</h2>
+         <dl>
+            <h3>Final</h3>
+            <dt>
+               <code>djb:compute-regression-parameters</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:plot-parabolic-segment</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
+            </dd>
+            <dt>
+               <code>djb:regression-line</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
+            </dd>
+         </dl>
+      </section>
+      <hr/>
+      <section id="smoothing">
+         <h2>Package: smoothing (smoothing/smoothing.xsl)</h2>
+         <dl>
+            <h3>Final</h3>
+            <dt>
+               <code>djb:smoothing</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
+            </dd>
+         </dl>
+      </section>
+      <hr/>
+      <section id="spline">
+         <h2>Package: spline (spline/spline.xsl)</h2>
+         <dl>
+            <h3>Final</h3>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <h3>Private</h3>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+            <dt>
+               <code/>
+            </dt>
+            <dd>
+               <ul/>
+            </dd>
+         </dl>
+      </section>
+   </body>
+</html>
