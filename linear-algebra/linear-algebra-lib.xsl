@@ -28,7 +28,7 @@
         djb:compute-control-Y#5
         djb:compute-vertex-X#2
         "/>
-    
+
     <!-- ================================================================ -->
     <!-- Functions                                                        -->
     <!-- ================================================================ -->
@@ -184,9 +184,9 @@
         <!--   f′(x) = 2ax + b                                            -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
-        <!--   $f:x : X coordinate                                        -->
-        <!--   $f:a : a parameter (ax^2 + bx + c)                         -->
-        <!--   $f:b : b parameter (ax^2 + bx + c)                         -->
+        <!--   $f:x as xs:double: X coordinate                            -->
+        <!--   $f:a as xs:double: a parameter (ax^2 + bx + c)             -->
+        <!--   $f:b as xs:double: b parameter (ax^2 + bx + c)             -->
         <!--                                                              -->
         <!-- Returns:                                                     -->
         <!--   xs:double : f′(x)                                          -->
@@ -248,6 +248,9 @@
         <!-- Parameters:                                                  -->
         <!--   $f:x1 : X coordinate of segment start point                -->
         <!--   $f:x2 : X coordinate of segment end point                  -->
+        <!--   $f:a : a parameter (ax^2 + bx + c)                         -->
+        <!--   $f:b : b parameter (ax^2 + bx + c)                         -->
+        <!--   $f:c : c parameter (ax^2 + bx + c)                         -->
         <!--                                                              -->
         <!-- Returns:                                                     -->
         <!--   xs:double : Y coordinate of quadratic Bézier control point -->

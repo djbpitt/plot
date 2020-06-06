@@ -10,7 +10,11 @@
       <h1>Function inventory</h1>
       <hr/>
       <section id="plot-lib">
-         <h2>Package: plot-lib (lib/plot-lib.xsl)</h2>
+         <h2>Package: plot-lib</h2>
+         <p>
+            <strong>Location: </strong>
+            <em>lib/plot-lib.xsl</em>
+         </p>
          <dl>
             <h3>Final</h3>
             <dt>
@@ -19,7 +23,7 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>Convert integer range to range of tenths.</li>
+                     <strong>Description: </strong>Convert integer range to range of tenths</li>
                   <li>
                      <strong>Arity: </strong>1 (<code>$half as xs:integer</code>)</li>
                   <li>
@@ -35,10 +39,11 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>Gaussian Y value corresponding to input X.</li>
+                     <strong>Description: </strong>Gaussian Y value corresponding to input X</li>
                   <li>
                      <strong>Arity: </strong>4 (<code>$x as xs:double</code>, <code>$peak as xs:double</code>,
-                        <code>center as xs:double</code>, <code>$stddev as xs:double</code>.</li>
+                        <code>center as xs:double</code>, <code>$stddev as xs:double</code>
+                  </li>
                   <li>
                      <strong>Note: </strong>
                      <code>$center</code> is the mean, <code>$peak</code> is the height at the
@@ -54,7 +59,7 @@
                <ul>
                   <li>
                      <strong>Description: </strong>Return sequence of scaling values for different smoothing
-                    kernels.</li>
+                    kernels</li>
                   <li>
                      <strong>Arity: </strong>3 (<code>$kernal as xs:string ()</code>, <code>$window-size as
                         xs:integer</code>, <code>$stddev as xs:integer</code>). 2 (omits gaussian
@@ -68,7 +73,7 @@
                <ul>
                   <li>
                      <strong>Description: </strong>Create a specified number of random doubles between 0 and
-                    1.</li>
+                    1</li>
                   <li>
                      <strong>Arity: </strong>1 (<code>$count as xs:integer</code>)</li>
                </ul>
@@ -80,7 +85,7 @@
                <ul>
                   <li>
                      <strong>Description: </strong>Adjust a recenter sequence of doubles, returned rescaled
-                    sequence.</li>
+                    sequence</li>
                   <li>
                      <strong>Arity: </strong>3 (<code>$input-values as xs:double+</code>, <code>$new-min as
                         xs:double</code>, <code>$new-max as xs:double</code>)</li>
@@ -92,7 +97,7 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>Found even integer up to odd, return odd unchanged.</li>
+                     <strong>Description: </strong>Found even integer up to odd, return odd unchanged</li>
                   <li>
                      <strong>Arity: </strong>1 (<code>$input as xs:integer</code>)</li>
                   <li>
@@ -108,7 +113,7 @@
                <ul>
                   <li>
                      <strong>Description: </strong>Split SVG <code>@points</code> into individual strings for each
-                    point.</li>
+                    point</li>
                   <li>
                      <strong>Arity: </strong>1 (<code>$points as xs:string</code>)</li>
                   <li>
@@ -121,7 +126,7 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>True iff all items in sequence are equal.</li>
+                     <strong>Description: </strong>True iff all items in sequence are equal</li>
                   <li>
                      <strong>Arity: </strong>1 (<code>$seq as item()+</code>)</li>
                </ul>
@@ -132,8 +137,8 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>Validate cardinality and lexical form of input points. 1) At least
-                    three points, lexical form <code>X,Y</code>, monotonic X.</li>
+                     <strong>Description: </strong>Validate cardinality and lexical form of input points: 1) At least
+                    three points, 2) lexical form <code>X,Y</code>, 3) monotonic X</li>
                   <li>
                      <strong>Arity: </strong>1 (<code>$points as xs:string+</code>&gt;</li>
                   <li>
@@ -147,11 +152,11 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>Smoothed value for current point.</li>
+                     <strong>Description: </strong>Smoothed value for current point</li>
                   <li>
                      <strong>Arity: </strong>4 (<code>$focus as xs:integer</code>, <code>$window-size as
                     xs:integer</code>, <code>$input-values as xs:double+</code>, <code>$weights as
-                        xs:double+</code>).</li>
+                        xs:double+</code>)</li>
                   <li>
                      <strong>Note: </strong>
                      <code>$weights</code> are created separately because
@@ -168,7 +173,7 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>Sequence of values for Gaussian weighting.</li>
+                     <strong>Description: </strong>Sequence of values for Gaussian weighting</li>
                   <li>
                      <strong>Arity: </strong>1 (<code>$window-size as xs:integer</code>, <code>$stddev as
                     xs:double</code>)</li>
@@ -196,7 +201,7 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>True iff sequence is monotonic (in either direction).</li>
+                     <strong>Description: </strong>True iff sequence is monotonic (in either direction)</li>
                   <li>
                      <strong>Arity: </strong>1 (<code>$seq as xs:double+</code>)</li>
                </ul>
@@ -209,7 +214,7 @@
                   <li>
                      <strong>Description: </strong>Validate a single point against <code>X,Y</code> regex, where
                         <code>X</code> and <code>Y</code> are doubles with optional
-                    signs.</li>
+                    signs</li>
                   <li>
                      <strong>Arity: </strong>1 (<code>$input-point as xs:string</code>)</li>
                   <li>
@@ -223,7 +228,15 @@
       </section>
       <hr/>
       <section id="linear-algebra">
-         <h2>Package: linear-algebra (linear-algebra/linear-algebra-lib.xsl)</h2>
+         <h2>Package: linear-algebra</h2>
+         <p>
+            <strong>Location: </strong>
+            <em>linear-algebra/linear-algebra-lib.xsl</em>
+         </p>
+         <p>
+            <strong>Imports: </strong>
+            <em>plot-lib</em>
+         </p>
          <dl>
             <h3>Final</h3>
             <dt>
@@ -232,11 +245,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute X coordinate of quadratic Bézier control point for parabolic
+                    segment</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>2 (<code>$x1 as xs:double</code>, <code>$x2 as xs:double</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -245,11 +257,12 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute Y coordinate of quadratic Bézier control point for parabolic
+                    segment</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>5 (<code>$x1 as xs:double</code>, <code>$x2 as xs:double</code>, <code>$a as
+                        xs:double</code>, <code>$b as xs:double</code>, <code>$c as
+                    xs:double</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -258,11 +271,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute first derivative of quadratic function</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>3 (<code>$x as xs:double</code>, <code>$a as xs:double</code>, <code>$b as
+                        xs:double</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -271,11 +283,11 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute parabolic Y coordinate from X and quadratic
+                    parameters</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>4 (<code>$x as xs:double</code>, <code>$a as xs:double</code>, <code>$b as
+                        xs:double</code>, <code>$c as xs:double</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -284,11 +296,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute X coordinate of vertex of parabola, given quadratic
+                    equation</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>3 (<code>$a as xs:double</code>, <code>$b as xs:double</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -297,11 +308,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute dot product of two matrices</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>2 (<code>$left-matrix as array(*)</code>, <code>$right-matrix as
+                        array(*)</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -310,18 +320,20 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Transpose matrix (swap rows and columns)</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$input-matrix as array()</code>)</li>
                </ul>
             </dd>
          </dl>
       </section>
       <hr/>
       <section id="regression">
-         <h2>Package: regression (regression/regression.xsl)</h2>
+         <h2>Package: regression</h2>
+         <p>
+            <strong>Location: </strong>
+            <em>regression/regression.xsl</em>
+         </p>
          <dl>
             <h3>Final</h3>
             <dt>
@@ -330,11 +342,12 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute parameters for quadratic (parabolic) equation given all
+                    points</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$points as xs:string+</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Call only from <code>djb:regression-line()</code>; don’t expose?</li>
                </ul>
             </dd>
             <dt>
@@ -343,11 +356,16 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Plot parabolic segment as SVG <code>&lt;path&gt;</code>
+                    element</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>5 (<code>$x1 as xs:double</code>, <code>$x2 as xs:double</code>
+                     <code>$a as xs:double</code>, <code>$b as xs:double</code>, <code>$c as
+                        xs:double</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Change API to pass in all points plus minX and maxX and call
+                        <code>djb:regression-line()</code> to compute the parameters for the
+                    quadratic equation?</li>
                </ul>
             </dd>
             <dt>
@@ -356,22 +374,54 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Plot regression line</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>2: (<code>$point-pairs as xs:string+</code>, <code>$debug as
+                        xs:boolean</code>). 1: omit <code>$debug</code>.</li>
+                  <li>
+                     <strong>Note: </strong>Currently plots from minX to minY. Change to specify endpoints of line, to
+                    match parabolic plotting?</li>
                </ul>
             </dd>
          </dl>
       </section>
       <hr/>
       <section id="smoothing">
-         <h2>Package: smoothing (smoothing/smoothing.xsl)</h2>
+         <h2>Package: smoothing</h2>
+         <p>
+            <strong>Location: </strong>
+            <em>smoothing/smoothing.xsl</em>
+         </p>
          <dl>
             <h3>Final</h3>
             <dt>
                <code>djb:smoothing</code>
+            </dt>
+            <dd>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>Adjust Y values with rectangular kernel according to window
+                    specification</li>
+                  <li>
+                     <strong>Arity: </strong>2 (<code>$points as xs:string+</code>), <code>$window as xs:integer</code>. 1
+                    supplies default window of 3.</li>
+                  <li>
+                     <strong>Note: </strong>Remove this, merging rectangular kernel in with others</li>
+               </ul>
+            </dd>
+         </dl>
+      </section>
+      <hr/>
+      <section id="spline">
+         <h2>Package: spline</h2>
+         <p>
+            <strong>Location: </strong>
+            <em>spline/spline.xsl</em>
+         </p>
+         <dl>
+            <h3>Final</h3>
+            <dt>
+               <code>djb:spline</code>
             </dt>
             <dd>
                <ul>
@@ -383,163 +433,318 @@
                   </li>
                </ul>
             </dd>
-         </dl>
-      </section>
-      <hr/>
-      <section id="spline">
-         <h2>Package: spline (spline/spline.xsl)</h2>
-         <dl>
-            <h3>Final</h3>
-            <dt>
-               <code/>
-            </dt>
-            <dd>
-               <ul/>
-            </dd>
             <h3>Private</h3>
             <dt>
-               <code/>
+               <code>djb:create-anchor1-Xs</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-anchor1-Ys</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-anchor2-Xs</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-anchor2-Ys</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-angle1s</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-angle2s</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-diagnostics</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-dir-Xs</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-dir-Ys</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-in-anchor-lengths</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-lengths</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-normal1-Xs</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-normal1-Ys</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-normal2-Xs</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-normal2-Ys</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-out-anchor-lengths</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-seg-lengths</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-total-anchor-lengths</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-unit-Xs</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-unit-Ys</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-xLengths</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:create-yLengths</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:extract-Xs</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
             <dt>
-               <code/>
+               <code>djb:extract-Ys</code>
             </dt>
             <dd>
-               <ul/>
+               <ul>
+                  <li>
+                     <strong>Description: </strong>
+                  </li>
+                  <li>
+                     <strong>Arity: </strong>
+                  </li>
+               </ul>
             </dd>
          </dl>
       </section>

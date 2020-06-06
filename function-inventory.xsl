@@ -27,14 +27,26 @@
             <h2>
                 <xsl:text>Package: </xsl:text>
                 <xsl:value-of select="@name"/>
-                <xsl:text> (</xsl:text>
-                <xsl:value-of select="@url"/>
-                <xsl:text>)</xsl:text>
             </h2>
+            <p>
+                <strong>Location: </strong>
+                <em>
+                    <xsl:value-of select="@url"/>
+                </em>
+            </p>
+            <xsl:apply-templates select="imports"/>
             <dl>
-                <xsl:apply-templates/>
+                <xsl:apply-templates select="* except imports"/>
             </dl>
         </section>
+    </xsl:template>
+    <xsl:template match="imports">
+        <p>
+            <strong>Imports: </strong>
+            <em>
+                <xsl:value-of select="string-join(package-import, ', ')"/>
+            </em>
+        </p>
     </xsl:template>
     <xsl:template match="final | private">
         <h3>

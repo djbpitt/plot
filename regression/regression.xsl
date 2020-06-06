@@ -114,7 +114,7 @@
         <!--   https://www.easycalculation.com/statistics/learn-quadratic-regression.php -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
-        <!--  $allX as xs:string+ : points in X,Y format                  -->
+        <!--  $points as xs:string+ : points in X,Y format                -->
         <!--                                                              -->
         <!-- Returns:                                                     -->
         <!--   map(xs:string, xs:double)                                  -->

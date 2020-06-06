@@ -1,12 +1,17 @@
 start = functions
 functions = element functions { package+ }
-package = element package { packageName, url, final?, private? }
+package = element package { packageName, url, imports?, final?, private? }
 packageName =
     attribute name {
         xsd:string { minLength = "1" }
     }
 url =
     attribute url {
+        xsd:string { minLength = "1" }
+    }
+imports = element imports { package-import+ }
+package-import =
+    element package-import {
         xsd:string { minLength = "1" }
     }
 final = element final { function+ }
