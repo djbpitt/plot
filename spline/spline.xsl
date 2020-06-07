@@ -250,12 +250,12 @@
         <!-- ============================================================= -->
         <xsl:param name="f:xPoints" as="xs:double+"/>
         <xsl:param name="f:angle1s" as="xs:double+"/>
-        <xsl:param name="fin-anchor-lengths" as="xs:double+"/>
+        <xsl:param name="f:in-anchor-lengths" as="xs:double+"/>
         <xsl:for-each select="1 to count($f:angle1s)">
             <xsl:sequence
                 select="
                     $f:xPoints[current() + 1] +
-                    math:cos($f:angle1s[current()]) * ($fin-anchor-lengths[current()])"
+                    math:cos($f:angle1s[current()]) * ($f:in-anchor-lengths[current()])"
             />
         </xsl:for-each>
     </xsl:function>

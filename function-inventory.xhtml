@@ -25,7 +25,7 @@
                   <li>
                      <strong>Description: </strong>Convert integer range to range of tenths</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$half as xs:integer</code>)</li>
+                     <strong>Arity: </strong>1 (<code>$f:half as xs:integer</code>)</li>
                   <li>
                      <strong>Note: </strong>Can be used to approximate a curve by plotting intermediate values with fine
                     granularity. The input, a positive integer, is the upper bound of the desired
@@ -41,12 +41,13 @@
                   <li>
                      <strong>Description: </strong>Gaussian Y value corresponding to input X</li>
                   <li>
-                     <strong>Arity: </strong>4 (<code>$x as xs:double</code>, <code>$peak as xs:double</code>,
-                        <code>center as xs:double</code>, <code>$stddev as xs:double</code>
+                     <strong>Arity: </strong>4 (<code>$f:x as xs:double</code>, <code>$f:peak as xs:double</code>,
+                        <code>$f:center as xs:double</code>, <code>$f:stddev as
+                    xs:double</code>
                   </li>
                   <li>
                      <strong>Note: </strong>
-                     <code>$center</code> is the mean, <code>$peak</code> is the height at the
+                     <code>$f:center</code> is the mean, <code>$f:peak</code> is the height at the
                     mean. Used by <code>djb:get-gaussian-weights()</code>, which is used by
                         <code>djb:get-weights-scale()</code>. Public so that we can also draw a
                     Gaussian curve directly.</li>
@@ -61,9 +62,9 @@
                      <strong>Description: </strong>Return sequence of scaling values for different smoothing
                     kernels</li>
                   <li>
-                     <strong>Arity: </strong>3 (<code>$kernal as xs:string ()</code>, <code>$window-size as
-                        xs:integer</code>, <code>$stddev as xs:integer</code>). 2 (omits gaussian
-                    kernel and <code>$stddev</code>).</li>
+                     <strong>Arity: </strong>3 (<code>$f:kernal as xs:string ()</code>, <code>$f:window-size as
+                        xs:integer</code>, <code>$f:stddev as xs:integer</code>). 2 (omits gaussian
+                    kernel and <code>$f:stddev</code>).</li>
                </ul>
             </dd>
             <dt>
@@ -75,7 +76,7 @@
                      <strong>Description: </strong>Create a specified number of random doubles between 0 and
                     1</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$count as xs:integer</code>)</li>
+                     <strong>Arity: </strong>1 (<code>$f:count as xs:integer</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -87,8 +88,8 @@
                      <strong>Description: </strong>Adjust a recenter sequence of doubles, returned rescaled
                     sequence</li>
                   <li>
-                     <strong>Arity: </strong>3 (<code>$input-values as xs:double+</code>, <code>$new-min as
-                        xs:double</code>, <code>$new-max as xs:double</code>)</li>
+                     <strong>Arity: </strong>3 (<code>$f:input-values as xs:double+</code>, <code>$f:new-min as
+                        xs:double</code>, <code>$f:new-max as xs:double</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -99,7 +100,7 @@
                   <li>
                      <strong>Description: </strong>Found even integer up to odd, return odd unchanged</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$input as xs:integer</code>)</li>
+                     <strong>Arity: </strong>1 (<code>$f:input as xs:integer</code>)</li>
                   <li>
                      <strong>Note: </strong>Window size for smoothing must be odd. If it is computed from data (e.g.,
                         <code>n idiv 3</code>), this ensures that the value is always a positive odd
@@ -115,7 +116,7 @@
                      <strong>Description: </strong>Split SVG <code>@points</code> into individual strings for each
                     point</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$points as xs:string</code>)</li>
+                     <strong>Arity: </strong>1 (<code>$f:points as xs:string</code>)</li>
                   <li>
                      <strong>Note: </strong>Is this used? If not, remove.</li>
                </ul>
@@ -128,7 +129,7 @@
                   <li>
                      <strong>Description: </strong>True iff all items in sequence are equal</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$seq as item()+</code>)</li>
+                     <strong>Arity: </strong>1 (<code>$f:seq as item()+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -140,7 +141,7 @@
                      <strong>Description: </strong>Validate cardinality and lexical form of input points: 1) At least
                     three points, 2) lexical form <code>X,Y</code>, 3) monotonic X</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$points as xs:string+</code>&gt;</li>
+                     <strong>Arity: </strong>1 (<code>$f:points as xs:string+</code>&gt;</li>
                   <li>
                      <strong>Note: </strong>The individual points are validated by calling
                         <code>djb:validate-point()</code>.</li>
@@ -154,12 +155,12 @@
                   <li>
                      <strong>Description: </strong>Smoothed value for current point</li>
                   <li>
-                     <strong>Arity: </strong>4 (<code>$focus as xs:integer</code>, <code>$window-size as
-                    xs:integer</code>, <code>$input-values as xs:double+</code>, <code>$weights as
-                        xs:double+</code>)</li>
+                     <strong>Arity: </strong>4 (<code>$f:focus as xs:integer</code>, <code>$f:window-size as
+                        xs:integer</code>, <code>$f:input-values as xs:double+</code>,
+                        <code>$f:weights as xs:double+</code>)</li>
                   <li>
                      <strong>Note: </strong>
-                     <code>$weights</code> are created separately because
+                     <code>$f:weights</code> are created separately because
                         <code>djb:weighted-average()</code> is called for every point, and weights
                     need to be computed only once for the entire set of points. Modify this to
                     create smoothed values for all points as a single call, in which case it can
@@ -175,8 +176,8 @@
                   <li>
                      <strong>Description: </strong>Sequence of values for Gaussian weighting</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$window-size as xs:integer</code>, <code>$stddev as
-                    xs:double</code>)</li>
+                     <strong>Arity: </strong>1 (<code>$f:window-size as xs:integer</code>, <code>$f:stddev as
+                        xs:double</code>)</li>
                   <li>
                      <strong>Note: </strong>Mean = 0, peak = 1. Calls <code>djb:gaussian()</code> to create each. Can be
                     consolidated if creation of weighting scale is folded into weighting of points,
@@ -192,7 +193,7 @@
                      <strong>Description: </strong>True iff X values of <code>X,Y</code> points are monotonic. Uses
                         <code>djb:monotonic()</code>.</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$input-points as xs:string+</code>)</li>
+                     <strong>Arity: </strong>1 (<code>$f:input-points as xs:string+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -203,7 +204,7 @@
                   <li>
                      <strong>Description: </strong>True iff sequence is monotonic (in either direction)</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$seq as xs:double+</code>)</li>
+                     <strong>Arity: </strong>1 (<code>$f:seq as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -216,7 +217,7 @@
                         <code>X</code> and <code>Y</code> are doubles with optional
                     signs</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$input-point as xs:string</code>)</li>
+                     <strong>Arity: </strong>1 (<code>$f:input-point as xs:string</code>)</li>
                   <li>
                      <strong>Note: </strong>Validates point against regex: X and Y are floats with optional signs. Point
                     must be in <code>X,Y</code> form. Uses <code>djb:validate-point-regex()</code>
@@ -248,7 +249,7 @@
                      <strong>Description: </strong>Compute X coordinate of quadratic Bézier control point for parabolic
                     segment</li>
                   <li>
-                     <strong>Arity: </strong>2 (<code>$x1 as xs:double</code>, <code>$x2 as xs:double</code>)</li>
+                     <strong>Arity: </strong>2 (<code>$f:x1 as xs:double</code>, <code>$f:x2 as xs:double</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -260,9 +261,9 @@
                      <strong>Description: </strong>Compute Y coordinate of quadratic Bézier control point for parabolic
                     segment</li>
                   <li>
-                     <strong>Arity: </strong>5 (<code>$x1 as xs:double</code>, <code>$x2 as xs:double</code>, <code>$a as
-                        xs:double</code>, <code>$b as xs:double</code>, <code>$c as
-                    xs:double</code>)</li>
+                     <strong>Arity: </strong>5 (<code>$f:x1 as xs:double</code>, <code>$f:x2 as xs:double</code>,
+                        <code>$f:a as xs:double</code>, <code>$f:b as xs:double</code>, <code>$f:c
+                        as xs:double</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -273,8 +274,8 @@
                   <li>
                      <strong>Description: </strong>Compute first derivative of quadratic function</li>
                   <li>
-                     <strong>Arity: </strong>3 (<code>$x as xs:double</code>, <code>$a as xs:double</code>, <code>$b as
-                        xs:double</code>)</li>
+                     <strong>Arity: </strong>3 (<code>$f:x as xs:double</code>, <code>$f:a as xs:double</code>, <code>$f:b
+                        as xs:double</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -286,8 +287,8 @@
                      <strong>Description: </strong>Compute parabolic Y coordinate from X and quadratic
                     parameters</li>
                   <li>
-                     <strong>Arity: </strong>4 (<code>$x as xs:double</code>, <code>$a as xs:double</code>, <code>$b as
-                        xs:double</code>, <code>$c as xs:double</code>)</li>
+                     <strong>Arity: </strong>4 (<code>$f:x as xs:double</code>, <code>$f:a as xs:double</code>, <code>$f:b
+                        as xs:double</code>, <code>$f:c as xs:double</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -299,7 +300,7 @@
                      <strong>Description: </strong>Compute X coordinate of vertex of parabola, given quadratic
                     equation</li>
                   <li>
-                     <strong>Arity: </strong>3 (<code>$a as xs:double</code>, <code>$b as xs:double</code>)</li>
+                     <strong>Arity: </strong>3 (<code>$f:a as xs:double</code>, <code>$f:b as xs:double</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -310,7 +311,7 @@
                   <li>
                      <strong>Description: </strong>Compute dot product of two matrices</li>
                   <li>
-                     <strong>Arity: </strong>2 (<code>$left-matrix as array(*)</code>, <code>$right-matrix as
+                     <strong>Arity: </strong>2 (<code>$f:left-matrix as array(*)</code>, <code>$f:right-matrix as
                         array(*)</code>)</li>
                </ul>
             </dd>
@@ -322,7 +323,7 @@
                   <li>
                      <strong>Description: </strong>Transpose matrix (swap rows and columns)</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$input-matrix as array()</code>)</li>
+                     <strong>Arity: </strong>1 (<code>$f:input-matrix as array()</code>)</li>
                </ul>
             </dd>
          </dl>
@@ -333,6 +334,10 @@
          <p>
             <strong>Location: </strong>
             <em>regression/regression.xsl</em>
+         </p>
+         <p>
+            <strong>Imports: </strong>
+            <em>plot-lib, linear-algebra-lib</em>
          </p>
          <dl>
             <h3>Final</h3>
@@ -345,7 +350,7 @@
                      <strong>Description: </strong>Compute parameters for quadratic (parabolic) equation given all
                     points</li>
                   <li>
-                     <strong>Arity: </strong>1 (<code>$points as xs:string+</code>)</li>
+                     <strong>Arity: </strong>1 (<code>$f:points as xs:string+</code>)</li>
                   <li>
                      <strong>Note: </strong>Call only from <code>djb:regression-line()</code>; don’t expose?</li>
                </ul>
@@ -359,8 +364,8 @@
                      <strong>Description: </strong>Plot parabolic segment as SVG <code>&lt;path&gt;</code>
                     element</li>
                   <li>
-                     <strong>Arity: </strong>5 (<code>$x1 as xs:double</code>, <code>$x2 as xs:double</code>
-                     <code>$a as xs:double</code>, <code>$b as xs:double</code>, <code>$c as
+                     <strong>Arity: </strong>5 (<code>$f:x1 as xs:double</code>, <code>$f:x2 as xs:double</code>
+                     <code>$f:a as xs:double</code>, <code>$f:b as xs:double</code>, <code>$f:c as
                         xs:double</code>)</li>
                   <li>
                      <strong>Note: </strong>Change API to pass in all points plus minX and maxX and call
@@ -376,8 +381,8 @@
                   <li>
                      <strong>Description: </strong>Plot regression line</li>
                   <li>
-                     <strong>Arity: </strong>2: (<code>$point-pairs as xs:string+</code>, <code>$debug as
-                        xs:boolean</code>). 1: omit <code>$debug</code>.</li>
+                     <strong>Arity: </strong>2: (<code>$f:point-pairs as xs:string+</code>, <code>$f:debug as
+                        xs:boolean</code>). 1: omit <code>$f:debug</code>.</li>
                   <li>
                      <strong>Note: </strong>Currently plots from minX to minY. Change to specify endpoints of line, to
                     match parabolic plotting?</li>
@@ -392,6 +397,10 @@
             <strong>Location: </strong>
             <em>smoothing/smoothing.xsl</em>
          </p>
+         <p>
+            <strong>Imports: </strong>
+            <em>plot-lib</em>
+         </p>
          <dl>
             <h3>Final</h3>
             <dt>
@@ -403,8 +412,8 @@
                      <strong>Description: </strong>Adjust Y values with rectangular kernel according to window
                     specification</li>
                   <li>
-                     <strong>Arity: </strong>2 (<code>$points as xs:string+</code>), <code>$window as xs:integer</code>. 1
-                    supplies default window of 3.</li>
+                     <strong>Arity: </strong>2 (<code>$f:points as xs:string+</code>), <code>$f:window as
+                        xs:integer</code>. 1 supplies default window of 3.</li>
                   <li>
                      <strong>Note: </strong>Remove this, merging rectangular kernel in with others</li>
                </ul>
@@ -418,6 +427,10 @@
             <strong>Location: </strong>
             <em>spline/spline.xsl</em>
          </p>
+         <p>
+            <strong>Imports: </strong>
+            <em>plot-lib</em>
+         </p>
          <dl>
             <h3>Final</h3>
             <dt>
@@ -426,11 +439,13 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Plot spline as SVG <code>&lt;path&gt;</code> element. If
+                        <code>$f:debug</code> is set, also plots debugging artifacts.</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>3 (<code>$f:point-pairs as xs:string+</code>, <code>$f:scaling as
+                        xs:double</code>, <code>$f:debug as xs:boolean</code>). 2 version defaults
+                        <code>$f:debug</code> to false. 1 version defaults <code>$f:scaling</code>
+                    to 0.4.</li>
                </ul>
             </dd>
             <h3>Private</h3>
@@ -440,11 +455,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute X coordinate for incoming handles</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>3 (<code>$f:xPoints as xs:double</code>, <code>$f:angle1s as
+                        xs:double+</code>, <code>$f:in-anchor-lengths as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -453,11 +467,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute Y coordinate for incoming handles</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>3 (<code>$f:yPoints as xs:double</code>, <code>$f:angle1s as
+                        xs:double+</code>, <code>$f:in-anchor-lengths as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -466,11 +479,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute X coordinate for outgoing handles</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>3 (<code>$f:xPoints as xs:double</code>, <code>$f:angle2s as
+                        xs:double+</code>, <code>$f:out-anchor-lengths as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -479,11 +491,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute Y coordinate for outgoing handles</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>3 (<code>$f:yPoints as xs:double</code>, <code>$f:angle2s as
+                        xs:double+</code>, <code>$f:out-anchor-lengths as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -492,11 +503,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute angle for incoming handles</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>2 (<code>$f:normal1-Ys as xs:double+</code>, <code>$f:normal1-Xs as
+                        xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -505,11 +515,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute angle for outgoing handles</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>2 (<code>$f:normal2-Ys as xs:double+</code>, <code>$f:normal2-Xs as
+                        xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -518,11 +527,22 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Output HTML table with diagnostic information if <code>$f:debug</code>
+                    is set</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>19 (<code>$f:dir-Xs as xs:double+</code>, <code>$f:dir-Ys as
+                        xs:double+</code>, <code>$f:lengths as xs:double+</code>, <code>$f:unit-Xs
+                        as xs:double+</code>, <code>$f:unit-Ys as xs:double+</code>,
+                        <code>$f:normal1-Xs as xs:double+</code>, <code>$f:normal1-Ys as
+                        xs:double+</code>, <code>$f:normal2-X2 as xs:double+</code>,
+                        <code>$f:normal2-Y2 as xs:double+</code>, <code>$f:angle1s as
+                        xs:double+</code>, <code>$f:angle2s as xs:double+</code>,
+                        <code>$f:anchor1-Xs as xs:double+</code>, <code>$f:anchor1-Ys as
+                        xs:double+</code>, <code>$f:anchor2-Xs as xs:double+</code>,
+                        <code>$f:anchor2-Ys as xs:double+</code>, <code>$f:total-anchorlengths as
+                        xs:double+</code>, <code>$f:in-anchor-lengths as xs:double+</code>,
+                        <code>$f:out-anchor-lengths as xs:double+</code>, <code>$f:scaling as
+                        xs:double+</code>, )</li>
                </ul>
             </dd>
             <dt>
@@ -531,11 +551,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute X distances between alternate points, for joining
+                    lines</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$f:Xs as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -544,11 +563,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute Y distances between alternate points, for joining
+                    lines</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$f:Ys as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -557,11 +575,12 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute lengths of incoming handles</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>2 (<code>$f:total-anchor-lengths as xs:double+</code>, <code>$f:seg-lengths
+                        as xs:double+</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Refactor to <code>for-each-pair()</code>?</li>
                </ul>
             </dd>
             <dt>
@@ -570,11 +589,12 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute lengths of joining lines</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>2 (<code>$f:dir-Xs as xs:double+</code>, <code>$f:dir-Ys as
+                    xs:double</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Refactor to <code>for-each-pair()</code>?</li>
                </ul>
             </dd>
             <dt>
@@ -583,11 +603,9 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute X coordinates of endpoint 1 of normals</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$f:unit-Ys as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -596,11 +614,9 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute Y coordinates of endpoint 1 of normals</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$f:unit-Xs as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -609,11 +625,9 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute X coordinates of endpoint 2 of normals</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$f:unit-Ys as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -622,11 +636,9 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute Y coordinates of endpoint 2 of normals</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$f:unit-Xs as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -635,11 +647,12 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute lengths of outgoing handles</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>2 (<code>$f:total-anchor-lengths as xs:double+</code>, <code>$f:seg-lengths
+                        as xs:double+</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Refactor to <code>for-each-pair()</code>?</li>
                </ul>
             </dd>
             <dt>
@@ -648,10 +661,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute diagonal distance between adjacent knots</li>
                   <li>
-                     <strong>Arity: </strong>
+                     <strong>Arity: </strong>2 (<code>$f:xLengths as xs:double+</code>, <code>$f:yLengths as
+                        xs:double+</code>
                   </li>
                </ul>
             </dd>
@@ -661,11 +674,10 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute length of control line</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>2 (<code>$f:lengths as xs:double+</code>, <code>$f:scaling as
+                        xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -674,11 +686,12 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute unit X values</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>2 (<code>$f:dir-Xs as xs:double+</code>, <code>$f:lengths as
+                        xs:double+</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Refactor to use <code>for-each-pair()</code>?</li>
                </ul>
             </dd>
             <dt>
@@ -687,11 +700,12 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute unit X values</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>2 (<code>$f:dir-Ys as xs:double+</code>, <code>$f:lengths as
+                        xs:double+</code>)</li>
+                  <li>
+                     <strong>Note: </strong>Refactor to use <code>for-each-pair()</code>?</li>
                </ul>
             </dd>
             <dt>
@@ -700,11 +714,9 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute X distances between adjacent knots</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$f:xPoints as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -713,11 +725,9 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Compute X distances between adjacent knots</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$f:yPoints as xs:double+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -726,11 +736,9 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Extract all X values from point pairs</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$f:point-pairs as xs:string+</code>)</li>
                </ul>
             </dd>
             <dt>
@@ -739,11 +747,9 @@
             <dd>
                <ul>
                   <li>
-                     <strong>Description: </strong>
-                  </li>
+                     <strong>Description: </strong>Extract all Y values from point pairs</li>
                   <li>
-                     <strong>Arity: </strong>
-                  </li>
+                     <strong>Arity: </strong>1 (<code>$f:point-pairs as xs:string+</code>)</li>
                </ul>
             </dd>
          </dl>

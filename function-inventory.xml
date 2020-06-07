@@ -7,7 +7,7 @@
             <function>
                 <name>djb:expand-to-tenths</name>
                 <description>Convert integer range to range of tenths</description>
-                <arity>1 (<code>$half as xs:integer</code>)</arity>
+                <arity>1 (<code>$f:half as xs:integer</code>)</arity>
                 <note>Can be used to approximate a curve by plotting intermediate values with fine
                     granularity. The input, a positive integer, is the upper bound of the desired
                     symmetrical range, centered on 0. Can be recentered with
@@ -16,9 +16,10 @@
             <function>
                 <name>djb:gaussian</name>
                 <description>Gaussian Y value corresponding to input X</description>
-                <arity>4 (<code>$x as xs:double</code>, <code>$peak as xs:double</code>,
-                        <code>center as xs:double</code>, <code>$stddev as xs:double</code></arity>
-                <note><code>$center</code> is the mean, <code>$peak</code> is the height at the
+                <arity>4 (<code>$f:x as xs:double</code>, <code>$f:peak as xs:double</code>,
+                        <code>$f:center as xs:double</code>, <code>$f:stddev as
+                    xs:double</code></arity>
+                <note><code>$f:center</code> is the mean, <code>$f:peak</code> is the height at the
                     mean. Used by <code>djb:get-gaussian-weights()</code>, which is used by
                         <code>djb:get-weights-scale()</code>. Public so that we can also draw a
                     Gaussian curve directly.</note>
@@ -27,27 +28,27 @@
                 <name>djb:get-weights-scale</name>
                 <description>Return sequence of scaling values for different smoothing
                     kernels</description>
-                <arity>3 (<code>$kernal as xs:string ()</code>, <code>$window-size as
-                        xs:integer</code>, <code>$stddev as xs:integer</code>). 2 (omits gaussian
-                    kernel and <code>$stddev</code>).</arity>
+                <arity>3 (<code>$f:kernal as xs:string ()</code>, <code>$f:window-size as
+                        xs:integer</code>, <code>$f:stddev as xs:integer</code>). 2 (omits gaussian
+                    kernel and <code>$f:stddev</code>).</arity>
             </function>
             <function>
                 <name>djb:random-sequence</name>
                 <description>Create a specified number of random doubles between 0 and
                     1</description>
-                <arity>1 (<code>$count as xs:integer</code>)</arity>
+                <arity>1 (<code>$f:count as xs:integer</code>)</arity>
             </function>
             <function>
                 <name>djb:recenter</name>
                 <description>Adjust a recenter sequence of doubles, returned rescaled
                     sequence</description>
-                <arity>3 (<code>$input-values as xs:double+</code>, <code>$new-min as
-                        xs:double</code>, <code>$new-max as xs:double</code>)</arity>
+                <arity>3 (<code>$f:input-values as xs:double+</code>, <code>$f:new-min as
+                        xs:double</code>, <code>$f:new-max as xs:double</code>)</arity>
             </function>
             <function>
                 <name>djb:round-to-odd</name>
                 <description>Found even integer up to odd, return odd unchanged</description>
-                <arity>1 (<code>$input as xs:integer</code>)</arity>
+                <arity>1 (<code>$f:input as xs:integer</code>)</arity>
                 <note>Window size for smoothing must be odd. If it is computed from data (e.g.,
                         <code>n idiv 3</code>), this ensures that the value is always a positive odd
                     integer.</note>
@@ -56,29 +57,29 @@
                 <name>djb:split-points</name>
                 <description>Split SVG <code>@points</code> into individual strings for each
                     point</description>
-                <arity>1 (<code>$points as xs:string</code>)</arity>
+                <arity>1 (<code>$f:points as xs:string</code>)</arity>
                 <note>Is this used? If not, remove.</note>
             </function>
             <function>
                 <name>djb:uniform</name>
                 <description>True iff all items in sequence are equal</description>
-                <arity>1 (<code>$seq as item()+</code>)</arity>
+                <arity>1 (<code>$f:seq as item()+</code>)</arity>
             </function>
             <function>
                 <name>djb:validate-points</name>
                 <description>Validate cardinality and lexical form of input points: 1) At least
                     three points, 2) lexical form <code>X,Y</code>, 3) monotonic X</description>
-                <arity>1 (<code>$points as xs:string+</code>></arity>
+                <arity>1 (<code>$f:points as xs:string+</code>></arity>
                 <note>The individual points are validated by calling
                         <code>djb:validate-point()</code>.</note>
             </function>
             <function>
                 <name>djb:weighted-average</name>
                 <description>Smoothed value for current point</description>
-                <arity>4 (<code>$focus as xs:integer</code>, <code>$window-size as
-                    xs:integer</code>, <code>$input-values as xs:double+</code>, <code>$weights as
-                        xs:double+</code>)</arity>
-                <note><code>$weights</code> are created separately because
+                <arity>4 (<code>$f:focus as xs:integer</code>, <code>$f:window-size as
+                        xs:integer</code>, <code>$f:input-values as xs:double+</code>,
+                        <code>$f:weights as xs:double+</code>)</arity>
+                <note><code>$f:weights</code> are created separately because
                         <code>djb:weighted-average()</code> is called for every point, and weights
                     need to be computed only once for the entire set of points. Modify this to
                     create smoothed values for all points as a single call, in which case it can
@@ -89,8 +90,8 @@
             <function>
                 <name>djb:gaussian-weights</name>
                 <description>Sequence of values for Gaussian weighting</description>
-                <arity>1 (<code>$window-size as xs:integer</code>, <code>$stddev as
-                    xs:double</code>)</arity>
+                <arity>1 (<code>$f:window-size as xs:integer</code>, <code>$f:stddev as
+                        xs:double</code>)</arity>
                 <note>Mean = 0, peak = 1. Calls <code>djb:gaussian()</code> to create each. Can be
                     consolidated if creation of weighting scale is folded into weighting of points,
                     processing the whole sequence at once.</note>
@@ -98,20 +99,20 @@
             <function>
                 <name>djb:validate-monotonic</name>
                 <description>True iff sequence is monotonic (in either direction)</description>
-                <arity>1 (<code>$seq as xs:double+</code>)</arity>
+                <arity>1 (<code>$f:seq as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:monotonic-X</name>
                 <description>True iff X values of <code>X,Y</code> points are monotonic. Uses
                         <code>djb:monotonic()</code>.</description>
-                <arity>1 (<code>$input-points as xs:string+</code>)</arity>
+                <arity>1 (<code>$f:input-points as xs:string+</code>)</arity>
             </function>
             <function>
                 <name>djb:validate-point-regex</name>
                 <description>Validate a single point against <code>X,Y</code> regex, where
                         <code>X</code> and <code>Y</code> are doubles with optional
                     signs</description>
-                <arity>1 (<code>$input-point as xs:string</code>)</arity>
+                <arity>1 (<code>$f:input-point as xs:string</code>)</arity>
                 <note>Validates point against regex: X and Y are floats with optional signs. Point
                     must be in <code>X,Y</code> form. Uses <code>djb:validate-point-regex()</code>
                     to validate each half; this function verifies that the pair is lexically
@@ -128,45 +129,45 @@
                 <name>djb:compute-control-X</name>
                 <description>Compute X coordinate of quadratic Bézier control point for parabolic
                     segment</description>
-                <arity>2 (<code>$x1 as xs:double</code>, <code>$x2 as xs:double</code>)</arity>
+                <arity>2 (<code>$f:x1 as xs:double</code>, <code>$f:x2 as xs:double</code>)</arity>
             </function>
             <function>
                 <name>djb:compute-control-Y</name>
                 <description>Compute Y coordinate of quadratic Bézier control point for parabolic
                     segment</description>
-                <arity>5 (<code>$x1 as xs:double</code>, <code>$x2 as xs:double</code>, <code>$a as
-                        xs:double</code>, <code>$b as xs:double</code>, <code>$c as
-                    xs:double</code>)</arity>
+                <arity>5 (<code>$f:x1 as xs:double</code>, <code>$f:x2 as xs:double</code>,
+                        <code>$f:a as xs:double</code>, <code>$f:b as xs:double</code>, <code>$f:c
+                        as xs:double</code>)</arity>
             </function>
             <function>
                 <name>djb:compute-derivative</name>
                 <description>Compute first derivative of quadratic function</description>
-                <arity>3 (<code>$x as xs:double</code>, <code>$a as xs:double</code>, <code>$b as
-                        xs:double</code>)</arity>
+                <arity>3 (<code>$f:x as xs:double</code>, <code>$f:a as xs:double</code>, <code>$f:b
+                        as xs:double</code>)</arity>
             </function>
             <function>
                 <name>djb:compute-parabolic-Y</name>
                 <description>Compute parabolic Y coordinate from X and quadratic
                     parameters</description>
-                <arity>4 (<code>$x as xs:double</code>, <code>$a as xs:double</code>, <code>$b as
-                        xs:double</code>, <code>$c as xs:double</code>)</arity>
+                <arity>4 (<code>$f:x as xs:double</code>, <code>$f:a as xs:double</code>, <code>$f:b
+                        as xs:double</code>, <code>$f:c as xs:double</code>)</arity>
             </function>
             <function>
                 <name>djb:compute-vertex-X</name>
                 <description>Compute X coordinate of vertex of parabola, given quadratic
                     equation</description>
-                <arity>3 (<code>$a as xs:double</code>, <code>$b as xs:double</code>)</arity>
+                <arity>3 (<code>$f:a as xs:double</code>, <code>$f:b as xs:double</code>)</arity>
             </function>
             <function>
                 <name>djb:dot-product</name>
                 <description>Compute dot product of two matrices</description>
-                <arity>2 (<code>$left-matrix as array(*)</code>, <code>$right-matrix as
+                <arity>2 (<code>$f:left-matrix as array(*)</code>, <code>$f:right-matrix as
                         array(*)</code>)</arity>
             </function>
             <function>
                 <name>djb:transpose-matrix</name>
                 <description>Transpose matrix (swap rows and columns)</description>
-                <arity>1 (<code>$input-matrix as array()</code>)</arity>
+                <arity>1 (<code>$f:input-matrix as array()</code>)</arity>
             </function>
         </final>
     </package>
@@ -179,8 +180,8 @@
             <function>
                 <name>djb:regression-line</name>
                 <description>Plot regression line</description>
-                <arity>2: (<code>$point-pairs as xs:string+</code>, <code>$debug as
-                        xs:boolean</code>). 1: omit <code>$debug</code>.</arity>
+                <arity>2: (<code>$f:point-pairs as xs:string+</code>, <code>$f:debug as
+                        xs:boolean</code>). 1: omit <code>$f:debug</code>.</arity>
                 <note>Currently plots from minX to minY. Change to specify endpoints of line, to
                     match parabolic plotting?</note>
             </function>
@@ -188,15 +189,15 @@
                 <name>djb:compute-regression-parameters</name>
                 <description>Compute parameters for quadratic (parabolic) equation given all
                     points</description>
-                <arity>1 (<code>$points as xs:string+</code>)</arity>
+                <arity>1 (<code>$f:points as xs:string+</code>)</arity>
                 <note>Call only from <code>djb:regression-line()</code>; don’t expose?</note>
             </function>
             <function>
                 <name>djb:plot-parabolic-segment</name>
                 <description>Plot parabolic segment as SVG <code>&lt;path&gt;</code>
                     element</description>
-                <arity>5 (<code>$x1 as xs:double</code>, <code>$x2 as xs:double</code>
-                    <code>$a as xs:double</code>, <code>$b as xs:double</code>, <code>$c as
+                <arity>5 (<code>$f:x1 as xs:double</code>, <code>$f:x2 as xs:double</code>
+                    <code>$f:a as xs:double</code>, <code>$f:b as xs:double</code>, <code>$f:c as
                         xs:double</code>)</arity>
                 <note>Change API to pass in all points plus minX and maxX and call
                         <code>djb:regression-line()</code> to compute the parameters for the
@@ -213,8 +214,8 @@
                 <name>djb:smoothing</name>
                 <description>Adjust Y values with rectangular kernel according to window
                     specification</description>
-                <arity>2 (<code>$points as xs:string+</code>), <code>$window as xs:integer</code>. 1
-                    supplies default window of 3.</arity>
+                <arity>2 (<code>$f:points as xs:string+</code>), <code>$f:window as
+                        xs:integer</code>. 1 supplies default window of 3.</arity>
                 <note>Remove this, merging rectangular kernel in with others</note>
             </function>
         </final>
@@ -227,141 +228,166 @@
             <function>
                 <name>djb:spline</name>
                 <description>Plot spline as SVG <code>&lt;path&gt;</code> element. If
-                        <code>$debug</code> is set, also plots debugging artifacts.</description>
-                <arity>3 (<code>$point-pairs as xs:string+</code>, <code>$scaling as
-                        xs:double</code>, <code>$debug as xs:boolean</code>). 2 version defaults
-                        <code>$debug</code> to false. 1 version defaults <code>$scaling</code> to
-                    0.4.</arity>
+                        <code>$f:debug</code> is set, also plots debugging artifacts.</description>
+                <arity>3 (<code>$f:point-pairs as xs:string+</code>, <code>$f:scaling as
+                        xs:double</code>, <code>$f:debug as xs:boolean</code>). 2 version defaults
+                        <code>$f:debug</code> to false. 1 version defaults <code>$f:scaling</code>
+                    to 0.4.</arity>
             </function>
         </final>
         <private>
             <function>
                 <name>djb:create-anchor1-Xs</name>
-                <description/>
-                <arity/>
+                <description>Compute X coordinate for incoming handles</description>
+                <arity>3 (<code>$f:xPoints as xs:double</code>, <code>$f:angle1s as
+                        xs:double+</code>, <code>$f:in-anchor-lengths as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-anchor1-Ys</name>
-                <description/>
-                <arity/>
+                <description>Compute Y coordinate for incoming handles</description>
+                <arity>3 (<code>$f:yPoints as xs:double</code>, <code>$f:angle1s as
+                        xs:double+</code>, <code>$f:in-anchor-lengths as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-anchor2-Xs</name>
-                <description/>
-                <arity/>
+                <description>Compute X coordinate for outgoing handles</description>
+                <arity>3 (<code>$f:xPoints as xs:double</code>, <code>$f:angle2s as
+                        xs:double+</code>, <code>$f:out-anchor-lengths as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-anchor2-Ys</name>
-                <description/>
-                <arity/>
+                <description>Compute Y coordinate for outgoing handles</description>
+                <arity>3 (<code>$f:yPoints as xs:double</code>, <code>$f:angle2s as
+                        xs:double+</code>, <code>$f:out-anchor-lengths as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-angle1s</name>
-                <description/>
-                <arity/>
+                <description>Compute angle for incoming handles</description>
+                <arity>2 (<code>$f:normal1-Ys as xs:double+</code>, <code>$f:normal1-Xs as
+                        xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-angle2s</name>
-                <description/>
-                <arity/>
+                <description>Compute angle for outgoing handles</description>
+                <arity>2 (<code>$f:normal2-Ys as xs:double+</code>, <code>$f:normal2-Xs as
+                        xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-diagnostics</name>
-                <description/>
-                <arity/>
+                <description>Output HTML table with diagnostic information if <code>$f:debug</code>
+                    is set</description>
+                <arity>19 (<code>$f:dir-Xs as xs:double+</code>, <code>$f:dir-Ys as
+                        xs:double+</code>, <code>$f:lengths as xs:double+</code>, <code>$f:unit-Xs
+                        as xs:double+</code>, <code>$f:unit-Ys as xs:double+</code>,
+                        <code>$f:normal1-Xs as xs:double+</code>, <code>$f:normal1-Ys as
+                        xs:double+</code>, <code>$f:normal2-X2 as xs:double+</code>,
+                        <code>$f:normal2-Y2 as xs:double+</code>, <code>$f:angle1s as
+                        xs:double+</code>, <code>$f:angle2s as xs:double+</code>,
+                        <code>$f:anchor1-Xs as xs:double+</code>, <code>$f:anchor1-Ys as
+                        xs:double+</code>, <code>$f:anchor2-Xs as xs:double+</code>,
+                        <code>$f:anchor2-Ys as xs:double+</code>, <code>$f:total-anchorlengths as
+                        xs:double+</code>, <code>$f:in-anchor-lengths as xs:double+</code>,
+                        <code>$f:out-anchor-lengths as xs:double+</code>, <code>$f:scaling as
+                        xs:double+</code>, )</arity>
             </function>
             <function>
                 <name>djb:create-dir-Xs</name>
                 <description>Compute X distances between alternate points, for joining
                     lines</description>
-                <arity>1 (<code>$Xs as xs:double+</code>)</arity>
+                <arity>1 (<code>$f:Xs as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-dir-Ys</name>
                 <description>Compute Y distances between alternate points, for joining
                     lines</description>
-                <arity>1 (<code>$Ys as xs:double+</code>)</arity>
+                <arity>1 (<code>$f:Ys as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-in-anchor-lengths</name>
-                <description/>
-                <arity/>
+                <description>Compute lengths of incoming handles</description>
+                <arity>2 (<code>$f:total-anchor-lengths as xs:double+</code>, <code>$f:seg-lengths
+                        as xs:double+</code>)</arity>
+                <note>Refactor to <code>for-each-pair()</code>?</note>
             </function>
             <function>
                 <name>djb:create-lengths</name>
                 <description>Compute lengths of joining lines</description>
-                <arity>2 (<code>$dir-Xs as xs:double+</code>, <code>$dir-Ys as
+                <arity>2 (<code>$f:dir-Xs as xs:double+</code>, <code>$f:dir-Ys as
                     xs:double</code>)</arity>
                 <note>Refactor to <code>for-each-pair()</code>?</note>
             </function>
             <function>
                 <name>djb:create-normal1-Xs</name>
-                <description/>
-                <arity/>
+                <description>Compute X coordinates of endpoint 1 of normals</description>
+                <arity>1 (<code>$f:unit-Ys as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-normal1-Ys</name>
-                <description/>
-                <arity/>
+                <description>Compute Y coordinates of endpoint 1 of normals</description>
+                <arity>1 (<code>$f:unit-Xs as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-normal2-Xs</name>
-                <description/>
-                <arity/>
+                <description>Compute X coordinates of endpoint 2 of normals</description>
+                <arity>1 (<code>$f:unit-Ys as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-normal2-Ys</name>
-                <description/>
-                <arity/>
+                <description>Compute Y coordinates of endpoint 2 of normals</description>
+                <arity>1 (<code>$f:unit-Xs as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-out-anchor-lengths</name>
-                <description/>
-                <arity/>
+                <description>Compute lengths of outgoing handles</description>
+                <arity>2 (<code>$f:total-anchor-lengths as xs:double+</code>, <code>$f:seg-lengths
+                        as xs:double+</code>)</arity>
+                <note>Refactor to <code>for-each-pair()</code>?</note>
             </function>
             <function>
                 <name>djb:create-seg-lengths</name>
-                <description/>
-                <arity/>
+                <description>Compute diagonal distance between adjacent knots</description>
+                <arity>2 (<code>$f:xLengths as xs:double+</code>, <code>$f:yLengths as
+                        xs:double+</code></arity>
             </function>
             <function>
                 <name>djb:create-total-anchor-lengths</name>
-                <description/>
-                <arity/>
+                <description>Compute length of control line</description>
+                <arity>2 (<code>$f:lengths as xs:double+</code>, <code>$f:scaling as
+                        xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-unit-Xs</name>
                 <description>Compute unit X values</description>
-                <arity>2 (<code>$dir-Xs as xs:double+</code>, <code>$lengths as
-                    xs:double+</code>)</arity>
+                <arity>2 (<code>$f:dir-Xs as xs:double+</code>, <code>$f:lengths as
+                        xs:double+</code>)</arity>
                 <note>Refactor to use <code>for-each-pair()</code>?</note>
             </function>
             <function>
                 <name>djb:create-unit-Ys</name>
                 <description>Compute unit X values</description>
-                <arity>2 (<code>$dir-Ys as xs:double+</code>, <code>$lengths as
-                    xs:double+</code>)</arity>
+                <arity>2 (<code>$f:dir-Ys as xs:double+</code>, <code>$f:lengths as
+                        xs:double+</code>)</arity>
                 <note>Refactor to use <code>for-each-pair()</code>?</note>
             </function>
             <function>
                 <name>djb:create-xLengths</name>
-                <description/>
-                <arity/>
+                <description>Compute X distances between adjacent knots</description>
+                <arity>1 (<code>$f:xPoints as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:create-yLengths</name>
-                <description/>
-                <arity/>
+                <description>Compute X distances between adjacent knots</description>
+                <arity>1 (<code>$f:yPoints as xs:double+</code>)</arity>
             </function>
             <function>
                 <name>djb:extract-Xs</name>
                 <description>Extract all X values from point pairs</description>
-                <arity>1 (<code>$point-pairs as xs:string+</code>)</arity>
+                <arity>1 (<code>$f:point-pairs as xs:string+</code>)</arity>
             </function>
             <function>
                 <name>djb:extract-Ys</name>
                 <description>Extract all Y values from point pairs</description>
-                <arity>1 (<code>$point-pairs as xs:string+</code>)</arity>
+                <arity>1 (<code>$f:point-pairs as xs:string+</code>)</arity>
             </function>
         </private>
     </package>

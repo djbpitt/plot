@@ -35,4 +35,7 @@ note =
     element note {
         mixed { code* }
     }
-code = element code { text }
+code =
+    element code {
+        xsd:string { minLength = "1" }
+    }
