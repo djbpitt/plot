@@ -1,0 +1,1099 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Stylesheet documentation for: regression.xsl</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript"><!--
+        
+        var parametersBoxes= new Array('prs_F_regression-lineS_regression.xsl', 
+				'prs_regression-lineA_1S_regression.xsl', 
+				'prs_F_compute-regression-parametersS_regression.xsl', 
+				'prs_F_plot-parabolic-segmentS_regression.xsl');
+
+        
+        var usedByBoxes= new Array('uB_F_regression-lineS_regression.xsl');
+
+        
+        var sourceBoxes= new Array('src_F_regression-lineS_regression.xsl', 
+				'src_regression-lineA_1S_regression.xsl', 
+				'src_F_compute-regression-parametersS_regression.xsl', 
+				'src_F_plot-parabolic-segmentS_regression.xsl');
+
+        
+        
+        var referencesBoxes= new Array('refs_regression-lineA_1S_regression.xsl');
+
+        
+        
+        
+        
+        var button_prefix = 'bt_';
+        
+        /**
+        * Get all DIV elements with a specified class name.
+        *
+        * @param className The class name. 
+        */
+        function getElementsByClassName(className) {
+            var results = [];
+    
+             if (document.getElementsByClassName == undefined) {
+                var allElements = document.getElementsByTagName("div");
+                var element;
+                for (var i = 0; i < allElements.length; i++) {
+                    var element = allElements[i];
+                	var elementClass = element.className;
+                	if (elementClass == className) { 
+                		results.push(element);
+                	}
+                }
+             } else {
+                results = document.getElementsByClassName(className);
+             }
+    
+            return results;
+        }
+            
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+
+       /**
+        * Switch between the compact list representation and the clasic list representation.
+        */
+       function switchMode(checkBox) {
+            if (checkBox == null) {
+                // Checkbox not found
+            } else if (checkBox.checked == 1) {
+                // Compact mode
+                var divs = getElementsByClassName('refItemBlock');
+                for (var i = 0; i < divs.length; i ++) {
+                    divs[i].style.display = "inline";
+                    var children = divs[i].children;
+                    var refItemSep = children[children.length - 1];
+                    if (refItemSep.className == "refItemSep") {
+                        children[children.length - 1].style.display = "inline";
+                    }
+                }
+            } else {
+                // Expanded mode
+                var divs = getElementsByClassName('refItemBlock');
+                for (var i = 0; i < divs.length; i ++) {
+                    divs[i].style.display = "block";
+                    var children = divs[i].children;
+                    var refItemSep = children[children.length - 1];
+                    if (refItemSep.className == "refItemSep") {
+                        children[children.length - 1].style.display = "none";
+                    }
+                }
+            }
+        }
+
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updPT(message) {
+            top.document.title = "Stylesheet documentation for: " + message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id){
+         var selectIds = new Array('toc_group_by_location', 'toc_group_by_component_type', 'toc_group_by_namespace', 'toc_group_by_mode');
+            // Make all the tabs invisible.
+            for (i = 0; i < 4; i++){
+               var tab = getElementObject(selectIds[i]);
+               tab.style.display = 'none';
+            }
+            var selTab = getElementObject(id);
+            selTab.style.display = 'block';            
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cTL"></td>
+               <td class="rt_lT"></td>
+               <td class="rt_cTR"></td>
+            </tr>
+            <tr>
+               <td class="rt_lL"></td>
+               <td class="rt_cnt">
+                  <h3>Mode:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchMode(this);" class="control" /></span><span class="globalControlName">Compact lists</span></td>
+                     </tr>
+                  </table>
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, parametersBoxes);" class="control" /></span><span class="globalControlName">Parameters </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, referencesBoxes);" class="control" /></span><span class="globalControlName">References </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lR"></td>
+            </tr>
+            <tr>
+               <td class="rt_cBL"></td>
+               <td class="rt_lB"></td>
+               <td class="rt_cBR"></td>
+            </tr>
+         </table>
+      </div>
+      <h2><a id="INDEX">Table of Contents</a></h2>
+      <div class="toc">
+         <form action="none">
+            <div><span> Group by: <select id="selectTOC" onchange="selectTOCGroupBy(this.options[this.selectedIndex].value);">
+                     <option value="toc_group_by_location" selected="selected">Location</option>
+                     <option value="toc_group_by_component_type">Component Type</option>
+                     <option value="toc_group_by_namespace">Namespace</option>
+                     <option value="toc_group_by_mode">Mode</option></select></span></div>
+         </form>
+         <div class="level1" id="toc_group_by_namespace" style="display:none">
+            <div>
+               <div class="level2">
+                  <p><input id="bt_boxIdNamespace1" type="image" value="-" src="img/btM.gif" onclick="switchState('boxIdNamespace1');" class="control" /><span class="indexGroupTitle">http://www.obdurodon.org</span></p>
+                  <div id="boxIdNamespace1" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cTL"></td>
+                              <td class="rt_lT"></td>
+                              <td class="rt_cTR"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lL"></td>
+                              <td class="rt_cnt">
+                                 <div class="componentGroupTitle"><input id="bt_boxIdNamespace1function" type="image" value="-" src="img/btM.gif" onclick="switchState('boxIdNamespace1function');" class="control" />Functions</div>
+                                 <div id="boxIdNamespace1function" style="display:block">
+                                    <div class="indentWrapDiv"><a href="regression-documentation.html#F_compute-regression-parametersS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:compute-regression-parameters (</span><span class="fParams">f:points</span><span>)</span></span></a></div>
+                                    <div class="indentWrapDiv"><a href="regression-documentation.html#F_plot-parabolic-segmentS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:plot-parabolic-segment (</span><span class="fParams">f:x1, f:x2, f:a, f:b, f:c</span><span>)</span></span></a></div>
+                                    <div class="indentWrapDiv"><a href="regression-documentation.html#F_regression-lineS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:regression-line (</span><span class="fParams">f:point-pairs, f:debug</span><span>)</span></span></a></div>
+                                    <div class="indentWrapDiv"><a href="regression-documentation.html#regression-lineA_1S_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:regression-line (</span><span class="fParams">points</span><span>)</span></span></a></div>
+                                 </div>
+                              </td>
+                              <td class="rt_lR"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cBL"></td>
+                              <td class="rt_lB"></td>
+                              <td class="rt_cBR"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="level1" id="toc_group_by_mode" style="display:none">
+            <div class="level2">
+               <p><input id="bt_boxIdNoMode" type="image" value="-" src="img/btM.gif" onclick="switchState('boxIdNoMode');" class="control" /><span class="indexGroupTitle"> Components without mode </span></p>
+               <div id="boxIdNoMode" style="display:block">
+                  <div class="horizontalLayout">
+                     <table class="rt">
+                        <tr>
+                           <td class="rt_cTL"></td>
+                           <td class="rt_lT"></td>
+                           <td class="rt_cTR"></td>
+                        </tr>
+                        <tr>
+                           <td class="rt_lL"></td>
+                           <td class="rt_cnt">
+                              <div class="componentGroupTitle"><input id="bt_boxIdNoModefunction" type="image" value="-" src="img/btM.gif" onclick="switchState('boxIdNoModefunction');" class="control" />Functions</div>
+                              <div id="boxIdNoModefunction" style="display:block">
+                                 <div class="indentWrapDiv"><a href="regression-documentation.html#F_compute-regression-parametersS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:compute-regression-parameters (</span><span class="fParams">f:points</span><span>)</span></span></a></div>
+                                 <div class="indentWrapDiv"><a href="regression-documentation.html#F_plot-parabolic-segmentS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:plot-parabolic-segment (</span><span class="fParams">f:x1, f:x2, f:a, f:b, f:c</span><span>)</span></span></a></div>
+                                 <div class="indentWrapDiv"><a href="regression-documentation.html#F_regression-lineS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:regression-line (</span><span class="fParams">f:point-pairs, f:debug</span><span>)</span></span></a></div>
+                                 <div class="indentWrapDiv"><a href="regression-documentation.html#regression-lineA_1S_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:regression-line (</span><span class="fParams">points</span><span>)</span></span></a></div>
+                              </div>
+                           </td>
+                           <td class="rt_lR"></td>
+                        </tr>
+                        <tr>
+                           <td class="rt_cBL"></td>
+                           <td class="rt_lB"></td>
+                           <td class="rt_cBR"></td>
+                        </tr>
+                     </table>
+                  </div>
+                  <div style="clear:left"></div>
+               </div>
+            </div>
+         </div>
+         <div class="level1" id="toc_group_by_component_type" style="display:none">
+            <div>
+               <div class="horizontalLayout">
+                  <table class="rt">
+                     <tr>
+                        <td class="rt_cTL"></td>
+                        <td class="rt_lT"></td>
+                        <td class="rt_cTR"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_lL"></td>
+                        <td class="rt_cnt">
+                           <div class="componentGroupTitle"><input id="bt_function" type="image" value="-" src="img/btM.gif" onclick="switchState('function');" class="control" />Functions</div>
+                           <div id="function" style="display:block">
+                              <div class="indentWrapDiv"><a href="regression-documentation.html#F_compute-regression-parametersS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:compute-regression-parameters (</span><span class="fParams">f:points</span><span>)</span></span></a></div>
+                              <div class="indentWrapDiv"><a href="regression-documentation.html#F_plot-parabolic-segmentS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:plot-parabolic-segment (</span><span class="fParams">f:x1, f:x2, f:a, f:b, f:c</span><span>)</span></span></a></div>
+                              <div class="indentWrapDiv"><a href="regression-documentation.html#F_regression-lineS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:regression-line (</span><span class="fParams">f:point-pairs, f:debug</span><span>)</span></span></a></div>
+                              <div class="indentWrapDiv"><a href="regression-documentation.html#regression-lineA_1S_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:regression-line (</span><span class="fParams">points</span><span>)</span></span></a></div>
+                           </div>
+                        </td>
+                        <td class="rt_lR"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_cBL"></td>
+                        <td class="rt_lB"></td>
+                        <td class="rt_cBR"></td>
+                     </tr>
+                  </table>
+               </div>
+               <div style="clear:left"></div>
+            </div>
+         </div>
+         <div class="level1" id="toc_group_by_location" style="display:block">
+            <div>
+               <div class="level2">
+                  <p><input id="bt_regression.xsl" type="image" value="-" src="img/btM.gif" onclick="switchState('regression.xsl');" class="control" /><span class="indexGroupTitle"><a href="regression-documentation.html#regression.xsl" target="_self" title="No namespace">regression.xsl</a></span></p>
+                  <div id="regression.xsl" style="display:block">
+                     <div class="horizontalLayout">
+                        <table class="rt">
+                           <tr>
+                              <td class="rt_cTL"></td>
+                              <td class="rt_lT"></td>
+                              <td class="rt_cTR"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_lL"></td>
+                              <td class="rt_cnt">
+                                 <div class="componentGroupTitle"><input id="bt_regression.xslfunction" type="image" value="-" src="img/btM.gif" onclick="switchState('regression.xslfunction');" class="control" />Functions</div>
+                                 <div id="regression.xslfunction" style="display:block">
+                                    <div class="indentWrapDiv"><a href="regression-documentation.html#F_compute-regression-parametersS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:compute-regression-parameters (</span><span class="fParams">f:points</span><span>)</span></span></a></div>
+                                    <div class="indentWrapDiv"><a href="regression-documentation.html#F_plot-parabolic-segmentS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:plot-parabolic-segment (</span><span class="fParams">f:x1, f:x2, f:a, f:b, f:c</span><span>)</span></span></a></div>
+                                    <div class="indentWrapDiv"><a href="regression-documentation.html#F_regression-lineS_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:regression-line (</span><span class="fParams">f:point-pairs, f:debug</span><span>)</span></span></a></div>
+                                    <div class="indentWrapDiv"><a href="regression-documentation.html#regression-lineA_1S_regression.xsl" target="_self" class="iRf" title="http://www.obdurodon.org"><span class="cRfI"><span>djb:regression-line (</span><span class="fParams">points</span><span>)</span></span></a></div>
+                                 </div>
+                              </td>
+                              <td class="rt_lR"></td>
+                           </tr>
+                           <tr>
+                              <td class="rt_cBL"></td>
+                              <td class="rt_lB"></td>
+                              <td class="rt_cBR"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div style="clear:left"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div><a id="regression.xsl"></a><div class="cmpT">Main stylesheet
+         <span class="qname">regression.xsl</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Stylesheet version</td>
+                        <td>3.0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Extension functions reliance</div>
+                        </td>
+                        <td>
+                           <div>
+                              <table class="attsT">
+                                 <th class="fCol">
+                                    <div class="flL">Namespace</div>
+                                 </th>
+                                 <th class="fCol">
+                                    <div class="flL">Functions</div>
+                                 </th>
+                                 <tr>
+                                    <td class="fCol">http://www.obdurodon.org</td>
+                                    <td><span title="Arity: 2 Used in: regression.xsl&#xA;">compute-control-X</span>, <span title="Arity: 5 Used in: regression.xsl&#xA;">compute-control-Y</span>, <span title="Arity: 4 Used in: regression.xsl&#xA;">compute-parabolic-Y</span>, <span title="Arity: 1 Used in: regression.xsl&#xA;">validate-points</span></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">http://www.w3.org/2005/xpath-functions/math</td>
+                                    <td><span title="Arity: 2 Used in: regression.xsl&#xA;">pow</span></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="F_regression-lineS_regression.xsl"></a><div class="cmpT">Function
+         <span class="qname">djb:regression-line (<span class="fParams">f:point-pairs, f:debug</span>)</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>http://www.obdurodon.org</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Type</td>
+                        <td>item()+</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_F_regression-lineS_regression.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_F_regression-lineS_regression.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_F_regression-lineS_regression.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Function</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="regression-documentation.html#regression-lineA_1S_regression.xsl" target="_self" title="http://www.obdurodon.org"><span>djb:regression-line (</span><span class="fParams">points</span><span>)</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Parameters</div>
+                           <div class="flR"><input id="bt_prs_F_regression-lineS_regression.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('prs_F_regression-lineS_regression.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="prs_F_regression-lineS_regression.xsl" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Namespace</th>
+                                       <th>Type</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="fCol">f:debug</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:boolean</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:point-pairs</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:string+</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_F_regression-lineS_regression.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_F_regression-lineS_regression.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_F_regression-lineS_regression.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tXSLEl">&lt;xsl:function</span><span class="tAN"> name=</span><span class="tAV">"djb:regression-line"</span><span class="tAN"> as=</span><span class="tAV">"item()+"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- djb:regression-line#2                                        --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Parameters:                                                  --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $points as xs:string+ : all points in X,Y coordinate form  --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $debug as xs:boolean                                       --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Return:                                                      --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   element(svg:g) : contains &lt;line&gt;                           --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   if $debug, also contains points, polyline, CSS             --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:point-pairs"</span><span class="tAN"> as=</span><span class="tAV">"xs:string+"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:debug"</span><span class="tAN"> as=</span><span class="tAV">"xs:boolean"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Computed values                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- https://brownmath.com/stat/leastsq.htm                       --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   y = mx + b                                                 --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   m = ( n∑xy − (∑x)(∑y) ) / ( n∑x² − (∑x)² )                 --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   b = ( ∑y − m∑x ) / n                                       --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"not(djb:validate-points($f:point-pairs))"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> terminate=</span><span class="tAV">"yes"</span><span class="tAN"> select=</span><span class="tAV">"'Invalid points: ' || string-join($f:point-pairs, '; ')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:n"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tAN"> select=</span><span class="tAV">"count($f:point-pairs)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:allX"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tAN"> select=</span><span class="tAV">"$f:point-pairs ! substring-before(., ',') ! number(.)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:allY"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tAN"> select=</span><span class="tAV">"$f:point-pairs ! substring-after(., ',') ! number(.)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumXY"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tAN"> select=</span><span class="tAV">"             for-each-pair($f:allX, $f:allY, function ($a, $b) {$a * $b}) =&gt; sum()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumX"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"sum($f:allX)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumY"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"sum($f:allY)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumX2"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"($f:allX ! math:pow(., 2)) =&gt; sum()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> select=</span><span class="tAV">"$f:allX ! math:pow(., 2)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:m"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"($f:n * $f:sumXY - $f:sumX * $f:sumY) div ($f:n * $f:sumX2 - math:pow($f:sumX, 2))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:b"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"($f:sumY - $f:m * $f:sumX) div $f:n"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Return value                                                 --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;g</span><span class="tAN"> xmlns=</span><span class="tAV">"http://www.w3.org/2000/svg"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;line</span><span class="tAN"> x1=</span><span class="tAV">"{min($f:allX)}"</span><span class="tAN"> y1=</span><span class="tAV">"{$f:m * min($f:allX) + $f:b}"</span><span class="tAN"> x2=</span><span class="tAV">"{max($f:allX)}"</span><span class="tAN"> y2=</span><span class="tAV">"{$f:m * max($f:allX) + $f:b}"</span><span class="tAN"> class=</span><span class="tAV">"regression"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/g&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$f:debug"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> select=</span><span class="tAV">"'sum of X = ', $f:sumX"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> select=</span><span class="tAV">"'sum of Y = ', $f:sumY"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> select=</span><span class="tAV">"'mean X = ', avg($f:allX)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> select=</span><span class="tAV">"'mean Y = ' , avg($f:allY)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> select=</span><span class="tAV">"'sum of squares = ', $f:sumX2"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> select=</span><span class="tAV">"'sum of products = ', $f:sumXY"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> select=</span><span class="tAV">"map {'m' : $f:m, 'b' : $f:b}"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="regression-lineA_1S_regression.xsl"></a><div class="cmpT">Function
+         <span class="qname">djb:regression-line (<span class="fParams">points</span>)</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>http://www.obdurodon.org</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Type</td>
+                        <td>element(svg:g)</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_regression-lineA_1S_regression.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_regression-lineA_1S_regression.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_regression-lineA_1S_regression.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Function</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="regression-documentation.html#F_regression-lineS_regression.xsl" target="_self" title="http://www.obdurodon.org"><span>regression-line (</span><span class="fParams">f:point-pairs, f:debug</span><span>)</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Parameters</div>
+                           <div class="flR"><input id="bt_prs_regression-lineA_1S_regression.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('prs_regression-lineA_1S_regression.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="prs_regression-lineA_1S_regression.xsl" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Namespace</th>
+                                       <th>Type</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="fCol">points</td>
+                                    <td>No namespace</td>
+                                    <td>xs:string+</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_regression-lineA_1S_regression.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_regression-lineA_1S_regression.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_regression-lineA_1S_regression.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tXSLEl">&lt;xsl:function</span><span class="tAN"> name=</span><span class="tAV">"djb:regression-line"</span><span class="tAN"> as=</span><span class="tAV">"element(svg:g)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- djb:regression-line#1                                        --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Parameters:                                                  --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $points as xs:string+ : all points in X,Y coordinate form  --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Return (by way of djb:regression-line#2):                    --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   element(svg:g) : contains &lt;line&gt;                           --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"points"</span><span class="tAN"> as=</span><span class="tAV">"xs:string+"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"djb:regression-line($points, false())"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="F_compute-regression-parametersS_regression.xsl"></a><div class="cmpT">Function
+         <span class="qname">djb:compute-regression-parameters (<span class="fParams">f:points</span>)</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>http://www.obdurodon.org</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Type</td>
+                        <td>map(xs:string, xs:double)</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Parameters</div>
+                           <div class="flR"><input id="bt_prs_F_compute-regression-parametersS_regression.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('prs_F_compute-regression-parametersS_regression.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="prs_F_compute-regression-parametersS_regression.xsl" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Namespace</th>
+                                       <th>Type</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="fCol">f:points</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:string+</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_F_compute-regression-parametersS_regression.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_F_compute-regression-parametersS_regression.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_F_compute-regression-parametersS_regression.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tXSLEl">&lt;xsl:function</span><span class="tAN"> name=</span><span class="tAV">"djb:compute-regression-parameters"</span><span class="tAN"> as=</span><span class="tAV">"map(xs:string, xs:double)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- djb:compute-regression-parameters#1                          --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Formula from:                                                --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   https://www.easycalculation.com/statistics/learn-quadratic-regression.php --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Parameters:                                                  --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--  $points as xs:string+ : points in X,Y format                --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Returns:                                                     --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   map(xs:string, xs:double)                                  --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   a: quadratic parameters, b: linear parameter, c: constant  --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:points"</span><span class="tAN"> as=</span><span class="tAV">"xs:string+"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Computed values                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:n"</span><span class="tAN"> select=</span><span class="tAV">"count($f:points)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:allX"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tAN"> select=</span><span class="tAV">"$f:points ! substring-before(., ',') ! number()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:allY"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tAN"> select=</span><span class="tAV">"$f:points ! substring-after(., ',') ! number()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumX"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"sum($f:allX)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumY"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"sum($f:allY)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumX2"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"sum($f:allX ! math:pow(., 2))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumX3"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"sum($f:allX ! math:pow(., 3))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumX4"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"sum($f:allX ! math:pow(., 4))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumXY"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"             sum(for-each-pair($f:allX, $f:allY, function ($a, $b) {             $a * $b             }))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumX2Y"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"             sum(for-each-pair($f:allX, $f:allY, function ($a, $b) {             math:pow($a, 2) * $b             }))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumXXf"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"$f:sumX2 - (math:pow($f:sumX, 2) div $f:n)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumXYf"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"$f:sumXY - ($f:sumX * $f:sumY) div $f:n"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumXX2f"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"$f:sumX3 - ($f:sumX2 * $f:sumX) div $f:n"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumX2Yf"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"$f:sumX2Y - ($f:sumX2 * $f:sumY) div $f:n"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sumX2X2f"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"$f:sumX4 - math:pow($f:sumX2, 2) div $f:n"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:a"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"(($f:sumX2Yf * $f:sumXXf) - ($f:sumXYf * $f:sumXX2f)) div (($f:sumXXf * $f:sumX2X2f) - math:pow($f:sumXX2f, 2))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:b"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"($f:sumXYf * $f:sumX2X2f - $f:sumX2Yf * $f:sumXX2f) div (($f:sumXXf * $f:sumX2X2f) - math:pow($f:sumXX2f, 2))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:c"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"$f:sumY div $f:n - $f:b * ($f:sumX div $f:n) - $f:a * ($f:sumX2 div $f:n)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"             map {             'a': $f:a,             'b': $f:b,             'c': $f:c             }"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="toTop"><a href="#INDEX"> [ top ] </a></div><a id="F_plot-parabolic-segmentS_regression.xsl"></a><div class="cmpT">Function
+         <span class="qname">djb:plot-parabolic-segment (<span class="fParams">f:x1, f:x2, f:a, f:b, f:c</span>)</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>http://www.obdurodon.org</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Type</td>
+                        <td>element(svg:g)</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Parameters</div>
+                           <div class="flR"><input id="bt_prs_F_plot-parabolic-segmentS_regression.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('prs_F_plot-parabolic-segmentS_regression.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="prs_F_plot-parabolic-segmentS_regression.xsl" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Namespace</th>
+                                       <th>Type</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="fCol">f:a</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:double</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:b</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:double</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:c</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:double</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:x1</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:double</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:x2</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:double</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_F_plot-parabolic-segmentS_regression.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_F_plot-parabolic-segmentS_regression.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_F_plot-parabolic-segmentS_regression.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tXSLEl">&lt;xsl:function</span><span class="tAN"> name=</span><span class="tAV">"djb:plot-parabolic-segment"</span><span class="tAN"> as=</span><span class="tAV">"element(svg:g)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- djb:plot-parabolic-segment#5                                 --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Formula for plotting parabolic segment as quadratic Bézier   --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   curve documented at:                                       --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- https://math.stackexchange.com/questions/335226/convert-segment-of-parabola-to-quadratic-bezier-curve --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Parameters:                                                  --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $f:x1 as xs:double : X coordinate of segment start         --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $f:x2 as xs:double : X coordinate of segment end           --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $f:a as xs:double : y = ax^2 + bx + c                      --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $f:b as xs:double : y = ax^2 + bx + c                      --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $f:c as xs:double : y = ax^2 + bx + c                      --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Return:                                                      --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   element(svg:g) : contains &lt;path&gt;                           --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:x1"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:x2"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:a"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:b"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:c"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Computed values                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:y1"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"-1 * djb:compute-parabolic-Y($f:x1, $f:a, $f:b, $f:c)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:y2"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"-1 * djb:compute-parabolic-Y($f:x2, $f:a, $f:b, $f:c)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:controlX"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"djb:compute-control-X($f:x1, $f:x2)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:controlY"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"djb:compute-control-Y($f:x1, $f:x2, $f:a, $f:b, $f:c)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Plot parabolic segment                                       --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;g</span><span class="tAN"> xmlns=</span><span class="tAV">"http://www.w3.org/2000/svg"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;path</span><span class="tAN"> d=</span><span class="tAV">"M{$f:x1},{-1 * $f:y1} Q{$f:controlX},{$f:controlY} {$f:x2},{-1 * $f:y2}"</span><span class="tAN"> class=</span><span class="tAV">"parabolic-regression"</span><span class="tAN"> fill=</span><span class="tAV">"none"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/g&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table>
+      <div class="toTop"><a href="#INDEX"> [ top ] </a></div>
+      <div class="footer">
+         <hr />
+         <div align="center">Stylesheet documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.</div>
+      </div><script type="text/javascript"><!--
+                    // The namespace is the selected option in the TOC combo.
+                    
+                    // The corresponding div is already visible conf. to its style attr.                     
+                    
+                    
+                    // Floats the toolbar.
+                    var globalControls = getElementObject("global_controls"); 
+                    
+                    if(globalControls != null){
+                    var browser=navigator.appName;
+                    var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+                    
+                    var IE6 = false;
+                    if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+                    IE6 = true;
+                    }
+                    
+                    //alert (IE6 + " |V| " + version);
+                    
+                    if(IE6){
+                    // On IE 6 the 'fixed' property is not supported. We must use javascript. 
+                    globalControls.style.position='absolute';                         
+                    // The global controls will do not exist in the TOC frame, when chunking.
+                    findAndFloat("global_controls", 225, 30);    
+                    } else {
+                    globalControls.style.position='fixed';                     	
+                    }
+                    
+                    globalControls.style.right='0';                       
+                    }
+                //--></script></body>
+</html>
