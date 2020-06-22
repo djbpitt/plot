@@ -8,7 +8,6 @@
     <!-- ================================================================ -->
     <!-- Stylesheet parameters                                            -->
     <!-- ================================================================ -->
-    <!--<xsl:param name="debug" as="xs:boolean"/>-->
 
     <!-- ================================================================ -->
     <!-- Public (final) functions                                         -->
@@ -69,7 +68,6 @@
         <xsl:variable name="f:sumX" as="xs:double" select="sum($f:allX)"/>
         <xsl:variable name="f:sumY" as="xs:double" select="sum($f:allY)"/>
         <xsl:variable name="f:sumX2" as="xs:double" select="($f:allX ! math:pow(., 2)) => sum()"/>
-        <xsl:message select="$f:allX ! math:pow(., 2)"/>
         <xsl:variable name="f:m" as="xs:double"
             select="($f:n * $f:sumXY - $f:sumX * $f:sumY) div ($f:n * $f:sumX2 - math:pow($f:sumX, 2))"/>
         <xsl:variable name="f:b" as="xs:double" select="($f:sumY - $f:m * $f:sumX) div $f:n"/>
@@ -80,7 +78,7 @@
             <line x1="{min($f:allX)}" y1="{$f:m * min($f:allX) + $f:b}" x2="{max($f:allX)}"
                 y2="{$f:m * max($f:allX) + $f:b}" class="regression"/>
         </g>
-        <xsl:if test="$f:debug">
+        <xsl:if test="$debug">
             <xsl:message select="'sum of X = ', $f:sumX"/>
             <xsl:message select="'sum of Y = ', $f:sumY"/>
             <xsl:message select="'mean X = ', avg($f:allX)"/>

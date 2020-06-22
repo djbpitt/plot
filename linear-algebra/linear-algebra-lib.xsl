@@ -6,8 +6,6 @@
     xmlns:djb="http://www.obdurodon.org" xmlns:f="http://www.obdurodon.org/function-variables"
     version="3.0">
 
-    <xsl:param name="debug" as="xs:boolean"/>
-
     <!-- ================================================================ -->
     <!-- Packages                                                         -->
     <!--                                                                  -->

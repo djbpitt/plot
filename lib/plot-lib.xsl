@@ -15,6 +15,7 @@
     <!-- All function variables are in f: namespace                        -->
     <!-- Multi-word names are hyphenated (except f:allX, f:allY)           -->
     <!-- ================================================================= -->
+    <xsl:param name="debug" as="xs:boolean" select="false()"/>
     <!-- ================================================================= -->
     <!-- Public (final) functions                                          -->
     <!-- ================================================================= -->

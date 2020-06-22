@@ -113,8 +113,10 @@
                 <g id="line" clip-path="url(#clip)">
                     <xsl:sequence select="$regression-line[1]"/>
                 </g>
-                <xsl:message select="$regression-line[2]"/>
             </g>
         </svg>
+        <xsl:if test="$debug">
+            <xsl:message select="$regression-line[2]"/>
+        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
