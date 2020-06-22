@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:djb="http://www.obdurodon.org"
+          xmlns:f="http://www.obdurodon.org/function-variables"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="file:/Users/djb/repos/plot/lib/plot-lib.xsl"
+          date="2020-06-22T14:32:40.383-04:00"
+          xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
+   <x:scenario id="scenario1" xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
+      <x:label>Scenario for testing function validate-points</x:label>
+      <x:call function="djb:validate-points"/>
+      <x:scenario id="scenario1-scenario1"
+                  xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
+         <x:label>with valid input (at least three, no white-space, monotonic X)</x:label>
+         <x:call>
+            <x:param name="f:point-pairs" select="'1,2', '3,4', '5,6'"/>
+         </x:call>
+         <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+         <x:test id="scenario1-scenario1-expect1" successful="true">
+            <x:label>Valid points (at least three, correct format, no white-space) should pass</x:label>
+            <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario2"
+                  xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
+         <x:label>with too few points</x:label>
+         <x:call>
+            <x:param name="f:point-pairs" select="'1,2', '3,4'"/>
+         </x:call>
+         <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         <x:test id="scenario1-scenario2-expect1" successful="true">
+            <x:label>Fewer than three points should fail</x:label>
+            <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario3"
+                  xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
+         <x:label>with non-monotonic X</x:label>
+         <x:call>
+            <x:param name="f:point-pairs" select="'1,2', '5,4', '3,6'"/>
+         </x:call>
+         <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         <x:test id="scenario1-scenario3-expect1" successful="true">
+            <x:label>Non-monotonic X should fail</x:label>
+            <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario4"
+                  xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
+         <x:label>with incorrect white-space</x:label>
+         <x:call>
+            <x:param name="f:point-pairs" select="'1, 2', '3,4', '5,6'"/>
+         </x:call>
+         <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         <x:test id="scenario1-scenario4-expect1" successful="true">
+            <x:label>White space inside point should fail</x:label>
+            <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+</x:report>

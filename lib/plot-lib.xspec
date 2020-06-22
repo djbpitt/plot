@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:djb="http://www.obdurodon.org"
+    xmlns:f="http://www.obdurodon.org/function-variables" stylesheet="plot-lib.xsl"
+    run-as="external">
+    <x:scenario label="Scenario for testing function validate-points">
+        <x:call function="djb:validate-points"/>
+        <x:scenario label="with valid input (at least three, no white-space, monotonic X)">
+            <x:call>
+                <x:param name="f:point-pairs" select="'1,2', '3,4', '5,6'"/>
+            </x:call>
+            <x:expect
+                label="Valid points (at least three, correct format, no white-space) should pass"
+                select="true()"/>
+        </x:scenario>
+        <x:scenario label="with too few points">
+            <x:call>
+                <x:param name="f:point-pairs" select="'1,2', '3,4'"/>
+            </x:call>
+            <x:expect label="Fewer than three points should fail" select="false()"/>
+        </x:scenario>
+        <x:scenario label="with non-monotonic X">
+            <x:call>
+                <x:param name="f:point-pairs" select="'1,2', '5,4', '3,6'"/>
+            </x:call>
+            <x:expect label="Non-monotonic X should fail" select="false()"/>
+        </x:scenario>
+        <x:scenario label="with incorrect white-space">
+            <x:call>
+                <x:param name="f:point-pairs" select="'1, 2', '3,4', '5,6'"/>
+            </x:call>
+            <x:expect label="White space inside point should fail" select="false()"/>
+        </x:scenario>
+    </x:scenario>
+    <!--
+    <x:scenario label="Scenario for testing function split-points">
+        <x:call function="djb:split-points">
+            <x:param name="f:all-points" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function random-sequence">
+        <x:call function="djb:random-sequence">
+            <x:param name="count" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function get-weights-scale">
+        <x:call function="djb:get-weights-scale">
+            <x:param name="f:kernel" select="''"/>
+            <x:param name="f:window-size" select="''"/>
+            <x:param name="f:stddev" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function get-weights-scale">
+        <x:call function="djb:get-weights-scale">
+            <x:param name="f:kernel" select="''"/>
+            <x:param name="f:window-size" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function weighted-average">
+        <x:call function="djb:weighted-average">
+            <x:param name="f:focus" select="''"/>
+            <x:param name="f:window-size" select="''"/>
+            <x:param name="f:input-values" select="''"/>
+            <x:param name="f:weights" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function gaussian">
+        <x:call function="djb:gaussian">
+            <x:param name="f:x" select="''"/>
+            <x:param name="f:peak" select="''"/>
+            <x:param name="f:mean" select="''"/>
+            <x:param name="f:stddev" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function round-to-odd">
+        <x:call function="djb:round-to-odd">
+            <x:param name="input" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function recenter">
+        <x:call function="djb:recenter">
+            <x:param name="f:input-values" select="''"/>
+            <x:param name="f:new-min" select="''"/>
+            <x:param name="f:new-max" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function expand-to-tenths">
+        <x:call function="djb:expand-to-tenths">
+            <x:param name="f:half" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function uniform">
+        <x:call function="djb:uniform">
+            <x:param name="f:seq" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function validate-point-regex">
+        <x:call function="djb:validate-point-regex">
+            <x:param name="f:input-point" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function validate-monotonic-X">
+        <x:call function="djb:validate-monotonic-X">
+            <x:param name="f:point-pairs" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function monotonic">
+        <x:call function="djb:monotonic">
+            <x:param name="f:seq" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function gaussian-weights">
+        <x:call function="djb:gaussian-weights">
+            <x:param name="f:window-size" select="''"/>
+            <x:param name="f:stddev" select="''"/>
+        </x:call>
+        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    </x:scenario>
+-->
+
+</x:description>
