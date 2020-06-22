@@ -131,8 +131,8 @@
                 <xsl:sequence select="djb:gaussian-weights($f:window-size, $f:stddev)"/>
             </xsl:when>
             <xsl:when test="$f:kernel eq 'rectangular'">
-                <!-- all values are equal to 1 -->
-                <xsl:sequence select="(0 to ($f:window-size)) ! 1"/>
+                <!-- all weights are equal to 1 -->
+                <xsl:sequence select="(0 to $f:window-size) ! 1"/>
             </xsl:when>
             <xsl:when test="$f:kernel eq 'exponential'">
                 <!-- 1/1, 1/2, 1/4, 1/8, ... -->
