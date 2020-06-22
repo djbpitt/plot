@@ -2,6 +2,7 @@
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:djb="http://www.obdurodon.org"
     xmlns:f="http://www.obdurodon.org/function-variables" stylesheet="plot-lib.xsl"
     run-as="external">
+
     <x:scenario label="Scenario for testing function validate-points">
         <x:call function="djb:validate-points"/>
         <x:scenario label="with valid input (at least three, no white-space, monotonic X)">
@@ -31,21 +32,16 @@
             <x:expect label="White space inside point should fail" select="false()"/>
         </x:scenario>
     </x:scenario>
-    <!--
-    <x:scenario label="Scenario for testing function split-points">
-        <x:call function="djb:split-points">
-            <x:param name="f:all-points" select="''"/>
-        </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
-    </x:scenario>
 
     <x:scenario label="Scenario for testing function random-sequence">
         <x:call function="djb:random-sequence">
-            <x:param name="count" select="''"/>
+            <x:param name="count" select="100"/>
         </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+        <x:expect label="Count should equal 100, ranging between 0 and 1"
+            test="count($x:result) eq 100 and min($x:result) gt 0 and max($x:result) lt 1"/>
     </x:scenario>
 
+    <!--
     <x:scenario label="Scenario for testing function get-weights-scale">
         <x:call function="djb:get-weights-scale">
             <x:param name="f:kernel" select="''"/>

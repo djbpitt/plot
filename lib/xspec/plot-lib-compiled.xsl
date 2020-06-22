@@ -29,6 +29,7 @@
                    xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
             <!-- a call instruction for each top-level scenario -->
             <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"/>
+            <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario2"/>
          </x:report>
       </xsl:result-document>
    </xsl:template>
@@ -374,6 +375,130 @@
             <xsl:with-param name="sequence" select="$Q{urn:x-xspec:compile:impl}expect-d7e19"/>
             <xsl:with-param name="wrapper-name" as="Q{http://www.w3.org/2001/XMLSchema}string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
+         </xsl:call-template>
+      </x:test>
+   </xsl:template>
+   <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario2">
+      <xsl:message>Scenario for testing function random-sequence</xsl:message>
+      <x:scenario id="scenario2" xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
+         <x:label>Scenario for testing function random-sequence</x:label>
+         <x:call>
+            <xsl:attribute name="function">djb:random-sequence</xsl:attribute>
+            <x:param>
+               <xsl:attribute name="name">count</xsl:attribute>
+               <xsl:attribute name="select">100</xsl:attribute>
+            </x:param>
+         </x:call>
+         <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
+            <xsl:variable name="Q{}count" select="100"/>
+            <xsl:variable name="Q{urn:x-xspec:compile:impl}transform-options"
+                          as="map(Q{http://www.w3.org/2001/XMLSchema}string, item()*)">
+               <xsl:map>
+                  <xsl:map-entry key="'cache'" select="false()"/>
+                  <xsl:map-entry key="'delivery-format'" select="'raw'"/>
+                  <xsl:map-entry key="'stylesheet-location'">file:/Users/djb/repos/plot/lib/plot-lib.xsl</xsl:map-entry>
+                  <xsl:map-entry key="'stylesheet-params'">
+                     <xsl:map/>
+                  </xsl:map-entry>
+                  <xsl:if test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config =&gt; exists()">
+                     <xsl:if test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config =&gt; Q{http://www.jenitennison.com/xslt/unit-test}is-saxon-config() =&gt; not()">
+                        <xsl:message terminate="yes">ERROR: $x:saxon-config does not appear to be a Saxon configuration</xsl:message>
+                     </xsl:if>
+                     <xsl:map-entry key="'vendor-options'">
+                        <xsl:map>
+                           <xsl:map-entry key="QName('http://saxon.sf.net/', 'configuration')">
+                              <xsl:choose>
+                                 <xsl:when test="Q{http://www.jenitennison.com/xslt/xspec}saxon-version() le Q{http://www.jenitennison.com/xslt/xspec}pack-version((9, 9, 1, 6))">
+                                    <xsl:apply-templates select="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config"
+                                                         mode="Q{http://www.jenitennison.com/xslt/unit-test}fixup-saxon-config"/>
+                                 </xsl:when>
+                                 <xsl:otherwise>
+                                    <xsl:sequence select="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config"/>
+                                 </xsl:otherwise>
+                              </xsl:choose>
+                           </xsl:map-entry>
+                        </xsl:map>
+                     </xsl:map-entry>
+                  </xsl:if>
+                  <xsl:map-entry key="'function-params'" select="[$Q{}count]"/>
+                  <xsl:map-entry key="'initial-function'"
+                                 select="QName('http://www.obdurodon.org', 'djb:random-sequence')"/>
+               </xsl:map>
+            </xsl:variable>
+            <xsl:sequence select="transform($Q{urn:x-xspec:compile:impl}transform-options)?output"/>
+         </xsl:variable>
+         <xsl:call-template name="Q{http://www.jenitennison.com/xslt/unit-test}report-sequence">
+            <xsl:with-param name="sequence"
+                            select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
+            <xsl:with-param name="wrapper-name" as="Q{http://www.w3.org/2001/XMLSchema}string">x:result</xsl:with-param>
+         </xsl:call-template>
+         <!-- a call instruction for each x:expect element -->
+         <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario2-expect1">
+            <xsl:with-param name="Q{http://www.jenitennison.com/xslt/xspec}result"
+                            select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
+         </xsl:call-template>
+      </x:scenario>
+   </xsl:template>
+   <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario2-expect1">
+      <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
+      <xsl:message>Count should equal 100, ranging between 0 and 1</xsl:message>
+      <xsl:variable name="Q{urn:x-xspec:compile:impl}expect-d7e23" select="()"/>
+      <xsl:variable name="Q{urn:x-xspec:compile:impl}test-items" as="item()*">
+         <xsl:choose>
+            <xsl:when test="exists($Q{http://www.jenitennison.com/xslt/xspec}result) and Q{http://www.jenitennison.com/xslt/unit-test}wrappable-sequence($Q{http://www.jenitennison.com/xslt/xspec}result)">
+               <xsl:sequence select="Q{http://www.jenitennison.com/xslt/unit-test}wrap-nodes($Q{http://www.jenitennison.com/xslt/xspec}result)"/>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:sequence select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:variable>
+      <xsl:variable name="Q{urn:x-xspec:compile:impl}test-result" as="item()*">
+         <xsl:choose>
+            <xsl:when test="count($Q{urn:x-xspec:compile:impl}test-items) eq 1">
+               <xsl:for-each select="$Q{urn:x-xspec:compile:impl}test-items">
+                  <xsl:sequence select="count($x:result) eq 100 and min($x:result) gt 0 and max($x:result) lt 1"
+                                version="3"/>
+               </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:sequence select="count($x:result) eq 100 and min($x:result) gt 0 and max($x:result) lt 1"
+                             version="3"/>
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:variable>
+      <xsl:variable name="Q{urn:x-xspec:compile:impl}boolean-test"
+                    as="Q{http://www.w3.org/2001/XMLSchema}boolean"
+                    select="$Q{urn:x-xspec:compile:impl}test-result instance of Q{http://www.w3.org/2001/XMLSchema}boolean"/>
+      <xsl:variable name="Q{urn:x-xspec:compile:impl}successful"
+                    as="Q{http://www.w3.org/2001/XMLSchema}boolean">
+         <xsl:choose>
+            <xsl:when test="$Q{urn:x-xspec:compile:impl}boolean-test">
+               <xsl:sequence select="boolean($Q{urn:x-xspec:compile:impl}test-result)"/>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:sequence select="Q{http://www.jenitennison.com/xslt/unit-test}deep-equal($Q{urn:x-xspec:compile:impl}expect-d7e23, $Q{urn:x-xspec:compile:impl}test-result, '')"/>
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:variable>
+      <xsl:if test="not($Q{urn:x-xspec:compile:impl}successful)">
+         <xsl:message>      FAILED</xsl:message>
+      </xsl:if>
+      <x:test id="scenario2-expect1"
+              successful="{$Q{urn:x-xspec:compile:impl}successful}">
+         <x:label>Count should equal 100, ranging between 0 and 1</x:label>
+         <xsl:if test="not($Q{urn:x-xspec:compile:impl}boolean-test)">
+            <xsl:call-template name="Q{http://www.jenitennison.com/xslt/unit-test}report-sequence">
+               <xsl:with-param name="sequence" select="$Q{urn:x-xspec:compile:impl}test-result"/>
+               <xsl:with-param name="wrapper-name" as="Q{http://www.w3.org/2001/XMLSchema}string">x:result</xsl:with-param>
+            </xsl:call-template>
+         </xsl:if>
+         <xsl:call-template name="Q{http://www.jenitennison.com/xslt/unit-test}report-sequence">
+            <xsl:with-param name="sequence" select="$Q{urn:x-xspec:compile:impl}expect-d7e23"/>
+            <xsl:with-param name="wrapper-name" as="Q{http://www.w3.org/2001/XMLSchema}string">x:expect</xsl:with-param>
+            <xsl:with-param name="test" as="attribute(test)?">
+               <xsl:attribute name="test">count($x:result) eq 100 and min($x:result) gt 0 and max($x:result) lt 1</xsl:attribute>
+            </xsl:with-param>
          </xsl:call-template>
       </x:test>
    </xsl:template>

@@ -28,7 +28,6 @@
         djb:random-sequence#1
         djb:recenter#3
         djb:round-to-odd#1
-        djb:split-points#1
         djb:uniform#1
         djb:validate-points#1 
         djb:weighted-average#4
@@ -63,25 +62,25 @@
             "
         />
     </xsl:function>
-    <xsl:function name="djb:split-points" as="xs:string+">
-        <!-- ================================================================= -->
-        <!-- djb:split-points#1                                                -->
-        <!--                                                                   -->
-        <!-- Splits SVG @points format into individual strings for each point  -->
-        <!--                                                                   -->
-        <!-- Parameters:                                                       -->
-        <!--   $f:all-points as xs:string :                                    -->
-        <!--      whitespace-delimited coordinate pairs                        -->
-        <!--                                                                   -->
-        <!-- Return:                                                           -->
-        <!--   xs:string+ : one string for each point pair                     -->
-        <!--                                                                   -->
-        <!-- Note:                                                             -->
-        <!--   Not currently used; remove?                                     -->
-        <!-- ================================================================= -->
+    <!--    <xsl:function name="djb:split-points" as="xs:string+">
+        <!-\- ================================================================= -\->
+        <!-\- djb:split-points#1                                                -\->
+        <!-\-                                                                   -\->
+        <!-\- Splits SVG @points format into individual strings for each point  -\->
+        <!-\-                                                                   -\->
+        <!-\- Parameters:                                                       -\->
+        <!-\-   $f:all-points as xs:string :                                    -\->
+        <!-\-      whitespace-delimited coordinate pairs                        -\->
+        <!-\-                                                                   -\->
+        <!-\- Return:                                                           -\->
+        <!-\-   xs:string+ : one string for each point pair                     -\->
+        <!-\-                                                                   -\->
+        <!-\- Note:                                                             -\->
+        <!-\-   Not currently used; remove?                                     -\->
+        <!-\- ================================================================= -\->
         <xsl:param name="f:all-points" as="xs:string"/>
         <xsl:sequence select="tokenize(normalize-space($f:all-points), ' ')"/>
-    </xsl:function>
+    </xsl:function>-->
     <xsl:function name="djb:random-sequence" as="xs:double*">
         <!-- ============================================================ -->
         <!-- djb:random-sequence#1                                        -->
