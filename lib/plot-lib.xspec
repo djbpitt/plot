@@ -4,7 +4,7 @@
     xmlns:f="http://www.obdurodon.org/function-variables" stylesheet="plot-lib.xsl"
     run-as="external">
 
-    <x:scenario label="Scenario for testing function validate-points">
+    <x:scenario label="Scenarios for testing function validate-points">
         <x:call function="djb:validate-points"/>
         <x:scenario label="with valid input (at least three, no white-space, monotonic X)">
             <x:call>
@@ -42,7 +42,7 @@
             test="count($x:result) eq 100 and min($x:result) gt 0 and max($x:result) lt 1"/>
     </x:scenario>
 
-    <x:scenario label="Scenario for testing function get-weights-scale">
+    <x:scenario label="Scenarios for testing function get-weights-scale#3">
         <x:variable name="djb:window-size" as="xs:integer" select="17"/>
         <x:call function="djb:get-weights-scale"/>
         <x:scenario label="with Gaussian kernel">
@@ -190,95 +190,168 @@
                 "
             />
         </x:scenario>
+        <x:scenario label="with invalid kernel" catch="yes">
+            <!-- Trap error on invalid kernel type -->
+            <x:call>
+                <x:param name="f:kernel" select="'dummy'"/>
+                <x:param name="f:window-size" select="$djb:window-size"/>
+                <x:param name="f:stddev" select="5"/>
+            </x:call>
+            <x:expect label="err:description" test="$x:result?err?description"
+                select="'Invalid kernel type: dummy; must be one of: gaussian, rectangular, exponential, parabolic-up, or parabolic-down'"
+            />
+        </x:scenario>
+        <x:scenario label="with invalid window-size" catch="yes">
+            <!-- Trap error on invalid window size (even value; odd required) -->
+            <x:call>
+                <x:param name="f:kernel" select="'gaussian'"/>
+                <x:param name="f:window-size" select="10"/>
+                <x:param name="f:stddev" select="5"/>
+            </x:call>
+            <x:expect label="err:description" test="$x:result?err?description"
+                select="'Invalid window size: 10; window size must be odd integer greater than 3'"/>
+        </x:scenario>
     </x:scenario>
 
-    <!--
-    <x:scenario label="Scenario for testing function get-weights-scale">
+    <x:scenario label="Scenario for testing function get-weights-scale#2 with Gaussian kernel">
+        <x:variable name="djb:window-size" as="xs:integer" select="17"/>
         <x:call function="djb:get-weights-scale">
-            <x:param name="f:kernel" select="''"/>
-            <x:param name="f:window-size" select="''"/>
+            <x:param name="f:kernel" select="'gaussian'"/>
+            <x:param name="f:window-size" select="$djb:window-size"/>
         </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+        <x:expect label="desending Gaussian values (n = window-size + 1)"
+            select="
+                1, 
+                0.9801986733067553, 
+                0.9231163463866358, 
+                0.835270211411272, 
+                0.7261490370736909, 
+                0.6065306597126334, 
+                0.4867522559599717, 
+                0.37531109885139957, 
+                0.27803730045319414, 
+                0.19789869908361465, 
+                0.1353352832366127, 
+                0.08892161745938634, 
+                0.056134762834133725, 
+                0.034047454734599344, 
+                0.019841094744370288, 
+                0.011108996538242306, 
+                0.005976022895005943, 
+                0.0030887154082367687
+                "
+        />
     </x:scenario>
 
-    <x:scenario label="Scenario for testing function weighted-average">
-        <x:call function="djb:weighted-average">
-            <x:param name="f:focus" select="''"/>
-            <x:param name="f:window-size" select="''"/>
-            <x:param name="f:input-values" select="''"/>
-            <x:param name="f:weights" select="''"/>
-        </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    <x:scenario label="Scenarios for testing function weighted-average">
+        <x:variable name="djb:window-size" as="xs:integer" select="3"/>
+        <x:variable name="djb:input-values" as="xs:double+" select="1, 2, 3, 4, 5"/>
+        <x:variable name="djb:weights" as="xs:double+"
+            select="
+            1, 
+            0.9801986733067553, 
+            0.9231163463866358, 
+            0.835270211411272, 
+            0.7261490370736909, 
+            0.6065306597126334, 
+            0.4867522559599717, 
+            0.37531109885139957, 
+            0.27803730045319414, 
+            0.19789869908361465, 
+            0.1353352832366127, 
+            0.08892161745938634, 
+            0.056134762834133725, 
+            0.034047454734599344, 
+            0.019841094744370288, 
+            0.011108996538242306, 
+            0.005976022895005943, 
+            0.0030887154082367687
+            "/>
+        <x:call function="djb:weighted-average"/>
+        <x:scenario label="at right edge of sequence">
+            <x:call>
+                <x:param name="f:focus" select="5"/>
+                <x:param name="f:window-size" select="$djb:window-size"/>
+                <x:param name="f:input-values" select="$djb:input-values"/>
+                <x:param name="f:weights" select="$djb:weights"/>
+            </x:call>
+            <x:expect label="Weighted values as xs:double" select="4.026481333610668"/>
+        </x:scenario>
+        <x:scenario label="in middle of sequence">
+            <x:call>
+                <x:param name="f:focus" select="3"/>
+                <x:param name="f:window-size" select="$djb:window-size"/>
+                <x:param name="f:input-values" select="$djb:input-values"/>
+                <x:param name="f:weights" select="$djb:weights"/>
+            </x:call>
+            <x:expect label="Weighted values as xs:double" select="2.9999999999999996"/>
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="Scenario for testing function gaussian">
         <x:call function="djb:gaussian">
-            <x:param name="f:x" select="''"/>
-            <x:param name="f:peak" select="''"/>
-            <x:param name="f:mean" select="''"/>
-            <x:param name="f:stddev" select="''"/>
+            <x:param name="f:x" select="5"/>
+            <x:param name="f:peak" select="1"/>
+            <x:param name="f:mean" select="1"/>
+            <x:param name="f:stddev" select="5"/>
         </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+        <x:expect label="Gaussian value for input with parameters" select="0.7261490370736909"/>
     </x:scenario>
 
-    <x:scenario label="Scenario for testing function round-to-odd">
-        <x:call function="djb:round-to-odd">
-            <x:param name="input" select="''"/>
-        </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    <x:scenario label="Scenarios for testing function round-to-odd">
+        <x:call function="djb:round-to-odd"/>
+        <x:scenario label="with odd value">
+            <x:call>
+                <x:param name="input" select="5"/>
+            </x:call>
+            <x:expect label="Return unchanged" select="5"/>
+        </x:scenario>
+        <x:scenario label="with even value">
+            <x:call>
+                <x:param name="input" select="4"/>
+            </x:call>
+            <x:expect label="Round up to odd" select="5"/>
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="Scenario for testing function recenter">
         <x:call function="djb:recenter">
-            <x:param name="f:input-values" select="''"/>
-            <x:param name="f:new-min" select="''"/>
-            <x:param name="f:new-max" select="''"/>
+            <x:param name="f:input-values" select="1, 2, 3, 4, 5"/>
+            <x:param name="f:new-min" select="1"/>
+            <x:param name="f:new-max" select="10"/>
         </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+        <x:expect label="Recenters input range" select="1, 3.25, 5.5, 7.75, 10"/>
     </x:scenario>
 
     <x:scenario label="Scenario for testing function expand-to-tenths">
         <x:call function="djb:expand-to-tenths">
-            <x:param name="f:half" select="''"/>
+            <x:param name="f:half" select="2"/>
         </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+        <x:expect label="-2 to 2 by tenths"
+            select="-2, -1.9, -1.8, -1.7, -1.6, -1.5, -1.4, -1.3, -1.2, -1.1, -1, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2"
+        />
     </x:scenario>
 
-    <x:scenario label="Scenario for testing function uniform">
-        <x:call function="djb:uniform">
-            <x:param name="f:seq" select="''"/>
-        </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
+    <x:scenario label="Scenarios for testing function uniform">
+        <x:call function="djb:uniform"/>
+        <x:scenario label="with uniform true values">
+            <x:call>
+                <x:param name="f:seq" select="true(), true(), true()"/>
+            </x:call>
+            <x:expect label="Uniform true Booleans return true" select="true()"/>
+        </x:scenario>
+        <x:scenario label="with uniform false values">
+            <x:call>
+                <x:param name="f:seq" select="false(), false(), false()"/>
+            </x:call>
+            <x:expect label="Uniform false Booleans return true" select="true()"/>
+        </x:scenario>
+        <x:scenario label="with mixed values">
+            <x:call>
+                <x:param name="f:seq" select="false(), true(), false()"/>
+            </x:call>
+            <x:expect label="Mixed Booleans return false" select="false()"/>
+        </x:scenario>
     </x:scenario>
-
-    <x:scenario label="Scenario for testing function validate-point-regex">
-        <x:call function="djb:validate-point-regex">
-            <x:param name="f:input-point" select="''"/>
-        </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
-    </x:scenario>
-
-    <x:scenario label="Scenario for testing function validate-monotonic-X">
-        <x:call function="djb:validate-monotonic-X">
-            <x:param name="f:point-pairs" select="''"/>
-        </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
-    </x:scenario>
-
-    <x:scenario label="Scenario for testing function monotonic">
-        <x:call function="djb:monotonic">
-            <x:param name="f:seq" select="''"/>
-        </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
-    </x:scenario>
-
-    <x:scenario label="Scenario for testing function gaussian-weights">
-        <x:call function="djb:gaussian-weights">
-            <x:param name="f:window-size" select="''"/>
-            <x:param name="f:stddev" select="''"/>
-        </x:call>
-        <x:expect label="Not yet implemented" select="'Not yet implemented'"/>
-    </x:scenario>
--->
 
 </x:description>

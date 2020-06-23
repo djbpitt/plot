@@ -120,8 +120,10 @@
         <xsl:param name="f:window-size" as="xs:integer"/>
         <xsl:param name="f:stddev" as="xs:double"/>
         <xsl:if test="$f:window-size mod 2 eq 0 or $f:window-size lt 3">
-            <xsl:message terminate="yes">Window size must be odd integer greater than
-                3</xsl:message>
+            <xsl:sequence
+                select="error((), normalize-space(concat('Invalid window size: ', $f:window-size, '; window size must be odd integer greater than
+                3')))"
+            />
         </xsl:if>
         <xsl:choose>
             <xsl:when test="$f:kernel eq 'gaussian'">
@@ -150,9 +152,11 @@
                     select="(0 to $f:window-size) ! (1 - math:pow(. div $f:window-size, 2))"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:message terminate="yes"
-                    select="'Invalid kernel (' || $f:kernel || '); must be one of: 
-                    gaussian, rectangular, exponential, parabolic-up, or parabolic-down'"
+                <xsl:sequence
+                    select="error((),
+                    normalize-space(concat('Invalid kernel type: ', $f:kernel, '; must be one of: 
+                    gaussian, rectangular, exponential, parabolic-up, or parabolic-down')
+                    ))"
                 />
             </xsl:otherwise>
         </xsl:choose>
