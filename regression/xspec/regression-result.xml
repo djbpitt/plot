@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:djb="http://www.obdurodon.org"
+          xmlns:f="http://www.obdurodon.org/function-variables"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="file:/Users/djb/repos/plot/regression/regression.xsl"
+          date="2020-06-24T16:32:22.074-04:00"
+          xspec="file:/Users/djb/repos/plot/regression/regression.xspec">
+   <x:scenario id="scenario1"
+               xspec="file:/Users/djb/repos/plot/regression/regression.xspec">
+      <x:label>Scenario for testing function regression-line</x:label>
+      <x:call function="djb:regression-line">
+         <x:param name="f:point-pairs" select="'1,2', '3,4', '5,7'"/>
+         <x:param name="f:debug" select="true()"/>
+      </x:call>
+      <x:result select="/element()">
+         <g xmlns="http://www.w3.org/2000/svg">
+            <line x1="1"
+                  y1="1.8333333333333335"
+                  x2="5"
+                  y2="6.833333333333333"
+                  class="regression"/>
+         </g>
+      </x:result>
+      <x:test id="scenario1-expect1" successful="true">
+         <x:label>Returns regression line</x:label>
+         <x:expect select="/element()">
+            <g xmlns="http://www.w3.org/2000/svg">
+               <line x1="1"
+                     y1="1.8333333333333335"
+                     x2="5"
+                     y2="6.833333333333333"
+                     class="regression"/>
+            </g>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario2"
+               xspec="file:/Users/djb/repos/plot/regression/regression.xspec">
+      <x:label>Scenario for testing function compute-regression-parameters</x:label>
+      <x:call function="djb:compute-regression-parameters">
+         <x:param name="f:points" select="'1,2', '3,4', '5,7'"/>
+      </x:call>
+      <x:result select="/*">
+         <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"a":1.2500000000000067e-1,"b":4.9999999999999734e-1,"c":1.375e0}</pseudo-map>
+      </x:result>
+      <x:test id="scenario2-expect1" successful="true">
+         <x:label>Returns map with regression parameters for parabola</x:label>
+         <x:expect select="/*">
+            <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"a":1.2500000000000067e-1,"b":4.9999999999999734e-1,"c":1.375e0}</pseudo-map>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario3"
+               xspec="file:/Users/djb/repos/plot/regression/regression.xspec">
+      <x:label>Scenario for testing function plot-parabolic-segment</x:label>
+      <x:call function="djb:plot-parabolic-segment">
+         <x:param name="f:x1" select="1"/>
+         <x:param name="f:x2" select="5"/>
+         <x:param name="f:a" select="2"/>
+         <x:param name="f:b" select="3"/>
+         <x:param name="f:c" select="4"/>
+      </x:call>
+      <x:result select="/element()">
+         <g xmlns="http://www.w3.org/2000/svg">
+            <path d="M1,9 Q3,23 5,69" class="parabolic-regression" fill="none"/>
+         </g>
+      </x:result>
+      <x:test id="scenario3-expect1" successful="true">
+         <x:label>Returns SVG path</x:label>
+         <x:expect select="/element()">
+            <g xmlns="http://www.w3.org/2000/svg">
+               <path d="M1,9 Q3,23 5,69" class="parabolic-regression" fill="none"/>
+            </g>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+</x:report>
