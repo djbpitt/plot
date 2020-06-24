@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:djb="http://www.obdurodon.org"
+          xmlns:f="http://www.obdurodon.org/function-variables"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xsl"
+          date="2020-06-24T13:43:18.642-04:00"
+          xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+   <x:scenario id="scenario1"
+               xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+      <x:label>Scenarios for testing function transpose-matrix</x:label>
+      <x:call function="djb:transpose-matrix"/>
+      <x:scenario id="scenario1-scenario1"
+                  xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+         <x:label>with square (2 x 2) matrix</x:label>
+         <x:call>
+            <x:param name="f:input-matrix" select="[[1, 2], [3, 4]]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[1,3],[2,4]]</pseudo-array>
+         </x:result>
+         <x:test id="scenario1-scenario1-expect1" successful="true">
+            <x:label>Square matrix should work</x:label>
+            <x:expect select="/*">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[1,3],[2,4]]</pseudo-array>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario2"
+                  xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+         <x:label>with small  (2 x 3) non-square matrix</x:label>
+         <x:call>
+            <x:param name="f:input-matrix" select="[[1, 2, 3], [4, 5, 6]]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[1,4],[2,5],[3,6]]</pseudo-array>
+         </x:result>
+         <x:test id="scenario1-scenario2-expect1" successful="true">
+            <x:label>Non-square matrix should work</x:label>
+            <x:expect select="/*">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[1,4],[2,5],[3,6]]</pseudo-array>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario3"
+                  xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+         <x:label>with larger (4 x 3) non-square matrix</x:label>
+         <x:call>
+            <x:param name="f:input-matrix"
+                     select="[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[1,5,9],[2,6,10],[3,7,11],[4,8,12]]</pseudo-array>
+         </x:result>
+         <x:test id="scenario1-scenario3-expect1" successful="true">
+            <x:label>Non-square matrix should work</x:label>
+            <x:expect select="/*">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[1,5,9],[2,6,10],[3,7,11],[4,8,12]]</pseudo-array>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario4"
+                  xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+         <x:label>with single row</x:label>
+         <x:call>
+            <x:param name="f:input-matrix" select="[[1, 2, 3]]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[1],[2],[3]]</pseudo-array>
+         </x:result>
+         <x:test id="scenario1-scenario4-expect1" successful="true">
+            <x:label>single row should work</x:label>
+            <x:expect select="/*">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[1],[2],[3]]</pseudo-array>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario5"
+                  xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+         <x:label>with single column</x:label>
+         <x:call>
+            <x:param name="f:input-matrix" select="[[1], [2], [3]]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[1,2,3]]</pseudo-array>
+         </x:result>
+         <x:test id="scenario1-scenario5-expect1" successful="true">
+            <x:label>single column should work</x:label>
+            <x:expect select="/*">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[1,2,3]]</pseudo-array>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario id="scenario2"
+               xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+      <x:label>Scenarios for testing function dot-product</x:label>
+      <x:call function="djb:dot-product"/>
+      <x:scenario id="scenario2-scenario1"
+                  xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+         <x:label>left is 2 x 3, right is 3 x 2</x:label>
+         <x:call>
+            <x:param name="f:left-matrix" select="[[1, 2, 3], [4, 5, 6]]"/>
+            <x:param name="f:right-matrix" select="[[7, 8], [9, 10], [11, 12]]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[5.8e1,6.4e1],[1.39e2,1.54e2]]</pseudo-array>
+         </x:result>
+         <x:test id="scenario2-scenario1-expect1" successful="true">
+            <x:label>expect 2 x 2</x:label>
+            <x:expect select="/*">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[58,64],[139,154]]</pseudo-array>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario2-scenario2"
+                  xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+         <x:label>left is 1 x 3, right is 3 x 4</x:label>
+         <x:call>
+            <x:param name="f:left-matrix" select="[[3, 4, 2]]"/>
+            <x:param name="f:right-matrix"
+                     select="[[13, 9, 7, 15], [8, 7, 4, 6], [6, 4, 0, 3]]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[8.3e1,6.3e1,3.7e1,7.5e1]]</pseudo-array>
+         </x:result>
+         <x:test id="scenario2-scenario2-expect1" successful="true">
+            <x:label>expect 1 x 4</x:label>
+            <x:expect select="/*">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[83,63,37,75]]</pseudo-array>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario2-scenario3"
+                  xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+         <x:label>left is 3 x 1, right is 1 x 3</x:label>
+         <x:call>
+            <x:param name="f:left-matrix" select="[[4], [5], [6]]"/>
+            <x:param name="f:right-matrix" select="[[1, 2, 3]]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[4.0e0,8.0e0,1.2e1],[5.0e0,1.0e1,1.5e1],[6.0e0,1.2e1,1.8e1]]</pseudo-array>
+         </x:result>
+         <x:test id="scenario2-scenario3-expect1" successful="true">
+            <x:label>expect 3 x 3</x:label>
+            <x:expect select="/*">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[4,8,12],[5,10,15],[6,12,18]]</pseudo-array>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario2-scenario4"
+                  xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+         <x:label>left is 1 x 3, right is 3 x 1</x:label>
+         <x:call>
+            <x:param name="f:left-matrix" select="[[1, 2, 3]]"/>
+            <x:param name="f:right-matrix" select="[[4], [5], [6]]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[3.2e1]]</pseudo-array>
+         </x:result>
+         <x:test id="scenario2-scenario4-expect1" successful="true">
+            <x:label>expect 1 x 1</x:label>
+            <x:expect select="/*">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[32]]</pseudo-array>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario2-scenario5"
+                  xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+         <x:label>both are 2 x 2</x:label>
+         <x:call>
+            <x:param name="f:left-matrix" select="[[1, 2], [3, 4]]"/>
+            <x:param name="f:right-matrix" select="[[2, 0], [1, 2]]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[4.0e0,4.0e0],[1.0e1,8.0e0]]</pseudo-array>
+         </x:result>
+         <x:test id="scenario2-scenario5-expect1" successful="true">
+            <x:label>expect 2 x 2</x:label>
+            <x:expect select="/*">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[4,4],[10,8]]</pseudo-array>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario2-scenario6"
+                  xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+         <x:label>both are 2 x 2, but swapped with the preceding</x:label>
+         <x:call>
+            <x:param name="f:left-matrix" select="[[2, 0], [1, 2]]"/>
+            <x:param name="f:right-matrix" select="[[1, 2], [3, 4]]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[2.0e0,4.0e0],[7.0e0,1.0e1]]</pseudo-array>
+         </x:result>
+         <x:test id="scenario2-scenario6-expect1" successful="true">
+            <x:label>expect 2 x 2</x:label>
+            <x:expect select="/*">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">[[2,4],[7,10]]</pseudo-array>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario id="scenario3"
+               xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+      <x:label>Scenario for testing function compute-derivative</x:label>
+      <x:call function="djb:compute-derivative">
+         <x:param name="f:x" select="4"/>
+         <x:param name="f:a" select="2"/>
+         <x:param name="f:b" select="3"/>
+      </x:call>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}double('19')"/>
+      <x:test id="scenario3-expect1" successful="true">
+         <x:label>should succeed</x:label>
+         <x:expect select="19"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario4"
+               xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+      <x:label>Scenario for testing function compute-parabolic-Y</x:label>
+      <x:call function="djb:compute-parabolic-Y">
+         <x:param name="f:x" select="4"/>
+         <x:param name="f:a" select="2"/>
+         <x:param name="f:b" select="3"/>
+         <x:param name="f:c" select="5"/>
+      </x:call>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}double('49')"/>
+      <x:test id="scenario4-expect1" successful="true">
+         <x:label>Should succeed</x:label>
+         <x:expect select="49"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario5"
+               xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+      <x:label>Scenario for testing function compute-control-X</x:label>
+      <x:call function="djb:compute-control-X">
+         <x:param name="f:x1" select="2"/>
+         <x:param name="f:x2" select="5"/>
+      </x:call>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}double('3.5')"/>
+      <x:test id="scenario5-expect1" successful="true">
+         <x:label>Should succeed</x:label>
+         <x:expect select="3.5"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario6"
+               xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+      <x:label>Scenario for testing function compute-control-Y</x:label>
+      <x:call function="djb:compute-control-Y">
+         <x:param name="f:x1" select="2"/>
+         <x:param name="f:x2" select="5"/>
+         <x:param name="f:a" select="2"/>
+         <x:param name="f:b" select="3"/>
+         <x:param name="f:c" select="5"/>
+      </x:call>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}double('35.5')"/>
+      <x:test id="scenario6-expect1" successful="true">
+         <x:label>Should succeed</x:label>
+         <x:expect select="35.5"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario7"
+               xspec="file:/Users/djb/repos/plot/linear-algebra/linear-algebra-lib.xspec">
+      <x:label>Scenario for testing function compute-vertex-X</x:label>
+      <x:call function="djb:compute-vertex-X">
+         <x:param name="f:a" select="2"/>
+         <x:param name="f:b" select="3"/>
+      </x:call>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}double('-0.75')"/>
+      <x:test id="scenario7-expect1" successful="true">
+         <x:label>Should succeed</x:label>
+         <x:expect select="-0.75"/>
+      </x:test>
+   </x:scenario>
+</x:report>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:djb="http://www.obdurodon.org"
+    run-as="external" xmlns:f="http://www.obdurodon.org/function-variables"
+    stylesheet="linear-algebra-lib.xsl">
+    <!--
+        Make package-resolution catalog available with
+        export SAXON_CUSTOM_OPTIONS="-config:/Users/djb/repos/plot/ee-config.xml"
+    -->
+    <x:scenario label="Scenarios for testing function transpose-matrix">
+        <x:call function="djb:transpose-matrix"/>
+        <x:scenario label="with square (2 x 2) matrix">
+            <x:call>
+                <x:param name="f:input-matrix" select="[[1, 2], [3, 4]]"/>
+            </x:call>
+            <x:expect label="Square matrix should work" select="[[1, 3], [2, 4]]"/>
+        </x:scenario>
+        <x:scenario label="with small  (2 x 3) non-square matrix">
+            <x:call>
+                <x:param name="f:input-matrix" select="[[1, 2, 3], [4, 5, 6]]"/>
+            </x:call>
+            <x:expect label="Non-square matrix should work" select="[[1, 4], [2, 5], [3, 6]]"/>
+        </x:scenario>
+        <x:scenario label="with larger (4 x 3) non-square matrix">
+            <x:call>
+                <x:param name="f:input-matrix"
+                    select="[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]"/>
+            </x:call>
+            <x:expect label="Non-square matrix should work"
+                select="[[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]"/>
+        </x:scenario>
+        <x:scenario label="with single row">
+            <x:call>
+                <x:param name="f:input-matrix" select="[[1, 2, 3]]"/>
+            </x:call>
+            <x:expect label="single row should work" select="[[1], [2], [3]]"/>
+        </x:scenario>
+        <x:scenario label="with single column">
+            <x:call>
+                <x:param name="f:input-matrix" select="[[1], [2], [3]]"/>
+            </x:call>
+            <x:expect label="single column should work" select="[[1, 2, 3]]"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Scenarios for testing function dot-product">
+        <x:call function="djb:dot-product"/>
+        <x:scenario label="left is 2 x 3, right is 3 x 2">
+            <x:call>
+                <x:param name="f:left-matrix" select="[[1, 2, 3], [4, 5, 6]]"/>
+                <x:param name="f:right-matrix" select="[[7, 8], [9, 10], [11, 12]]"/>
+            </x:call>
+            <x:expect label="expect 2 x 2" select="[[58, 64], [139, 154]]"/>
+        </x:scenario>
+        <x:scenario label="left is 1 x 3, right is 3 x 4">
+            <x:call>
+                <x:param name="f:left-matrix" select="[[3, 4, 2]]"/>
+                <x:param name="f:right-matrix" select="[[13, 9, 7, 15], [8, 7, 4, 6], [6, 4, 0, 3]]"
+                />
+            </x:call>
+            <x:expect label="expect 1 x 4" select="[[83, 63, 37, 75]]"/>
+        </x:scenario>
+        <x:scenario label="left is 3 x 1, right is 1 x 3">
+            <x:call>
+                <x:param name="f:left-matrix" select="[[4], [5], [6]]"/>
+                <x:param name="f:right-matrix" select="[[1, 2, 3]]"/>
+            </x:call>
+            <x:expect label="expect 3 x 3" select="[[4, 8, 12], [5, 10, 15], [6, 12, 18]]"/>
+        </x:scenario>
+        <x:scenario label="left is 1 x 3, right is 3 x 1">
+            <x:call>
+                <x:param name="f:left-matrix" select="[[1, 2, 3]]"/>
+                <x:param name="f:right-matrix" select="[[4], [5], [6]]"/>
+            </x:call>
+            <x:expect label="expect 1 x 1" select="[[32]]"/>
+        </x:scenario>
+        <x:scenario label="both are 2 x 2">
+            <x:call>
+                <x:param name="f:left-matrix" select="[[1, 2], [3, 4]]"/>
+                <x:param name="f:right-matrix" select="[[2, 0], [1, 2]]"/>
+            </x:call>
+            <x:expect label="expect 2 x 2" select="[[4, 4], [10, 8]]"/>
+        </x:scenario>
+        <x:scenario label="both are 2 x 2, but swapped with the preceding">
+            <x:call>
+                <x:param name="f:left-matrix" select="[[2, 0], [1, 2]]"/>
+                <x:param name="f:right-matrix" select="[[1, 2], [3, 4]]"/>
+            </x:call>
+            <x:expect label="expect 2 x 2" select="[[2, 4], [7, 10]]"/>
+        </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function compute-derivative">
+        <x:call function="djb:compute-derivative">
+            <x:param name="f:x" select="4"/>
+            <x:param name="f:a" select="2"/>
+            <x:param name="f:b" select="3"/>
+        </x:call>
+        <x:expect label="should succeed" select="19"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function compute-parabolic-Y">
+        <x:call function="djb:compute-parabolic-Y">
+            <x:param name="f:x" select="4"/>
+            <x:param name="f:a" select="2"/>
+            <x:param name="f:b" select="3"/>
+            <x:param name="f:c" select="5"/>
+        </x:call>
+        <x:expect label="Should succeed" select="49"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function compute-control-X">
+        <x:call function="djb:compute-control-X">
+            <x:param name="f:x1" select="2"/>
+            <x:param name="f:x2" select="5"/>
+        </x:call>
+        <x:expect label="Should succeed" select="3.5"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function compute-control-Y">
+        <x:call function="djb:compute-control-Y">
+            <x:param name="f:x1" select="2"/>
+            <x:param name="f:x2" select="5"/>
+            <x:param name="f:a" select="2"/>
+            <x:param name="f:b" select="3"/>
+            <x:param name="f:c" select="5"/>
+        </x:call>
+        <x:expect label="Should succeed" select="35.5"/>
+    </x:scenario>
+
+    <x:scenario label="Scenario for testing function compute-vertex-X">
+        <x:call function="djb:compute-vertex-X">
+            <x:param name="f:a" select="2"/>
+            <x:param name="f:b" select="3"/>
+        </x:call>
+        <x:expect label="Should succeed" select="-0.75"/>
+    </x:scenario>
+</x:description>
