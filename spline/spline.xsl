@@ -334,9 +334,19 @@
         <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <title>Diagnostics</title>
-                <style type="text/css"> table, tr, th, td { border: 1px black solid; } table {
-                    border-collapse: collapse; } tr:nth-child(even) { background-color: lightgray; }
-                    th, td { padding: 4px; }</style>
+                <style type="text/css">
+                    table, tr, th, td { 
+                        border: 1px black solid;
+                    } 
+                    table { 
+                        border-collapse: collapse;
+                    } 
+                    tr:nth-child(even) { 
+                        background-color: lightgray;
+                    }
+                    th, td {
+                        padding: 4px; 
+                    }</style>
             </head>
             <body>
                 <table style="text-align: right;">

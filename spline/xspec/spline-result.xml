@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:djb="http://www.obdurodon.org"
+          xmlns:f="http://www.obdurodon.org/function-variables"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          stylesheet="file:/Users/djb/repos/plot/spline/spline.xsl"
+          date="2020-06-25T18:08:56.926-04:00"
+          xspec="file:/Users/djb/repos/plot/spline/spline.xspec">
+   <x:scenario id="scenario1" xspec="file:/Users/djb/repos/plot/spline/spline.xspec">
+      <x:label>Scenarios for testing function spline</x:label>
+      <x:call function="djb:spline"/>
+      <x:scenario id="scenario1-scenario1"
+                  xspec="file:/Users/djb/repos/plot/spline/spline.xspec">
+         <x:label>with 0.3 scaling</x:label>
+         <x:call>
+            <x:param name="f:point-pairs" select="$djb:points"/>
+            <x:param name="f:scaling" select="0.3"/>
+            <x:param name="f:debug" select="false()"/>
+         </x:call>
+         <x:result select="/element()">
+            <g xmlns="http://www.w3.org/2000/svg">
+               <path d="M50,182 Q89.21214815315199,176.24845925450563 100,166 C119.21214815315197,147.74845925450563 136.57273000171787,83.64318250042948 150,87 C166.57273000171787,91.14318250042948 183.8239197596287,187.92654475432946 200,191 C213.8239197596287,193.62654475432944 231.33740978515215,128.02185645352048 250,106 C261.33740978515215,92.62185645352048 283.891388635211,80.40996122780294 300,73 C313.891388635211,66.60996122780294 341.72168003956693,50.64549844471065 350,60 C371.72168003956693,84.54549844471065 381.5116016727397,175.27672897018903 400,186 Q411.5116016727397,192.676728970189 450,118"
+                     class="spline"
+                     fill="none"/>
+            </g>
+         </x:result>
+         <x:test id="scenario1-scenario1-expect1" successful="true">
+            <x:label>Should return SVG &lt;g&gt; element</x:label>
+            <x:expect select="/element()">
+               <g xmlns="http://www.w3.org/2000/svg">
+                  <path d="M50,182 Q89.21214815315199,176.24845925450563 100,166 C119.21214815315197,147.74845925450563 136.57273000171787,83.64318250042948 150,87 C166.57273000171787,91.14318250042948 183.8239197596287,187.92654475432946 200,191 C213.8239197596287,193.62654475432944 231.33740978515215,128.02185645352048 250,106 C261.33740978515215,92.62185645352048 283.891388635211,80.40996122780294 300,73 C313.891388635211,66.60996122780294 341.72168003956693,50.64549844471065 350,60 C371.72168003956693,84.54549844471065 381.5116016727397,175.27672897018903 400,186 Q411.5116016727397,192.676728970189 450,118"
+                        class="spline"
+                        fill="none"/>
+               </g>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario2"
+                  xspec="file:/Users/djb/repos/plot/spline/spline.xspec">
+         <x:label>with debugging output</x:label>
+         <x:call>
+            <x:param name="f:point-pairs" select="$djb:points"/>
+            <x:param name="f:scaling" select="0.3"/>
+            <x:param name="f:debug" select="true()"/>
+         </x:call>
+         <x:result select="/element()">
+            <g xmlns="http://www.w3.org/2000/svg">
+               <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+               <rect x="0"
+                     y="0"
+                     height="300"
+                     stroke="black"
+                     class="backgroundColor"
+                     width="500"
+                     stroke-width="1"/>
+               <circle class="mainCircle" cx="50" cy="182" r="2"/>
+               <circle class="mainCircle" cx="100" cy="166" r="2"/>
+               <circle class="mainCircle" cx="150" cy="87" r="2"/>
+               <circle class="mainCircle" cx="200" cy="191" r="2"/>
+               <circle class="mainCircle" cx="250" cy="106" r="2"/>
+               <circle class="mainCircle" cx="300" cy="73" r="2"/>
+               <circle class="mainCircle" cx="350" cy="60" r="2"/>
+               <circle class="mainCircle" cx="400" cy="186" r="2"/>
+               <circle class="mainCircle" cx="450" cy="118" r="2"/>
+               <polyline class="mainLine"
+                         points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+               <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+               <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+               <line class="anchorLine"
+                     x1="89.21214815315199"
+                     y1="176.24845925450563"
+                     x2="119.21214815315197"
+                     y2="147.74845925450563"/>
+               <circle class="anchorCircle1"
+                       cx="89.21214815315199"
+                       cy="176.24845925450563"
+                       r="2"/>
+               <circle class="anchorCircle2"
+                       cx="119.21214815315197"
+                       cy="147.74845925450563"
+                       r="2"/>
+               <line class="anchorLine"
+                     x1="136.57273000171787"
+                     y1="83.64318250042948"
+                     x2="166.57273000171787"
+                     y2="91.14318250042948"/>
+               <circle class="anchorCircle1"
+                       cx="136.57273000171787"
+                       cy="83.64318250042948"
+                       r="2"/>
+               <circle class="anchorCircle2"
+                       cx="166.57273000171787"
+                       cy="91.14318250042948"
+                       r="2"/>
+               <line class="anchorLine"
+                     x1="183.8239197596287"
+                     y1="187.92654475432946"
+                     x2="213.8239197596287"
+                     y2="193.62654475432944"/>
+               <circle class="anchorCircle1"
+                       cx="183.8239197596287"
+                       cy="187.92654475432946"
+                       r="2"/>
+               <circle class="anchorCircle2"
+                       cx="213.8239197596287"
+                       cy="193.62654475432944"
+                       r="2"/>
+               <line class="anchorLine"
+                     x1="231.33740978515215"
+                     y1="128.02185645352048"
+                     x2="261.33740978515215"
+                     y2="92.62185645352048"/>
+               <circle class="anchorCircle1"
+                       cx="231.33740978515215"
+                       cy="128.02185645352048"
+                       r="2"/>
+               <circle class="anchorCircle2"
+                       cx="261.33740978515215"
+                       cy="92.62185645352048"
+                       r="2"/>
+               <line class="anchorLine"
+                     x1="283.891388635211"
+                     y1="80.40996122780294"
+                     x2="313.891388635211"
+                     y2="66.60996122780294"/>
+               <circle class="anchorCircle1"
+                       cx="283.891388635211"
+                       cy="80.40996122780294"
+                       r="2"/>
+               <circle class="anchorCircle2"
+                       cx="313.891388635211"
+                       cy="66.60996122780294"
+                       r="2"/>
+               <line class="anchorLine"
+                     x1="341.72168003956693"
+                     y1="50.64549844471065"
+                     x2="371.72168003956693"
+                     y2="84.54549844471065"/>
+               <circle class="anchorCircle1"
+                       cx="341.72168003956693"
+                       cy="50.64549844471065"
+                       r="2"/>
+               <circle class="anchorCircle2"
+                       cx="371.72168003956693"
+                       cy="84.54549844471065"
+                       r="2"/>
+               <line class="anchorLine"
+                     x1="381.5116016727397"
+                     y1="175.27672897018903"
+                     x2="411.5116016727397"
+                     y2="192.676728970189"/>
+               <circle class="anchorCircle1"
+                       cx="381.5116016727397"
+                       cy="175.27672897018903"
+                       r="2"/>
+               <circle class="anchorCircle2"
+                       cx="411.5116016727397"
+                       cy="192.676728970189"
+                       r="2"/>
+               <path d="M50,182 Q89.21214815315199,176.24845925450563 100,166 C119.21214815315197,147.74845925450563 136.57273000171787,83.64318250042948 150,87 C166.57273000171787,91.14318250042948 183.8239197596287,187.92654475432946 200,191 C213.8239197596287,193.62654475432944 231.33740978515215,128.02185645352048 250,106 C261.33740978515215,92.62185645352048 283.891388635211,80.40996122780294 300,73 C313.891388635211,66.60996122780294 341.72168003956693,50.64549844471065 350,60 C371.72168003956693,84.54549844471065 381.5116016727397,175.27672897018903 400,186 Q411.5116016727397,192.676728970189 450,118"
+                     class="spline"
+                     fill="none"/>
+            </g>
+            <html xmlns="http://www.w3.org/1999/xhtml">
+               <head>
+                  <title>Diagnostics</title>
+                  <style type="text/css">
+                    table, tr, th, td { 
+                        border: 1px black solid;
+                    } 
+                    table { 
+                        border-collapse: collapse;
+                    } 
+                    tr:nth-child(even) { 
+                        background-color: lightgray;
+                    }
+                    th, td {
+                        padding: 4px; 
+                    }</style>
+               </head>
+               <body>
+                  <table style="text-align: right;">
+                     <tr style="text-align: center;">
+                        <th>#</th>
+                        <th>dirX</th>
+                        <th>dirY</th>
+                        <th>joining<br/>length</th>
+                        <th>unitX</th>
+                        <th>unitY</th>
+                        <th>normal1</th>
+                        <th>normal2</th>
+                        <th>angle1</th>
+                        <th>angle2</th>
+                        <th>anchor1X</th>
+                        <th>anchor1Y</th>
+                        <th>anchor2X</th>
+                        <th>anchor2Y</th>
+                        <th>scaling<br/>(constant)</th>
+                        <th>total anchor<br/>length</th>
+                        <th>anchorLength1<br/>(in)</th>
+                        <th>anchorLength2<br/>(out)</th>
+                     </tr>
+                     <tr>
+                        <td>1</td>
+                        <td>100</td>
+                        <td>-95</td>
+                        <td>137.93</td>
+                        <td>0.72</td>
+                        <td>-0.69</td>
+                        <td>0.69, 0.72</td>
+                        <td>-0.69, -0.72</td>
+                        <td>2.38</td>
+                        <td>-0.76</td>
+                        <td>89.21</td>
+                        <td>176.25</td>
+                        <td>119.21</td>
+                        <td>147.75</td>
+                        <td>0.3</td>
+                        <td>41.38</td>
+                        <td>14.88</td>
+                        <td>26.50</td>
+                     </tr>
+                     <tr>
+                        <td>2</td>
+                        <td>100</td>
+                        <td>25</td>
+                        <td>103.08</td>
+                        <td>0.97</td>
+                        <td>0.24</td>
+                        <td>-0.24, 0.97</td>
+                        <td>0.24, -0.97</td>
+                        <td>3.39</td>
+                        <td>0.24</td>
+                        <td>136.57</td>
+                        <td>83.64</td>
+                        <td>166.57</td>
+                        <td>91.14</td>
+                        <td>0.3</td>
+                        <td>30.92</td>
+                        <td>13.84</td>
+                        <td>17.08</td>
+                     </tr>
+                     <tr>
+                        <td>3</td>
+                        <td>100</td>
+                        <td>19</td>
+                        <td>101.79</td>
+                        <td>0.98</td>
+                        <td>0.19</td>
+                        <td>-0.19, 0.98</td>
+                        <td>0.19, -0.98</td>
+                        <td>3.33</td>
+                        <td>0.19</td>
+                        <td>183.82</td>
+                        <td>187.93</td>
+                        <td>213.82</td>
+                        <td>193.63</td>
+                        <td>0.3</td>
+                        <td>30.54</td>
+                        <td>16.47</td>
+                        <td>14.07</td>
+                     </tr>
+                     <tr>
+                        <td>4</td>
+                        <td>100</td>
+                        <td>-118</td>
+                        <td>154.67</td>
+                        <td>0.65</td>
+                        <td>-0.76</td>
+                        <td>0.76, 0.65</td>
+                        <td>-0.76, -0.65</td>
+                        <td>2.27</td>
+                        <td>-0.87</td>
+                        <td>231.34</td>
+                        <td>128.02</td>
+                        <td>261.34</td>
+                        <td>92.62</td>
+                        <td>0.3</td>
+                        <td>46.40</td>
+                        <td>28.87</td>
+                        <td>17.54</td>
+                     </tr>
+                     <tr>
+                        <td>5</td>
+                        <td>100</td>
+                        <td>-46</td>
+                        <td>110.07</td>
+                        <td>0.91</td>
+                        <td>-0.42</td>
+                        <td>0.42, 0.91</td>
+                        <td>-0.42, -0.91</td>
+                        <td>2.71</td>
+                        <td>-0.43</td>
+                        <td>283.89</td>
+                        <td>80.41</td>
+                        <td>313.89</td>
+                        <td>66.61</td>
+                        <td>0.3</td>
+                        <td>33.02</td>
+                        <td>17.73</td>
+                        <td>15.29</td>
+                     </tr>
+                     <tr>
+                        <td>6</td>
+                        <td>100</td>
+                        <td>113</td>
+                        <td>150.89</td>
+                        <td>0.66</td>
+                        <td>0.75</td>
+                        <td>-0.75, 0.66</td>
+                        <td>0.75, -0.66</td>
+                        <td>3.99</td>
+                        <td>0.85</td>
+                        <td>341.72</td>
+                        <td>50.65</td>
+                        <td>371.72</td>
+                        <td>84.55</td>
+                        <td>0.3</td>
+                        <td>45.27</td>
+                        <td>12.49</td>
+                        <td>32.78</td>
+                     </tr>
+                     <tr>
+                        <td>7</td>
+                        <td>100</td>
+                        <td>58</td>
+                        <td>115.60</td>
+                        <td>0.87</td>
+                        <td>0.50</td>
+                        <td>-0.50, 0.87</td>
+                        <td>0.50, -0.87</td>
+                        <td>3.67</td>
+                        <td>0.53</td>
+                        <td>381.51</td>
+                        <td>175.28</td>
+                        <td>411.51</td>
+                        <td>192.68</td>
+                        <td>0.3</td>
+                        <td>34.68</td>
+                        <td>21.37</td>
+                        <td>13.31</td>
+                     </tr>
+                  </table>
+               </body>
+            </html>
+         </x:result>
+         <x:test id="scenario1-scenario2-expect1" successful="true">
+            <x:label>Should return debugging information</x:label>
+            <x:expect select="/element()">
+               <g xmlns="http://www.w3.org/2000/svg">
+                  <style type="text/css">
+            .backgroundColor {
+                fill: papayawhip;
+            }
+            .mainLine {
+                fill: none;
+                stroke: silver;
+                stroke-width: 1;
+            }
+            .mainCircle {
+                fill: silver;
+            }
+            .alternatingLine {
+                fill: none;
+                stroke: lightblue;
+                stroke-width: 1;
+                stroke-dasharray: 3 3;
+            }
+            .anchorLine {
+                stroke: magenta;
+                stroke-width: 1;
+            }
+            .anchorCircle1 {
+                stroke: mediumseagreen;
+                stroke-width: 1;
+                fill: papayawhip;
+            }
+            .anchorCircle2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: papayawhip;
+            }</style>
+                  <rect x="0"
+                        y="0"
+                        height="300"
+                        stroke="black"
+                        class="backgroundColor"
+                        width="500"
+                        stroke-width="1"/>
+                  <circle class="mainCircle" cx="50" cy="182" r="2"/>
+                  <circle class="mainCircle" cx="100" cy="166" r="2"/>
+                  <circle class="mainCircle" cx="150" cy="87" r="2"/>
+                  <circle class="mainCircle" cx="200" cy="191" r="2"/>
+                  <circle class="mainCircle" cx="250" cy="106" r="2"/>
+                  <circle class="mainCircle" cx="300" cy="73" r="2"/>
+                  <circle class="mainCircle" cx="350" cy="60" r="2"/>
+                  <circle class="mainCircle" cx="400" cy="186" r="2"/>
+                  <circle class="mainCircle" cx="450" cy="118" r="2"/>
+                  <polyline class="mainLine"
+                            points="50,182 100,166 150,87 200,191 250,106 300,73 350,60 400,186 450,118"/>
+                  <polyline class="alternatingLine" points="100,166 200,191 300,73 400,186"/>
+                  <polyline class="alternatingLine" points="50,182 150,87 250,106 350,60 450,118"/>
+                  <line class="anchorLine"
+                        x1="89.21214815315199"
+                        y1="176.24845925450563"
+                        x2="119.21214815315197"
+                        y2="147.74845925450563"/>
+                  <circle class="anchorCircle1"
+                          cx="89.21214815315199"
+                          cy="176.24845925450563"
+                          r="2"/>
+                  <circle class="anchorCircle2"
+                          cx="119.21214815315197"
+                          cy="147.74845925450563"
+                          r="2"/>
+                  <line class="anchorLine"
+                        x1="136.57273000171787"
+                        y1="83.64318250042948"
+                        x2="166.57273000171787"
+                        y2="91.14318250042948"/>
+                  <circle class="anchorCircle1"
+                          cx="136.57273000171787"
+                          cy="83.64318250042948"
+                          r="2"/>
+                  <circle class="anchorCircle2"
+                          cx="166.57273000171787"
+                          cy="91.14318250042948"
+                          r="2"/>
+                  <line class="anchorLine"
+                        x1="183.8239197596287"
+                        y1="187.92654475432946"
+                        x2="213.8239197596287"
+                        y2="193.62654475432944"/>
+                  <circle class="anchorCircle1"
+                          cx="183.8239197596287"
+                          cy="187.92654475432946"
+                          r="2"/>
+                  <circle class="anchorCircle2"
+                          cx="213.8239197596287"
+                          cy="193.62654475432944"
+                          r="2"/>
+                  <line class="anchorLine"
+                        x1="231.33740978515215"
+                        y1="128.02185645352048"
+                        x2="261.33740978515215"
+                        y2="92.62185645352048"/>
+                  <circle class="anchorCircle1"
+                          cx="231.33740978515215"
+                          cy="128.02185645352048"
+                          r="2"/>
+                  <circle class="anchorCircle2"
+                          cx="261.33740978515215"
+                          cy="92.62185645352048"
+                          r="2"/>
+                  <line class="anchorLine"
+                        x1="283.891388635211"
+                        y1="80.40996122780294"
+                        x2="313.891388635211"
+                        y2="66.60996122780294"/>
+                  <circle class="anchorCircle1"
+                          cx="283.891388635211"
+                          cy="80.40996122780294"
+                          r="2"/>
+                  <circle class="anchorCircle2"
+                          cx="313.891388635211"
+                          cy="66.60996122780294"
+                          r="2"/>
+                  <line class="anchorLine"
+                        x1="341.72168003956693"
+                        y1="50.64549844471065"
+                        x2="371.72168003956693"
+                        y2="84.54549844471065"/>
+                  <circle class="anchorCircle1"
+                          cx="341.72168003956693"
+                          cy="50.64549844471065"
+                          r="2"/>
+                  <circle class="anchorCircle2"
+                          cx="371.72168003956693"
+                          cy="84.54549844471065"
+                          r="2"/>
+                  <line class="anchorLine"
+                        x1="381.5116016727397"
+                        y1="175.27672897018903"
+                        x2="411.5116016727397"
+                        y2="192.676728970189"/>
+                  <circle class="anchorCircle1"
+                          cx="381.5116016727397"
+                          cy="175.27672897018903"
+                          r="2"/>
+                  <circle class="anchorCircle2"
+                          cx="411.5116016727397"
+                          cy="192.676728970189"
+                          r="2"/>
+                  <path d="M50,182 Q89.21214815315199,176.24845925450563 100,166 C119.21214815315197,147.74845925450563 136.57273000171787,83.64318250042948 150,87 C166.57273000171787,91.14318250042948 183.8239197596287,187.92654475432946 200,191 C213.8239197596287,193.62654475432944 231.33740978515215,128.02185645352048 250,106 C261.33740978515215,92.62185645352048 283.891388635211,80.40996122780294 300,73 C313.891388635211,66.60996122780294 341.72168003956693,50.64549844471065 350,60 C371.72168003956693,84.54549844471065 381.5116016727397,175.27672897018903 400,186 Q411.5116016727397,192.676728970189 450,118"
+                        class="spline"
+                        fill="none"/>
+               </g>
+               <html xmlns="http://www.w3.org/1999/xhtml">
+                  <head>
+                     <title>Diagnostics</title>
+                     <style type="text/css">
+                    table, tr, th, td { 
+                        border: 1px black solid;
+                    } 
+                    table { 
+                        border-collapse: collapse;
+                    } 
+                    tr:nth-child(even) { 
+                        background-color: lightgray;
+                    }
+                    th, td {
+                        padding: 4px; 
+                    }</style>
+                  </head>
+                  <body>
+                     <table style="text-align: right;">
+                        <tr style="text-align: center;">
+                           <th>#</th>
+                           <th>dirX</th>
+                           <th>dirY</th>
+                           <th>joining<br/>length</th>
+                           <th>unitX</th>
+                           <th>unitY</th>
+                           <th>normal1</th>
+                           <th>normal2</th>
+                           <th>angle1</th>
+                           <th>angle2</th>
+                           <th>anchor1X</th>
+                           <th>anchor1Y</th>
+                           <th>anchor2X</th>
+                           <th>anchor2Y</th>
+                           <th>scaling<br/>(constant)</th>
+                           <th>total anchor<br/>length</th>
+                           <th>anchorLength1<br/>(in)</th>
+                           <th>anchorLength2<br/>(out)</th>
+                        </tr>
+                        <tr>
+                           <td>1</td>
+                           <td>100</td>
+                           <td>-95</td>
+                           <td>137.93</td>
+                           <td>0.72</td>
+                           <td>-0.69</td>
+                           <td>0.69, 0.72</td>
+                           <td>-0.69, -0.72</td>
+                           <td>2.38</td>
+                           <td>-0.76</td>
+                           <td>89.21</td>
+                           <td>176.25</td>
+                           <td>119.21</td>
+                           <td>147.75</td>
+                           <td>0.3</td>
+                           <td>41.38</td>
+                           <td>14.88</td>
+                           <td>26.50</td>
+                        </tr>
+                        <tr>
+                           <td>2</td>
+                           <td>100</td>
+                           <td>25</td>
+                           <td>103.08</td>
+                           <td>0.97</td>
+                           <td>0.24</td>
+                           <td>-0.24, 0.97</td>
+                           <td>0.24, -0.97</td>
+                           <td>3.39</td>
+                           <td>0.24</td>
+                           <td>136.57</td>
+                           <td>83.64</td>
+                           <td>166.57</td>
+                           <td>91.14</td>
+                           <td>0.3</td>
+                           <td>30.92</td>
+                           <td>13.84</td>
+                           <td>17.08</td>
+                        </tr>
+                        <tr>
+                           <td>3</td>
+                           <td>100</td>
+                           <td>19</td>
+                           <td>101.79</td>
+                           <td>0.98</td>
+                           <td>0.19</td>
+                           <td>-0.19, 0.98</td>
+                           <td>0.19, -0.98</td>
+                           <td>3.33</td>
+                           <td>0.19</td>
+                           <td>183.82</td>
+                           <td>187.93</td>
+                           <td>213.82</td>
+                           <td>193.63</td>
+                           <td>0.3</td>
+                           <td>30.54</td>
+                           <td>16.47</td>
+                           <td>14.07</td>
+                        </tr>
+                        <tr>
+                           <td>4</td>
+                           <td>100</td>
+                           <td>-118</td>
+                           <td>154.67</td>
+                           <td>0.65</td>
+                           <td>-0.76</td>
+                           <td>0.76, 0.65</td>
+                           <td>-0.76, -0.65</td>
+                           <td>2.27</td>
+                           <td>-0.87</td>
+                           <td>231.34</td>
+                           <td>128.02</td>
+                           <td>261.34</td>
+                           <td>92.62</td>
+                           <td>0.3</td>
+                           <td>46.40</td>
+                           <td>28.87</td>
+                           <td>17.54</td>
+                        </tr>
+                        <tr>
+                           <td>5</td>
+                           <td>100</td>
+                           <td>-46</td>
+                           <td>110.07</td>
+                           <td>0.91</td>
+                           <td>-0.42</td>
+                           <td>0.42, 0.91</td>
+                           <td>-0.42, -0.91</td>
+                           <td>2.71</td>
+                           <td>-0.43</td>
+                           <td>283.89</td>
+                           <td>80.41</td>
+                           <td>313.89</td>
+                           <td>66.61</td>
+                           <td>0.3</td>
+                           <td>33.02</td>
+                           <td>17.73</td>
+                           <td>15.29</td>
+                        </tr>
+                        <tr>
+                           <td>6</td>
+                           <td>100</td>
+                           <td>113</td>
+                           <td>150.89</td>
+                           <td>0.66</td>
+                           <td>0.75</td>
+                           <td>-0.75, 0.66</td>
+                           <td>0.75, -0.66</td>
+                           <td>3.99</td>
+                           <td>0.85</td>
+                           <td>341.72</td>
+                           <td>50.65</td>
+                           <td>371.72</td>
+                           <td>84.55</td>
+                           <td>0.3</td>
+                           <td>45.27</td>
+                           <td>12.49</td>
+                           <td>32.78</td>
+                        </tr>
+                        <tr>
+                           <td>7</td>
+                           <td>100</td>
+                           <td>58</td>
+                           <td>115.60</td>
+                           <td>0.87</td>
+                           <td>0.50</td>
+                           <td>-0.50, 0.87</td>
+                           <td>0.50, -0.87</td>
+                           <td>3.67</td>
+                           <td>0.53</td>
+                           <td>381.51</td>
+                           <td>175.28</td>
+                           <td>411.51</td>
+                           <td>192.68</td>
+                           <td>0.3</td>
+                           <td>34.68</td>
+                           <td>21.37</td>
+                           <td>13.31</td>
+                        </tr>
+                     </table>
+                  </body>
+               </html>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+</x:report>

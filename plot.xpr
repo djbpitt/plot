@@ -18,6 +18,7 @@
                             <String>pre</String>
                             <String>xd:pre</String>
                             <String>//text</String>
+                            <String>//style</String>
                         </String-array>
                     </entry>
                     <entry>
