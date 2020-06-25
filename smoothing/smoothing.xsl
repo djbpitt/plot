@@ -33,11 +33,18 @@
         <!-- Raise an error if points are bad or $window is even          -->
         <!-- ============================================================ -->
         <xsl:if test="not(djb:validate-points($f:points))">
-            <xsl:message terminate="yes">Bad $f:points value: <xsl:value-of select="$f:points"
-                /></xsl:message>
+            <xsl:sequence
+                select="error((),
+                normalize-space(concat('Invalid point values: ', string-join(
+                for $i in $f:points return concat('&quot;', $i, '&quot;')
+                , ', '))))"
+            />
         </xsl:if>
         <xsl:if test="$f:window mod 2 = 0 and $f:window gt 0">
-            <xsl:message terminate="yes">$f:window value must be a positive odd number</xsl:message>
+            <xsl:sequence
+                select="error((),
+                normalize-space(concat('Invalid window size (', $f:window, '); must be odd')))"
+            />
         </xsl:if>
         <!-- ============================================================ -->
         <!-- $f:windowSide as xs:double: points to either side of center  -->
