@@ -1176,7 +1176,7 @@
                                     <td class="fCol">Function</td>
                                     <td>
                                        <div class="listGrouping">
-                                          <div class="refItemBlock"><a href="plot-lib0.html#get-weighted-pointsA_3S_plot-lib.xsl" target="_self" title="http://www.obdurodon.org" onclick="updPT('plot-lib.xsl')"><span>djb:get-weighted-points (</span><span class="fParams">f:points, f:kernel, f:window</span><span>)</span></a></div>
+                                          <div class="refItemBlock"><a href="plot-lib0.html#get-weighted-pointsA_3S_plot-lib.xsl" target="_self" title="http://www.obdurodon.org" onclick="updPT('plot-lib.xsl')"><span>djb:get-weighted-points (</span><span class="fParams">f:points, f:kernel, f:window-size</span><span>)</span></a></div>
                                        </div>
                                     </td>
                                  </tr>
@@ -1263,10 +1263,9 @@
   </span><span class="tC">&lt;!-- djb:get-weighted-points#4 as xs:string+                      --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- $f:points as xs:string+ : input                              --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- $f:stddev as xs:double : stddev (controls width of curve)    --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   f:kernel as xs:string : gaussian, rectangular, exponential --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- $f:kernel as xs:string : gaussian, rectangular, exponential  --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--     parabolic-up, parabolic-down                             --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- f:window_size as xs:integer : width of window                --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- f:window-size as xs:integer : width of window                --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- f:stddev as xs:integer : controls width of bell              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- Returns                                                      --&gt;</span><span class="tI">
@@ -1305,7 +1304,7 @@
             <td class="rt_cBR"></td>
          </tr>
       </table><a id="get-weighted-pointsA_3S_plot-lib.xsl"></a><div class="cmpT">Function
-         <span class="qname">djb:get-weighted-points (<span class="fParams">f:points, f:kernel, f:window</span>)</span></div>
+         <span class="qname">djb:get-weighted-points (<span class="fParams">f:points, f:kernel, f:window-size</span>)</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cTL"></td>
@@ -1371,7 +1370,7 @@
                                     <td>xs:string+</td>
                                  </tr>
                                  <tr>
-                                    <td class="fCol">f:window</td>
+                                    <td class="fCol">f:window-size</td>
                                     <td>http://www.obdurodon.org/function-variables</td>
                                     <td>xs:integer</td>
                                  </tr>
@@ -1398,10 +1397,9 @@
   </span><span class="tC">&lt;!-- djb:get-weighted-points#3 as xs:string+                      --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- $f:points as xs:string+ : input                              --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- $f:stddev as xs:double : stddev (controls width of curve)    --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   f:kernel as xs:string : gaussian, rectangular, exponential --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- $f:kernel as xs:string : gaussian, rectangular, exponential  --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--     parabolic-up, parabolic-down                             --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- f:window_size as xs:integer : width of window                --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- f:window-size as xs:integer : width of window                --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- Returns                                                      --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--   xs:string+, with same X and adjusted Y                     --&gt;</span><span class="tI">
@@ -1410,8 +1408,8 @@
   </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:points"</span><span class="tAN"> as=</span><span class="tAV">"xs:string+"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:kernel"</span><span class="tAN"> as=</span><span class="tAV">"xs:string"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:window"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"djb:get-weighted-points($f:points, $f:kernel, $f:window, 5)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:window-size"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"djb:get-weighted-points($f:points, $f:kernel, $f:window-size, 5)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
 </span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
                                     </td>
                                  </tr>
