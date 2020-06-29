@@ -4,7 +4,7 @@
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           stylesheet="file:/Users/djb/repos/plot/smoothing/smoothing.xsl"
-          date="2020-06-25T14:52:48.467-04:00"
+          date="2020-06-29T17:59:25.23-04:00"
           xspec="file:/Users/djb/repos/plot/smoothing/smoothing.xspec">
    <x:scenario id="scenario1"
                xspec="file:/Users/djb/repos/plot/smoothing/smoothing.xspec">
