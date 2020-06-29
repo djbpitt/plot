@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for /Users/djb/repos/plot/lib/plot-lib.xsl (passed: 23 / pending: 0 / failed: 0 / total: 23)</title>
+      <title>Test Report for /Users/djb/repos/plot/lib/plot-lib.xsl (passed: 27 / pending: 0 / failed: 0 / total: 27)</title>
       <style type="text/css">/****************************************************************************/
 /*  File:       test-report.css                                             */
 /*  Author:     Jeni Tennison                                               */
@@ -583,7 +583,7 @@ span.scenario-totals {
       <h1>Test Report</h1>
       <p>Stylesheet: <a href="file:/Users/djb/repos/plot/lib/plot-lib.xsl">/Users/djb/repos/plot/lib/plot-lib.xsl</a></p>
       <p>XSpec: <a href="file:/Users/djb/repos/plot/lib/plot-lib.xspec">/Users/djb/repos/plot/lib/plot-lib.xspec</a></p>
-      <p>Tested: 23 June 2020 at 13:32</p>
+      <p>Tested: 29 June 2020 at 17:10</p>
       <h2>Contents</h2>
       <table class="xspec">
          <colgroup>
@@ -596,10 +596,10 @@ span.scenario-totals {
          <thead>
             <tr>
                <th></th>
-               <th class="totals">passed: 23</th>
+               <th class="totals">passed: 27</th>
                <th class="totals">pending: 0</th>
                <th class="totals">failed: 0</th>
-               <th class="totals">total: 23</th>
+               <th class="totals">total: 27</th>
             </tr>
          </thead>
          <tbody>
@@ -632,11 +632,11 @@ span.scenario-totals {
                <th class="totals">1</th>
             </tr>
             <tr class="successful">
-               <th><a href="#top_scenario5">Scenarios for testing function weighted-average</a></th>
-               <th class="totals">2</th>
+               <th><a href="#top_scenario5">Scenario for testing function get-weighted-points</a></th>
+               <th class="totals">6</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
-               <th class="totals">2</th>
+               <th class="totals">6</th>
             </tr>
             <tr class="successful">
                <th><a href="#top_scenario6">Scenario for testing function gaussian</a></th>
@@ -832,7 +832,7 @@ span.scenario-totals {
          </table>
       </div>
       <div id="top_scenario5">
-         <h2 class="successful">Scenarios for testing function weighted-average<span class="scenario-totals">passed: 2 / pending: 0 / failed: 0 / total: 2</span></h2>
+         <h2 class="successful">Scenario for testing function get-weighted-points<span class="scenario-totals">passed: 6 / pending: 0 / failed: 0 / total: 6</span></h2>
          <table class="xspec" id="table_scenario5">
             <colgroup>
                <col style="width:75%" />
@@ -840,23 +840,55 @@ span.scenario-totals {
             </colgroup>
             <tbody>
                <tr class="successful">
-                  <th>Scenarios for testing function weighted-average</th>
-                  <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
+                  <th>Scenario for testing function get-weighted-points</th>
+                  <th>passed: 6 / pending: 0 / failed: 0 / total: 6</th>
                </tr>
                <tr class="successful">
-                  <th>at right edge of sequence</th>
+                  <th>with gaussian kernel</th>
                   <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
                </tr>
                <tr class="successful">
-                  <td>Weighted values as xs:double</td>
+                  <td>should return adjusted points as sequence of strings</td>
                   <td>Success</td>
                </tr>
                <tr class="successful">
-                  <th>in middle of sequence</th>
+                  <th>with rectangular kernel</th>
                   <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
                </tr>
                <tr class="successful">
-                  <td>Weighted values as xs:double</td>
+                  <td>should return adjusted points as sequence of strings</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <th>with exponential kernel</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>should return adjusted points as sequence of strings</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <th>with parabolic-up kernel</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>should return adjusted points as sequence of strings</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <th>with parabolic-down kernel</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>should return adjusted points as sequence of strings</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <th>with invalid kernel</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>err:description</td>
                   <td>Success</td>
                </tr>
             </tbody>

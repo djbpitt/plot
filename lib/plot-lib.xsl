@@ -30,7 +30,8 @@
         djb:round-to-odd#1
         djb:uniform#1
         djb:validate-points#1 
-        djb:weighted-average#4
+        djb:get-weighted-points#4
+        djb:get-weighted-points#3
         "/>
     <xsl:function name="djb:validate-points" as="xs:boolean">
         <!-- ================================================================= -->
@@ -163,113 +164,28 @@
     </xsl:function>
     <xsl:function name="djb:get-weights-scale" as="xs:double+">
         <!-- ============================================================ -->
-        <!-- djb:get=weights-scale#2                                      -->
+        <!-- djb:get-weights-scale#2                                      -->
         <!--                                                              -->
         <!-- Returns sequence of scaling values for different kernels     -->
-        <!-- Calls djb:get-weights-scale#3 with σ =5                      -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
         <!--   f:kernel as xs:string : gaussian, rectangular, exponential -->
-        <!--   f: window_size as xs:integer : width of window             -->
+        <!--     parabolic-up, parabolic-down                             -->
+        <!--   f:window_size as xs:integer : width of window              -->
         <!--                                                              -->
         <!-- Returns:                                                     -->
         <!--   xs:double+ : weights to be applied in scaling              -->
         <!--                                                              -->
         <!-- Notes:                                                       -->
+        <!--   Calls djb:get-weights-scale#3 with stddev = 5              -->
         <!--   Gaussian mean = 0, peak = 1                                -->
-        <!--   f:stddev is ignored silently except for Gaussian           -->
+        <!--   f:stddev: is ignored silently except for Gaussian          -->
+        <!--             defaults to 5 if not specified                   -->
         <!--   Return full width of window (for end values)               -->
         <!-- ============================================================ -->
         <xsl:param name="f:kernel" as="xs:string"/>
         <xsl:param name="f:window-size" as="xs:integer"/>
-        <xsl:if test="$f:window-size mod 2 eq 0 or $f:window-size lt 3">
-            <xsl:message terminate="yes">Window size must be odd integer greater than
-                3</xsl:message>
-        </xsl:if>
-        <!-- default to σ = 5 if not specified -->
         <xsl:sequence select="djb:get-weights-scale($f:kernel, $f:window-size, 5)"/>
-    </xsl:function>
-    <xsl:function name="djb:weighted-average" as="xs:double">
-        <!-- ============================================================ -->
-        <!-- djb:weighted-average#4                                       -->
-        <!--                                                              -->
-        <!-- Returns smoothed value for current point                     -->
-        <!--                                                              -->
-        <!-- Parameters:                                                  -->
-        <!--   $f:focus as xs:integer : offset of focus point             -->
-        <!--   $f:window-size as xs:integer : width of window (odd, > 3)  -->
-        <!--   $f:input-values as xs:double+ : all Y values               -->
-        <!--   $f:weights : weights scale (from djb:get-weights-scale)    -->
-        <!--                                                              -->
-        <!-- Returns:                                                     -->
-        <!--   xs:double : weighted value for focus point                 -->
-        <!--                                                              -->
-        <!-- XQuery mockup:                                               -->
-        <!--   let $sum_of_weights := sum($weights)                       -->
-        <!--   let $sum_of_weighted_scores as xs:double :=                -->
-        <!--     (for $i in 1 to count($weights)                          -->
-        <!--     return $weights[$i] * $scores[$i]) => sum()              -->
-        <!--   return $sum_of_weighted_scores div $sum_of_weights         -->
-        <!-- ============================================================ -->
-        <xsl:param name="f:focus" as="xs:integer"/>
-        <xsl:param name="f:window-size" as="xs:integer"/>
-        <xsl:param name="f:input-values" as="xs:double+"/>
-        <xsl:param name="f:weights" as="xs:double+"/>
-        <xsl:variable name="f:n" as="xs:integer" select="count($f:input-values)"/>
-        <xsl:if test="$f:window-size mod 2 eq 0 or $f:window-size lt 3 or $f:window-size gt $f:n">
-            <xsl:message terminate="yes">Window size must be 1) an odd integer, 2) greater than 3,
-                and 3) not greater than the count of the input values</xsl:message>
-        </xsl:if>
-        <!-- adjust window for end cases -->
-        <xsl:variable name="f:half-window" as="xs:integer" select="$f:window-size idiv 2"/>
-        <xsl:variable name="f:left-edge" as="xs:integer">
-            <xsl:choose>
-                <xsl:when test="$f:focus le $f:half-window">
-                    <!-- window touches left edge -->
-                    <xsl:sequence select="1"/>
-                </xsl:when>
-                <xsl:when test="$f:focus gt ($f:n - $f:half-window)">
-                    <!-- window touches right edge -->
-                    <xsl:sequence select="$f:n - (2 * $f:half-window)"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <!-- window not at edge -->
-                    <xsl:sequence select="$f:focus - $f:half-window"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        <xsl:variable name="f:right-edge" as="xs:integer">
-            <xsl:choose>
-                <xsl:when test="$f:focus ge ($f:n - $f:half-window)">
-                    <xsl:sequence select="$f:n"/>
-                </xsl:when>
-                <xsl:when test="$f:focus le $f:half-window">
-                    <xsl:sequence select="$f:window-size"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:sequence select="$f:focus + $f:half-window"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        <xsl:variable name="f:weighted-values" as="xs:double+">
-            <xsl:for-each select="reverse($f:left-edge to $f:focus)">
-                <xsl:variable name="f:pos" as="xs:integer" select="position()"/>
-                <xsl:sequence select="$f:input-values[current()] * $f:weights[$f:pos]"/>
-            </xsl:for-each>
-            <xsl:for-each select="($f:focus + 1) to $f:right-edge">
-                <xsl:variable name="f:pos" as="xs:integer" select="position()"/>
-                <xsl:sequence select="$f:input-values[current()] * $f:weights[$f:pos + 1]"/>
-            </xsl:for-each>
-        </xsl:variable>
-        <xsl:variable name="f:sum-weighted-values" as="xs:double" select="sum($f:weighted-values)"/>
-        <!-- compute sum of weights applied to all points in winow -->
-        <xsl:variable name="f:sum-applied-weights" as="xs:double"
-            select="
-            $f:weights[1] + 
-            sum($f:weights[position() = (2 to (1 + $f:focus - $f:left-edge))]) +
-            sum($f:weights[position() = (2 to (1 + $f:right-edge - $f:focus))])
-            "/>
-        <xsl:sequence select="$f:sum-weighted-values div $f:sum-applied-weights"/>
     </xsl:function>
     <xsl:function name="djb:gaussian" as="xs:double">
         <!-- ============================================================ -->
@@ -296,6 +212,59 @@
         <xsl:sequence
             select="$f:peak * math:exp(-1 * (math:pow(($f:x - $f:mean), 2)) div (2 * math:pow($f:stddev, 2)))"
         />
+    </xsl:function>
+    <xsl:function name="djb:get-weighted-points" as="xs:string+">
+        <!-- ============================================================ -->
+        <!-- djb:get-weighted-points#4 as xs:string+                      -->
+        <!--                                                              -->
+        <!-- $f:points as xs:string+ : input                              -->
+        <!-- $f:kernel as xs:string : gaussian, rectangular, exponential  -->
+        <!--     parabolic-up, parabolic-down                             -->
+        <!-- f:window-size as xs:integer : width of window                -->
+        <!-- f:stddev as xs:integer : controls width of bell              -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   xs:string+, with same X and adjusted Y                     -->
+        <!--                                                              -->
+        <!-- https://en.wikipedia.org/wiki/Gaussian_function:             -->
+        <!-- "The parameter a is the height of the curve's peak, b is the -->
+        <!--   position of the center of the peak and c (the standard     -->
+        <!--   deviation, sometimes called the Gaussian RMS width)        -->
+        <!--   controls the width of the "bell".                          -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:points" as="xs:string+"/>
+        <xsl:param name="f:kernel" as="xs:string"/>
+        <xsl:param name="f:window-size" as="xs:integer"/>
+        <xsl:param name="f:stddev" as="xs:double"/>
+        <xsl:variable name="f:weights" as="xs:double+"
+            select="djb:get-weights-scale($f:kernel, $f:window-size, $f:stddev)"/>
+        <xsl:variable name="f:allX" as="xs:string+" select="$f:points ! substring-before(., ',')"/>
+        <xsl:variable name="f:allY" as="xs:double+"
+            select="$f:points ! substring-after(., ',') ! number(.)"/>
+        <xsl:variable name="f:newYs" as="xs:double+"
+            select="for $f:i in (1 to count($f:allY)) return djb:weighted-average-point($f:i, $f:window-size, $f:allY, $f:weights)"/>
+        <xsl:sequence
+            select="for-each-pair($f:allX, $f:newYs, function ($f:a, $f:b) {string-join(($f:a, $f:b), ',')})"
+        />
+    </xsl:function>
+    <xsl:function name="djb:get-weighted-points" as="xs:string+">
+        <!-- ============================================================ -->
+        <!-- djb:get-weighted-points#3 as xs:string+                      -->
+        <!--                                                              -->
+        <!-- $f:points as xs:string+ : input                              -->
+        <!-- $f:kernel as xs:string : gaussian, rectangular, exponential  -->
+        <!--     parabolic-up, parabolic-down                             -->
+        <!-- f:window-size as xs:integer : width of window                -->
+        <!--                                                              -->
+        <!-- Returns                                                      -->
+        <!--   xs:string+, with same X and adjusted Y                     -->
+        <!--                                                              -->
+        <!-- Calls djb:get-weighted-points#4 with stdev = 5               -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:points" as="xs:string+"/>
+        <xsl:param name="f:kernel" as="xs:string"/>
+        <xsl:param name="f:window-size" as="xs:integer"/>
+        <xsl:sequence select="djb:get-weighted-points($f:points, $f:kernel, $f:window-size, 5)"/>
     </xsl:function>
     <xsl:function name="djb:round-to-odd" as="xs:integer">
         <!-- ============================================================ -->
@@ -357,9 +326,9 @@
         </xsl:if>
         <xsl:sequence
             select="
-            for $i in (-10 * $f:half to 10 * $f:half)
+            for $f:i in (-10 * $f:half to 10 * $f:half)
             return
-            $i div 10"
+            $f:i div 10"
         />
     </xsl:function>
     <xsl:function name="djb:uniform" as="xs:boolean">
@@ -440,9 +409,9 @@
         <xsl:param name="f:seq" as="xs:double+"/>
         <xsl:sequence
             select="
-            (for $i in 2 to count($f:seq)
+            (for $f:i in 2 to count($f:seq)
             return
-            $f:seq[$i] ge $f:seq[$i - 1]) => djb:uniform()"
+            $f:seq[$f:i] ge $f:seq[$f:i - 1]) => djb:uniform()"
         />
     </xsl:function>
     <xsl:function name="djb:gaussian-weights" as="xs:double+">
@@ -467,5 +436,87 @@
         <xsl:for-each select="0 to ($f:window-size)">
             <xsl:sequence select="djb:gaussian(current(), 1, 0, $f:stddev)"/>
         </xsl:for-each>
+    </xsl:function>
+    <xsl:function name="djb:weighted-average-point" as="xs:double">
+        <!-- ============================================================ -->
+        <!-- djb:weighted-average#4                                       -->
+        <!--                                                              -->
+        <!-- Returns smoothed value for current point                     -->
+        <!--                                                              -->
+        <!-- Parameters:                                                  -->
+        <!--   $f:focus as xs:integer : offset of focus point             -->
+        <!--   $f:window-size as xs:integer : width of window (odd, > 3)  -->
+        <!--   $f:input-values as xs:double+ : all Y values               -->
+        <!--   $f:weights : weights scale (from djb:get-weights-scale)    -->
+        <!--                                                              -->
+        <!-- Returns:                                                     -->
+        <!--   xs:double : weighted value for focus point                 -->
+        <!--                                                              -->
+        <!-- XQuery mockup:                                               -->
+        <!--   let $sum_of_weights := sum($weights)                       -->
+        <!--   let $sum_of_weighted_scores as xs:double :=                -->
+        <!--     (for $i in 1 to count($weights)                          -->
+        <!--     return $weights[$i] * $scores[$i]) => sum()              -->
+        <!--   return $sum_of_weighted_scores div $sum_of_weights         -->
+        <!-- ============================================================ -->
+        <xsl:param name="f:focus" as="xs:integer"/>
+        <xsl:param name="f:window-size" as="xs:integer"/>
+        <xsl:param name="f:input-values" as="xs:double+"/>
+        <xsl:param name="f:weights" as="xs:double+"/>
+        <xsl:variable name="f:n" as="xs:integer" select="count($f:input-values)"/>
+        <xsl:if test="$f:window-size mod 2 eq 0 or $f:window-size lt 3 or $f:window-size gt $f:n">
+            <xsl:message terminate="yes">Window size must be 1) an odd integer, 2) greater than 3,
+                and 3) not greater than the count of the input values</xsl:message>
+        </xsl:if>
+        <!-- adjust window for end cases -->
+        <xsl:variable name="f:half-window" as="xs:integer" select="$f:window-size idiv 2"/>
+        <xsl:variable name="f:left-edge" as="xs:integer">
+            <xsl:choose>
+                <xsl:when test="$f:focus le $f:half-window">
+                    <!-- window touches left edge -->
+                    <xsl:sequence select="1"/>
+                </xsl:when>
+                <xsl:when test="$f:focus gt ($f:n - $f:half-window)">
+                    <!-- window touches right edge -->
+                    <xsl:sequence select="$f:n - (2 * $f:half-window)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <!-- window not at edge -->
+                    <xsl:sequence select="$f:focus - $f:half-window"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="f:right-edge" as="xs:integer">
+            <xsl:choose>
+                <xsl:when test="$f:focus ge ($f:n - $f:half-window)">
+                    <xsl:sequence select="$f:n"/>
+                </xsl:when>
+                <xsl:when test="$f:focus le $f:half-window">
+                    <xsl:sequence select="$f:window-size"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:sequence select="$f:focus + $f:half-window"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="f:weighted-values" as="xs:double+">
+            <xsl:for-each select="reverse($f:left-edge to $f:focus)">
+                <xsl:variable name="f:pos" as="xs:integer" select="position()"/>
+                <xsl:sequence select="$f:input-values[current()] * $f:weights[$f:pos]"/>
+            </xsl:for-each>
+            <xsl:for-each select="($f:focus + 1) to $f:right-edge">
+                <xsl:variable name="f:pos" as="xs:integer" select="position()"/>
+                <xsl:sequence select="$f:input-values[current()] * $f:weights[$f:pos + 1]"/>
+            </xsl:for-each>
+        </xsl:variable>
+        <xsl:variable name="f:sum-weighted-values" as="xs:double" select="sum($f:weighted-values)"/>
+        <!-- compute sum of weights applied to all points in winow -->
+        <xsl:variable name="f:sum-applied-weights" as="xs:double"
+            select="
+            $f:weights[1] + 
+            sum($f:weights[position() = (2 to (1 + $f:focus - $f:left-edge))]) +
+            sum($f:weights[position() = (2 to (1 + $f:right-edge - $f:focus))])
+            "/>
+        <xsl:sequence select="$f:sum-weighted-values div $f:sum-applied-weights"/>
     </xsl:function>
 </xsl:package>

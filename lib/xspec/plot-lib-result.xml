@@ -4,7 +4,7 @@
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           stylesheet="file:/Users/djb/repos/plot/lib/plot-lib.xsl"
-          date="2020-06-23T13:33:36.222-04:00"
+          date="2020-06-29T17:10:03.167-04:00"
           xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
    <x:scenario id="scenario1" xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
       <x:label>Scenarios for testing function validate-points</x:label>
@@ -63,7 +63,7 @@
       <x:call function="djb:random-sequence">
          <x:param name="count" select="100"/>
       </x:call>
-      <x:result select="Q{http://www.w3.org/2001/XMLSchema}double('0.37150872981021266'), Q{http://www.w3.org/2001/XMLSchema}double('0.3179762173374353'), Q{http://www.w3.org/2001/XMLSchema}double('0.29565485345504494'), Q{http://www.w3.org/2001/XMLSchema}double('0.8128459276246995'), Q{http://www.w3.org/2001/XMLSchema}double('0.4559872307048337'), Q{http://www.w3.org/2001/XMLSchema}double('0.508946973842724'), Q{http://www.w3.org/2001/XMLSchema}double('0.4022144705411387'), Q{http://www.w3.org/2001/XMLSchema}double('0.8983217620130143'), Q{http://www.w3.org/2001/XMLSchema}double('0.16072877033656519'), Q{http://www.w3.org/2001/XMLSchema}double('0.9178900927225263'), Q{http://www.w3.org/2001/XMLSchema}double('0.8116923644004457'), Q{http://www.w3.org/2001/XMLSchema}double('0.38150537244758753'), Q{http://www.w3.org/2001/XMLSchema}double('0.4030892352028669'), Q{http://www.w3.org/2001/XMLSchema}double('0.18305400791641047'), Q{http://www.w3.org/2001/XMLSchema}double('0.2875566965610553'), Q{http://www.w3.org/2001/XMLSchema}double('0.09143327621422437'), Q{http://www.w3.org/2001/XMLSchema}double('0.6335372820786188'), Q{http://www.w3.org/2001/XMLSchema}double('0.739274531066884'), Q{http://www.w3.org/2001/XMLSchema}double('0.3746221041383876'), Q{http://www.w3.org/2001/XMLSchema}double('0.9725279197584482'), Q{http://www.w3.org/2001/XMLSchema}double('0.08335689996874263'), Q{http://www.w3.org/2001/XMLSchema}double('0.3958158751330161'), Q{http://www.w3.org/2001/XMLSchema}double('0.9205557198823486'), Q{http://www.w3.org/2001/XMLSchema}double('0.6474438698477922'), Q{http://www.w3.org/2001/XMLSchema}double('0.38870457016235604'), Q{http://www.w3.org/2001/XMLSchema}double('0.19316225215534488'), Q{http://www.w3.org/2001/XMLSchema}double('0.3630559912481329'), Q{http://www.w3.org/2001/XMLSchema}double('0.030990086976334874'), Q{http://www.w3.org/2001/XMLSchema}double('0.7919047726719188'), Q{http://www.w3.org/2001/XMLSchema}double('0.2656990543701284'), Q{http://www.w3.org/2001/XMLSchema}double('0.8897058319260271'), Q{http://www.w3.org/2001/XMLSchema}double('0.6231030358496645'), Q{http://www.w3.org/2001/XMLSchema}double('0.38294019610639896'), Q{http://www.w3.org/2001/XMLSchema}double('0.8298812392305264'), Q{http://www.w3.org/2001/XMLSchema}double('0.9090655157424535'), Q{http://www.w3.org/2001/XMLSchema}double('0.13085026878252481'), Q{http://www.w3.org/2001/XMLSchema}double('0.9732759282217069'), Q{http://www.w3.org/2001/XMLSchema}double('0.37058480438542074'), Q{http://www.w3.org/2001/XMLSchema}double('0.049410660428666375'), Q{http://www.w3.org/2001/XMLSchema}double('0.24341157391932444'), Q{http://www.w3.org/2001/XMLSchema}double('0.9486730369058783'), Q{http://www.w3.org/2001/XMLSchema}double('0.8375674152861757'), Q{http://www.w3.org/2001/XMLSchema}double('0.3313785052865137'), Q{http://www.w3.org/2001/XMLSchema}double('0.35860593683857966'), Q{http://www.w3.org/2001/XMLSchema}double('0.9533339550116066'), Q{http://www.w3.org/2001/XMLSchema}double('0.7557330957518793'), Q{http://www.w3.org/2001/XMLSchema}double('0.3190898852538141'), Q{http://www.w3.org/2001/XMLSchema}double('0.0517319522808366'), Q{http://www.w3.org/2001/XMLSchema}double('0.12053980452386259'), Q{http://www.w3.org/2001/XMLSchema}double('0.8056305801196574'), Q{http://www.w3.org/2001/XMLSchema}double('0.002338072430442373'), Q{http://www.w3.org/2001/XMLSchema}double('0.8634189694408503'), Q{http://www.w3.org/2001/XMLSchema}double('0.40789227211457657'), Q{http://www.w3.org/2001/XMLSchema}double('0.9075305434844096'), Q{http://www.w3.org/2001/XMLSchema}double('0.4817162722052758'), Q{http://www.w3.org/2001/XMLSchema}double('0.4112468175878814'), Q{http://www.w3.org/2001/XMLSchema}double('0.6392996341125263'), Q{http://www.w3.org/2001/XMLSchema}double('0.2698952198931145'), Q{http://www.w3.org/2001/XMLSchema}double('0.716324809201562'), Q{http://www.w3.org/2001/XMLSchema}double('0.5396579876063035'), Q{http://www.w3.org/2001/XMLSchema}double('0.9128094898342576'), Q{http://www.w3.org/2001/XMLSchema}double('0.4388210468494609'), Q{http://www.w3.org/2001/XMLSchema}double('0.7108939171923055'), Q{http://www.w3.org/2001/XMLSchema}double('0.45266435182879416'), Q{http://www.w3.org/2001/XMLSchema}double('0.5995519664592649'), Q{http://www.w3.org/2001/XMLSchema}double('0.3721788847952956'), Q{http://www.w3.org/2001/XMLSchema}double('0.043082129747159637'), Q{http://www.w3.org/2001/XMLSchema}double('0.053420815687941325'), Q{http://www.w3.org/2001/XMLSchema}double('0.46893496840805493'), Q{http://www.w3.org/2001/XMLSchema}double('0.5995835276847578'), Q{http://www.w3.org/2001/XMLSchema}double('0.8648263454808267'), Q{http://www.w3.org/2001/XMLSchema}double('0.21453943718684454'), Q{http://www.w3.org/2001/XMLSchema}double('0.6105566119582947'), Q{http://www.w3.org/2001/XMLSchema}double('0.31579389522789336'), Q{http://www.w3.org/2001/XMLSchema}double('0.30452606374704916'), Q{http://www.w3.org/2001/XMLSchema}double('0.9173794263444258'), Q{http://www.w3.org/2001/XMLSchema}double('0.42540599523376466'), Q{http://www.w3.org/2001/XMLSchema}double('0.09171950636753301'), Q{http://www.w3.org/2001/XMLSchema}double('0.12199179021442963'), Q{http://www.w3.org/2001/XMLSchema}double('0.9038354338535136'), Q{http://www.w3.org/2001/XMLSchema}double('0.5043148135582445'), Q{http://www.w3.org/2001/XMLSchema}double('0.2189183016356513'), Q{http://www.w3.org/2001/XMLSchema}double('0.26503121625366544'), Q{http://www.w3.org/2001/XMLSchema}double('0.3172082674339829'), Q{http://www.w3.org/2001/XMLSchema}double('0.002833967996859088'), Q{http://www.w3.org/2001/XMLSchema}double('0.25599321043154044'), Q{http://www.w3.org/2001/XMLSchema}double('0.29060245400601425'), Q{http://www.w3.org/2001/XMLSchema}double('0.38773743878685896'), Q{http://www.w3.org/2001/XMLSchema}double('0.6753725639360145'), Q{http://www.w3.org/2001/XMLSchema}double('0.3508705453227522'), Q{http://www.w3.org/2001/XMLSchema}double('0.43359831346894984'), Q{http://www.w3.org/2001/XMLSchema}double('0.17309231407886116'), Q{http://www.w3.org/2001/XMLSchema}double('0.010454133711579772'), Q{http://www.w3.org/2001/XMLSchema}double('0.12587988883994405'), Q{http://www.w3.org/2001/XMLSchema}double('0.5238745655839785'), Q{http://www.w3.org/2001/XMLSchema}double('0.1513671116357389'), Q{http://www.w3.org/2001/XMLSchema}double('0.09967480869270051'), Q{http://www.w3.org/2001/XMLSchema}double('0.5254159767025309'), Q{http://www.w3.org/2001/XMLSchema}double('0.21854352307045477'), Q{http://www.w3.org/2001/XMLSchema}double('0.14364950538188248')"/>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}double('0.5133821097034696'), Q{http://www.w3.org/2001/XMLSchema}double('0.4758843898149987'), Q{http://www.w3.org/2001/XMLSchema}double('0.44113736188946107'), Q{http://www.w3.org/2001/XMLSchema}double('0.3845645872354375'), Q{http://www.w3.org/2001/XMLSchema}double('0.47949277330085616'), Q{http://www.w3.org/2001/XMLSchema}double('0.7547991039205036'), Q{http://www.w3.org/2001/XMLSchema}double('0.599750665896403'), Q{http://www.w3.org/2001/XMLSchema}double('0.3860728643459125'), Q{http://www.w3.org/2001/XMLSchema}double('0.03858406484665078'), Q{http://www.w3.org/2001/XMLSchema}double('0.006031297427869564'), Q{http://www.w3.org/2001/XMLSchema}double('0.8120908786087445'), Q{http://www.w3.org/2001/XMLSchema}double('0.5114810431763802'), Q{http://www.w3.org/2001/XMLSchema}double('0.9138371469096361'), Q{http://www.w3.org/2001/XMLSchema}double('0.6035067063362367'), Q{http://www.w3.org/2001/XMLSchema}double('0.7812848284681673'), Q{http://www.w3.org/2001/XMLSchema}double('0.4617769976689713'), Q{http://www.w3.org/2001/XMLSchema}double('0.7366122702251869'), Q{http://www.w3.org/2001/XMLSchema}double('0.32648565184470624'), Q{http://www.w3.org/2001/XMLSchema}double('0.21930715985846017'), Q{http://www.w3.org/2001/XMLSchema}double('0.1998000381757069'), Q{http://www.w3.org/2001/XMLSchema}double('0.001967514247362745'), Q{http://www.w3.org/2001/XMLSchema}double('0.7550971762118714'), Q{http://www.w3.org/2001/XMLSchema}double('0.002708770337715438'), Q{http://www.w3.org/2001/XMLSchema}double('0.8254626728337684'), Q{http://www.w3.org/2001/XMLSchema}double('0.5401034089334567'), Q{http://www.w3.org/2001/XMLSchema}double('0.4920214193938094'), Q{http://www.w3.org/2001/XMLSchema}double('0.6213446669774557'), Q{http://www.w3.org/2001/XMLSchema}double('0.6800145548589364'), Q{http://www.w3.org/2001/XMLSchema}double('0.8598850253255391'), Q{http://www.w3.org/2001/XMLSchema}double('0.11329468302134171'), Q{http://www.w3.org/2001/XMLSchema}double('0.27295477443939853'), Q{http://www.w3.org/2001/XMLSchema}double('0.9981261605638859'), Q{http://www.w3.org/2001/XMLSchema}double('0.5040956185190464'), Q{http://www.w3.org/2001/XMLSchema}double('0.2571686975396017'), Q{http://www.w3.org/2001/XMLSchema}double('0.09182650992279306'), Q{http://www.w3.org/2001/XMLSchema}double('0.30615829797050975'), Q{http://www.w3.org/2001/XMLSchema}double('0.9962402728837105'), Q{http://www.w3.org/2001/XMLSchema}double('0.6336832536528348'), Q{http://www.w3.org/2001/XMLSchema}double('0.17522463296888446'), Q{http://www.w3.org/2001/XMLSchema}double('0.001520734348770092'), Q{http://www.w3.org/2001/XMLSchema}double('0.2407800341232057'), Q{http://www.w3.org/2001/XMLSchema}double('0.09466449152629641'), Q{http://www.w3.org/2001/XMLSchema}double('0.05514805811802559'), Q{http://www.w3.org/2001/XMLSchema}double('0.3023905706044814'), Q{http://www.w3.org/2001/XMLSchema}double('0.7379744757995564'), Q{http://www.w3.org/2001/XMLSchema}double('0.08228192999371797'), Q{http://www.w3.org/2001/XMLSchema}double('0.5590177333307575'), Q{http://www.w3.org/2001/XMLSchema}double('0.7785298110217472'), Q{http://www.w3.org/2001/XMLSchema}double('0.35309245190467786'), Q{http://www.w3.org/2001/XMLSchema}double('0.08012429391384235'), Q{http://www.w3.org/2001/XMLSchema}double('0.8221568991969516'), Q{http://www.w3.org/2001/XMLSchema}double('0.30026608910401487'), Q{http://www.w3.org/2001/XMLSchema}double('0.7750688386829064'), Q{http://www.w3.org/2001/XMLSchema}double('0.22672876331842906'), Q{http://www.w3.org/2001/XMLSchema}double('0.8840373665698282'), Q{http://www.w3.org/2001/XMLSchema}double('0.7526438388394675'), Q{http://www.w3.org/2001/XMLSchema}double('0.9194418798003119'), Q{http://www.w3.org/2001/XMLSchema}double('0.40677109045180304'), Q{http://www.w3.org/2001/XMLSchema}double('0.47670140355138113'), Q{http://www.w3.org/2001/XMLSchema}double('0.44545113252518453'), Q{http://www.w3.org/2001/XMLSchema}double('0.483521225906116'), Q{http://www.w3.org/2001/XMLSchema}double('0.09176001347950369'), Q{http://www.w3.org/2001/XMLSchema}double('0.6924631231774733'), Q{http://www.w3.org/2001/XMLSchema}double('0.363108253378304'), Q{http://www.w3.org/2001/XMLSchema}double('0.15335756307168036'), Q{http://www.w3.org/2001/XMLSchema}double('0.5078946053589712'), Q{http://www.w3.org/2001/XMLSchema}double('0.8437450606293281'), Q{http://www.w3.org/2001/XMLSchema}double('0.30727484977081'), Q{http://www.w3.org/2001/XMLSchema}double('0.14430271653246562'), Q{http://www.w3.org/2001/XMLSchema}double('0.9914341776326859'), Q{http://www.w3.org/2001/XMLSchema}double('0.6649789810656004'), Q{http://www.w3.org/2001/XMLSchema}double('0.43951448610682564'), Q{http://www.w3.org/2001/XMLSchema}double('0.6550633805748161'), Q{http://www.w3.org/2001/XMLSchema}double('0.9462122873281325'), Q{http://www.w3.org/2001/XMLSchema}double('0.9362052366535973'), Q{http://www.w3.org/2001/XMLSchema}double('0.34185394532795665'), Q{http://www.w3.org/2001/XMLSchema}double('0.7592603410596033'), Q{http://www.w3.org/2001/XMLSchema}double('0.9641499035835314'), Q{http://www.w3.org/2001/XMLSchema}double('0.4379634415591537'), Q{http://www.w3.org/2001/XMLSchema}double('0.7322845339279987'), Q{http://www.w3.org/2001/XMLSchema}double('0.8850552861771694'), Q{http://www.w3.org/2001/XMLSchema}double('0.25933751844981423'), Q{http://www.w3.org/2001/XMLSchema}double('0.4447458980356329'), Q{http://www.w3.org/2001/XMLSchema}double('0.3897455707411509'), Q{http://www.w3.org/2001/XMLSchema}double('0.657387919018962'), Q{http://www.w3.org/2001/XMLSchema}double('0.36957369315186683'), Q{http://www.w3.org/2001/XMLSchema}double('0.19568290078061457'), Q{http://www.w3.org/2001/XMLSchema}double('0.6006930017234373'), Q{http://www.w3.org/2001/XMLSchema}double('0.8066667067115805'), Q{http://www.w3.org/2001/XMLSchema}double('0.1354050821203474'), Q{http://www.w3.org/2001/XMLSchema}double('0.08528150704828541'), Q{http://www.w3.org/2001/XMLSchema}double('0.256135039323207'), Q{http://www.w3.org/2001/XMLSchema}double('0.8474729935619139'), Q{http://www.w3.org/2001/XMLSchema}double('0.7206645013914277'), Q{http://www.w3.org/2001/XMLSchema}double('0.8877093753002825'), Q{http://www.w3.org/2001/XMLSchema}double('0.39158632165025653'), Q{http://www.w3.org/2001/XMLSchema}double('0.25436087964130305'), Q{http://www.w3.org/2001/XMLSchema}double('0.5549477340844527'), Q{http://www.w3.org/2001/XMLSchema}double('0.1541204609754423'), Q{http://www.w3.org/2001/XMLSchema}double('0.11759002721601974')"/>
       <x:test id="scenario2-expect1" successful="true">
          <x:label>Count should equal 100, ranging between 0 and 1</x:label>
          <x:expect test="count($x:result) eq 100 and min($x:result) gt 0 and max($x:result) lt 1"
@@ -152,7 +152,7 @@
             <x:param name="f:stddev" select="5"/>
          </x:call>
          <x:result select="/*">
-            <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"err":map{"column-number":19,"line-number":160,"module":"file:/Users/djb/repos/plot/lib/plot-lib.xsl","code":Q{http://www.w3.org/2005/xqt-errors}FOER0000,"value":(),"description":"Invalid kernel type: dummy; must be one of: gaussian, rectangular, exponential, parabolic-up, or parabolic-down"}}</pseudo-map>
+            <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"err":map{"column-number":19,"line-number":161,"module":"file:/Users/djb/repos/plot/lib/plot-lib.xsl","code":Q{http://www.w3.org/2005/xqt-errors}FOER0000,"value":(),"description":"Invalid kernel type: dummy; must be one of: gaussian, rectangular, exponential, parabolic-up, or parabolic-down"}}</pseudo-map>
          </x:result>
          <x:test id="scenario3-scenario6-expect1" successful="true">
             <x:label>err:description</x:label>
@@ -170,7 +170,7 @@
             <x:param name="f:stddev" select="5"/>
          </x:call>
          <x:result select="/*">
-            <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"err":map{"column-number":15,"line-number":126,"module":"file:/Users/djb/repos/plot/lib/plot-lib.xsl","code":Q{http://www.w3.org/2005/xqt-errors}FOER0000,"value":(),"description":"Invalid window size: 10; window size must be odd integer greater than 3"}}</pseudo-map>
+            <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"err":map{"column-number":15,"line-number":127,"module":"file:/Users/djb/repos/plot/lib/plot-lib.xsl","code":Q{http://www.w3.org/2005/xqt-errors}FOER0000,"value":(),"description":"Invalid window size: 10; window size must be odd integer greater than 3"}}</pseudo-map>
          </x:result>
          <x:test id="scenario3-scenario7-expect1" successful="true">
             <x:label>err:description</x:label>
@@ -193,36 +193,100 @@
       </x:test>
    </x:scenario>
    <x:scenario id="scenario5" xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
-      <x:label>Scenarios for testing function weighted-average</x:label>
-      <x:call function="djb:weighted-average"/>
+      <x:label>Scenario for testing function get-weighted-points</x:label>
+      <x:call function="djb:get-weighted-points"/>
       <x:scenario id="scenario5-scenario1"
                   xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
-         <x:label>at right edge of sequence</x:label>
+         <x:label>with gaussian kernel</x:label>
          <x:call>
-            <x:param name="f:focus" select="5"/>
-            <x:param name="f:window-size" select="$djb:window-size"/>
-            <x:param name="f:input-values" select="$djb:input-values"/>
-            <x:param name="f:weights" select="$djb:weights"/>
+            <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+            <x:param name="f:kernel" as="xs:string" select="'gaussian'"/>
+            <x:param name="f:window-size" as="xs:integer" select="3"/>
+            <x:param name="f:stddev" as="xs:double" select="5"/>
          </x:call>
-         <x:result select="Q{http://www.w3.org/2001/XMLSchema}double('4.026481333610668')"/>
+         <x:result select="'50,-146.39269215417212', '100,-145.14046352967915', '150,-147.5919868899796', '200,-128.42139058903746', '250,-123.21739518185211', '300,-79.62207506994312', '350,-106.02342173610471', '400,-121.76587182155168', '450,-122.51647913005985'"/>
          <x:test id="scenario5-scenario1-expect1" successful="true">
-            <x:label>Weighted values as xs:double</x:label>
-            <x:expect select="4.026481333610668"/>
+            <x:label>should return adjusted points as sequence of strings</x:label>
+            <x:expect select="'50,-146.39269215417212', '100,-145.14046352967915', '150,-147.5919868899796', '200,-128.42139058903746', '250,-123.21739518185211', '300,-79.62207506994312', '350,-106.02342173610471', '400,-121.76587182155168', '450,-122.51647913005985'"/>
          </x:test>
       </x:scenario>
       <x:scenario id="scenario5-scenario2"
                   xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
-         <x:label>in middle of sequence</x:label>
+         <x:label>with rectangular kernel</x:label>
          <x:call>
-            <x:param name="f:focus" select="3"/>
-            <x:param name="f:window-size" select="$djb:window-size"/>
-            <x:param name="f:input-values" select="$djb:input-values"/>
-            <x:param name="f:weights" select="$djb:weights"/>
+            <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+            <x:param name="f:kernel" as="xs:string" select="'rectangular'"/>
+            <x:param name="f:window-size" as="xs:integer" select="3"/>
+            <x:param name="f:stddev" as="xs:double" select="5"/>
          </x:call>
-         <x:result select="Q{http://www.w3.org/2001/XMLSchema}double('2.9999999999999996')"/>
+         <x:result select="'50,-145', '100,-145', '150,-148', '200,-128', '250,-123.33333333333333', '300,-79.66666666666667', '350,-106.33333333333333', '400,-121.33333333333333', '450,-121.33333333333333'"/>
          <x:test id="scenario5-scenario2-expect1" successful="true">
-            <x:label>Weighted values as xs:double</x:label>
-            <x:expect select="2.9999999999999996"/>
+            <x:label>should return adjusted points as sequence of strings</x:label>
+            <x:expect select="'50,-145', '100,-145', '150,-148', '200,-128', '250,-123.33333333333333', '300,-79.66666666666667', '350,-106.33333333333333', '400,-121.33333333333333', '450,-121.33333333333333'"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario5-scenario3"
+                  xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
+         <x:label>with exponential kernel</x:label>
+         <x:call>
+            <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+            <x:param name="f:kernel" as="xs:string" select="'exponential'"/>
+            <x:param name="f:window-size" as="xs:integer" select="3"/>
+            <x:param name="f:stddev" as="xs:double" select="5"/>
+         </x:call>
+         <x:result select="'50,-163.85714285714286', '100,-150.25', '150,-132.75', '200,-143.75', '250,-119', '300,-78', '350,-94.75', '400,-137.5', '450,-129.14285714285714'"/>
+         <x:test id="scenario5-scenario3-expect1" successful="true">
+            <x:label>should return adjusted points as sequence of strings</x:label>
+            <x:expect select="'50,-163.85714285714286', '100,-150.25', '150,-132.75', '200,-143.75', '250,-119', '300,-78', '350,-94.75', '400,-137.5', '450,-129.14285714285714'"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario5-scenario4"
+                  xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
+         <x:label>with parabolic-up kernel</x:label>
+         <x:call>
+            <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+            <x:param name="f:kernel" as="xs:string" select="'parabolic-up'"/>
+            <x:param name="f:window-size" as="xs:integer" select="3"/>
+            <x:param name="f:stddev" as="xs:double" select="5"/>
+         </x:call>
+         <x:result select="'50,-170.64285714285714', '100,-151.1764705882353', '150,-130.05882352941177', '200,-146.52941176470588', '250,-118.23529411764706', '300,-77.70588235294117', '350,-92.70588235294116', '400,-140.35294117647058', '450,-133.28571428571428'"/>
+         <x:test id="scenario5-scenario4-expect1" successful="true">
+            <x:label>should return adjusted points as sequence of strings</x:label>
+            <x:expect select="'50,-170.64285714285714', '100,-151.1764705882353', '150,-130.05882352941177', '200,-146.52941176470588', '250,-118.23529411764706', '300,-77.70588235294117', '350,-92.70588235294116', '400,-140.35294117647058', '450,-133.28571428571428'"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario5-scenario5"
+                  xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
+         <x:label>with parabolic-down kernel</x:label>
+         <x:call>
+            <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+            <x:param name="f:kernel" as="xs:string" select="'parabolic-down'"/>
+            <x:param name="f:window-size" as="xs:integer" select="3"/>
+            <x:param name="f:stddev" as="xs:double" select="5"/>
+         </x:call>
+         <x:result select="'50,-154.59090909090907', '100,-145.84', '150,-145.56', '200,-130.52', '250,-122.63999999999999', '300,-79.39999999999999', '350,-104.47999999999999', '400,-123.91999999999999', '450,-129.54545454545453'"/>
+         <x:test id="scenario5-scenario5-expect1" successful="true">
+            <x:label>should return adjusted points as sequence of strings</x:label>
+            <x:expect select="'50,-154.59090909090907', '100,-145.84', '150,-145.56', '200,-130.52', '250,-122.63999999999999', '300,-79.39999999999999', '350,-104.47999999999999', '400,-123.91999999999999', '450,-129.54545454545453'"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario5-scenario6"
+                  xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
+         <x:label>with invalid kernel</x:label>
+         <x:call>
+            <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+            <x:param name="f:kernel" as="xs:string" select="'no-such-kernel'"/>
+            <x:param name="f:window-size" as="xs:integer" select="3"/>
+            <x:param name="f:stddev" as="xs:double" select="5"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{"err":map{"column-number":19,"line-number":161,"module":"file:/Users/djb/repos/plot/lib/plot-lib.xsl","code":Q{http://www.w3.org/2005/xqt-errors}FOER0000,"value":(),"description":"Invalid kernel type: no-such-kernel; must be one of: gaussian, rectangular, exponential, parabolic-up, or parabolic-down"}}</pseudo-map>
+         </x:result>
+         <x:test id="scenario5-scenario6-expect1" successful="true">
+            <x:label>err:description</x:label>
+            <x:result select="'Invalid kernel type: no-such-kernel; must be one of: gaussian, rectangular, exponential, parabolic-up, or parabolic-down'"/>
+            <x:expect test="$x:result?err?description"
+                      select="'Invalid kernel type: no-such-kernel; must be one of: gaussian, rectangular, exponential, parabolic-up, or parabolic-down'"/>
          </x:test>
       </x:scenario>
    </x:scenario>
@@ -332,8 +396,4 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario11" xspec="file:/Users/djb/repos/plot/lib/plot-lib.xspec">
-      <x:label>Scenario for testing function validate-point-regex</x:label>
-      <x:call function="djb:validate-point-regex">
-         <x:param name="f:input-point" select="'1,2'"/>
-      </x:call>
+</x:report>

@@ -66,96 +66,33 @@
     <!-- ================================================================ -->
     <!-- Rectangular values                                               -->
     <!-- ================================================================ -->
-    <xsl:variable name="rectangular-weights" as="xs:double+"
-        select="djb:get-weights-scale('rectangular', $window)"/>
-    <xsl:variable name="rectangular-Ys" as="xs:double+">
-        <xsl:for-each select="1 to count($points)">
-            <xsl:sequence
-                select="djb:weighted-average(current(), $window, $allY-with-jitter, $rectangular-weights)"
-            />
-        </xsl:for-each>
-    </xsl:variable>
     <xsl:variable name="rectangular-points" as="xs:string+"
-        select="
-            for $x in (1 to $n)
-            return
-                string-join((($x - 1) * $xScale, $rectangular-Ys[$x]), ',')
-            "/>
+        select="djb:get-weighted-points($points, 'rectangular', $window)"/>
 
     <!-- ================================================================ -->
     <!-- Gaussian values                                                  -->
     <!-- ================================================================ -->
     <xsl:variable name="stddev" as="xs:double" select="5"/>
-    <xsl:variable name="gaussian-weights" as="xs:double+"
-        select="djb:get-weights-scale('gaussian', $window, $stddev)"/>
-    <xsl:variable name="gaussian-Ys" as="xs:double+">
-        <xsl:for-each select="1 to count($points)">
-            <xsl:sequence
-                select="djb:weighted-average(current(), $window, $allY-with-jitter, $gaussian-weights)"
-            />
-        </xsl:for-each>
-    </xsl:variable>
     <xsl:variable name="gaussian-points" as="xs:string+"
-        select="
-            for $x in (1 to $n)
-            return
-                string-join((($x - 1) * $xScale, $gaussian-Ys[$x]), ',')"/>
+        select="djb:get-weighted-points($points, 'gaussian', $window, $stddev)"/>
 
     <!-- ================================================================ -->
     <!-- Exponential values                                               -->
     <!-- ================================================================ -->
-    <xsl:variable name="exponential-weights" as="xs:double+"
-        select="djb:get-weights-scale('exponential', $window)"/>
-    <xsl:variable name="exponential-Ys" as="xs:double+">
-        <xsl:for-each select="1 to count($points)">
-            <xsl:sequence
-                select="djb:weighted-average(current(), $window, $allY-with-jitter, $exponential-weights)"
-            />
-        </xsl:for-each>
-    </xsl:variable>
     <xsl:variable name="exponential-points" as="xs:string+"
-        select="
-            for $x in (1 to count($exponential-Ys))
-            return
-                string-join((($x - 1) * $xScale, $exponential-Ys[$x]), ',')"/>
+        select="djb:get-weighted-points($points, 'exponential', $window)"/>
 
     <!-- ================================================================ -->
     <!-- Parabolic-up values                                              -->
     <!-- ================================================================ -->
-    <xsl:variable name="parabolic-up-weights" as="xs:double+"
-        select="djb:get-weights-scale('parabolic-up', $window)"/>
-    <xsl:variable name="parabolic-up-Ys" as="xs:double+">
-        <xsl:for-each select="1 to count($points)">
-            <xsl:sequence
-                select="djb:weighted-average(current(), $window, $allY-with-jitter, $parabolic-up-weights)"
-            />
-        </xsl:for-each>
-    </xsl:variable>
     <xsl:variable name="parabolic-up-points" as="xs:string+"
-        select="
-            for $x in (1 to count($parabolic-up-Ys))
-            return
-                string-join((($x - 1) * $xScale, $parabolic-up-Ys[$x]), ',')
-            "/>
+        select="djb:get-weighted-points($points, 'parabolic-up', $window)"/>
 
     <!-- ================================================================ -->
     <!-- Parabolic-down values                                            -->
     <!-- ================================================================ -->
-    <xsl:variable name="parabolic-down-weights" as="xs:double+"
-        select="djb:get-weights-scale('parabolic-down', $window)"/>
-    <xsl:variable name="parabolic-down-Ys" as="xs:double+">
-        <xsl:for-each select="1 to count($points)">
-            <xsl:sequence
-                select="djb:weighted-average(current(), $window, $allY-with-jitter, $parabolic-down-weights)"
-            />
-        </xsl:for-each>
-    </xsl:variable>
     <xsl:variable name="parabolic-down-points" as="xs:string+"
-        select="
-            for $x in (1 to count($parabolic-down-Ys))
-            return
-                string-join((($x - 1) * $xScale, $parabolic-down-Ys[$x]), ',')
-            "/>
+        select="djb:get-weighted-points($points, 'parabolic-down', $window)"/>
 
     <!-- ================================================================ -->
     <!-- Main                                                             -->
@@ -184,7 +121,9 @@
                 .spline {
                     stroke-width: 0.5;
                     stroke-opacity: 0.5;
+                    stroke-linecap: square;
                     fill: none;
+                    clip-path: url(#clip-rectangular);
                 }
                 .highlight .spline {
                     stroke-width: 1.5;
@@ -217,40 +156,15 @@
                 #data.highlight > polyline {
                     stroke-width: 1.5;
                 }</style>
+            <clipPath id="clip-rectangular">
+                <rect x="0" y="-100" width="200" height="100"/>
+            </clipPath>
             <g>
-                <!-- ==================================================== -->
-                <!-- Draw X axis and line at 100%, with Y labels          -->
-                <!-- ==================================================== -->
-                <rect x="0" y="-100" width="{($n - 1) * $xScale}" height="100" stroke="lightgray"
-                    stroke-width="0.5" fill="none"/>
-                <text x="-1" y="0" fill="lightgray" font-size="3" text-anchor="end" alignment-baseline="central">0.0</text>
-                <text x="-1" y="-100" fill="lightgray" font-size="3" text-anchor="end" alignment-baseline="central">100.0</text>
-                <text x="-1" y="{$b}" fill="red" fill-opacity="0.5" font-size="3" text-anchor="end" alignment-baseline="central">
-                    <xsl:value-of select="(-1 * number($b)) => format-number('0.0')"/>
-                </text>
-                <text x="{($n - 1) * $xScale + 8}" y="-100" font-size="3" fill="lightgray" text-anchor="end" alignment-baseline="central">100.0</text>
-                <text x="{($n - 1) * $xScale + 8}" y="0" font-size="3" fill="lightgray" text-anchor="end" alignment-baseline="central">0.0</text>
-                <text x="{($n - 1) * $xScale + 8}" y="{$m * (($n - 1) * $xScale) + $b}" fill="red" fill-opacity="0.5" font-size="3" text-anchor="end" alignment-baseline="central">
-                    <xsl:value-of select="format-number(-1 * ($m * (($n - 1) * $xScale) + $b), '0.0')"/>
-                </text>
-
                 <!-- ==================================================== -->
                 <!-- Plot sine without jitter                             -->
                 <!-- ==================================================== -->
                 <polyline points="{$points-tenths}" stroke="lightgray" stroke-width="0.5"
                     fill="none"/>
-
-                <!-- ==================================================== -->
-                <!-- Plot data points and polyline                        -->
-                <!-- ==================================================== -->
-                <xsl:for-each select="$points">
-                    <circle cx="{substring-before(current(), ',')}" cy="{substring-after(.,',')}"
-                        r="0.65" fill="black"/>
-                </xsl:for-each>
-                <g id="data">
-                    <polyline points="{$points}" stroke="black" stroke-width="0.5" fill="none"
-                        id="black"/>
-                </g>
 
                 <!-- ==================================================== -->
                 <!-- Plot regression line                                 -->
@@ -263,7 +177,6 @@
                 <!-- Plot rectangular smoothing spline                    -->
                 <!-- ==================================================== -->
                 <g id="rectangular">
-                    <!--<polyline points="{djb:smoothing($points, $window)}"/>-->
                     <xsl:sequence
                         select="djb:smoothing($rectangular-points, $window) => djb:spline(0.4)"/>
                 </g>
@@ -294,6 +207,34 @@
                 <!-- ==================================================== -->
                 <g id="parabolicDown">
                     <xsl:sequence select="djb:spline($parabolic-down-points, 0.45)"/>
+                </g>
+
+                <!-- ==================================================== -->
+                <!-- Draw X axis and line at 100%, with Y labels          -->
+                <!-- ==================================================== -->
+                <rect x="0" y="-100" width="{($n - 1) * $xScale}" height="100" stroke="lightgray"
+                    stroke-width="0.5" fill="none"/>
+                <text x="-1" y="0" fill="lightgray" font-size="3" text-anchor="end" alignment-baseline="central">0.0</text>
+                <text x="-1" y="-100" fill="lightgray" font-size="3" text-anchor="end" alignment-baseline="central">100.0</text>
+                <text x="-1" y="{$b}" fill="red" fill-opacity="0.5" font-size="3" text-anchor="end" alignment-baseline="central">
+                    <xsl:value-of select="(-1 * number($b)) => format-number('0.0')"/>
+                </text>
+                <text x="{($n - 1) * $xScale + 8}" y="-100" font-size="3" fill="lightgray" text-anchor="end" alignment-baseline="central">100.0</text>
+                <text x="{($n - 1) * $xScale + 8}" y="0" font-size="3" fill="lightgray" text-anchor="end" alignment-baseline="central">0.0</text>
+                <text x="{($n - 1) * $xScale + 8}" y="{$m * (($n - 1) * $xScale) + $b}" fill="red" fill-opacity="0.5" font-size="3" text-anchor="end" alignment-baseline="central">
+                    <xsl:value-of select="format-number(-1 * ($m * (($n - 1) * $xScale) + $b), '0.0')"/>
+                </text>
+
+                <!-- ==================================================== -->
+                <!-- Plot data points and polyline                        -->
+                <!-- ==================================================== -->
+                <xsl:for-each select="$points">
+                    <circle cx="{substring-before(current(), ',')}" cy="{substring-after(.,',')}"
+                        r="0.65" fill="black"/>
+                </xsl:for-each>
+                <g id="data">
+                    <polyline points="{$points}" stroke="black" stroke-width="0.5" fill="none"
+                        id="black"/>
                 </g>
 
                 <!-- ==================================================== -->

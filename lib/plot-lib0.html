@@ -10,8 +10,9 @@
 				'prs_F_random-sequenceS_plot-lib.xsl', 
 				'prs_F_get-weights-scaleS_plot-lib.xsl', 
 				'prs_get-weights-scaleA_2S_plot-lib.xsl', 
-				'prs_F_weighted-averageS_plot-lib.xsl', 
 				'prs_F_gaussianS_plot-lib.xsl', 
+				'prs_F_get-weighted-pointsS_plot-lib.xsl', 
+				'prs_get-weighted-pointsA_3S_plot-lib.xsl', 
 				'prs_F_round-to-oddS_plot-lib.xsl', 
 				'prs_F_recenterS_plot-lib.xsl', 
 				'prs_F_expand-to-tenthsS_plot-lib.xsl', 
@@ -19,16 +20,19 @@
 				'prs_F_validate-point-regexS_plot-lib.xsl', 
 				'prs_F_validate-monotonic-XS_plot-lib.xsl', 
 				'prs_F_monotonicS_plot-lib.xsl', 
-				'prs_F_gaussian-weightsS_plot-lib.xsl');
+				'prs_F_gaussian-weightsS_plot-lib.xsl', 
+				'prs_F_weighted-average-pointS_plot-lib.xsl');
 
         
         var usedByBoxes= new Array('uB_F_get-weights-scaleS_plot-lib.xsl', 
 				'uB_F_gaussianS_plot-lib.xsl', 
+				'uB_F_get-weighted-pointsS_plot-lib.xsl', 
 				'uB_F_uniformS_plot-lib.xsl', 
 				'uB_F_validate-point-regexS_plot-lib.xsl', 
 				'uB_F_validate-monotonic-XS_plot-lib.xsl', 
 				'uB_F_monotonicS_plot-lib.xsl', 
-				'uB_F_gaussian-weightsS_plot-lib.xsl');
+				'uB_F_gaussian-weightsS_plot-lib.xsl', 
+				'uB_F_weighted-average-pointS_plot-lib.xsl');
 
         
         var sourceBoxes= new Array('src_P_debugS_plot-lib.xsl', 
@@ -36,8 +40,9 @@
 				'src_F_random-sequenceS_plot-lib.xsl', 
 				'src_F_get-weights-scaleS_plot-lib.xsl', 
 				'src_get-weights-scaleA_2S_plot-lib.xsl', 
-				'src_F_weighted-averageS_plot-lib.xsl', 
 				'src_F_gaussianS_plot-lib.xsl', 
+				'src_F_get-weighted-pointsS_plot-lib.xsl', 
+				'src_get-weighted-pointsA_3S_plot-lib.xsl', 
 				'src_F_round-to-oddS_plot-lib.xsl', 
 				'src_F_recenterS_plot-lib.xsl', 
 				'src_F_expand-to-tenthsS_plot-lib.xsl', 
@@ -45,13 +50,16 @@
 				'src_F_validate-point-regexS_plot-lib.xsl', 
 				'src_F_validate-monotonic-XS_plot-lib.xsl', 
 				'src_F_monotonicS_plot-lib.xsl', 
-				'src_F_gaussian-weightsS_plot-lib.xsl');
+				'src_F_gaussian-weightsS_plot-lib.xsl', 
+				'src_F_weighted-average-pointS_plot-lib.xsl');
 
         
         
         var referencesBoxes= new Array('refs_F_validate-pointsS_plot-lib.xsl', 
 				'refs_F_get-weights-scaleS_plot-lib.xsl', 
 				'refs_get-weights-scaleA_2S_plot-lib.xsl', 
+				'refs_F_get-weighted-pointsS_plot-lib.xsl', 
+				'refs_get-weighted-pointsA_3S_plot-lib.xsl', 
 				'refs_F_validate-monotonic-XS_plot-lib.xsl', 
 				'refs_F_monotonicS_plot-lib.xsl', 
 				'refs_F_gaussian-weightsS_plot-lib.xsl');
@@ -725,9 +733,10 @@
                            <div id="uB_F_get-weights-scaleS_plot-lib.xsl" style="display:block">
                               <table class="uBT">
                                  <tr>
-                                    <td class="fCol">Function</td>
+                                    <td class="fCol">Functions</td>
                                     <td>
                                        <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="plot-lib0.html#F_get-weighted-pointsS_plot-lib.xsl" target="_self" title="http://www.obdurodon.org" onclick="updPT('plot-lib.xsl')"><span>djb:get-weighted-points (</span><span class="fParams">f:points, f:kernel, f:window-size, f:stddev</span><span>)</span></a><span class="refItemSep">;</span></div>
                                           <div class="refItemBlock"><a href="plot-lib0.html#get-weights-scaleA_2S_plot-lib.xsl" target="_self" title="http://www.obdurodon.org" onclick="updPT('plot-lib.xsl')"><span>djb:get-weights-scale (</span><span class="fParams">f:kernel, f:window-size</span><span>)</span></a></div>
                                        </div>
                                     </td>
@@ -961,196 +970,28 @@
                                     <td width="100%">
                                        <pre><span class="tXSLEl">&lt;xsl:function</span><span class="tAN"> name=</span><span class="tAV">"djb:get-weights-scale"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tXSLEl">&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- djb:get=weights-scale#2                                      --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- djb:get-weights-scale#2                                      --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- Returns sequence of scaling values for different kernels     --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- Calls djb:get-weights-scale#3 with σ =5                      --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- Parameters:                                                  --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--   f:kernel as xs:string : gaussian, rectangular, exponential --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   f: window_size as xs:integer : width of window             --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--     parabolic-up, parabolic-down                             --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   f:window_size as xs:integer : width of window              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- Returns:                                                     --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--   xs:double+ : weights to be applied in scaling              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- Notes:                                                       --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   Calls djb:get-weights-scale#3 with stddev = 5              --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--   Gaussian mean = 0, peak = 1                                --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   f:stddev is ignored silently except for Gaussian           --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   f:stddev: is ignored silently except for Gaussian          --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--             defaults to 5 if not specified                   --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!--   Return full width of window (for end values)               --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:kernel"</span><span class="tAN"> as=</span><span class="tAV">"xs:string"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:window-size"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$f:window-size mod 2 eq 0 or $f:window-size lt 3"</span><span class="tXSLEl">&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> terminate=</span><span class="tAV">"yes"</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">Window size must be odd integer greater than 3</span><span class="tXSLEl">&lt;/xsl:message&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- default to σ = 5 if not specified --&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"djb:get-weights-scale($f:kernel, $f:window-size, 5)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-</span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lR"></td>
-         </tr>
-         <tr>
-            <td class="rt_cBL"></td>
-            <td class="rt_lB"></td>
-            <td class="rt_cBR"></td>
-         </tr>
-      </table><a id="F_weighted-averageS_plot-lib.xsl"></a><div class="cmpT">Function
-         <span class="qname">djb:weighted-average (<span class="fParams">f:focus, f:window-size, f:input-values, f:weights</span>)</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cTL"></td>
-            <td class="rt_lT"></td>
-            <td class="rt_cTR"></td>
-         </tr>
-         <tr>
-            <td class="rt_lL"></td>
-            <td class="rt_cnt">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="fCol">Namespace</td>
-                        <td>http://www.obdurodon.org</td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Type</td>
-                        <td>xs:double</td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">
-                           <div class="flL">Parameters</div>
-                           <div class="flR"><input id="bt_prs_F_weighted-averageS_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('prs_F_weighted-averageS_plot-lib.xsl');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="prs_F_weighted-averageS_plot-lib.xsl" style="display:block">
-                              <table class="attsT">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th>Namespace</th>
-                                       <th>Type</th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="fCol">f:focus</td>
-                                    <td>http://www.obdurodon.org/function-variables</td>
-                                    <td>xs:integer</td>
-                                 </tr>
-                                 <tr>
-                                    <td class="fCol">f:input-values</td>
-                                    <td>http://www.obdurodon.org/function-variables</td>
-                                    <td>xs:double+</td>
-                                 </tr>
-                                 <tr>
-                                    <td class="fCol">f:weights</td>
-                                    <td>http://www.obdurodon.org/function-variables</td>
-                                    <td>xs:double+</td>
-                                 </tr>
-                                 <tr>
-                                    <td class="fCol">f:window-size</td>
-                                    <td>http://www.obdurodon.org/function-variables</td>
-                                    <td>xs:integer</td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">Import precedence</td>
-                        <td>0</td>
-                     </tr>
-                     <tr>
-                        <td class="fCol">
-                           <div class="flL">Source</div>
-                           <div class="flR"><input id="bt_src_F_weighted-averageS_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_F_weighted-averageS_plot-lib.xsl');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="src_F_weighted-averageS_plot-lib.xsl" style="display:block">
-                              <table class="pWCont">
-                                 <tr>
-                                    <td width="100%">
-                                       <pre><span class="tXSLEl">&lt;xsl:function</span><span class="tAN"> name=</span><span class="tAV">"djb:weighted-average"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tXSLEl">&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- djb:weighted-average#4                                       --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- Returns smoothed value for current point                     --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- Parameters:                                                  --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   $f:focus as xs:integer : offset of focus point             --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   $f:window-size as xs:integer : width of window (odd, &gt; 3)  --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   $f:input-values as xs:double+ : all Y values               --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   $f:weights : weights scale (from djb:get-weights-scale)    --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- Returns:                                                     --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   xs:double : weighted value for focus point                 --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- XQuery mockup:                                               --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   let $sum_of_weights := sum($weights)                       --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   let $sum_of_weighted_scores as xs:double :=                --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--     (for $i in 1 to count($weights)                          --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--     return $weights[$i] * $scores[$i]) =&gt; sum()              --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!--   return $sum_of_weighted_scores div $sum_of_weights         --&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:focus"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:window-size"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:input-values"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:weights"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:n"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tAN"> select=</span><span class="tAV">"count($f:input-values)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$f:window-size mod 2 eq 0 or $f:window-size lt 3 or $f:window-size gt $f:n"</span><span class="tXSLEl">&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> terminate=</span><span class="tAV">"yes"</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">Window size must be 1) an odd integer, 2) greater than 3, and 3) not greater than the count of the input values</span><span class="tXSLEl">&lt;/xsl:message&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- adjust window for end cases --&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:half-window"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tAN"> select=</span><span class="tAV">"$f:window-size idiv 2"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:left-edge"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$f:focus le $f:half-window"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tC">&lt;!-- window touches left edge --&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"1"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$f:focus gt ($f:n - $f:half-window)"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tC">&lt;!-- window touches right edge --&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:n - (2 * $f:half-window)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tC">&lt;!-- window not at edge --&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:focus - $f:half-window"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:right-edge"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$f:focus ge ($f:n - $f:half-window)"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:n"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$f:focus le $f:half-window"</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:window-size"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
-        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:focus + $f:half-window"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:weighted-values"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tXSLEl">&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"reverse($f:left-edge to $f:focus)"</span><span class="tXSLEl">&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:pos"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tAN"> select=</span><span class="tAV">"position()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:input-values[current()] * $f:weights[$f:pos]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"($f:focus + 1) to $f:right-edge"</span><span class="tXSLEl">&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:pos"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tAN"> select=</span><span class="tAV">"position()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-      </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:input-values[current()] * $f:weights[$f:pos + 1]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-    </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sum-weighted-values"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"sum($f:weighted-values)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tC">&lt;!-- compute sum of weights applied to all points in winow --&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sum-applied-weights"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"             $f:weights[1] +              sum($f:weights[position() = (2 to (1 + $f:focus - $f:left-edge))]) +             sum($f:weights[position() = (2 to (1 + $f:right-edge - $f:focus))])             "</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:sum-weighted-values div $f:sum-applied-weights"</span><span class="tXSLEl">/&gt;</span><span class="tI">
 </span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
                                     </td>
                                  </tr>
@@ -1285,6 +1126,292 @@
   </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:mean"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:stddev"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:peak * math:exp(-1 * (math:pow(($f:x - $f:mean), 2)) div (2 * math:pow($f:stddev, 2)))"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="F_get-weighted-pointsS_plot-lib.xsl"></a><div class="cmpT">Function
+         <span class="qname">djb:get-weighted-points (<span class="fParams">f:points, f:kernel, f:window-size, f:stddev</span>)</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>http://www.obdurodon.org</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Type</td>
+                        <td>xs:string+</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_F_get-weighted-pointsS_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_F_get-weighted-pointsS_plot-lib.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_F_get-weighted-pointsS_plot-lib.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Function</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="plot-lib0.html#get-weighted-pointsA_3S_plot-lib.xsl" target="_self" title="http://www.obdurodon.org" onclick="updPT('plot-lib.xsl')"><span>djb:get-weighted-points (</span><span class="fParams">f:points, f:kernel, f:window</span><span>)</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_F_get-weighted-pointsS_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_F_get-weighted-pointsS_plot-lib.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_F_get-weighted-pointsS_plot-lib.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Functions</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="plot-lib0.html#F_get-weights-scaleS_plot-lib.xsl" target="_self" title="http://www.obdurodon.org" onclick="updPT('plot-lib.xsl')"><span>get-weights-scale (</span><span class="fParams">f:kernel, f:window-size, f:stddev</span><span>)</span></a><span class="refItemSep">;</span></div>
+                                          <div class="refItemBlock"><a href="plot-lib0.html#F_weighted-average-pointS_plot-lib.xsl" target="_self" title="http://www.obdurodon.org" onclick="updPT('plot-lib.xsl')"><span>weighted-average-point (</span><span class="fParams">f:focus, f:window-size, f:input-values, f:weights</span><span>)</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Parameters</div>
+                           <div class="flR"><input id="bt_prs_F_get-weighted-pointsS_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('prs_F_get-weighted-pointsS_plot-lib.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="prs_F_get-weighted-pointsS_plot-lib.xsl" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Namespace</th>
+                                       <th>Type</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="fCol">f:kernel</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:string</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:points</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:string+</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:stddev</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:double</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:window-size</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:integer</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_F_get-weighted-pointsS_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_F_get-weighted-pointsS_plot-lib.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_F_get-weighted-pointsS_plot-lib.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tXSLEl">&lt;xsl:function</span><span class="tAN"> name=</span><span class="tAV">"djb:get-weighted-points"</span><span class="tAN"> as=</span><span class="tAV">"xs:string+"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- djb:get-weighted-points#4 as xs:string+                      --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- $f:points as xs:string+ : input                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- $f:stddev as xs:double : stddev (controls width of curve)    --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   f:kernel as xs:string : gaussian, rectangular, exponential --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--     parabolic-up, parabolic-down                             --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- f:window_size as xs:integer : width of window                --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- f:stddev as xs:integer : controls width of bell              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Returns                                                      --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   xs:string+, with same X and adjusted Y                     --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- https://en.wikipedia.org/wiki/Gaussian_function:             --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- "The parameter a is the height of the curve's peak, b is the --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   position of the center of the peak and c (the standard     --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   deviation, sometimes called the Gaussian RMS width)        --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   controls the width of the "bell".                          --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:points"</span><span class="tAN"> as=</span><span class="tAV">"xs:string+"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:kernel"</span><span class="tAN"> as=</span><span class="tAV">"xs:string"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:window-size"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:stddev"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:weights"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tAN"> select=</span><span class="tAV">"djb:get-weights-scale($f:kernel, $f:window-size, $f:stddev)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:allX"</span><span class="tAN"> as=</span><span class="tAV">"xs:string+"</span><span class="tAN"> select=</span><span class="tAV">"$f:points ! substring-before(., ',')"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:allY"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tAN"> select=</span><span class="tAV">"$f:points ! substring-after(., ',') ! number(.)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:newYs"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tAN"> select=</span><span class="tAV">"for $f:i in (1 to count($f:allY)) return djb:weighted-average-point($f:i, $f:window-size, $f:allY, $f:weights)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"for-each-pair($f:allX, $f:newYs, function ($f:a, $f:b) {string-join(($f:a, $f:b), ',')})"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="get-weighted-pointsA_3S_plot-lib.xsl"></a><div class="cmpT">Function
+         <span class="qname">djb:get-weighted-points (<span class="fParams">f:points, f:kernel, f:window</span>)</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>http://www.obdurodon.org</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Type</td>
+                        <td>xs:string+</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">References</div>
+                           <div class="flR"><input id="bt_refs_get-weighted-pointsA_3S_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('refs_get-weighted-pointsA_3S_plot-lib.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="refs_get-weighted-pointsA_3S_plot-lib.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Function</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="plot-lib0.html#F_get-weighted-pointsS_plot-lib.xsl" target="_self" title="http://www.obdurodon.org" onclick="updPT('plot-lib.xsl')"><span>get-weighted-points (</span><span class="fParams">f:points, f:kernel, f:window-size, f:stddev</span><span>)</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Parameters</div>
+                           <div class="flR"><input id="bt_prs_get-weighted-pointsA_3S_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('prs_get-weighted-pointsA_3S_plot-lib.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="prs_get-weighted-pointsA_3S_plot-lib.xsl" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Namespace</th>
+                                       <th>Type</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="fCol">f:kernel</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:string</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:points</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:string+</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:window</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:integer</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_get-weighted-pointsA_3S_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_get-weighted-pointsA_3S_plot-lib.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_get-weighted-pointsA_3S_plot-lib.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tXSLEl">&lt;xsl:function</span><span class="tAN"> name=</span><span class="tAV">"djb:get-weighted-points"</span><span class="tAN"> as=</span><span class="tAV">"xs:string+"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- djb:get-weighted-points#3 as xs:string+                      --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- $f:points as xs:string+ : input                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- $f:stddev as xs:double : stddev (controls width of curve)    --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   f:kernel as xs:string : gaussian, rectangular, exponential --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--     parabolic-up, parabolic-down                             --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- f:window_size as xs:integer : width of window                --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Returns                                                      --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   xs:string+, with same X and adjusted Y                     --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Calls djb:get-weighted-points#4 with stdev = 5               --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:points"</span><span class="tAN"> as=</span><span class="tAV">"xs:string+"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:kernel"</span><span class="tAN"> as=</span><span class="tAV">"xs:string"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:window"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"djb:get-weighted-points($f:points, $f:kernel, $f:window, 5)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
 </span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
                                     </td>
                                  </tr>
@@ -1578,7 +1705,7 @@
   </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$f:half le 0"</span><span class="tXSLEl">&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> terminate=</span><span class="tAV">"yes"</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">Input must be a positive integer</span><span class="tXSLEl">&lt;/xsl:message&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"             for $i in (-10 * $f:half to 10 * $f:half)             return             $i div 10"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"             for $f:i in (-10 * $f:half to 10 * $f:half)             return             $f:i div 10"</span><span class="tXSLEl">/&gt;</span><span class="tI">
 </span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
                                     </td>
                                  </tr>
@@ -2069,7 +2196,7 @@
   </span><span class="tC">&lt;!--   non-decreasing                                             --&gt;</span><span class="tI">
   </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:seq"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tXSLEl">/&gt;</span><span class="tI">
-  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"             (for $i in 2 to count($f:seq)             return             $f:seq[$i] ge $f:seq[$i - 1]) =&gt; djb:uniform()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"             (for $f:i in 2 to count($f:seq)             return             $f:seq[$f:i] ge $f:seq[$f:i - 1]) =&gt; djb:uniform()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
 </span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
                                     </td>
                                  </tr>
@@ -2213,6 +2340,192 @@
   </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"0 to ($f:window-size)"</span><span class="tXSLEl">&gt;</span><span class="tI">
     </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"djb:gaussian(current(), 1, 0, $f:stddev)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
   </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+</span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lR"></td>
+         </tr>
+         <tr>
+            <td class="rt_cBL"></td>
+            <td class="rt_lB"></td>
+            <td class="rt_cBR"></td>
+         </tr>
+      </table><a id="F_weighted-average-pointS_plot-lib.xsl"></a><div class="cmpT">Function
+         <span class="qname">djb:weighted-average-point (<span class="fParams">f:focus, f:window-size, f:input-values, f:weights</span>)</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cTL"></td>
+            <td class="rt_lT"></td>
+            <td class="rt_cTR"></td>
+         </tr>
+         <tr>
+            <td class="rt_lL"></td>
+            <td class="rt_cnt">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="fCol">Namespace</td>
+                        <td>http://www.obdurodon.org</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Type</td>
+                        <td>xs:double</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Used by</div>
+                           <div class="flR"><input id="bt_uB_F_weighted-average-pointS_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('uB_F_weighted-average-pointS_plot-lib.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="uB_F_weighted-average-pointS_plot-lib.xsl" style="display:block">
+                              <table class="uBT">
+                                 <tr>
+                                    <td class="fCol">Function</td>
+                                    <td>
+                                       <div class="listGrouping">
+                                          <div class="refItemBlock"><a href="plot-lib0.html#F_get-weighted-pointsS_plot-lib.xsl" target="_self" title="http://www.obdurodon.org" onclick="updPT('plot-lib.xsl')"><span>djb:get-weighted-points (</span><span class="fParams">f:points, f:kernel, f:window-size, f:stddev</span><span>)</span></a></div>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Parameters</div>
+                           <div class="flR"><input id="bt_prs_F_weighted-average-pointS_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('prs_F_weighted-average-pointS_plot-lib.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="prs_F_weighted-average-pointS_plot-lib.xsl" style="display:block">
+                              <table class="attsT">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Namespace</th>
+                                       <th>Type</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="fCol">f:focus</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:integer</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:input-values</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:double+</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:weights</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:double+</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="fCol">f:window-size</td>
+                                    <td>http://www.obdurodon.org/function-variables</td>
+                                    <td>xs:integer</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">Import precedence</td>
+                        <td>0</td>
+                     </tr>
+                     <tr>
+                        <td class="fCol">
+                           <div class="flL">Source</div>
+                           <div class="flR"><input id="bt_src_F_weighted-average-pointS_plot-lib.xsl" type="image" src="img/btM.gif" value="-" onclick="switchState('src_F_weighted-average-pointS_plot-lib.xsl');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="src_F_weighted-average-pointS_plot-lib.xsl" style="display:block">
+                              <table class="pWCont">
+                                 <tr>
+                                    <td width="100%">
+                                       <pre><span class="tXSLEl">&lt;xsl:function</span><span class="tAN"> name=</span><span class="tAV">"djb:weighted-average-point"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tXSLEl">&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- djb:weighted-average#4                                       --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Returns smoothed value for current point                     --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Parameters:                                                  --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $f:focus as xs:integer : offset of focus point             --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $f:window-size as xs:integer : width of window (odd, &gt; 3)  --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $f:input-values as xs:double+ : all Y values               --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   $f:weights : weights scale (from djb:get-weights-scale)    --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- Returns:                                                     --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   xs:double : weighted value for focus point                 --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--                                                              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- XQuery mockup:                                               --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   let $sum_of_weights := sum($weights)                       --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   let $sum_of_weighted_scores as xs:double :=                --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--     (for $i in 1 to count($weights)                          --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--     return $weights[$i] * $scores[$i]) =&gt; sum()              --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!--   return $sum_of_weighted_scores div $sum_of_weights         --&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- ============================================================ --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:focus"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:window-size"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:input-values"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:param</span><span class="tAN"> name=</span><span class="tAV">"f:weights"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:n"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tAN"> select=</span><span class="tAV">"count($f:input-values)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:if</span><span class="tAN"> test=</span><span class="tAV">"$f:window-size mod 2 eq 0 or $f:window-size lt 3 or $f:window-size gt $f:n"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:message</span><span class="tAN"> terminate=</span><span class="tAV">"yes"</span><span class="tXSLEl">&gt;</span><span class="tT" style="white-space:normal">Window size must be 1) an odd integer, 2) greater than 3, and 3) not greater than the count of the input values</span><span class="tXSLEl">&lt;/xsl:message&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:if&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- adjust window for end cases --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:half-window"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tAN"> select=</span><span class="tAV">"$f:window-size idiv 2"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:left-edge"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$f:focus le $f:half-window"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tC">&lt;!-- window touches left edge --&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"1"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$f:focus gt ($f:n - $f:half-window)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tC">&lt;!-- window touches right edge --&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:n - (2 * $f:half-window)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tC">&lt;!-- window not at edge --&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:focus - $f:half-window"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:right-edge"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:choose</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$f:focus ge ($f:n - $f:half-window)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:n"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:when</span><span class="tAN"> test=</span><span class="tAV">"$f:focus le $f:half-window"</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:window-size"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:when&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:otherwise</span><span class="tXSLEl">&gt;</span><span class="tI">
+        </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:focus + $f:half-window"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;/xsl:otherwise&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:choose&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:weighted-values"</span><span class="tAN"> as=</span><span class="tAV">"xs:double+"</span><span class="tXSLEl">&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"reverse($f:left-edge to $f:focus)"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:pos"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tAN"> select=</span><span class="tAV">"position()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:input-values[current()] * $f:weights[$f:pos]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;xsl:for-each</span><span class="tAN"> select=</span><span class="tAV">"($f:focus + 1) to $f:right-edge"</span><span class="tXSLEl">&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:pos"</span><span class="tAN"> as=</span><span class="tAV">"xs:integer"</span><span class="tAN"> select=</span><span class="tAV">"position()"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+      </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:input-values[current()] * $f:weights[$f:pos + 1]"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+    </span><span class="tXSLEl">&lt;/xsl:for-each&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;/xsl:variable&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sum-weighted-values"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"sum($f:weighted-values)"</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tC">&lt;!-- compute sum of weights applied to all points in winow --&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:variable</span><span class="tAN"> name=</span><span class="tAV">"f:sum-applied-weights"</span><span class="tAN"> as=</span><span class="tAV">"xs:double"</span><span class="tAN"> select=</span><span class="tAV">"             $f:weights[1] +              sum($f:weights[position() = (2 to (1 + $f:focus - $f:left-edge))]) +             sum($f:weights[position() = (2 to (1 + $f:right-edge - $f:focus))])             "</span><span class="tXSLEl">/&gt;</span><span class="tI">
+  </span><span class="tXSLEl">&lt;xsl:sequence</span><span class="tAN"> select=</span><span class="tAV">"$f:sum-weighted-values div $f:sum-applied-weights"</span><span class="tXSLEl">/&gt;</span><span class="tI">
 </span><span class="tXSLEl">&lt;/xsl:function&gt;</span></pre>
                                     </td>
                                  </tr>

@@ -85,7 +85,7 @@
             <xsl:message select="'mean Y = ' , avg($f:allY)"/>
             <xsl:message select="'sum of squares = ', $f:sumX2"/>
             <xsl:message select="'sum of products = ', $f:sumXY"/>
-            <xsl:message select="map {'m' : $f:m, 'b' : $f:b}"/>
+            <xsl:sequence select="map {'m' : $f:m, 'b' : $f:b}"/>
         </xsl:if>
     </xsl:function>
 

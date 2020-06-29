@@ -243,7 +243,7 @@
         />
     </x:scenario>
 
-    <x:scenario label="Scenarios for testing function weighted-average">
+    <!--    <x:scenario label="Scenarios for testing function weighted-average">
         <x:variable name="djb:window-size" as="xs:integer" select="3"/>
         <x:variable name="djb:input-values" as="xs:double+" select="1, 2, 3, 4, 5"/>
         <x:variable name="djb:weights" as="xs:double+"
@@ -285,6 +285,135 @@
                 <x:param name="f:weights" select="$djb:weights"/>
             </x:call>
             <x:expect label="Weighted values as xs:double" select="2.9999999999999996"/>
+        </x:scenario>
+    </x:scenario>-->
+
+    <x:scenario label="Scenario for testing function get-weighted-points">
+        <x:variable name="djb:points" as="xs:string+"
+            select="
+            for-each-pair(
+            (50, 100, 150, 200, 250, 300, 350, 400, 450),
+            (182, 166, 87, 191, 106, 73, 60, 186, 118),
+            function ($a, $b) {
+            string-join(($a, -1 * $b), ',')
+            }
+            )"/>
+        <x:call function="djb:get-weighted-points"/>
+        <x:scenario label="with gaussian kernel">
+            <x:call>
+                <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+                <x:param name="f:kernel" as="xs:string" select="'gaussian'"/>
+                <x:param name="f:window-size" as="xs:integer" select="3"/>
+                <x:param name="f:stddev" as="xs:double" select="5"/>
+            </x:call>
+            <x:expect label="should return adjusted points as sequence of strings"
+                select="
+                '50,-146.39269215417212',
+                '100,-145.14046352967915',
+                '150,-147.5919868899796', 
+                '200,-128.42139058903746',
+                '250,-123.21739518185211',
+                '300,-79.62207506994312',
+                '350,-106.02342173610471',
+                '400,-121.76587182155168', 
+                '450,-122.51647913005985'
+                "
+            />
+        </x:scenario>
+        <x:scenario label="with rectangular kernel">
+            <x:call>
+                <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+                <x:param name="f:kernel" as="xs:string" select="'rectangular'"/>
+                <x:param name="f:window-size" as="xs:integer" select="3"/>
+                <x:param name="f:stddev" as="xs:double" select="5"/>
+            </x:call>
+            <x:expect label="should return adjusted points as sequence of strings"
+                select="
+                '50,-145', 
+                '100,-145', 
+                '150,-148', 
+                '200,-128', 
+                '250,-123.33333333333333', 
+                '300,-79.66666666666667', 
+                '350,-106.33333333333333', 
+                '400,-121.33333333333333', 
+                '450,-121.33333333333333'
+                "
+            />
+        </x:scenario>
+        <x:scenario label="with exponential kernel">
+            <x:call>
+                <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+                <x:param name="f:kernel" as="xs:string" select="'exponential'"/>
+                <x:param name="f:window-size" as="xs:integer" select="3"/>
+                <x:param name="f:stddev" as="xs:double" select="5"/>
+            </x:call>
+            <x:expect label="should return adjusted points as sequence of strings"
+                select="
+                '50,-163.85714285714286', 
+                '100,-150.25', 
+                '150,-132.75', 
+                '200,-143.75', 
+                '250,-119', 
+                '300,-78', 
+                '350,-94.75', 
+                '400,-137.5', 
+                '450,-129.14285714285714'
+                "
+            />
+        </x:scenario>
+        <x:scenario label="with parabolic-up kernel">
+            <x:call>
+                <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+                <x:param name="f:kernel" as="xs:string" select="'parabolic-up'"/>
+                <x:param name="f:window-size" as="xs:integer" select="3"/>
+                <x:param name="f:stddev" as="xs:double" select="5"/>
+            </x:call>
+            <x:expect label="should return adjusted points as sequence of strings"
+                select="
+                '50,-170.64285714285714', 
+                '100,-151.1764705882353', 
+                '150,-130.05882352941177', 
+                '200,-146.52941176470588', 
+                '250,-118.23529411764706', 
+                '300,-77.70588235294117', 
+                '350,-92.70588235294116', 
+                '400,-140.35294117647058', 
+                '450,-133.28571428571428'
+                "
+            />
+        </x:scenario>
+        <x:scenario label="with parabolic-down kernel">
+            <x:call>
+                <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+                <x:param name="f:kernel" as="xs:string" select="'parabolic-down'"/>
+                <x:param name="f:window-size" as="xs:integer" select="3"/>
+                <x:param name="f:stddev" as="xs:double" select="5"/>
+            </x:call>
+            <x:expect label="should return adjusted points as sequence of strings"
+                select="
+                '50,-154.59090909090907', 
+                '100,-145.84', 
+                '150,-145.56', 
+                '200,-130.52', 
+                '250,-122.63999999999999', 
+                '300,-79.39999999999999', 
+                '350,-104.47999999999999', 
+                '400,-123.91999999999999', 
+                '450,-129.54545454545453'
+                "
+            />
+        </x:scenario>
+        <x:scenario label="with invalid kernel" catch="yes">
+            <x:call>
+                <x:param name="f:points" as="xs:string+" select="$djb:points"/>
+                <x:param name="f:kernel" as="xs:string" select="'no-such-kernel'"/>
+                <x:param name="f:window-size" as="xs:integer" select="3"/>
+                <x:param name="f:stddev" as="xs:double" select="5"/>
+            </x:call>
+            <x:expect label="err:description" test="$x:result?err?description"
+                select="'Invalid kernel type: no-such-kernel; must be one of: gaussian, rectangular, exponential, parabolic-up, or parabolic-down'"
+            />
         </x:scenario>
     </x:scenario>
 
