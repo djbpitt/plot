@@ -17,7 +17,7 @@
         djb:regression-line#2
         djb:regression-line#1
         djb:compute-regression-parameters#1
-        djb:plot-parabolic-segment#5
+        djb:plot-parabolic-segment#3
         "/>
 
     <!-- ================================================================ -->
@@ -179,23 +179,24 @@
         <!-- https://math.stackexchange.com/questions/335226/convert-segment-of-parabola-to-quadratic-bezier-curve -->
         <!--                                                              -->
         <!-- Parameters:                                                  -->
+        <!--   $f:points as xs:string+ : all points in X,Y format         -->
         <!--   $f:x1 as xs:double : X coordinate of segment start         -->
         <!--   $f:x2 as xs:double : X coordinate of segment end           -->
-        <!--   $f:a as xs:double : y = ax^2 + bx + c                      -->
-        <!--   $f:b as xs:double : y = ax^2 + bx + c                      -->
-        <!--   $f:c as xs:double : y = ax^2 + bx + c                      -->
         <!--                                                              -->
         <!-- Return:                                                      -->
         <!--   element(svg:g) : contains <path>                           -->
         <!-- ============================================================ -->
+        <xsl:param name="f:points" as="xs:string+"/>
         <xsl:param name="f:x1" as="xs:double"/>
         <xsl:param name="f:x2" as="xs:double"/>
-        <xsl:param name="f:a" as="xs:double"/>
-        <xsl:param name="f:b" as="xs:double"/>
-        <xsl:param name="f:c" as="xs:double"/>
         <!-- ============================================================ -->
         <!-- Computed values                                              -->
         <!-- ============================================================ -->
+        <xsl:variable name="f:parameters" as="map(xs:string, xs:double)"
+            select="djb:compute-regression-parameters($f:points)"/>
+        <xsl:variable name="f:a" as="xs:double" select="$f:parameters?a"/>
+        <xsl:variable name="f:b" as="xs:double" select="$f:parameters?b"/>
+        <xsl:variable name="f:c" as="xs:double" select="$f:parameters?c"/>
         <xsl:variable name="f:y1" as="xs:double"
             select="-1 * djb:compute-parabolic-Y($f:x1, $f:a, $f:b, $f:c)"/>
         <xsl:variable name="f:y2" as="xs:double"

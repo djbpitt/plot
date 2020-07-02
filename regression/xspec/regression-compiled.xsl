@@ -231,6 +231,10 @@
          <x:call>
             <xsl:attribute name="function">djb:plot-parabolic-segment</xsl:attribute>
             <x:param>
+               <xsl:attribute name="name">f:points</xsl:attribute>
+               <xsl:attribute name="select">'1,2', '3,4', '5,7'</xsl:attribute>
+            </x:param>
+            <x:param>
                <xsl:attribute name="name">f:x1</xsl:attribute>
                <xsl:attribute name="select">1</xsl:attribute>
             </x:param>
@@ -238,25 +242,12 @@
                <xsl:attribute name="name">f:x2</xsl:attribute>
                <xsl:attribute name="select">5</xsl:attribute>
             </x:param>
-            <x:param>
-               <xsl:attribute name="name">f:a</xsl:attribute>
-               <xsl:attribute name="select">2</xsl:attribute>
-            </x:param>
-            <x:param>
-               <xsl:attribute name="name">f:b</xsl:attribute>
-               <xsl:attribute name="select">3</xsl:attribute>
-            </x:param>
-            <x:param>
-               <xsl:attribute name="name">f:c</xsl:attribute>
-               <xsl:attribute name="select">4</xsl:attribute>
-            </x:param>
          </x:call>
          <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
+            <xsl:variable name="Q{http://www.obdurodon.org/function-variables}points"
+                          select="'1,2', '3,4', '5,7'"/>
             <xsl:variable name="Q{http://www.obdurodon.org/function-variables}x1" select="1"/>
             <xsl:variable name="Q{http://www.obdurodon.org/function-variables}x2" select="5"/>
-            <xsl:variable name="Q{http://www.obdurodon.org/function-variables}a" select="2"/>
-            <xsl:variable name="Q{http://www.obdurodon.org/function-variables}b" select="3"/>
-            <xsl:variable name="Q{http://www.obdurodon.org/function-variables}c" select="4"/>
             <xsl:variable name="Q{urn:x-xspec:compile:impl}transform-options"
                           as="map(Q{http://www.w3.org/2001/XMLSchema}string, item()*)">
                <xsl:map>
@@ -287,7 +278,7 @@
                      </xsl:map-entry>
                   </xsl:if>
                   <xsl:map-entry key="'function-params'"
-                                 select="[$Q{http://www.obdurodon.org/function-variables}x1, $Q{http://www.obdurodon.org/function-variables}x2, $Q{http://www.obdurodon.org/function-variables}a, $Q{http://www.obdurodon.org/function-variables}b, $Q{http://www.obdurodon.org/function-variables}c]"/>
+                                 select="[$Q{http://www.obdurodon.org/function-variables}points, $Q{http://www.obdurodon.org/function-variables}x1, $Q{http://www.obdurodon.org/function-variables}x2]"/>
                   <xsl:map-entry key="'initial-function'"
                                  select="QName('http://www.obdurodon.org', 'djb:plot-parabolic-segment')"/>
                </xsl:map>
@@ -309,22 +300,24 @@
    <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario3-expect1">
       <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
       <xsl:message>Returns SVG path</xsl:message>
-      <xsl:variable name="Q{urn:x-xspec:compile:impl}expect-d7e20-doc" as="document-node()">
+      <xsl:variable name="Q{urn:x-xspec:compile:impl}expect-d7e18-doc" as="document-node()">
          <xsl:document>
             <g xmlns="http://www.w3.org/2000/svg">
                <path>
-                  <xsl:attribute name="d" select="'', ''" separator="M1,9 Q3,23 5,69"/>
+                  <xsl:attribute name="d"
+                                 select="'', ''"
+                                 separator="M1,1.999999999999998 Q3,3.4999999999999956 5,7.0000000000000036"/>
                   <xsl:attribute name="class" select="'', ''" separator="parabolic-regression"/>
                   <xsl:attribute name="fill" select="'', ''" separator="none"/>
                </path>
             </g>
          </xsl:document>
       </xsl:variable>
-      <xsl:variable name="Q{urn:x-xspec:compile:impl}expect-d7e20"
-                    select="$Q{urn:x-xspec:compile:impl}expect-d7e20-doc ! ( node() )"/>
+      <xsl:variable name="Q{urn:x-xspec:compile:impl}expect-d7e18"
+                    select="$Q{urn:x-xspec:compile:impl}expect-d7e18-doc ! ( node() )"/>
       <xsl:variable name="Q{urn:x-xspec:compile:impl}successful"
                     as="Q{http://www.w3.org/2001/XMLSchema}boolean"
-                    select="Q{http://www.jenitennison.com/xslt/unit-test}deep-equal($Q{urn:x-xspec:compile:impl}expect-d7e20, $Q{http://www.jenitennison.com/xslt/xspec}result, '')"/>
+                    select="Q{http://www.jenitennison.com/xslt/unit-test}deep-equal($Q{urn:x-xspec:compile:impl}expect-d7e18, $Q{http://www.jenitennison.com/xslt/xspec}result, '')"/>
       <xsl:if test="not($Q{urn:x-xspec:compile:impl}successful)">
          <xsl:message>      FAILED</xsl:message>
       </xsl:if>
@@ -332,7 +325,7 @@
               successful="{$Q{urn:x-xspec:compile:impl}successful}">
          <x:label>Returns SVG path</x:label>
          <xsl:call-template name="Q{http://www.jenitennison.com/xslt/unit-test}report-sequence">
-            <xsl:with-param name="sequence" select="$Q{urn:x-xspec:compile:impl}expect-d7e20"/>
+            <xsl:with-param name="sequence" select="$Q{urn:x-xspec:compile:impl}expect-d7e18"/>
             <xsl:with-param name="wrapper-name" as="Q{http://www.w3.org/2001/XMLSchema}string">x:expect</xsl:with-param>
             <xsl:with-param name="test" as="attribute(test)?"/>
          </xsl:call-template>

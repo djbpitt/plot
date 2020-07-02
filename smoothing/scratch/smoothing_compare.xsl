@@ -17,8 +17,9 @@
     <!-- ================================================================ -->
     <xsl:variable name="xMax" as="xs:integer" select="50"/>
     <xsl:variable name="xScale" as="xs:integer" select="4"/>
-    <xsl:variable name="window" as="xs:integer"
-        select="($xMax div 3) ! xs:integer(.) ! djb:round-to-odd(.)"/>
+    <!--<xsl:variable name="window" as="xs:integer"
+        select="($xMax div 3) ! xs:integer(.) ! djb:round-to-odd(.)"/>-->
+    <xsl:variable name="window" as="xs:integer" select="3"/>
 
     <!-- ================================================================ -->
     <!-- Data                                                             -->

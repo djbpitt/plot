@@ -40,17 +40,8 @@
                 string-join(($a * $xScale, $b), ',')
             })"/>
     <xsl:template name="xsl:initial-template">
-        <xsl:variable name="linear-parameters" as="map(*)"
-            select="djb:compute-regression-parameters($scaled-points)"/>
-        <xsl:variable name="a" as="xs:double" select="$linear-parameters('a')"/>
-        <xsl:variable name="b" as="xs:double" select="$linear-parameters('b')"/>
-        <xsl:variable name="c" as="xs:double" select="$linear-parameters('c')"/>
         <xsl:variable name="parabola" as="element(svg:g)"
-            select="djb:plot-parabolic-segment(0, 500, $a, $b, $c)"/>
-        <xsl:if test="$debug">
-            <xsl:message select="'x1: ', 10"/>
-            <xsl:message select="'a: ', $a, '; b: ', $b, '; c: ', $c"/>
-        </xsl:if>
+            select="djb:plot-parabolic-segment($scaled-points, 0, $maxX * $xScale)"/>
         <xsl:variable name="regression-line" as="item()*"
             select="djb:regression-line($scaled-points, true())"/>
 
